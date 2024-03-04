@@ -13,7 +13,8 @@ const Menu = () => {
         <>   
            <Box><TopBar/>
            {/* make go sideawys */}
-            <Card sx={{ maxWidth: 345, mt: 10 }}>
+           <Box sx={{ display: 'flex', flexDirection: 'row'}}>
+            <Card sx={{ maxWidth: 345, mt: 10, mr: 5 }}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
@@ -28,7 +29,7 @@ const Menu = () => {
                         </CardContent>
                     </CardActionArea>
                 </Card>
-                <Card sx={{ maxWidth: 345, mt: 10 }}>
+                <Card sx={{ maxWidth: 345, mt: 10, mr: 5 }}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
@@ -43,7 +44,7 @@ const Menu = () => {
                         </CardContent>
                     </CardActionArea>
                 </Card>
-                <Card sx={{ maxWidth: 345, mt: 10 }}>
+                <Card sx={{ maxWidth: 345, mt: 10, mr: 5 }}>
                 <CardActionArea>
                     <CardMedia
                     component="img"
@@ -58,6 +59,7 @@ const Menu = () => {
                         </CardContent>
                     </CardActionArea>
                 </Card>
+            </Box>
             <BottomBar/></Box>
         </>
     );

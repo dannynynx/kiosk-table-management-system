@@ -10,7 +10,8 @@ const TopBar = () => {
 
     return (
         <>
-            <AppBar>
+        {/* mobile problem */}
+            <AppBar position='static'>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                 <ButtonGroup variant="outlined" aria-label="Basic button group">
                         {categories.map((page) => (
