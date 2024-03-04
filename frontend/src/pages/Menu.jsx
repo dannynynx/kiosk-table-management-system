@@ -1,10 +1,11 @@
 import Box from '@mui/system/Box';
+import TopBar from '../components/TopBar';
 
 const Menu = () => {
 
     return (
         <>   
-           <Box></Box>
+           <Box><TopBar/></Box>
         </>
     );
 }
