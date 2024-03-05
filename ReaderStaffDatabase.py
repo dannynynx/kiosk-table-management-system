@@ -1,11 +1,11 @@
 import sqlite3
 import csv
 
-conn = sqlite3.connect('StaffDatabase.db')
+conn = sqlite3.connect('BlueZebra.db')
 cursor = conn.cursor()
 
 # Fetch all Info
-cursor.execute("SELECT * FROM Staff")
+cursor.execute("SELECT * FROM CATEGORY")
 
 # Fetch Data
 results = cursor.fetchall()
@@ -18,7 +18,7 @@ with open('StaffData.csv', 'w', newline='') as csvfile:
     csvwriter = csv.writer(csvfile, delimiter='|')
     
     # Create headers
-    csvwriter.writerow(['id', 'username', 'password', 'role'])
+    csvwriter.writerow(['id', 'name'])
     
     # Write all data into the file
     for row in results:
