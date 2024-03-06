@@ -2,7 +2,7 @@ import './App.css'
 import Menu from './pages/Menu';
 import { BrowserRouter ,  Routes, Route } from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
     <>
       <BrowserRouter>
@@ -12,6 +12,6 @@ function App() {
       </BrowserRouter>
     </>
   );
-}
+};
 
-export default App
+export default App;
