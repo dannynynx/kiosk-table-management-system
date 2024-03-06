@@ -5,6 +5,7 @@ def initialise_db():
     cursor = connection.cursor()
 
 
+    # Added in databse already upon database creation
     # sql1 = """
     # CREATE TABLE IF NOT EXISTS CATEGORY (
     #     id INTEGER PRIMARY KEY AUTOINCREMENT,
