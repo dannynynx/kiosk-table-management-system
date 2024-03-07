@@ -1,22 +1,23 @@
 import MainContent from '../components/MainContent.jsx';
 import SideBar from '../components/SideBar.jsx';
 import TopBar from '../components/TopBar.jsx';
-import BottomBar from '../components/BottomBar.jsx'
+import BottomBar from '../components/BottomBar.jsx';
+import './Menu.css';
 
 const Menu = () => {
     return (
-        <>   
+        <>
             <div id='topbar-container'>
-                <TopBar />
+                <TopBar/>
             </div>
             <div id='sidebar-container'>
-                <SideBar />
+                <SideBar/>
             </div>
             <div id='bottombar-container'>
-                <BottomBar />
+                <BottomBar/>
             </div>
             <div id='main-content-container'>
-                <MainContent />
+                <MainContent/>
             </div>
         </>
     );
