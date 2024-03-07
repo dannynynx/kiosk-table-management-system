@@ -1,0 +1,70 @@
+[
+    {
+        "ingredient_id": 1,
+        "ingredient_name": "Bread"
+    },
+    {
+        "ingredient_id": 2,
+        "ingredient_name": "Avocado"
+    },
+    {
+        "ingredient_id": 3,
+        "ingredient_name": "Egg"
+    },
+    {
+        "ingredient_id": 4,
+        "ingredient_name": "Onion"
+    },
+    {
+        "ingredient_id": 5,
+        "ingredient_name": "Garlic"
+    },
+    {
+        "ingredient_id": 6,
+        "ingredient_name": "Beef"
+    },
+    {
+        "ingredient_id": 7,
+        "ingredient_name": "Tomato"
+    },
+    {
+        "ingredient_id": 8,
+        "ingredient_name": "Beef Stock"
+    },
+    {
+        "ingredient_id": 9,
+        "ingredient_name": "Flour"
+    },
+    {
+        "ingredient_id": 10,
+        "ingredient_name": "Milk"
+    },
+    {
+        "ingredient_id": 11,
+        "ingredient_name": "Cheese"
+    },
+    {
+        "ingredient_id": 12,
+        "ingredient_name": "Lasagna Sheets"
+    },
+    {
+        "ingredient_id": 13,
+        "ingredient_name": "Mozzarella"
+    },
+    {
+        "ingredient_id": 14,
+        "ingredient_name": "Basil"
+    },
+    {
+        "ingredient_id": 15,
+        "ingredient_name": "Cocoa Powder"
+    },
+    {
+        "ingredient_id": 16,
+        "ingredient_name": "Sugar"
+    },
+    {
+        "ingredient_id": 17,
+        "ingredient_name": "Baking Powder"
+    }
+]
