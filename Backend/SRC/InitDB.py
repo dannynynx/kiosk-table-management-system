@@ -113,7 +113,7 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS SESSIONS (
         session_id INTEGER PRIMARY KEY AUTOINCREMENT,
         four_digit_code TEXT NOT NULL,
-        is_active BOOLEAN NOT NULL DEFAULT TRUE,
+        is_active BOOLEAN NOT NULL DEFAULT 0,
         table_id INTEGER,
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
