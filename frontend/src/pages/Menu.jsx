@@ -8,16 +8,16 @@ const Menu = () => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar/>
+                <TopBar />
             </div>
             <div className='sidebar-container'>
-                <SideBar/>
+                <SideBar />
             </div>
             <div className='bottombar-container'>
-                <BottomBar/>
+                <BottomBar />
             </div>
             <div className='main-content-container'>
-                <MainContent/>
+                <MainContent />
             </div>
         </>
     );
