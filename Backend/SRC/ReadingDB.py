@@ -37,7 +37,6 @@ tables_to_export = {
     'ITEM_INGREDIENTS': 'item_ingredients.json',
     'MENU': 'menu.json',
     'TABLES': 'tables.json',
-    'SESSIONS': 'sessions.json',
     'ORDERS': 'orders.json',
     'STAFF': 'staff.json'
 }
