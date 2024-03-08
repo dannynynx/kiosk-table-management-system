@@ -12,41 +12,60 @@ def staff_tablet_authentication(db, username, password):
 
     return table_info is not None
 
-def generate_table_code(db, table_id):
-    # 4 digit code
-    four_digit_code = ''.join([str(random.randint(0, 9)) for _ in range(4)])
 
+# Only generate and add code to set once customer confirms table
+# remove code from set once customer requests bill
+generated_codes = set()
+def generate_unique_code():
+    while True:
+        code = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+        if code not in generated_codes:
+            generated_codes.add(code)
+            return code
+
+def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # update table status to occupied
-    cursor.execute("UPDATE TABLES SET is_occupied=1 WHERE table_id=?", (table_id,))
+    code = generate_unique_code()
 
-    # create a new session with the customer code
-    cursor.execute("INSERT INTO SESSIONS (table_id, four_digit_code) VALUES (?, ?)", (table_id, four_digit_code))
-    session_id = cursor.lastrowid
+    # Store the generated code
+    cursor.execute("UPDATE TABLES SET code=? WHERE table_id=?", (code, table_id))
 
     connection.commit()
     connection.close()
 
-    return four_digit_code
+    return code
 
-def table_authentication(db, table_id, entered_code):
+# def get_table_id(username, password):
+#     connection = sqlite3.connect("BlueZebra.db")
+#     cursor = connection.cursor()
+
+#     # Query the STAFF table to retrieve the table ID associated with the provided username and password
+#     cursor.execute("SELECT role FROM STAFF WHERE username=? AND password=?", (username, password))
+#     result = cursor.fetchone()
+
+#     connection.close()
+
+#     if result:
+#         # If a matching staff member is found, return the associated table ID
+#         return result[0]
+#     else:
+#         # If no matching staff member is found, return None
+#         return None
+
+def authenticate_table(db, entered_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # check if table has been selected by a customer yet
-    cursor.execute("""
-        SELECT * FROM SESSIONS
-        WHERE table_id=? AND four_digit_code=? AND is_active=1
-    """, (table_id, entered_code))
-
-    session = cursor.fetchone()
+    # Retrieve stored code for the table
+    cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
+    stored_codes = cursor.fetchone()
 
     connection.close()
 
-    if session:
-        # session is active and code is matching
-        return True
-    else:
-        return False
+    for stored in stored_codes:
+        if stored == entered_code:
+            return True #successfull authentication
+
+    return False 

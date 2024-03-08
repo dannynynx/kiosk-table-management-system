@@ -103,25 +103,13 @@ def initialise_db():
     cursor.execute(sql6)
 
     tables = [
-        ('0000', 0),  
-        ('0000', 0)
+        ('????', 0),  
+        ('????', 0)
     ]
     cursor.executemany("INSERT INTO TABLES (code, is_occupied) VALUES (?, ?)", tables)
 
-    # SESSIONS
-    sql7 = """
-    CREATE TABLE IF NOT EXISTS SESSIONS (
-        session_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        four_digit_code TEXT NOT NULL,
-        is_active BOOLEAN NOT NULL DEFAULT 0,
-        table_id INTEGER,
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
-    )"""
-    cursor.execute(sql7)
-
-
     # ORDERS
-    sql8 = """
+    sql7 = """
     CREATE TABLE IF NOT EXISTS ORDERS ( 
         order_id INTEGER PRIMARY KEY AUTOINCREMENT,
         table_id INTEGER,
@@ -130,25 +118,27 @@ def initialise_db():
         FOREIGN KEY (item_id) REFERENCES ITEMS(item_id),
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
-    cursor.execute(sql8)
+    cursor.execute(sql7)
 
     # STAFF
-    sql9 = """
+    sql8 = """
     CREATE TABLE IF NOT EXISTS STAFF (
         staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        table_id INTEGER,
+        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
-    cursor.execute(sql9)
-
+    cursor.execute(sql8)
+    # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password'),
-        ('table2_login', 'table2_password'),
-        ('wait', 'wait_password'),
-        ('kitchen', 'kitchen_password'),
-        ('manager', 'manager_password')
+        ('table1_login', 'table1_password', '1'),
+        ('table2_login', 'table2_password', '2'),
+        ('wait', 'wait_password', '0'),
+        ('kitchen', 'kitchen_password', '0'),
+        ('manager', 'manager_password', '0')
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password) VALUES (?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password, table_id) VALUES (?, ?, ?)", staff_logins)
 
     connection.commit()
     connection.close()
