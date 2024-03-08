@@ -2,4 +2,5 @@
     display: grid;
     grid-template-columns: 15em 15em 15em 15em 15em;
     grid-template-rows: 18em 18em 18em;
+    gap: 2em;
 }
