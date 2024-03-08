@@ -1,8 +1,21 @@
+import Item from "./Item.jsx";
+import './MainContent.css';
+
 const MainContent = () => {
     return (
-        <>
-            Main Content
-        </>
+        <div className='content-container'>
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+            <Item />
+        </div>
     );
 };
 

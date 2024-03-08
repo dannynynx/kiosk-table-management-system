@@ -7,16 +7,16 @@ import './Menu.css';
 const Menu = () => {
     return (
         <>
-            <div id='topbar-container'>
+            <div className='topbar-container'>
                 <TopBar/>
             </div>
-            <div id='sidebar-container'>
+            <div className='sidebar-container'>
                 <SideBar/>
             </div>
-            <div id='bottombar-container'>
+            <div className='bottombar-container'>
                 <BottomBar/>
             </div>
-            <div id='main-content-container'>
+            <div className='main-content-container'>
                 <MainContent/>
             </div>
         </>
