@@ -11,7 +11,7 @@ const LogIn = () => {
                         <p className='input-label'>USERNAME</p>
                         <input type='text' className='login-text-inputs' id='username'></input>
                         <p className='input-label'>PASSWORD</p>
-                        <input type='text' className='login-text-inputs' id='password'></input>
+                        <input type='password' className='login-text-inputs' id='password'></input>
                         <input type='button' className='login-button' value='Login' id='login-submit'></input>
                     </form>
                 </div>
