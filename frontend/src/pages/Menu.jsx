@@ -7,17 +7,17 @@ import './Menu.css';
 const Menu = () => {
     return (
         <>
-            <div id='topbar-container'>
-                <TopBar/>
+            <div className='topbar-container'>
+                <TopBar />
             </div>
-            <div id='sidebar-container'>
-                <SideBar/>
+            <div className='sidebar-container'>
+                <SideBar />
             </div>
-            <div id='bottombar-container'>
-                <BottomBar/>
+            <div className='bottombar-container'>
+                <BottomBar />
             </div>
-            <div id='main-content-container'>
-                <MainContent/>
+            <div className='main-content-container'>
+                <MainContent />
             </div>
         </>
     );
