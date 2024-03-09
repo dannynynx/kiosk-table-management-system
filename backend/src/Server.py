@@ -2,8 +2,17 @@
 #                https://www.geeksforgeeks.org/use-jsonify-instead-of-json-dumps-in-flask/ 
 #                and 1531 server files/ lectures
 
-@app.route('/staff_tablet_authentication', methods=['POST'])
-def staff_tablet_authentication():
+from flask import Flask, request, jsonify
+import os
+from customer import staff_tablet_authentication, confirm_table, authenticate_table
+
+app = Flask(__name__)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'database.db')
+
+@app.route('/staff/staff_authentication', methods=['POST'])
+def staff_authentication():
     data = request.get_json()
     username = data.get('username')
     password = data.get('password')
@@ -17,8 +26,8 @@ def staff_tablet_authentication():
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
-@app.route('/confirm_table', methods=['POST'])
-def confirm_table():
+@app.route('/customer/table_confirmation', methods=['POST'])
+def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
 
@@ -29,8 +38,8 @@ def confirm_table():
     code = confirm_table(DB_PATH, table_id)
     return jsonify({'code': code}), 200
 
-@app.route('/authenticate_table', methods=['POST'])
-def authenticate_table():
+@app.route('/customer/table_authentication', methods=['POST'])
+def table_authentication():
     data = request.get_json()
     entered_code = data.get('entered_code')
 
@@ -41,3 +50,6 @@ def authenticate_table():
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
+
+if __name__ == '__main__':
+    app.run(debug=True)
