@@ -1,0 +1,6 @@
+.menu {
+    display: grid;
+    grid-template-columns: repeat(5, 15em); /* Adjust the column width as needed */
+    column-gap: 2em;
+    row-gap: 4em;
+}
