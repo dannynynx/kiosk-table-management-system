@@ -1,10 +1,13 @@
-import MainContent from '../components/MainContent.jsx';
 import SideBar from '../components/SideBar.jsx';
 import TopBar from '../components/TopBar.jsx';
 import BottomBar from '../components/BottomBar.jsx';
-import './Menu.css';
+import './CustomerPage.css';
+import PropTypes from "prop-types";
+import Menu from "../components/Menu.jsx";
+import Item from "../components/Item.jsx";
 
-const Menu = () => {
+const CustomerPage = (props) => {
+    const { display } = props;
     return (
         <>
             <div className='topbar-container'>
@@ -17,10 +20,15 @@ const Menu = () => {
                 <BottomBar />
             </div>
             <div className='main-content-container'>
-                <MainContent />
+                {display === 'menu' && <Menu />}
+                {display === 'item' && <Item />}
             </div>
         </>
     );
 };
 
-export default Menu;
+CustomerPage.propTypes = {
+    display: PropTypes.string.isRequired,
+};
+
+export default CustomerPage;
