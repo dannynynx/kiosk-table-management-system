@@ -3,7 +3,6 @@ body {
     height: 100vh;
     background-size: cover;
     background-position: center;
-    color: #e7eaf9;
 }
 
 .container {
@@ -20,6 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 32px;
+    color: #e7eaf9;
 }
 
 .login-main-text {
