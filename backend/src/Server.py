@@ -66,29 +66,32 @@ def table_authentication():
 def add_item_to_cart():
     data = request.get_json()
     order_id = data.get('order_id')
-    item_name = data.get('item_name')
+    table_id = data.get('table_id')
+    item_id = data.get('item_id')
     quantity = data.get('quantity')
 
-    return_data = add_menu_item_to_cart(order_id, item_name, quantity)
+    return_data = add_menu_item_to_cart(DB_PATH, order_id, table_id, item_id, quantity)
     return jsonify(return_data), 200
 
 @app.route('/customer/increase_item_in_cart', methods=['POST'])
 def increase_item_in_cart():
     data = request.get_json()
     order_id = data.get('order_id')
-    item_name = data.get('item_name')
+    table_id = data.get('table_id')
+    item_id = data.get('item_id')
 
-    return_data = increase_menu_item_in_cart(order_id, item_name)
+    return_data = increase_menu_item_in_cart(DB_PATH, order_id, table_id, item_id)
     return jsonify(return_data), 200
 
 @app.route('/customer/decrease_item_in_cart', methods=['POST'])
 def decrease_item_in_cart():
     data = request.get_json()
     order_id = data.get('order_id')
-    item_name = data.get('item_name')
+    table_id = data.get('table_id')
+    item_id = data.get('item_id')
 
-    return_data = decrease_menu_item_in_cart(order_id, item_name)
+    return_data = decrease_menu_item_in_cart(DB_PATH, order_id, table_id, item_id)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
-    app.run(port=2974, debug=True)
+    app.run(debug=True)
