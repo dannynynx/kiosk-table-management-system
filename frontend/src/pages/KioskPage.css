@@ -1,0 +1,39 @@
+.top-container {
+    height: 85%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 1;
+}
+.bottom-container {
+    height: 15%;
+    background-color: #6a6fa2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kiosk-button {
+    height: 80%;
+    width: 60%;
+    background-color: #222a5c;
+    border: 0px;
+    font-family: 'Bukhari Script', sans-serif;
+    color: #dfe5f1;
+    font-size: 3em;
+    border-radius: 20px;
+}
+
+.kiosk-button:hover {
+    background-color: #dfe5f1;
+    color: #222a5c;
+}
+
+.kiosk-title {
+    color: #222a5c;
+    font-family: 'Bukhari Script', sans-serif;
+    font-size: 7em;
+    font-weight: 200;
+    padding-bottom: 15%;
+}
