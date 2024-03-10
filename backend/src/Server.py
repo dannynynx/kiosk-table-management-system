@@ -4,12 +4,23 @@
 
 from flask import Flask, request, jsonify
 import os
-from customer import staff_tablet_authentication, confirm_table, authenticate_table
+import sqlite3
+import shutil
+from InitDB import initialise_db
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table
 
 app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(BASE_DIR, 'database.db')
+DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
+
+def remove_existing_database():
+    if os.path.exists(DB_PATH):
+        os.remove(DB_PATH)
+
+remove_existing_database()
+initialise_db()
+
 
 @app.route('/staff/staff_authentication', methods=['POST'])
 def staff_authentication():
@@ -43,8 +54,8 @@ def table_authentication():
     data = request.get_json()
     entered_code = data.get('entered_code')
 
-    if not entered_code:
-        return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400
+    # if not entered_code:
+    #     return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400
 
     if authenticate_table(DB_PATH, entered_code):
         return jsonify({'authentication': 'Successful'}), 200
@@ -52,4 +63,4 @@ def table_authentication():
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=2974, debug=True)
