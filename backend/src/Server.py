@@ -4,7 +4,7 @@
 
 from flask import Flask, request, jsonify
 import os
-from customer import staff_tablet_authentication, confirm_table, authenticate_table
+from customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart
 
 app = Flask(__name__)
 
@@ -50,6 +50,34 @@ def table_authentication():
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
+
+@app.route('/customer/add_menu_item_to_cart', methods=['POST'])
+def add_item_to_cart():
+    data = request.get_json()
+    order_id = data.get('order_id')
+    item_name = data.get('item_name')
+    quantity = data.get('quantity')
+
+    return_data = add_menu_item_to_cart(order_id, item_name, quantity)
+    return jsonify(return_data), 200
+
+@app.route('/customer/increase_item_in_cart', methods=['POST'])
+def increase_item_in_cart():
+    data = request.get_json()
+    order_id = data.get('order_id')
+    item_name = data.get('item_name')
+
+    return_data = increase_menu_item_in_cart(order_id, item_name)
+    return jsonify(return_data), 200
+
+@app.route('/customer/decrease_item_in_cart', methods=['POST'])
+def decrease_item_in_cart():
+    data = request.get_json()
+    order_id = data.get('order_id')
+    item_name = data.get('item_name')
+
+    return_data = decrease_menu_item_in_cart(order_id, item_name)
+    return jsonify(return_data), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
