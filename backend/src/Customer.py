@@ -91,6 +91,8 @@ def add_menu_item_to_cart(db, order_id, item_name, quantity):
     connection.commit()
     connection.close()
 
+    return {}
+
 def increase_menu_item_in_cart(db, order_id, item_name):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
@@ -105,6 +107,8 @@ def increase_menu_item_in_cart(db, order_id, item_name):
 
     connection.commit()
     connection.close()
+
+    return {}
 
 def decrease_menu_item_in_cart(db, order_id, item_name):
     connection = sqlite3.connect(db)
@@ -129,6 +133,8 @@ def decrease_menu_item_in_cart(db, order_id, item_name):
     
     connection.commit()
     connection.close()
+
+    return {}
 
 def get_item_quantity(db, order_id, item_name):
     connection = sqlite3.connect(db)
