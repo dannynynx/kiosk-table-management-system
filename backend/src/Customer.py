@@ -69,3 +69,95 @@ def authenticate_table(db, entered_code):
             return True #successfull authentication
 
     return False 
+
+def add_menu_item_to_cart(db, order_id, item_name, quantity):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    if (check_item_exists_order(order_id, item_name) == 1):
+        initial_quantity = get_item_quantity(order_id, item_name)
+        sql = """
+        UPDATE quantity
+        SET quantity = :q1
+        WHERE (order_id = :o AND item_name = :i)
+        """
+        cursor.execute(sql, {"o": order_id, "i": item_name, "q": (quantity + initial_quantity)})
+    else:    
+        sql = """
+        INSERT INTO orders (order_id, item_name, quantity)
+        VALUES (:o, :i, :q);
+        """
+        cursor.execute(sql, {"o": order_id, "i": item_name, "q": quantity})
+    connection.commit()
+    connection.close()
+
+def increase_menu_item_in_cart(db, order_id, item_name):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    initial_quantity = get_item_quantity(order_id, item_name)
+    sql = """
+    UPDATE quantity
+    SET quantity = :q1
+    WHERE (order_id = :o AND item_name = :i)
+    """
+    cursor.execute(sql, {"o": order_id, "i": item_name, "q": (initial_quantity + 1)})
+
+    connection.commit()
+    connection.close()
+
+def decrease_menu_item_in_cart(db, order_id, item_name):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    initial_quantity = get_item_quantity(order_id, item_name)
+
+    if (initial_quantity > 1) :
+        sql = """
+        UPDATE quantity
+        SET quantity = :q1
+        WHERE (order_id = :o AND item_name = :i)
+        """
+        cursor.execute(sql, {"o": order_id, "i": item_name, "q1": (initial_quantity - 1)})
+    else:
+        sql = """
+        DELETE 
+        FROM order
+        WHERE (order_id = :o AND item_name = :i)
+        """    
+        cursor.execute(sql, {"o": order_id, "i": item_name})
+    
+    connection.commit()
+    connection.close()
+
+def get_item_quantity(db, order_id, item_name):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT quantity
+    FROM orders
+    WHERE (order_id = :o AND item_name = :i)
+    """
+    
+    cursor.execute(sql, {"o":order_id, "i": item_name})
+    val = cursor.fetchall()
+    
+    connection.close()
+
+    return val
+
+def check_item_exists_order(db, order_id, item_name):
+    connection = sqlite3. connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT EXISTS(SELECT 1 FROM orders WHERE (order_id = :o AND item_name = :i) LIMIT 1)
+    """
+    
+    cursor.execute(sql, {"o": order_id, "i": item_name})
+    val = cursor.fetchall()
+    
+    connection.close()
+
+    return val
