@@ -1,6 +1,6 @@
-import './LogIn.css';
+import './LogInPage.css';
 
-const LogIn = () => {
+const LogInPage = () => {
     return (
         <>
             <body>
@@ -20,4 +20,4 @@ const LogIn = () => {
     );
 };
 
-export default LogIn;
+export default LogInPage;

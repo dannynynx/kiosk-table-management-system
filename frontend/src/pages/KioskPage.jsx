@@ -1,4 +1,4 @@
-const Kiosk = () => {
+const KioskPage = () => {
     return (
         <>
             Kiosk Page
@@ -6,4 +6,4 @@ const Kiosk = () => {
     );
 };
 
-export default Kiosk;
+export default KioskPage;
