@@ -52,7 +52,7 @@ def table_confirmation():
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
     data = request.get_json()
-    entered_code = data.get('entered_code')
+    entered_code = data.get('code')
 
     # if not entered_code:
     #     return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400

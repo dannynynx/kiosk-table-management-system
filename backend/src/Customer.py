@@ -67,14 +67,14 @@ def authenticate_table(db, entered_code):
 
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
-    stored_codes = cursor.fetchone()
+    
+    stored_codes = cursor.fetchall()
 
     connection.close()
 
     for stored in stored_codes:
-        if stored == entered_code:
+        if stored[0] == entered_code:
             return True #successfull authentication
-
     return False 
 
 def add_menu_item_to_cart(db, order_id, table_id, item_id, quantity):
