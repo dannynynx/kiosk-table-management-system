@@ -10,7 +10,7 @@ def initialise_db():
     # CATEGORIES
     sql1 = """
     CREATE TABLE IF NOT EXISTS CATEGORIES (
-        category_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_id INTEGER PRIMARY KEY,
         name TEXT NOT NULL UNIQUE
     )"""
     cursor.execute(sql1)
@@ -21,7 +21,7 @@ def initialise_db():
     # INGREDIENTS
     sql2 = """
     CREATE TABLE IF NOT EXISTS INGREDIENTS (
-        ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ingredient_id INTEGER PRIMARY KEY,
         ingredient_name TEXT NOT NULL UNIQUE
     )"""
     cursor.execute(sql2)
@@ -34,7 +34,7 @@ def initialise_db():
     # ITEMS
     sql3 = """
     CREATE TABLE IF NOT EXISTS ITEMS (
-        item_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        item_id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
         description TEXT NOT NULL,
         category_id INTEGER,
@@ -87,7 +87,7 @@ def initialise_db():
     # MENU
     sql5 = """
     CREATE TABLE IF NOT EXISTS MENU (
-        menu_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        menu_id INTEGER PRIMARY KEY,
         item_id INTEGER,
         FOREIGN KEY (item_id) REFERENCES ITEMS(item_id)
     )"""
@@ -96,22 +96,22 @@ def initialise_db():
     # TABLES
     sql6 = """
     CREATE TABLE IF NOT EXISTS TABLES (
-        table_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        table_id INTEGER PRIMARY KEY,
         code TEXT NOT NULL,
         is_occupied BOOLEAN NOT NULL DEFAULT 0
     )"""
     cursor.execute(sql6)
 
     tables = [
-        ('????', 0),  
-        ('????', 0)
+        ('0000', 0),  
+        ('0000', 0)
     ]
     cursor.executemany("INSERT INTO TABLES (code, is_occupied) VALUES (?, ?)", tables)
 
     # ORDERS
     sql7 = """
     CREATE TABLE IF NOT EXISTS ORDERS ( 
-        order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER PRIMARY KEY,
         table_id INTEGER,
         item_id INTEGER NOT NULL,
         quantity INTEGER NOT NULL,
@@ -123,25 +123,23 @@ def initialise_db():
     # STAFF
     sql8 = """
     CREATE TABLE IF NOT EXISTS STAFF (
-        staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        staff_id INTEGER PRIMARY KEY,
         username TEXT NOT NULL,
-        password TEXT NOT NULL,
-        table_id INTEGER,
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+        password TEXT NOT NULL
     )"""
     cursor.execute(sql8)
     # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password', '1'),
-        ('table2_login', 'table2_password', '2'),
-        ('wait', 'wait_password', '0'),
-        ('kitchen', 'kitchen_password', '0'),
-        ('manager', 'manager_password', '0')
+        ('table1_login', 'table1_password'),
+        ('table2_login', 'table2_password'),
+        ('wait', 'wait_password'),
+        ('kitchen', 'kitchen_password'),
+        ('manager', 'manager_password')
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, table_id) VALUES (?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password) VALUES (?, ?)", staff_logins)
 
     connection.commit()
     connection.close()
 
-# Call the function to initialise the database
+
 initialise_db()

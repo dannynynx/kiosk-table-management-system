@@ -1,5 +1,7 @@
 import sqlite3
 import random
+from ReadingDB import export_table_to_json
+import time
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)
@@ -18,7 +20,8 @@ def staff_tablet_authentication(db, username, password):
 generated_codes = set()
 def generate_unique_code():
     while True:
-        code = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+        timestamp = int(time.time())
+        code = str(timestamp)[-4:]  # Extract last 4 digits of the timestamp
         if code not in generated_codes:
             generated_codes.add(code)
             return code
@@ -31,8 +34,11 @@ def confirm_table(db, table_id):
 
     # Store the generated code
     cursor.execute("UPDATE TABLES SET code=? WHERE table_id=?", (code, table_id))
+    # cursor.execute("UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?", (code, 1, table_id))
 
     connection.commit()
+
+
     connection.close()
 
     return code
@@ -54,6 +60,7 @@ def confirm_table(db, table_id):
 #         # If no matching staff member is found, return None
 #         return None
 
+# NEED TO WORK ON THIS!!
 def authenticate_table(db, entered_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
