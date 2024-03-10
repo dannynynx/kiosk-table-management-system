@@ -19,7 +19,9 @@ const KioskPage = () => {
                     </div>
                 </section>
                 <section className='selection-page' id='selection-page'>
-                    <h1 className='selection-title'>Select Table</h1>
+                    <div className='top-bar'>
+                        <h1 className='selection-title'>Select Table</h1>
+                    </div>
                 </section>
             </body>
         </>

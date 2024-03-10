@@ -43,13 +43,18 @@ section.first-page {
     padding-bottom: 15%;
 }
 
+.top-bar {
+    height: 10%;
+    width: 100%;
+    background-color: #6a6fa2;
+}
+
 .selection-title {
     margin-top: 0%;
-    font-size: 5em;
+    font-size: 4em;
 }
 
 .selection-page {
-    background-color: #6a6fa2;
     height: 100%;
     width: 100%;
     display: none;
