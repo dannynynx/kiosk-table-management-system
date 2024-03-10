@@ -5,14 +5,19 @@
     flex-direction: column;
 }
 
+.item-preview:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+}
+
 .item-preview-image {
     width: 10em;
     height: auto;
     align-self: center;
 }
 
-.item-preview-contents {
-
+.item-preview-content {
+    margin-top: 1em;
 }
 
 .item-preview-name {
