@@ -1,6 +1,5 @@
 import sqlite3
 import random
-#from ReadingDB import export_table_to_json
 import time
 
 def staff_tablet_authentication(db, username, password):
