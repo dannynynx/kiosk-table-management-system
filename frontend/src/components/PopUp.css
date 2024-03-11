@@ -1,13 +1,12 @@
 .popup {
     display: none;
     position: fixed;
-    padding: 10px;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    left: 0;
-    top: 0;
     background: rgba(169, 169, 169, 0.9);
-    z-index: 20;
+    z-index: 9999;
     box-sizing: border-box;
     -webkit-box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
     box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
@@ -15,7 +14,7 @@
 
 .msg {
     background-color: aliceblue;
-    width: 100px;
-    height: 100px;
-    margin: auto; /* Center the .msg element */
+    width: 20%;
+    height: 20%;
+    margin: auto;
 }
