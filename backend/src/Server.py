@@ -7,9 +7,11 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart, show_table, select_table, go_back_table, show_menu, send_order_to_database
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, select_table, go_back_table, show_menu, send_order_to_database
+from flask_cors import CORS
 
 app = Flask(__name__)
+cors = CORS(app)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
