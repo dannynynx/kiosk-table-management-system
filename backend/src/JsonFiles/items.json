@@ -26,5 +26,33 @@
         "description": "A delicious chocolate dessert",
         "category_id": 4,
         "cost": 10.99
+    },
+    {
+        "item_id": 5,
+        "name": "Avo Toast",
+        "description": "A delicious and simple breakfast",
+        "category_id": 1,
+        "cost": 6.99
+    },
+    {
+        "item_id": 6,
+        "name": "Lasagna",
+        "description": "A rich and cheesy pasta stockful of beef mince",
+        "category_id": 2,
+        "cost": 16
+    },
+    {
+        "item_id": 7,
+        "name": "Margherita Pizza",
+        "description": "Authentic italian pizza",
+        "category_id": 3,
+        "cost": 24
+    },
+    {
+        "item_id": 8,
+        "name": "Chocolate Cake",
+        "description": "A delicious chocolate dessert",
+        "category_id": 4,
+        "cost": 10.99
     }
 ]

@@ -177,7 +177,7 @@ def check_item_exists_order(db, order_id, table_id, item_id):
 
     return val
 
-def customer_show_table(db):
+def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
@@ -197,7 +197,7 @@ def customer_show_table(db):
 
     return val
 
-def customer_select_table(db, table_id):
+def select_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
@@ -212,7 +212,7 @@ def customer_select_table(db, table_id):
     connection.commit()
     connection.close()
 
-def customer_go_back_table(db, table_id):
+def go_back_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
@@ -227,7 +227,7 @@ def customer_go_back_table(db, table_id):
     connection.commit()
     connection.close()
 
-def customer_show_menu(db):
+def show_menu(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     

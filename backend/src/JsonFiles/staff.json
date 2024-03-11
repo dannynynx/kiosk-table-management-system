@@ -23,5 +23,30 @@
         "staff_id": 5,
         "username": "manager",
         "password": "manager_password"
+    },
+    {
+        "staff_id": 6,
+        "username": "table1_login",
+        "password": "table1_password"
+    },
+    {
+        "staff_id": 7,
+        "username": "table2_login",
+        "password": "table2_password"
+    },
+    {
+        "staff_id": 8,
+        "username": "wait",
+        "password": "wait_password"
+    },
+    {
+        "staff_id": 9,
+        "username": "kitchen",
+        "password": "kitchen_password"
+    },
+    {
+        "staff_id": 10,
+        "username": "manager",
+        "password": "manager_password"
     }
 ]

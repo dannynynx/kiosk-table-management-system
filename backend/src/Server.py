@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart, show_table, select_table, go_back_table, show_menu
 
 app = Flask(__name__)
 
@@ -91,6 +91,30 @@ def decrease_item_in_cart():
     item_id = data.get('item_id')
 
     return_data = decrease_menu_item_in_cart(DB_PATH, order_id, table_id, item_id)
+    return jsonify(return_data), 200
+
+@app.route("/customer/showTable", methods=['GET'])
+def showTable():
+    return_data = show_table(DB_PATH)
+    return jsonify(return_data), 200
+
+@app.route("/customer/selectTable", methods=['POST'])
+def selectTable():
+    data = request.get_json()
+    table_id = data.get('table_id')
+    return_data = select_table(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route("/customer/goBackTable", methods=['POST'])
+def goBackTable():
+    data = request.get_json()
+    table_id = data.get('table_id')
+    return_data = go_back_table(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route("/customer/showMenu", methods=['GET'])
+def showMenu():
+    return_data = show_menu(DB_PATH)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
