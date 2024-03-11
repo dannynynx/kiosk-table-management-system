@@ -1,6 +1,6 @@
 import sqlite3
 import random
-from ReadingDB import export_table_to_json
+#from ReadingDB import export_table_to_json
 import time
 
 def staff_tablet_authentication(db, username, password):
@@ -34,7 +34,7 @@ def confirm_table(db, table_id):
     max_session_id = cursor.fetchone()[0]
     new_session_id = max_session_id + 1 if max_session_id is not None else 1
 
-    code = generate_unique_code(}
+    code = generate_unique_code()
 
     # Store the generated code and seesion_id
     cursor.execute("UPDATE TABLES SET code=?, session_id=? WHERE table_id=?", (code, new_session_id, table_id))
@@ -175,3 +175,28 @@ def show_menu(db):
     cursor.execute(showMenu)
     connection.commit()
     connection.close()
+
+def get_all_categories(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT *
+    FROM CATEGORIES
+    """
+
+    cursor.execute(sql)
+
+    categories = cursor.fetchall()
+    category_list = []
+
+    for category in categories:
+        category_dict = {
+            'category_id': category[0],
+            'name': category[1]
+        }
+        category_list.append(category_dict)
+
+    connection.close()
+    
+    return category_list
