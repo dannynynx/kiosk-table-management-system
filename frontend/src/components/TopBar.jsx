@@ -7,12 +7,10 @@ const TopBar = () => {
 
 
     const categories = [];
-
-
     React.useEffect(() => {
         const getCategories = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/customer/categories');
+                const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
                 for (const category of response.json()) { 
                     categories.push({
                         id: category.category_id,
@@ -32,11 +30,12 @@ const TopBar = () => {
             <div className="topbar">
                 <img className="logo" src={zebra}></img>
                 <div className="categories">
+                    <h2 className="all">All</h2>
                 {categories.map((category, key) => (
                         <h2 className="category" id={category.id}>{category.name}</h2>
                     
-                ))};
-                </div>
+                ))}
+                                </div>
             </div>
            
         </>
