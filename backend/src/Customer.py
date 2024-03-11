@@ -115,11 +115,8 @@ def show_table(db):
     showTable = '''
     select
         table_id,
-        is_occupied
     from
         tables
-    where
-        is_occupied = 0
     '''
     cursor.execute(showTable)
     val = cursor.fetchall()
@@ -128,35 +125,35 @@ def show_table(db):
 
     return val
 
-def select_table(db, table_id):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
+# def select_table(db, table_id):
+#     connection = sqlite3.connect(db)
+#     cursor = connection.cursor()
     
-    selectTable = '''
-    UPDATE tables 
-    SET is_occupied = 1 
-    WHERE table_id = :o and
-    is_occupied = 0
-    '''
+#     selectTable = '''
+#     UPDATE tables 
+#     SET is_occupied =  
+#     WHERE table_id = :o and
+#     is_occupied = 0
+#     '''
 
-    cursor.execute(selectTable, {"o": table_id})
-    connection.commit()
-    connection.close()
+#     cursor.execute(selectTable, {"o": table_id})
+#     connection.commit()
+#     connection.close()
 
-def go_back_table(db, table_id):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
+# def go_back_table(db, table_id):
+#     connection = sqlite3.connect(db)
+#     cursor = connection.cursor()
     
-    goBackTable = '''
-    UPDATE tables 
-    SET is_occupied = 0 
-    WHERE table_id = :o and
-    is_occupied = 1
-    '''
+#     goBackTable = '''
+#     UPDATE tables 
+#     SET is_occupied = 0 
+#     WHERE table_id = :o and
+#     is_occupied = 1
+#     '''
 
-    cursor.execute(goBackTable, {"o": table_id})
-    connection.commit()
-    connection.close()
+#     cursor.execute(goBackTable, {"o": table_id})
+#     connection.commit()
+#     connection.close()
 
 def show_menu(db):
     connection = sqlite3.connect(db)

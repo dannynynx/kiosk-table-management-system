@@ -80,19 +80,19 @@ def showTable():
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route("/customer/selectTable", methods=['POST'])
-def selectTable():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = select_table(DB_PATH, table_id)
-    return jsonify(return_data), 200
+# @app.route("/customer/selectTable", methods=['POST'])
+# def selectTable():
+#     data = request.get_json()
+#     table_id = data.get('table_id')
+#     return_data = select_table(DB_PATH, table_id)
+#     return jsonify(return_data), 200
 
-@app.route("/customer/goBackTable", methods=['POST'])
-def goBackTable():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = go_back_table(DB_PATH, table_id)
-    return jsonify(return_data), 200
+# @app.route("/customer/goBackTable", methods=['POST'])
+# def goBackTable():
+#     data = request.get_json()
+#     table_id = data.get('table_id')
+#     return_data = go_back_table(DB_PATH, table_id)
+#     return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():

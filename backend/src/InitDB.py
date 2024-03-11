@@ -98,7 +98,7 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS TABLES (
         table_id INTEGER PRIMARY KEY AUTOINCREMENT,
         code TEXT NOT NULL,
-        is_occupied BOOLEAN NOT NULL DEFAULT 0
+        is_occupied BOOLEAN NOT NULL DEFAULT FALSE
     )"""
     cursor.execute(sql6)
 
