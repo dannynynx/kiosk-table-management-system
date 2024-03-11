@@ -39,6 +39,7 @@ def initialise_db():
         description TEXT NOT NULL,
         category_id INTEGER,
         cost NUMERIC,
+        picture VARBINARY(MAX),
         FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id)
     )"""
     cursor.execute(sql3)

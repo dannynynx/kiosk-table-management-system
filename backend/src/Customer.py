@@ -163,7 +163,7 @@ def get_item_quantity(db, order_id, table_id, item_id):
     return val
 
 def check_item_exists_order(db, order_id, table_id, item_id):
-    connection = sqlite3. connect(db)
+    connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
     sql = """
@@ -176,3 +176,69 @@ def check_item_exists_order(db, order_id, table_id, item_id):
     connection.close()
 
     return val
+
+def customer_show_table(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    showTable = '''
+    select
+        table_id,
+        is_occupied
+    from
+        tables
+    where
+        is_occupied = 1
+    '''
+    cursor.execute(showTable)
+    val = cursor.fetchall()
+    
+    connection.close()
+
+    return val
+
+def customer_select_table(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    selectTable = '''
+    UPDATE tables 
+    SET is_occupied = 1 
+    WHERE table_id = :o and
+    is_occupied = 0
+    '''
+
+    cursor.execute(selectTable, {"o": table_id})
+    connection.commit()
+    connection.close()
+
+def customer_go_back_table(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    goBackTable = '''
+    UPDATE tables 
+    SET is_occupied = 0 
+    WHERE table_id = :o and
+    is_occupied = 1
+    '''
+
+    cursor.execute(goBackTable, {"o": table_id})
+    connection.commit()
+    connection.close()
+
+def customer_show_menu(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    showMenu = '''
+    select
+        items.name,
+        items.picture,
+        items.cost
+    from
+        menu join items on items.item_id = menu.item_id
+    '''
+    cursor.execute(showMenu)
+    connection.commit()
+    connection.close()
