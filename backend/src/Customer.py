@@ -1,5 +1,7 @@
 import sqlite3
 import random
+from ReadingDB import export_table_to_json
+import time
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)
@@ -18,7 +20,8 @@ def staff_tablet_authentication(db, username, password):
 generated_codes = set()
 def generate_unique_code():
     while True:
-        code = ''.join([str(random.randint(0, 9)) for _ in range(4)])
+        timestamp = int(time.time())
+        code = str(timestamp)[-4:]  # Extract last 4 digits of the timestamp
         if code not in generated_codes:
             generated_codes.add(code)
             return code
@@ -31,8 +34,11 @@ def confirm_table(db, table_id):
 
     # Store the generated code
     cursor.execute("UPDATE TABLES SET code=? WHERE table_id=?", (code, table_id))
+    # cursor.execute("UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?", (code, 1, table_id))
 
     connection.commit()
+
+
     connection.close()
 
     return code
@@ -54,114 +60,117 @@ def confirm_table(db, table_id):
 #         # If no matching staff member is found, return None
 #         return None
 
+# NEED TO WORK ON THIS!!
 def authenticate_table(db, entered_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
-    stored_codes = cursor.fetchone()
+    
+    stored_codes = cursor.fetchall()
 
     connection.close()
 
     for stored in stored_codes:
-        if stored == entered_code:
+        if stored[0] == entered_code:
             return True #successfull authentication
-
     return False 
 
-def add_menu_item_to_cart(db, order_id, item_name, quantity):
+def add_menu_item_to_cart(db, order_id, table_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
-    if (check_item_exists_order(order_id, item_name) == 1):
-        initial_quantity = get_item_quantity(order_id, item_name)
+    if (check_item_exists_order(db, order_id, table_id, item_id) == 1):
+        initial_quantity = get_item_quantity(db, order_id, table_id, item_id)
         sql = """
         UPDATE quantity
-        SET quantity = :q1
-        WHERE (order_id = :o AND item_name = :i)
+        SET quantity = :q
+        WHERE (order_id = :o AND item_id = :i AND table_id = :t)
         """
-        cursor.execute(sql, {"o": order_id, "i": item_name, "q": (quantity + initial_quantity)})
+        cursor.execute(sql, {"o": order_id, "i": item_id, "t": table_id,
+                             "q": (quantity + initial_quantity)})
     else:    
         sql = """
-        INSERT INTO orders (order_id, item_name, quantity)
-        VALUES (:o, :i, :q);
+        INSERT INTO ORDERS (order_id, table_id, item_id, quantity)
+        VALUES (:o, :t, :i, :q);
         """
-        cursor.execute(sql, {"o": order_id, "i": item_name, "q": quantity})
+        cursor.execute(sql, {"o": order_id, "t": table_id, "i": item_id, "q": quantity})
     connection.commit()
     connection.close()
 
     return {}
 
-def increase_menu_item_in_cart(db, order_id, item_name):
+def increase_menu_item_in_cart(db, order_id, table_id, item_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
-    initial_quantity = get_item_quantity(order_id, item_name)
+    initial_quantity = get_item_quantity(db, order_id, table_id, item_id)
     sql = """
-    UPDATE quantity
-    SET quantity = :q1
-    WHERE (order_id = :o AND item_name = :i)
+    UPDATE ORDERS
+    SET quantity = :q + 1
+    WHERE (order_id = :o AND item_id = :i AND table_id = :t)
     """
-    cursor.execute(sql, {"o": order_id, "i": item_name, "q": (initial_quantity + 1)})
+    cursor.execute(sql, {"o": order_id, "t": table_id, "i": item_id, 
+                         "q": initial_quantity})
 
     connection.commit()
     connection.close()
 
     return {}
 
-def decrease_menu_item_in_cart(db, order_id, item_name):
+def decrease_menu_item_in_cart(db, order_id, table_id, item_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
-    initial_quantity = get_item_quantity(order_id, item_name)
+    initial_quantity = get_item_quantity(db, order_id, table_id, item_id)
 
-    if (initial_quantity > 1) :
-        sql = """
-        UPDATE quantity
-        SET quantity = :q1
-        WHERE (order_id = :o AND item_name = :i)
-        """
-        cursor.execute(sql, {"o": order_id, "i": item_name, "q1": (initial_quantity - 1)})
-    else:
-        sql = """
-        DELETE 
-        FROM order
-        WHERE (order_id = :o AND item_name = :i)
-        """    
-        cursor.execute(sql, {"o": order_id, "i": item_name})
+
+    sql1 = """
+    UPDATE ORDERS
+    SET quantity = :q - 1
+    WHERE (order_id = :o AND item_id = :i AND table_id = :t)
+    """
+    cursor.execute(sql1, {"o": order_id, "t": table_id, "i": item_id, "q": initial_quantity})
+
+    sql2 = """
+    DELETE 
+    FROM ORDERS
+    WHERE (order_id = :o AND item_id = :i AND table_id = :t AND quantity = 0)
+    """    
+    cursor.execute(sql2, {"o": order_id, "t": table_id, "i": item_id})
     
     connection.commit()
     connection.close()
 
     return {}
 
-def get_item_quantity(db, order_id, item_name):
+def get_item_quantity(db, order_id, table_id, item_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
     sql = """
     SELECT quantity
-    FROM orders
-    WHERE (order_id = :o AND item_name = :i)
+    FROM ORDERS
+    WHERE (order_id = :o AND item_id = :i AND table_id = :t)
     """
     
-    cursor.execute(sql, {"o":order_id, "i": item_name})
-    val = cursor.fetchall()
+    cursor.execute(sql, {"o": order_id, "t": table_id, "i": item_id})
+    val = cursor.fetchone()
     
     connection.close()
 
     return val
 
-def check_item_exists_order(db, order_id, item_name):
+def check_item_exists_order(db, order_id, table_id, item_id):
     connection = sqlite3. connect(db)
     cursor = connection.cursor()
 
     sql = """
-    SELECT EXISTS(SELECT 1 FROM orders WHERE (order_id = :o AND item_name = :i) LIMIT 1)
+    SELECT EXISTS(SELECT 1 FROM ORDERS WHERE (order_id = :o AND item_id = :i AND table_id = :t) LIMIT 1)
     """
     
-    cursor.execute(sql, {"o": order_id, "i": item_name})
+    cursor.execute(sql, {"o": order_id,"t": table_id ,"i": item_id})
     val = cursor.fetchall()
     
     connection.close()

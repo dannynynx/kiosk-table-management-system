@@ -1,15 +1,11 @@
-body {
-    background-image: url('../assets/login-background.jpg');
-    height: 100vh;
-    background-size: cover;
-    background-position: center;
-}
-
 .container {
-    height: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url('../assets/login-background.jpg');
+    background-size: cover;
+    background-position: center;
 }
 
 .login-form {
@@ -28,14 +24,14 @@ body {
 
 h2 {
     font-size: 40px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 p.login-main-text {
     font-size: 16px;
     margin-block-start: 0.5em;
-    margin-block-end: 0em;
+    margin-block-end: 0;
 }
 
 .input-label {
@@ -48,7 +44,7 @@ p.login-main-text {
     font-size: 16px;
     height: 10%;
     background-color: #242d64;
-    border: 0px;
+    border: 0;
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #e7eaf9;
     outline: none;
@@ -58,7 +54,7 @@ p.login-main-text {
 .login-button {
     height: 12%;
     background-color: #8086b3;
-    border: 0px;
+    border: 0;
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #e7eaf9;
     font-weight: bold;

@@ -103,8 +103,8 @@ def initialise_db():
     cursor.execute(sql6)
 
     tables = [
-        ('????', 0),  
-        ('????', 0)
+        ('0000', 0),  
+        ('0000', 0)
     ]
     cursor.executemany("INSERT INTO TABLES (code, is_occupied) VALUES (?, ?)", tables)
 
@@ -125,23 +125,21 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS STAFF (
         staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
-        password TEXT NOT NULL,
-        table_id INTEGER,
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+        password TEXT NOT NULL
     )"""
     cursor.execute(sql8)
     # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password', '1'),
-        ('table2_login', 'table2_password', '2'),
-        ('wait', 'wait_password', '0'),
-        ('kitchen', 'kitchen_password', '0'),
-        ('manager', 'manager_password', '0')
+        ('table1_login', 'table1_password'),
+        ('table2_login', 'table2_password'),
+        ('wait', 'wait_password'),
+        ('kitchen', 'kitchen_password'),
+        ('manager', 'manager_password')
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, table_id) VALUES (?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password) VALUES (?, ?)", staff_logins)
 
     connection.commit()
     connection.close()
 
-# Call the function to initialise the database
+
 initialise_db()
