@@ -1,4 +1,3 @@
-// SideBar.jsx
 import './SideBar.css';
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
@@ -11,14 +10,7 @@ const SideBar = () => {
     const [expanded, setExpanded] = useState(false);
 
     const toggleExpand = (contentType) => {
-        if (expanded) {
-            // If the sidebar is being closed, clear the renderContent state
-            setRenderContent(null);
-        } else {
-            // If the sidebar is being opened, set the renderContent state
-            setRenderContent(contentType);
-        }
-
+        setRenderContent(expanded ? null : contentType);
         setExpanded(!expanded);
     };
 

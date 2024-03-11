@@ -10,15 +10,9 @@ import { useState } from "react";
 const Item = () => {
     const { id } = useParams();
     const [quantity, setQuantity] = useState(1);
-    const increaseQuantity = () => {
-        setQuantity(quantity + 1);
-    }
+    const increaseQuantity = () => setQuantity(quantity + 1);
+    const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
-const decreaseQuantity = () => {
-        if (quantity > 1) {
-            setQuantity(quantity - 1);
-        }
-}
 
     return (
         <div className='item'>

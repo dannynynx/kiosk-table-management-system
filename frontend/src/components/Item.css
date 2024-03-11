@@ -46,8 +46,8 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5em 2em;
-    border: #2754A5 solid 0.4em;
-    border-radius: 3em;
+    border: #2754A5 solid 0.2em;
+    border-radius: 1em;
 }
 
 .quantity-bar-icon {

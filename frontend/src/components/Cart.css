@@ -28,10 +28,9 @@
 
 .cart-content {
     flex:  12;
-    margin: 2em 1.5em;
-    padding: 1em;
-    background-color: #B3E0FF;
+    padding: 2em 1.5em;
     border-radius: 0.5em;
+    overflow: scroll;
 }
 
 .cart-footer {

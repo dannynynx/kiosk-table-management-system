@@ -1,6 +1,7 @@
 import './Cart.css';
 import cross from '../assets/cross-icon.svg';
 import PropTypes from "prop-types";
+import CartItem from "./CartItem.jsx";
 
 const Cart = ({ toggleExpand }) => {
     return (
@@ -9,7 +10,13 @@ const Cart = ({ toggleExpand }) => {
                     <img src={cross} className='cross-icon' alt='Cross Icon' onClick={toggleExpand}/>
             </div>
             <div className='cart-content'>
-                hello world
+                <CartItem />
+                <CartItem />
+                <CartItem />
+                <CartItem />
+                <CartItem />
+                <CartItem />
+                <CartItem />
             </div>
             <div className='cart-footer'>Order Now</div>
         </div>

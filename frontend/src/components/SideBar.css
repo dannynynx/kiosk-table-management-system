@@ -1,10 +1,15 @@
 .sidebar-icon-container {
     margin: 1em;
     padding: 0.5em;
-    background-color: #888888;
-    border-radius: 1em;
+    background-color: #C0C0C0;
+    border-radius: 0.5em;
     border: black 2px solid;
     overflow: hidden;
+}
+
+.sidebar-icon-container:active {
+    transform: scale(0.9);
+    transition: transform 0.1s ease;
 }
 
 .sidebar {
@@ -13,13 +18,14 @@
     position: fixed;
     top: 0;
     right: 6em;
-    background-color: #C0C0C0;
+    background-color: #D3D3D3;
     transition: width 0.3s ease;
     border-radius: 1em;
 }
 
 .sidebar.expanded {
-    width: 25em;
+    width: 20em;
+    transition: width 0.3s ease;
 }
 
 .cart {
