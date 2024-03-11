@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, select_table, go_back_table, show_menu, send_order_to_database
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, select_table, go_back_table, show_menu, send_order_to_database, get_all_categories
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -97,6 +97,11 @@ def goBackTable():
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
     return_data = show_menu(DB_PATH)
+    return jsonify(return_data), 200
+
+@app.route("/customer/get_all_categories", methods=['GET'])
+def get_categories():
+    return_data = get_all_categories(DB_PATH)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
