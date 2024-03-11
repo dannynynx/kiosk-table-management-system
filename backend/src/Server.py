@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart, show_table, select_table, go_back_table, show_menu
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, add_menu_item_to_cart, increase_menu_item_in_cart, decrease_menu_item_in_cart, show_table, select_table, go_back_table, show_menu, send_order_to_database
 
 app = Flask(__name__)
 
@@ -62,35 +62,15 @@ def table_authentication():
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
 
-@app.route('/customer/add_menu_item_to_cart', methods=['POST'])
-def add_item_to_cart():
+@app.route('/customer/send_order', methods=['POST'])
+def send_order():
     data = request.get_json()
     order_id = data.get('order_id')
     table_id = data.get('table_id')
-    item_id = data.get('item_id')
-    quantity = data.get('quantity')
+    session_id = data.get('session_id')
+    order_items = data.get('order_items')
 
-    return_data = add_menu_item_to_cart(DB_PATH, order_id, table_id, item_id, quantity)
-    return jsonify(return_data), 200
-
-@app.route('/customer/increase_item_in_cart', methods=['POST'])
-def increase_item_in_cart():
-    data = request.get_json()
-    order_id = data.get('order_id')
-    table_id = data.get('table_id')
-    item_id = data.get('item_id')
-
-    return_data = increase_menu_item_in_cart(DB_PATH, order_id, table_id, item_id)
-    return jsonify(return_data), 200
-
-@app.route('/customer/decrease_item_in_cart', methods=['POST'])
-def decrease_item_in_cart():
-    data = request.get_json()
-    order_id = data.get('order_id')
-    table_id = data.get('table_id')
-    item_id = data.get('item_id')
-
-    return_data = decrease_menu_item_in_cart(DB_PATH, order_id, table_id, item_id)
+    return_data = send_order_to_database(DB_PATH, order_id, table_id, session_id, order_items)
     return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
