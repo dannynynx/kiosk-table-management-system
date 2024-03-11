@@ -1,0 +1,135 @@
+.sidebar {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar.open { 
+    left: -200;
+  }
+
+button {
+    width: 50px;
+    height: 50px;
+    border: gray 2px solid;
+    color: white;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+
+button:hover { 
+    background-color: #e7e7e7;
+}
+
+  .past-order { 
+    color: orange;
+  }
+
+  
+  img { 
+    align-self: center;
+    width: 100%;
+    height: 100%;
+  }
+
+.cart {
+  position: fixed;
+  top: 0;
+  right: -100%; /* Initially off-screen */
+  width: 40vw;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: cadetblue; /* Semi-transparent background */
+  transition: right 0.3s ease; /* Transition for smooth sliding effect */
+  &.open {
+    right: 0; /* Slide the cart into view when it's open */
+  }
+
+  button.cart-btn    { 
+    width: 30px;
+    height: 30px;
+    background-color: lightgray;
+  }
+
+  button:hover.cart-btn { 
+    background-color:rgba(0,0,0,0.4);
+  }
+
+  .header { 
+    border-bottom: gray 2px solid;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+  }
+
+  h2 { 
+    margin-left: 10px;
+  }
+
+  h4 { 
+    margin-right: auto;
+  }
+
+  .item { 
+    display: flex;
+    flex-direction: row;
+  }
+
+  img.quantity-bar-icon { 
+    width: 2%;
+    height: 2%;
+    margin-right: auto;
+  }
+
+  span.quantity-text { 
+    width: 2%;
+    height: 2%;
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  .footer { 
+    border-top: 2px solid gray;
+    width: 100%;
+    height: 50px;
+  }
+
+  button.footer { 
+    margin: auto;
+    color: black;
+  }
+
+  .headings { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+
+  p { 
+    font-size: medium;
+  }
+
+  .past { 
+    position: fixed;
+    top: 0;
+    right: -100%; /* Initially off-screen */
+    width: 40vw;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: cadetblue; /* Semi-transparent background */
+    transition: right 0.3s ease; /* Transition for smooth sliding effect */
+    &.open {
+      right: 0; /* Slide the cart into view when it's open */
+    }
+  }
+}
