@@ -119,7 +119,7 @@ def show_table(db):
     from
         tables
     where
-        is_occupied = 1
+        is_occupied = 0
     '''
     cursor.execute(showTable)
     val = cursor.fetchall()
