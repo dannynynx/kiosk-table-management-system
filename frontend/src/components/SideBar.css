@@ -1,0 +1,17 @@
+.sidebar-icon-container {
+    margin: 1em;
+    padding: 0.5em;
+    background-color: #888888;
+    border-radius: 1em;
+    border: black 2px solid;
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+
+.cart {
+
+}
+
+.order-list {
+
+}
