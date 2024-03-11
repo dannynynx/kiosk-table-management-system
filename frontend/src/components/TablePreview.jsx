@@ -1,12 +1,13 @@
-import './TablePreview.css'
+import React from 'react';
+import './TablePreview.css';
 import tableIcon from '../assets/table-icon.svg';
 
-const TablePreview = ({ tableNumber }) => {
+const TablePreview = ({ tableNumber, onClick }) => {
     return (
-        <div className='table-preview'>
+        <button className='table-preview' onClick={onClick}>
             <img src={tableIcon} className='table-image' alt='Table Icon'/>
             <h2 className='table-text-style'>Table #{tableNumber}</h2>
-        </div>
+        </button>
     );
 };
 
