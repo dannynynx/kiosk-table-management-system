@@ -20,6 +20,7 @@ const KioskPage = () => {
     const tableCodePage = () => {
         document.getElementById('table-confirmation-page').style.display = "none";
         document.getElementById('selection-page').style.display = "none";
+        document.getElementById('table-code-page').style.display = "flex";
     }
 
     return (
@@ -61,7 +62,7 @@ const KioskPage = () => {
                         <input type='button' value="cancel" className='confirm-button' onClick={goBackTableSelection}></input>
                     </div>
                 </section>
-                <section className='table-code-page'>
+                <section className='table-code-page' id='table-code-page'>
                     <div className='code-top-container'>
                         <h1 className='kiosk-title'>Blue<br></br>Zebra</h1>
                     </div>

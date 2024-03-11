@@ -141,3 +141,10 @@ section.first-page, section.selection-page, section.table-code-page {
 .confirm-button:hover {
     background-color: #4d5074;
 }
+
+.table-code-page {
+    display: none;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
