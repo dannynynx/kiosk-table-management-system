@@ -111,23 +111,30 @@ def initialise_db():
     # ORDERS
     sql7 = """
     CREATE TABLE IF NOT EXISTS ORDERS ( 
-        order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER PRIMARY KEY,
         table_id INTEGER,
-        item_id INTEGER NOT NULL,
-        quantity INTEGER NOT NULL,
-        FOREIGN KEY (item_id) REFERENCES ITEMS(item_id),
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+        session_id INTEGER
     )"""
     cursor.execute(sql7)
 
-    # STAFF
     sql8 = """
+    CREATE TABLE IF NOT EXISTS IN_ORDER (
+        order_id INTEGER,
+        item_id INTEGER,
+        quantity INTEGER,
+        FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
+        FOREIGN KEY (item_id) REFERENCES ITEMS(item_id)
+    )"""
+    cursor.execute(sql8)
+
+    # STAFF
+    sql9 = """
     CREATE TABLE IF NOT EXISTS STAFF (
         staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password TEXT NOT NULL
     )"""
-    cursor.execute(sql8)
+    cursor.execute(sql9)
     # tables numbers are 0 for all staff
     staff_logins = [
         ('table1_login', 'table1_password'),
