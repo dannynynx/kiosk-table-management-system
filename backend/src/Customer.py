@@ -30,14 +30,16 @@ def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    code = generate_unique_code()
+    cursor.execute("SELECT MAX(session_id) FROM TABLES")
+    max_session_id = cursor.fetchone()[0]
+    new_session_id = max_session_id + 1 if max_session_id is not None else 1
 
-    # Store the generated code
-    cursor.execute("UPDATE TABLES SET code=? WHERE table_id=?", (code, table_id))
-    # cursor.execute("UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?", (code, 1, table_id))
+    code = generate_unique_code(}
+
+    # Store the generated code and seesion_id
+    cursor.execute("UPDATE TABLES SET code=?, session_id=? WHERE table_id=?", (code, new_session_id, table_id))
 
     connection.commit()
-
 
     connection.close()
 
