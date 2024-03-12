@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 const MenuContext = createContext();
 const addMenuItemContext = createContext();
+const filterMenuItemsContext = createContext();
 
 const useMenu = () => {
     return useContext(MenuContext);
@@ -10,6 +11,10 @@ const useMenu = () => {
 
 const useAddMenuItem = () => {
     return useContext(addMenuItemContext);
+}
+
+const useFilterMenuItems = () => { 
+    return useContext(filterMenuItemsContext);
 }
 
 const MenuProvider = ({ children }) => {
@@ -20,16 +25,22 @@ const MenuProvider = ({ children }) => {
     const addMenuItem = (item) => {
         setMenu(prevMenu => {
             const updatedMenu = [...prevMenu, item];
-            console.log(updatedMenu);
             return updatedMenu;
         });
     };
 
+
+    const filterMenu = (category) => { 
+        menu.some(item => item.category === category)
+    };
+
     return (
         <MenuContext.Provider value={menu}>
-            <addMenuItemContext.Provider value={addMenuItem}>
-                {children}
-            </addMenuItemContext.Provider>
+            <filterMenuItemsContext value={filterMenu}>
+                <addMenuItemContext.Provider value={addMenuItem}>
+                    {children}
+                </addMenuItemContext.Provider>
+            </filterMenuItemsContext>
         </MenuContext.Provider>
     );
 }
@@ -39,4 +50,4 @@ MenuProvider.propTypes = {
 };
 
 export default MenuProvider;
-export { useMenu, useAddMenuItem };
+export { useMenu, useAddMenuItem, useFilterMenuItems };
