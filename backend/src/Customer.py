@@ -164,16 +164,16 @@ def show_menu(db):
     cursor = connection.cursor()
     
     showMenu = '''
-    select
-        items.name,
-        items.picture,
-        items.cost
-    from
-        menu join items on items.item_id = menu.item_id
+    SELECT i.name, i.description, c.name, i.cost
+    FROM ITEMS AS i
+    JOIN CATEGORIES AS c ON i.category_id = c.category_id
     '''
     cursor.execute(showMenu)
-    connection.commit()
+    val = cursor.fetchall()
+
     connection.close()
+
+    return val
 
 def get_all_categories(db):
     connection = sqlite3.connect(db)
