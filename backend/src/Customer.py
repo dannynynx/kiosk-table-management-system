@@ -13,8 +13,8 @@ def staff_tablet_authentication(db, username, password):
 
     return table_info is not None
     
-def get_role(username, password):
-    connection = sqlite3.connect('db')
+def get_role(db, username, password):
+    connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
     # Check if the username-password combination exists in the database
