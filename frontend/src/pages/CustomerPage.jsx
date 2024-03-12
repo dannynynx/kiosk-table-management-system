@@ -8,8 +8,10 @@ import Item from "../components/Item.jsx";
 import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
 import { useEffect } from "react";
 import axios from "axios";
+// import { useLocation } from 'react-router-dom';
 
 const CustomerPage = (props) => {
+    // const location = useLocation();
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
     useEffect(() => {
@@ -33,7 +35,7 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar/>
+                <TopBar tablenumber={1}/>
             </div>
             <div className='sidebar-container'>
                 <SideBar/>
