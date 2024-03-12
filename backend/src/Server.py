@@ -12,6 +12,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 cors = CORS(app)
+app.json.sort_keys = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
