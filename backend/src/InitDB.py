@@ -139,7 +139,19 @@ def initialise_db():
 
     tables = [
         ('0000', 0, False),  
-        ('0000', 0, False)
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
     ]
     cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied) VALUES (?, ?, ?)", tables)
 

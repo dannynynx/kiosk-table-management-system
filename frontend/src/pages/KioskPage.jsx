@@ -6,6 +6,7 @@ import axios from "axios";
 const KioskPage = () => {
     const [tableNumber, setTableNumber] = useState({table_id: null});
     const [code, setCode] = useState(null);
+    const [tables, setTables] = useState([])
     const generateCode = async (tableNumber)=> {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', tableNumber);
@@ -17,16 +18,37 @@ const KioskPage = () => {
             return null;
         }
     }
+    const selectTable = async ()=> {
+        try {
+            const response = await axios.get( 'http://127.0.0.1:5000/customer/showTable');
+            setTables(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            return null;
+        }
+    }
+    const confirmTableSelection = async (tableNumber)=> {
+        try {
+            const response = await axios.post( 'http://127.0.0.1:5000/customer/confirmTable', tableNumber);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            return null;
+        }
+    }
 
     const selectTableButton = () => {
         document.getElementById('first-page').style.display = "none";
         document.getElementById('selection-page').style.display = "flex";
+        selectTable();
     };
 
     const confirmTable = (tableNumber) => {
         setTableNumber({table_id: tableNumber});
         document.getElementById('table-confirmation-page').style.display = "flex";
         document.getElementById('popup-text').textContent = "You have selected Table #" + tableNumber;
+        confirmTableSelection(tableNumber);
     }
 
     const goBackTableSelection = () => {
@@ -56,19 +78,8 @@ const KioskPage = () => {
                     <h1 className='selection-title'>Select Table</h1>
                 </div>
                 <div className='table-selection-container'>
-                    <TablePreview tableNumber={'1'} onClick={() => confirmTable('1')}></TablePreview>
-                    <TablePreview tableNumber={'2'} onClick={() => confirmTable('2')}></TablePreview>
-                    <TablePreview tableNumber={'3'} onClick={() => confirmTable('3')}></TablePreview>
-                    <TablePreview tableNumber={'4'} onClick={() => confirmTable('4')}></TablePreview>
-                    <TablePreview tableNumber={'5'} onClick={() => confirmTable('5')}></TablePreview>
-                    <TablePreview tableNumber={'6'} onClick={() => confirmTable('6')}></TablePreview>
-                    <TablePreview tableNumber={'7'} onClick={() => confirmTable('7')}></TablePreview>
-                    <TablePreview tableNumber={'8'} onClick={() => confirmTable('8')}></TablePreview>
-                    <TablePreview tableNumber={'9'} onClick={() => confirmTable('9')}></TablePreview>
-                    <TablePreview tableNumber={'10'} onClick={() => confirmTable('10')}></TablePreview>
-                    <TablePreview tableNumber={'11'} onClick={() => confirmTable('11')}></TablePreview>
-                    <TablePreview tableNumber={'12'} onClick={() => confirmTable('12')}></TablePreview>
-                    <TablePreview tableNumber={'13'} onClick={() => confirmTable('13')}></TablePreview>
+                    {tables.map((table, key) => (
+                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? 'green' : 'red'} onClick={() => confirmTable(table.id)}></TablePreview>))}
 
                 </div>
             </section>
