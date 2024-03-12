@@ -1,9 +1,13 @@
-section.first-page {
+section.first-page, section.selection-page, section.table-code-page {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    background-image: url('../assets/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
 }
 
-.top-container {
+.top-container, .code-top-container {
     height: 85%;
     display: flex;
     justify-content: center;
@@ -11,12 +15,24 @@ section.first-page {
     text-align: center;
     line-height: 1;
 }
-.bottom-container {
+
+.code-top-container {
+    height: 60%;
+}
+
+.bottom-container , .code-bottom-container {
     height: 15%;
     background-color: #6a6fa2;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.code-bottom-container {
+    height: 40%;
+    background-color: #222a5c;
+    font-family: 'Bukhari Script', sans-serif;
+    flex-direction: column;
 }
 
 .kiosk-button {
@@ -52,6 +68,7 @@ section.first-page {
 .selection-title {
     margin-top: 0%;
     font-size: 4em;
+    color: white;
 }
 
 .selection-page {
@@ -60,4 +77,74 @@ section.first-page {
     display: none;
     justify-content: center;
     text-align: center;
+    flex-direction: column;
+}
+
+.table-selection-container {
+    height: 88%;
+    width: 98%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 1%;
+    overflow: auto;
+}
+
+.table-selection-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+.confirmation-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    width: 50%;
+    height: 50%;
+    background-color: #222a5c;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.popup-font {
+    font-size: 400%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.confirm-button {
+    width: 80%;
+    height: 20%;
+    margin: 1%;
+    background-color: #6a6fa2;
+    border: 0px;
+    font-size: 200%;
+    border-radius: 20px;
+    color: white;
+    font-family: 'Bukhari Script', sans-serif;
+}
+
+.confirm-button:hover {
+    background-color: #4d5074;
+}
+
+.table-code-page {
+    display: none;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
 }
