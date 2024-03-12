@@ -12,7 +12,23 @@ def staff_tablet_authentication(db, username, password):
     connection.close()
 
     return table_info is not None
+    
+def get_role(username, password):
+    connection = sqlite3.connect('your_database.db')
+    cursor = conn.cursor()
 
+    # Check if the username-password combination exists in the database
+    cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        role = result[0]
+    else:
+        role = None
+
+    connection.close()
+
+    return role
 
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
