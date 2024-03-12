@@ -164,16 +164,32 @@ def show_menu(db):
     cursor = connection.cursor()
     
     showMenu = '''
-    SELECT i.name, i.description, c.name, i.cost
+    SELECT DISTINCT i.name, i.description, c.name, i.cost, (SELECT group_concat(C.ingredient_name, ', ') 
+                                                            FROM ITEMS AS A 
+                                                            JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
+                                                            JOIN INGREDIENTS as C on C.ingredient_id = B.ingredient_id 
+                                                            WHERE A.item_id = i.item_id)
     FROM ITEMS AS i
-    JOIN CATEGORIES AS c ON i.category_id = c.category_id
+    JOIN CATEGORIES AS c ON i.category_id = c.category_id 
+    JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
+    JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
     '''
     cursor.execute(showMenu)
-    val = cursor.fetchall()
+    items = cursor.fetchall()
+    items_list = []
 
+    for item in items:
+        item_dict = {
+           "name": item[0],
+           "price": item[3],
+           "description": item[1],
+           "category": item[2],
+           "ingredients": item[4]
+        }
+        items_list.append(item_dict)
     connection.close()
 
-    return val
+    return items_list
 
 def get_all_categories(db):
     connection = sqlite3.connect(db)
