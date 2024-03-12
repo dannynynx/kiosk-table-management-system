@@ -5,13 +5,12 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useAddMenuItem, useMenu } from "../context/MenuContext.jsx";
+import { useAddMenuItem } from "../context/MenuContext.jsx";
 import { useEffect } from "react";
 import axios from "axios";
 
 const CustomerPage = (props) => {
     const addMenuItem = useAddMenuItem();
-    const getMenu = useMenu();
     useEffect(() => {
 
         const fetchData = async () => {
@@ -31,7 +30,7 @@ const CustomerPage = (props) => {
         return () => {
             // Cleanup logic here
         };
-    }, []);
+    }, [addMenuItem]);
     const { display } = props;
     return (
         <>
