@@ -5,18 +5,22 @@ import React from "react";
 
 const TopBar = () => {
 
-
-    const categories = [];
+    const [categories, setCategories] = React.useState([]);
+   
     React.useEffect(() => {
         const getCategories = async () => {
             try {
+                const list = [];
                 const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.json()) { 
-                    categories.push({
+                console.log(response);
+                for (const category of response.data) { 
+                    console.log(category);
+                    list.push({
                         id: category.category_id,
                         name: category.name,
                     })
                 }
+                setCategories(list);
             } catch (error) {
                 console.error('Error submitting data:', error);
             }
@@ -35,7 +39,7 @@ const TopBar = () => {
                         <h2 className="category" id={category.id}>{category.name}</h2>
                     
                 ))}
-                                </div>
+                </div>
             </div>
            
         </>

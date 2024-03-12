@@ -22,7 +22,7 @@ img.logo {
 }
 
 h2.category { 
-    border-right: 4px solid darkgray;
+    border-left: 4px solid darkgray;
     margin-right: 5px;
     padding: 10px;
     height: 80%;
