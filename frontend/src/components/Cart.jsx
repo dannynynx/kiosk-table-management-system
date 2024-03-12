@@ -2,17 +2,21 @@ import './Cart.css';
 import cross from '../assets/cross-icon.svg';
 import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
-import { useCart } from '../context/CartContext';
+import { useCart, useRemoveCartItem } from '../context/CartContext';
 import PopUp from "./PopUp";
 import { useState } from 'react';
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
+    const removeCartItem = useRemoveCartItem();
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
 
     const sendOrder = () => { 
+        getCart.forEach(item => {
+            removeCartItem(item.name);
+        })
         setPopupMessage("Your order has been sent");
         setPopUpVisible(true);
     }
@@ -20,6 +24,8 @@ const Cart = ({ toggleExpand }) => {
     const closePopUp = () => {
         setPopUpVisible(false);
     };
+
+    const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
 
 
     return (
@@ -31,6 +37,7 @@ const Cart = ({ toggleExpand }) => {
                 <div className='cart-content'>
                     {getCart.map(item => <CartItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)}
                 </div>
+                <div className='cart-total'>Total: {calculateTotal}</div>
                 <div className='cart-footer' onClick={sendOrder}>Order Now</div>
             </div>
             {isPopUpVisible && (
