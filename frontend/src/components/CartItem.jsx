@@ -2,18 +2,17 @@ import './CartItem.css'
 import add from '../assets/plus-icon.svg';
 import remove from '../assets/minus-icon.svg';
 import trash from '../assets/trash-icon.svg';
-import { useState } from "react";
 import PropTypes from "prop-types";
-import { useRemoveCartItem } from "../context/CartContext.jsx";
+import { useRemoveCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
 
 const CartItem = ({ name, price, qty }) => {
+    const updateCartItem = useUpdateCartItem();
     const removeCartItem = useRemoveCartItem();
-    const [quantity, setQuantity] = useState(qty);
-    const increaseQuantity = () => setQuantity(quantity + 1);
-    const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
+    const increaseQuantity = () => updateCartItem(name, qty + 1);
+    const decreaseQuantity = () => qty > 1 && updateCartItem(name, qty - 1);
 
     // Calculate the total price and format it with two decimal places
-    const totalPrice = (price * quantity).toFixed(2);
+    const totalPrice = (price * qty).toFixed(2);
 
     return (
         <>
@@ -22,7 +21,7 @@ const CartItem = ({ name, price, qty }) => {
                     <img src='https://via.placeholder.com/150' className='cart-item-img' alt='Item'/>
                     <div className='cart-item-qty-bar'>
                         <img src={add} className='cart-item-qty-btn' alt='plus icon' onClick={increaseQuantity}/>
-                        <span className='cart-item-qty'>{quantity}</span>
+                        <span className='cart-item-qty'>{qty}</span>
                         <img src={remove} className='cart-item-qty-btn' alt='minus icon' onClick={decreaseQuantity}/>
                     </div>
                 </div>
