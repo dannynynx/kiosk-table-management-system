@@ -1,6 +1,5 @@
 import sqlite3
 import random
-from ReadingDB import export_table_to_json
 import time
 
 def staff_tablet_authentication(db, username, password):
@@ -30,14 +29,16 @@ def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    cursor.execute("SELECT MAX(session_id) FROM TABLES")
+    max_session_id = cursor.fetchone()[0]
+    new_session_id = max_session_id + 1 if max_session_id is not None else 1
+
     code = generate_unique_code()
 
-    # Store the generated code
-    cursor.execute("UPDATE TABLES SET code=? WHERE table_id=?", (code, table_id))
-    # cursor.execute("UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?", (code, 1, table_id))
+    # Store the generated code and seesion_id
+    cursor.execute("UPDATE TABLES SET code=?, session_id=? WHERE table_id=?", (code, new_session_id, table_id))
 
     connection.commit()
-
 
     connection.close()
 
@@ -160,13 +161,54 @@ def show_menu(db):
     cursor = connection.cursor()
     
     showMenu = '''
-    select
-        items.name,
-        items.picture,
-        items.cost
-    from
-        menu join items on items.item_id = menu.item_id
+    SELECT DISTINCT i.name, i.description, c.name, i.cost, (SELECT group_concat(C.ingredient_name, ', ') 
+                                                            FROM ITEMS AS A 
+                                                            JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
+                                                            JOIN INGREDIENTS as C on C.ingredient_id = B.ingredient_id 
+                                                            WHERE A.item_id = i.item_id)
+    FROM ITEMS AS i
+    JOIN CATEGORIES AS c ON i.category_id = c.category_id 
+    JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
+    JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
     '''
     cursor.execute(showMenu)
-    connection.commit()
+    items = cursor.fetchall()
+    items_list = []
+
+    for item in items:
+        item_dict = {
+           "name": item[0],
+           "price": item[3],
+           "description": item[1],
+           "category": item[2],
+           "ingredients": item[4]
+        }
+        items_list.append(item_dict)
     connection.close()
+
+    return items_list
+
+def get_all_categories(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT *
+    FROM CATEGORIES
+    """
+
+    cursor.execute(sql)
+
+    categories = cursor.fetchall()
+    category_list = []
+
+    for category in categories:
+        category_dict = {
+            'category_id': category[0],
+            'name': category[1]
+        }
+        category_list.append(category_dict)
+
+    connection.close()
+    
+    return category_list
