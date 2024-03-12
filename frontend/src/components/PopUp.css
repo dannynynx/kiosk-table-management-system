@@ -12,9 +12,27 @@
     box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
 }
 
+.popup.visible {
+    display: flex; /* Use flex to center the .msg content */
+    align-items: center;
+    justify-content: center;
+}
+
 .msg {
     background-color: aliceblue;
-    width: 20%;
-    height: 20%;
-    margin: auto;
+    width: 60%; 
+    padding: 20px; 
+    text-align: center; 
+    box-sizing: border-box;
+    position: relative;
 }
+
+.msg .close-button {
+    position: absolute;
+    width: 50px;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }

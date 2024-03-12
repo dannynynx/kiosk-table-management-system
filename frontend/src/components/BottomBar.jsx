@@ -29,7 +29,7 @@ const BottomBar = () => {
                 <button className="bottom" onClick={handleRequestBill}><h3>Request the bill</h3></button>
             </div>
         {isPopUpVisible && (
-            <PopUp message={popupMessage} onClose={closePopUp} />
+            <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
         )}
         </>
     );

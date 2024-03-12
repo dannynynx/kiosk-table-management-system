@@ -1,26 +1,19 @@
 import "./PopUp.css";
 import zebra from "../assets/zebra.svg";
+import backArrow from '../assets/back-arrow-icon.svg';
 
 const PopUp = (props) => { 
 
-    let popupStyle = {
-        display: "block",
-    };
-
-    const handleClose = () => { 
-        popupStyle = { 
-            display: "none",
-        }
-    }
+    const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
     
     return (<>
         
-        <div className="popup" style={popupStyle} onClick={handleClose}>
+        <div className={popupClassName} >
             <div className="msg">
+                <button onClick={props.onClose} className="close-button"><img src={backArrow}></img></button>
                 <img className="logo" src={zebra}></img>
                 <h4>{props.message}</h4>
             </div>
-            
         </div>
 
     </>)
