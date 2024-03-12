@@ -4,7 +4,7 @@ import axios from 'axios';
 import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
 
-const TopBar = () => {
+const TopBar = ({tablenumber}) => {
 
     const [categories, setCategories] = React.useState([]);
     const filter = useFilterMenuItems(); 
@@ -14,9 +14,7 @@ const TopBar = () => {
             try {
                 const list = [];
                 const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                console.log(response);
                 for (const category of response.data) { 
-                    console.log(category);
                     list.push({
                         id: category.category_id,
                         name: category.name,
@@ -42,7 +40,7 @@ const TopBar = () => {
                     
                 ))}
                 </div>
-                <h2 className="table-number">#11</h2>
+                <h2 className="table-number">#{tablenumber}</h2>
             </div>
            
         </>

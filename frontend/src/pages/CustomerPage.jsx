@@ -8,8 +8,10 @@ import Item from "../components/Item.jsx";
 import { useAddMenuItem } from "../context/MenuContext.jsx";
 import { useEffect } from "react";
 import axios from "axios";
+import { useLocation } from 'react-router-dom';
 
 const CustomerPage = (props) => {
+    const location = useLocation();
     const addMenuItem = useAddMenuItem();
     useEffect(() => {
 
@@ -18,7 +20,6 @@ const CustomerPage = (props) => {
                 const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');
                 response.data.forEach((item) => {
                     addMenuItem(item);
-                    // console.log(item, getMenu);
                 });
 
             } catch (error) {
@@ -35,7 +36,7 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar/>
+                <TopBar tablenumber={location.state.tablenumber}/>
             </div>
             <div className='sidebar-container'>
                 <SideBar/>

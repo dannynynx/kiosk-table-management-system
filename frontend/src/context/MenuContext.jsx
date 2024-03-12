@@ -25,7 +25,6 @@ const MenuProvider = ({ children }) => {
     const addMenuItem = (item) => {
         setMenu(prevMenu => {
             const updatedMenu = [...prevMenu, item];
-            console.log(updatedMenu);
             return updatedMenu;
         });
     };
