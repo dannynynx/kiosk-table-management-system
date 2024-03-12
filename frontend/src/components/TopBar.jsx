@@ -3,6 +3,7 @@ import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
+import PropTypes from "prop-types";
 
 const TopBar = ({tablenumber}) => {
 
@@ -32,7 +33,7 @@ const TopBar = ({tablenumber}) => {
     return (
         <>
             <div className="topbar">
-                <img className="logo" src={zebra}></img>
+                <img className="logo" src={zebra} alt='Zebra Icon'></img>
                 <div className="categories">
                     <button><h2 className="all">All</h2></button>
                     {categories.map((category) => (
@@ -46,6 +47,10 @@ const TopBar = ({tablenumber}) => {
            
         </>
     );
+};
+
+TopBar.propTypes = {
+    tablenumber: PropTypes.number.isRequired,
 };
 
 export default TopBar;
