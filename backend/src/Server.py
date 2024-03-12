@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, select_table, go_back_table, show_menu, send_order_to_database, get_all_categories
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories
 from flask_cors import CORS
 
 app = Flask(__name__)
