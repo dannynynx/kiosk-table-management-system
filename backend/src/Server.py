@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, select_table, go_back_table, show_menu, send_order_to_database, get_all_categories
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -35,8 +35,10 @@ def staff_authentication():
     if not username or not password:
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
+    role = get_role(DB_PATH, username, password)
+
     if staff_tablet_authentication(DB_PATH, username, password):
-        return jsonify({'authentication': 'Successful', 'role': 1}), 200
+        return jsonify({'authentication': 'Successful', 'role': role}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
@@ -81,19 +83,19 @@ def showTable():
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route("/customer/selectTable", methods=['POST'])
-def selectTable():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = select_table(DB_PATH, table_id)
-    return jsonify(return_data), 200
+# @app.route("/customer/selectTable", methods=['POST'])
+# def selectTable():
+#     data = request.get_json()
+#     table_id = data.get('table_id')
+#     return_data = select_table(DB_PATH, table_id)
+#     return jsonify(return_data), 200
 
-@app.route("/customer/goBackTable", methods=['POST'])
-def goBackTable():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = go_back_table(DB_PATH, table_id)
-    return jsonify(return_data), 200
+# @app.route("/customer/goBackTable", methods=['POST'])
+# def goBackTable():
+#     data = request.get_json()
+#     table_id = data.get('table_id')
+#     return_data = go_back_table(DB_PATH, table_id)
+#     return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
