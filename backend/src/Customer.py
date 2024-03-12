@@ -12,7 +12,23 @@ def staff_tablet_authentication(db, username, password):
     connection.close()
 
     return table_info is not None
+    
+def get_role(username, password):
+    connection = sqlite3.connect('db')
+    cursor = connection.cursor()
 
+    # Check if the username-password combination exists in the database
+    cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        role = result[0]
+    else:
+        role = None
+
+    connection.close()
+
+    return role
 
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
@@ -116,11 +132,8 @@ def show_table(db):
     showTable = '''
     select
         table_id,
-        is_occupied
     from
         tables
-    where
-        is_occupied = 0
     '''
     cursor.execute(showTable)
     val = cursor.fetchall()
@@ -129,51 +142,67 @@ def show_table(db):
 
     return val
 
-def select_table(db, table_id):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
+# def select_table(db, table_id):
+#     connection = sqlite3.connect(db)
+#     cursor = connection.cursor()
     
-    selectTable = '''
-    UPDATE tables 
-    SET is_occupied = 1 
-    WHERE table_id = :o and
-    is_occupied = 0
-    '''
+#     selectTable = '''
+#     UPDATE tables 
+#     SET is_occupied =  
+#     WHERE table_id = :o and
+#     is_occupied = 0
+#     '''
 
-    cursor.execute(selectTable, {"o": table_id})
-    connection.commit()
-    connection.close()
+#     cursor.execute(selectTable, {"o": table_id})
+#     connection.commit()
+#     connection.close()
 
-def go_back_table(db, table_id):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
+# def go_back_table(db, table_id):
+#     connection = sqlite3.connect(db)
+#     cursor = connection.cursor()
     
-    goBackTable = '''
-    UPDATE tables 
-    SET is_occupied = 0 
-    WHERE table_id = :o and
-    is_occupied = 1
-    '''
+#     goBackTable = '''
+#     UPDATE tables 
+#     SET is_occupied = 0 
+#     WHERE table_id = :o and
+#     is_occupied = 1
+#     '''
 
-    cursor.execute(goBackTable, {"o": table_id})
-    connection.commit()
-    connection.close()
+#     cursor.execute(goBackTable, {"o": table_id})
+#     connection.commit()
+#     connection.close()
 
 def show_menu(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
     showMenu = '''
-    SELECT i.name, i.description, c.name, i.cost
+    SELECT DISTINCT i.name, i.description, c.name, i.cost, (SELECT group_concat(C.ingredient_name, ', ') 
+                                                            FROM ITEMS AS A 
+                                                            JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
+                                                            JOIN INGREDIENTS as C on C.ingredient_id = B.ingredient_id 
+                                                            WHERE A.item_id = i.item_id)
     FROM ITEMS AS i
-    JOIN CATEGORIES AS c ON i.category_id = c.category_id
+    JOIN CATEGORIES AS c ON i.category_id = c.category_id 
+    JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
+    JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
     '''
     cursor.execute(showMenu)
-    val = cursor.fetchall()
+    items = cursor.fetchall()
+    items_list = []
 
+    for item in items:
+        item_dict = {
+           "name": item[0],
+           "price": item[3],
+           "description": item[1],
+           "category": item[2],
+           "ingredients": item[4]
+        }
+        items_list.append(item_dict)
     connection.close()
 
-    return val
+    return items_list
 
 def get_all_categories(db):
     connection = sqlite3.connect(db)
