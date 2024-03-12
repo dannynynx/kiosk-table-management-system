@@ -47,7 +47,14 @@ def initialise_db():
         ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99),
         ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00),
         ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00),
-        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99), 
+        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99),
+        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99),
+        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99),
+        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00),
+        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99),
+        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99),
+        ('Korean BBQ', 'Why Not?', 4, 60.99),
+        ('Omakase', 'For the rich', 4, 200.00)
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost) VALUES (?, ?, ?, ?)", items)
 
