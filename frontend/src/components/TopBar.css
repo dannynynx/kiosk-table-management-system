@@ -36,4 +36,10 @@ button.category {
     margin-right: 5px;
     padding: 10px;
     height: 80%; 
+    background: none;
+}
+
+.table-number { 
+    margin: auto;
+    align-items: center;
 }

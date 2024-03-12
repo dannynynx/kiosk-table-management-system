@@ -36,12 +36,13 @@ const TopBar = () => {
             <div className="topbar">
                 <img className="logo" src={zebra}></img>
                 <div className="categories">
-                    <h2 className="all">All</h2>
+                    <button><h2 className="all">All</h2></button>
                 {categories.map((category, key) => (
                         <button onClick={() => filter(category.name)}><h2 className="category" id={category.id} >{category.name}</h2></button>
                     
                 ))}
                 </div>
+                <h2 className="table-number">#11</h2>
             </div>
            
         </>
