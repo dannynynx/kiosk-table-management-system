@@ -28,7 +28,8 @@ def initialise_db():
 
     ingredients = [('Bread',),('Avocado',),('Egg',),('Onion',),('Garlic',),('Beef',),('Tomato',),('Beef Stock',),
                     ('Flour',),('Milk',),('Cheese',),('Lasagna Sheets',),('Mozzarella',),('Basil',),
-                    ('Cocoa Powder',),('Sugar',),('Baking Powder',)]
+                    ('Cocoa Powder',),('Sugar',),('Baking Powder',),('Steak',),('Lettuce',),
+                    ('Fish',),('Potato',),('Matcha',),('Spaghetti',), ('Beef Mince',),('Chicken',),('Pork',)]
     cursor.executemany("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (?)", ingredients)
 
     # ITEMS
@@ -53,8 +54,7 @@ def initialise_db():
         ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00),
         ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99),
         ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99),
-        ('Korean BBQ', 'Why Not?', 4, 60.99),
-        ('Omakase', 'For the rich', 4, 200.00)
+        ('Korean BBQ', 'Why Not?', 4, 60.99)
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost) VALUES (?, ?, ?, ?)", items)
 
@@ -88,6 +88,24 @@ def initialise_db():
         (4, 15),
         (4, 16),
         (4, 17),
+        (5, 3),  # Scrambled eggs = egg
+        (6, 20), # Fish and Chips = fish, potato
+        (6, 21),
+        (7, 18), # Steak and salad = steak, lettuce, tomato, avocado
+        (7, 19),
+        (7, 7),
+        (7, 2),
+        (8, 10), # Matcha ice cream = milk, sugar, matcha, egg
+        (8, 16),
+        (8, 22),
+        (8, 3),
+        (9, 23), # Spaghetti Bolognese = spaghetti, mince, tomato, onion
+        (9, 24),
+        (9, 7),
+        (9, 4),
+        (10, 6), # Korean BBQ = beef, chicken, pork
+        (10, 25),
+        (10, 26)
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEM_INGREDIENTS (item_id, ingredient_id) VALUES (?, ?)", item_ingredients)
 
