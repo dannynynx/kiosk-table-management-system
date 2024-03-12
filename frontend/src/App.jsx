@@ -26,7 +26,15 @@ const App = () => {
                     </MenuProvider>
                 } />
 
-                <Route path='/menu/:id' element={<CustomerPage display={'item'}/>} />
+                <Route path='/menu/:id' element={
+                    <MenuProvider>
+                        <CartProvider>
+                            <PastOrdersProvider>
+                                <CustomerPage display={'item'}/>
+                            </PastOrdersProvider>
+                        </CartProvider>
+                    </MenuProvider>
+                } />
             </Routes>
         </>
     );

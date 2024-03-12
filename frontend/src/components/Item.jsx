@@ -15,10 +15,12 @@ const Item = () => {
     const addToCartContext = useAddCartItem();
     const updateCartItemContext = useUpdateCartItem();
     const { id: name } = useParams();
-    const item = getMenu.find(item => item.name === name);
-    const { price, description, ingredients } = item;
-
+    const linkProcessedMenu = getMenu.map(item => item.name.toLowerCase().replace(/\s/g, '-'));
+    const index = linkProcessedMenu.findIndex(item => item === name.toLowerCase().replace(/\s/g, '-'));
+    const item = getMenu[index];
+    const { price, description, ingredients } = getMenu[index];
     const [quantity, setQuantity] = useState(1);
+    console.log(price, description, ingredients);
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
