@@ -2,21 +2,27 @@ import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
+import { useFilterMenuItems } from "../context/MenuContext";
 
 const TopBar = () => {
 
-
-    const categories = [];
+    const [categories, setCategories] = React.useState([]);
+    const filter = useFilterMenuItems(); 
+   
     React.useEffect(() => {
         const getCategories = async () => {
             try {
+                const list = [];
                 const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.json()) { 
-                    categories.push({
+                console.log(response);
+                for (const category of response.data) { 
+                    console.log(category);
+                    list.push({
                         id: category.category_id,
                         name: category.name,
                     })
                 }
+                setCategories(list);
             } catch (error) {
                 console.error('Error submitting data:', error);
             }
@@ -32,10 +38,10 @@ const TopBar = () => {
                 <div className="categories">
                     <h2 className="all">All</h2>
                 {categories.map((category, key) => (
-                        <h2 className="category" id={category.id}>{category.name}</h2>
+                        <button onClick={() => filter(category.name)}><h2 className="category" id={category.id} >{category.name}</h2></button>
                     
                 ))}
-                                </div>
+                </div>
             </div>
            
         </>
