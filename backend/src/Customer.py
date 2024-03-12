@@ -197,9 +197,10 @@ def show_menu(db):
            "price": item[3],
            "description": item[1],
            "category": item[2],
-           "ingredients": item[4]
+           "ingredients": item[4].split(', ')
         }
         items_list.append(item_dict)
+
     connection.close()
 
     return items_list
