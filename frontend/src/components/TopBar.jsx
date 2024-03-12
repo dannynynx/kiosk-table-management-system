@@ -2,10 +2,12 @@ import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
+import { useFilterMenuItems } from "../context/MenuContext";
 
 const TopBar = () => {
 
     const [categories, setCategories] = React.useState([]);
+    const filter = useFilterMenuItems(); 
    
     React.useEffect(() => {
         const getCategories = async () => {
@@ -36,7 +38,7 @@ const TopBar = () => {
                 <div className="categories">
                     <h2 className="all">All</h2>
                 {categories.map((category, key) => (
-                        <h2 className="category" id={category.id}>{category.name}</h2>
+                        <button onClick={() => filter(category.name)}><h2 className="category" id={category.id} >{category.name}</h2></button>
                     
                 ))}
                 </div>

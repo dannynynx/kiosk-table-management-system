@@ -28,6 +28,10 @@ h2.category {
     height: 80%;
 }
 
+button.category { 
+    background: none;
+}
+
 .all { 
     margin-right: 5px;
     padding: 10px;
