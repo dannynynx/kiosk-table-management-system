@@ -36,7 +36,7 @@ def confirm_table(db, table_id):
     code = generate_unique_code()
 
     # Store the generated code and seesion_id
-    cursor.execute("UPDATE TABLES SET code=?, session_id=? WHERE table_id=?", (code, new_session_id, table_id))
+    cursor.execute("UPDATE TABLES SET code=?, session_id=?, is_occupied=? WHERE table_id=?", (code, new_session_id, True, table_id))
 
     connection.commit()
 
@@ -115,16 +115,24 @@ def show_table(db):
     
     showTable = '''
     select
-        table_id,
+        table_id, is_occupied
     from
         tables
     '''
     cursor.execute(showTable)
-    val = cursor.fetchall()
+
+    table_list = []
+    tables = cursor.fetchall()
     
+    for table in tables:
+        table_dict = {
+            "id": table[0],
+            "avail": table[1]
+        }
+        table_list.append(table_dict)
     connection.close()
 
-    return val
+    return table_list
 
 # def select_table(db, table_id):
 #     connection = sqlite3.connect(db)
