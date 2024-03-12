@@ -16,7 +16,7 @@ const Item = () => {
     const updateCartItemContext = useUpdateCartItem();
     const { id: name } = useParams();
     const item = getMenu.find(item => item.name === name);
-    const { price, description } = item;
+    const { price, description, ingredients } = item;
 
     const [quantity, setQuantity] = useState(1);
     const increaseQuantity = () => setQuantity(quantity + 1);
@@ -57,9 +57,7 @@ const Item = () => {
                     <div className='divider'></div>
                     <div className='ingredients-header'>Ingredients</div>
                     <ul className='ingredients'>
-                        <li>Plate</li>
-                        <li>Spoon</li>
-                        <li>Fork</li>
+                        {ingredients.map(ingredient => <li key={ingredient}>{ingredient}</li>)}
                     </ul>
                 </div>
             </div>

@@ -24,8 +24,8 @@ const useCart = () => {
 
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([
-        { name: 'food', description: 'mm..food', category: 'good food', price: 9.99, qty: 1},
-        { name: 'food2', description: 'mm..food', category: 'good food', price: 19.99, qty: 4},
+        { name: 'food', price: 9.99, qty: 1},
+        { name: 'food2', price: 19.99, qty: 4},
     ]);
 
     const addCartItem = (item) => {
