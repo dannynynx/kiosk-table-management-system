@@ -14,9 +14,6 @@ const useAddMenuItem = () => {
 
 const MenuProvider = ({ children }) => {
     const [menu, setMenu] = useState([
-        { name: 'food', price: 9.99, description: 'mm..food', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
-        { name: 'food2', price: 19.99, description: 'mm..food2', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
-        { name: 'food3', price: 29.99, description: 'mm..food3', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
         { name: 'food1', price: 9.99, description: 'mm..food1', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
         { name: 'food2', price: 19.99, description: 'mm..food2', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
         { name: 'food3', price: 29.99, description: 'mm..food3', category: 'good food', ingredients: ['plate', 'spoon', 'fork'] },
