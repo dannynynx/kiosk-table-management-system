@@ -2,16 +2,18 @@ import './CartItem.css'
 import add from '../assets/plus-icon.svg';
 import remove from '../assets/minus-icon.svg';
 import trash from '../assets/trash-icon.svg';
-import {useState} from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
+import { useRemoveCartItem } from "../context/CartContext.jsx";
 
-const CartItem = () => {
-    const ItemPrice = 9.99;
-    const [quantity, setQuantity] = useState(1);
-    const increaseQuantity = () => quantity < 5 && setQuantity(quantity + 1);
+const CartItem = ({ name, price, qty }) => {
+    const removeCartItem = useRemoveCartItem();
+    const [quantity, setQuantity] = useState(qty);
+    const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     // Calculate the total price and format it with two decimal places
-    const totalPrice = (ItemPrice * quantity).toFixed(2);
+    const totalPrice = (price * quantity).toFixed(2);
 
     return (
         <>
@@ -25,14 +27,20 @@ const CartItem = () => {
                     </div>
                 </div>
                 <div className='name-price-container'>
-                    <h2 className='cart-item-name'>Some good food sdfsdf</h2>
+                    <h2 className='cart-item-name'>{name}</h2>
                     <h3 className='cart-item-price'>${totalPrice}</h3>
                 </div>
-                <img src={trash} className='cart-item-trash-btn' alt='Trash Icon'/>
+                <img src={trash} className='cart-item-trash-btn' alt='Trash Icon' onClick={() => removeCartItem(name)}/>
             </div>
             <div className='cart-item-divider'></div>
         </>
     );
 }
+
+CartItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    qty: PropTypes.number.isRequired,
+};
 
 export default CartItem;

@@ -6,21 +6,42 @@ import add from '../assets/plus-icon.svg';
 import remove from '../assets/minus-icon.svg';
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
+import { useMenu } from "../context/MenuContext.jsx";
+import { useCart, useAddCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
 
 const Item = () => {
-    const { id } = useParams();
+    const getMenu = useMenu();
+    const getCart = useCart();
+    const addToCartContext = useAddCartItem();
+    const updateCartItemContext = useUpdateCartItem();
+    const { id: name } = useParams();
+    const item = getMenu.find(item => item.name === name);
+    const { price, description } = item;
+
     const [quantity, setQuantity] = useState(1);
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
+    const addItemToCart = (quantity) => {
+        const isItemInCart = getCart.some(cartItem => cartItem.name === name);
+        if (!isItemInCart) {
+            const itemWithQty = { ...item, qty: quantity };
+            addToCartContext(itemWithQty);
+        } else {
+            const existingItem = getCart.find(cartItem => cartItem.name === name);
+            const newQty = existingItem.qty + quantity;
+            updateCartItemContext(name, newQty);
+        }
+        setQuantity(1)
+    }
 
     return (
         <div className='item'>
             <Link to='/menu'><img src={backArrow} className='back-arrow' alt='Back Arrow Icon'/></Link>
-            <img src={addToCart} className='add-to-cart' alt='Cart Plus Icon'/>
+            <img src={addToCart} className='add-to-cart' alt='Cart Plus Icon' onClick={() => addItemToCart(quantity)}/>
             <div className='item-container'>
                 <div className='item-image-container'>
-                    <h1 className='item-name'>{id}</h1>
+                    <h1 className='item-name'>{name}</h1>
                     <img src={placeholderItem} className='item-image' alt='Placeholder Item'/>
                     <div className='item-quantity-bar'>
                         <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
@@ -29,10 +50,10 @@ const Item = () => {
                     </div>
                 </div>
                 <div className='description-container'>
-                    <h2 className='price'>$9.99</h2>
+                    <h2 className='price'>${price}</h2>
                     <div className='divider'></div>
                     <h3 className='description-header'>Description</h3>
-                    <p className='description-content'>Our tutor would enjoy food that looks like this.</p>
+                    <p className='description-content'>{description}</p>
                     <div className='divider'></div>
                     <div className='ingredients-header'>Ingredients</div>
                     <ul className='ingredients'>
