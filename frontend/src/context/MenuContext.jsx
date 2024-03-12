@@ -2,34 +2,37 @@ import { createContext, useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 const MenuContext = createContext();
-const addMenuItemContext = createContext();
+const InitialiseMenuContext = createContext()
+const AddMenuItemContext = createContext();
 
 const useMenu = () => {
     return useContext(MenuContext);
 }
 
+const useInitialiseMenu = () => {
+    return useContext(InitialiseMenuContext);
+}
+
 const useAddMenuItem = () => {
-    return useContext(addMenuItemContext);
+    return useContext(AddMenuItemContext);
 }
 
 const MenuProvider = ({ children }) => {
-    const [menu, setMenu] = useState([
-
-    ]);
+    const [menu, setMenu] = useState([]);
 
     const addMenuItem = (item) => {
-        setMenu(prevMenu => {
-            const updatedMenu = [...prevMenu, item];
-            console.log(updatedMenu);
-            return updatedMenu;
-        });
+        if (!menu.some(existingItem => existingItem === item)) {
+            setMenu([...menu, item]);
+        }
     };
 
     return (
         <MenuContext.Provider value={menu}>
-            <addMenuItemContext.Provider value={addMenuItem}>
-                {children}
-            </addMenuItemContext.Provider>
+            <InitialiseMenuContext.Provider value={setMenu}>
+                <AddMenuItemContext.Provider value={addMenuItem}>
+                    {children}
+                </AddMenuItemContext.Provider>
+            </InitialiseMenuContext.Provider>
         </MenuContext.Provider>
     );
 }
@@ -39,4 +42,4 @@ MenuProvider.propTypes = {
 };
 
 export default MenuProvider;
-export { useMenu, useAddMenuItem };
+export { useMenu, useInitialiseMenu, useAddMenuItem };

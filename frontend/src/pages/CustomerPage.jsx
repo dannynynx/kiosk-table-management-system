@@ -5,32 +5,30 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useAddMenuItem } from "../context/MenuContext.jsx";
+import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
 import { useEffect } from "react";
 import axios from "axios";
 
 const CustomerPage = (props) => {
-    const addMenuItem = useAddMenuItem();
+    const initialiseMenuItem = useInitialiseMenu();
+    const getMenu = useMenu();
     useEffect(() => {
 
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');
-                response.data.forEach((item) => {
-                    addMenuItem(item);
-                    // console.log(item, getMenu);
-                });
-
+                const data = response.data;
+                    initialiseMenuItem(data);
             } catch (error) {
                 console.error('Error fetching menu:', error);
             }
         };
 
-        fetchData()
+        fetchData().then(() => console.log(getMenu));
         return () => {
             // Cleanup logic here
         };
-    }, [addMenuItem]);
+    }, []);
     const { display } = props;
     return (
         <>

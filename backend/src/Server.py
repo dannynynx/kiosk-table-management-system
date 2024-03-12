@@ -36,7 +36,7 @@ def staff_authentication():
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
     if staff_tablet_authentication(DB_PATH, username, password):
-        return jsonify({'authentication': 'Successful'}), 200
+        return jsonify({'authentication': 'Successful', 'role': 1}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
