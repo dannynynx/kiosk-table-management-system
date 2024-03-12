@@ -14,8 +14,8 @@ def staff_tablet_authentication(db, username, password):
     return table_info is not None
     
 def get_role(username, password):
-    connection = sqlite3.connect('your_database.db')
-    cursor = conn.cursor()
+    connection = sqlite3.connect('db')
+    cursor = connection.cursor()
 
     # Check if the username-password combination exists in the database
     cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
