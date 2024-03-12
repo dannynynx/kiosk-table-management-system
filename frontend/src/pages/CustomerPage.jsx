@@ -5,32 +5,49 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import CartProvider from "../context/CartContext.jsx";
-import PastOrdersProvider from "../context/PastOrdersContext.jsx";
-import MenuProvider from "../context/MenuContext.jsx";
+import { useAddMenuItem } from "../context/MenuContext.jsx";
+import { useEffect } from "react";
+import axios from "axios";
 
 const CustomerPage = (props) => {
+    const addMenuItem = useAddMenuItem();
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');
+                response.data.forEach((item) => {
+                    addMenuItem(item);
+                    // console.log(item, getMenu);
+                });
+
+            } catch (error) {
+                console.error('Error fetching menu:', error);
+            }
+        };
+
+        fetchData()
+        return () => {
+            // Cleanup logic here
+        };
+    }, [addMenuItem]);
     const { display } = props;
     return (
-        <MenuProvider>
-            <CartProvider>
-                <PastOrdersProvider>
-                    <div className='topbar-container'>
-                        <TopBar />
-                    </div>
-                    <div className='sidebar-container'>
-                        <SideBar />
-                    </div>
-                    <div className='bottombar-container'>
-                        <BottomBar />
-                    </div>
-                    <div className='main-content-container'>
-                        {display === 'menu' && <Menu />}
-                        {display === 'item' && <Item />}
-                    </div>
-                </PastOrdersProvider>
-            </CartProvider>
-        </MenuProvider>
+        <>
+            <div className='topbar-container'>
+                <TopBar/>
+            </div>
+            <div className='sidebar-container'>
+                <SideBar/>
+            </div>
+            <div className='bottombar-container'>
+                <BottomBar/>
+            </div>
+            <div className='main-content-container'>
+                {display === 'menu' && <Menu/>}
+                {display === 'item' && <Item/>}
+            </div>
+        </>
     );
 };
 
