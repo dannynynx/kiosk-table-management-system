@@ -1,0 +1,5 @@
+Week 1 : Group formed and named. Selected Scrum Master (Sree) and product owner(me). Created the Jira Site. Set up communication channels(discord).Researched the yayoi ordering system. Decided which systems to decide how to do bonus features. Decided what languages were using for the project.
+Week 2 : discuss proposal and ideas on what we should do for the project. We sorted out how the site would look like using canva. Started the storyboard - we planned to finish the proposal by this week however we realised we could not finish it before week 3. 
+week 3 : Week 3: Finished proposal - frontend did storyboarding. Discussed task allocation for sprint 1.
+week 4: did the figma design for it, danny ended up finishing it for us
+week 5: doing the sidebar, did the cart and past orders page however i did the bare bones with no functionality - task got transferred to William and I ended up doing TopBar and Bottom Bar.
