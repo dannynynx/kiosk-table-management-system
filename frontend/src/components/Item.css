@@ -46,11 +46,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 0.5em 2em;
-    border: #2754A5 solid 0.4em;
+    border: #2754A5 solid 0.2em;
+    border-radius: 1em;
 }
 
 .quantity-bar-icon {
-    width: 3em;
+    width: 2em;
     height: auto;
 }
 
@@ -61,6 +62,7 @@
 
 .quantity-text {
     font-size: 3em;
+    font-weight: 600;
 }
 
 .item-container {
