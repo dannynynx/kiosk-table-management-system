@@ -23,10 +23,7 @@ const useCart = () => {
 }
 
 const CartProvider = ({ children }) => {
-    const [cart, setCart] = useState([
-        { name: 'food', price: 9.99, qty: 1},
-        { name: 'food2', price: 19.99, qty: 4},
-    ]);
+    const [cart, setCart] = useState([]);
 
     const addCartItem = (item) => {
         setCart([...cart, item]);
