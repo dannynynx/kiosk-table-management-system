@@ -40,9 +40,6 @@ const CustomerPage = (props) => {
             <div className='sidebar-container'>
                 <SideBar/>
             </div>
-            <div className='bottombar-container'>
-                <BottomBar/>
-            </div>
             <div className='main-content-container'>
                 {display === 'menu' && <Menu/>}
                 {display === 'item' && <Item/>}

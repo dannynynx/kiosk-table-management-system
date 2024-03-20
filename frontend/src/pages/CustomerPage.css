@@ -30,7 +30,7 @@
 .main-content-container {
     position: fixed;
     top: 6em;
-    bottom: 6em;
+    bottom: 0.001em;
     right: 6em;
     left: 0;
     background-color: #ffffff;
