@@ -1,0 +1,24 @@
+Week 1:
+For the first week, we formed our group and named ourselves Blue Zebra. We decided to do the Wait Management System project and decided that Sree would be the Scrum Master and Ashley would be the Product Owner. We were assigned by the Scrum Master to find pre-existing waiting management systems and figure out the pros and cons of each system. I had a search about Japanese ticket machines as well as NFC tag systems. After that we had a meeting to go through everyones research and we collectively decided to choose 2 waiting systems to talk about in our proposal. Our plan for next week will be to complete our proposal doc so we can start coding our waiting management system.
+
+Week 2:
+- As a group we discussed about the proposal, and gave ideas on what we should do for the project
+- The frontend team decided to use canva to sketch up a design for our pages
+- We started on the story board that helped out with explaining our user stoires
+- we planned on finishing the proposal by this week, but due to clashing times and unavailabilities, we did not get to finish it before week 3
+- the goal for next week was to finish the proposal so we can start coding
+
+Week 3:
+- got to finish the proposal on time, so we had a chance to start working on our code
+- started to allocate sprint one with eachother
+- the storyboard design was not to par so we created a new design, a bit more of a modern look on canva
+- goal for next week was to figure out the code for login and kiosk (including how to authenticate)
+
+Week 4:
+- customer section was pretty much done on the frontend ends, however a difficulty we found was that we wernt communicating that much with backend, so things got a bit hard when it came to connecting things together.
+- Nonetheless, i completed the design for login and kiosk pages, 
+- week 5 goal is to finish as much as we can of sprint 1 for the first demo
+
+Week 5:
+- Completed the code design for the Login page (1 page), and the kiosk page (3 pages in total with a pop up confirmation)
+- some sections currently are hard coded, but the functionality of it still remains good
