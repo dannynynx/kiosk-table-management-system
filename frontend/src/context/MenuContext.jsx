@@ -24,6 +24,13 @@ const useFilterMenuItems = () => {
 
 const MenuProvider = ({ children }) => {
     const [menu, setMenu] = useState([]);
+    const [filteredMenu, setFilteredMenu] = useState([]);
+
+
+    const initialiseMenu = (data) => {
+        setMenu(data);
+        setFilteredMenu(data); // Initially, set filtered menu to full menu
+    };
 
     const addMenuItem = (item) => {
         if (!menu.some(existingItem => existingItem === item)) {
@@ -37,8 +44,8 @@ const MenuProvider = ({ children }) => {
     };
 
     return (
-        <MenuContext.Provider value={menu}>
-            <InitialiseMenuContext.Provider value={setMenu}>
+        <MenuContext.Provider value={filteredMenu}>
+            <InitialiseMenuContext.Provider value={initialiseMenu}>
                 <FilterMenuItemsContext.Provider value={filterMenu}>
                     <AddMenuItemContext.Provider value={addMenuItem}>
                         {children}
