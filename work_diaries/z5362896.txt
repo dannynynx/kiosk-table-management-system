@@ -3,3 +3,4 @@ Week 2 : discuss proposal and ideas on what we should do for the project. We sor
 week 3 : Week 3: Finished proposal - frontend did storyboarding. Discussed task allocation for sprint 1.
 week 4: did the figma design for it, danny ended up finishing it for us
 week 5: doing the sidebar, did the cart and past orders page however i did the bare bones with no functionality - task got transferred to William and I ended up doing TopBar and Bottom Bar.
+week 6: worked on the categories and table number feature 
