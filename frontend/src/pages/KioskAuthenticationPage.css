@@ -1,0 +1,65 @@
+.container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background-image: url('../assets/login-background.jpg');
+    background-size: cover;
+    background-position: center;
+    flex-direction: row;
+}
+
+.box-container {
+    background-color: #141e42;
+    width: 50%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #e7eaf9;
+    border-radius: 20px;
+}
+
+.authentication-title {
+    color: #e7eaf9;
+    font-family: 'Bukhari Script', sans-serif;
+    font-size: 6em;
+    font-weight: 200;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin: 0px;
+}
+
+.text-description {
+    color: #e7eaf9;
+    font-size: 2em;
+    text-align: center;
+}
+
+.code-input {
+    background-color: #e7eaf9;
+    color: #141e42;
+    font-weight: bold;
+    text-align: center;
+    width: 80%;
+    height: 20%;
+    border: 0px;
+    font-size: 4em;
+    margin-bottom: 2%;
+}
+
+.code-confirmation {
+    background-color: #8086b3;
+    color: #e7eaf9;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 20px;
+    width: 80%;
+    height: 20%;
+    border: 0px;
+    font-size: 4em;
+}
+
+.code-confirmation:hover {
+    background-color: #5c6081;
+}

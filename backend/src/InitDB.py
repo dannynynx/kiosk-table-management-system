@@ -28,7 +28,9 @@ def initialise_db():
 
     ingredients = [('Bread',),('Avocado',),('Egg',),('Onion',),('Garlic',),('Beef',),('Tomato',),('Beef Stock',),
                     ('Flour',),('Milk',),('Cheese',),('Lasagna Sheets',),('Mozzarella',),('Basil',),
-                    ('Cocoa Powder',),('Sugar',),('Baking Powder',)]
+                    ('Cocoa Powder',),('Sugar',),('Baking Powder',),('Steak',),('Lettuce',),
+                    ('Fish',),('Potato',),('Matcha',),('Spaghetti',), ('Beef Mince',),('Chicken',),('Pork',),
+                    ('Rice', ),('Salmon',),('Tuna',),('Scallop',),('Squid',),('Crab',),('Uni',)]
     cursor.executemany("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (?)", ingredients)
 
     # ITEMS
@@ -47,7 +49,14 @@ def initialise_db():
         ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99),
         ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00),
         ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00),
-        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99), 
+        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99),
+        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99),
+        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99),
+        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00),
+        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99),
+        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99),
+        ('Korean BBQ', 'Why Not?', 4, 60.99),
+        ('Omakase', 'For the ballers', 4, 200.000)
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost) VALUES (?, ?, ?, ?)", items)
 
@@ -63,24 +72,49 @@ def initialise_db():
     cursor.execute(sql4)
 
     item_ingredients = [
-        (1, 1),  # Avo toast = bread, avo, egg 
+        (1, 1),   # Avo toast = bread, avo, egg 
         (1, 2),
         (1, 3),
-        (2, 4),  # Lasagna = onion, garlic, beef, beef stock, milk, cheese, lasagna sheets.
+        (2, 4),   # Lasagna = onion, garlic, beef, beef stock, milk, cheese, lasagna sheets.
         (2, 5),
         (2, 6),
         (2, 8),
         (2, 10),
         (2, 11),
         (2, 12),
-        (3, 7),  # Margherita pizza = tomato, flour, mozzarella, basil
+        (3, 7),   # Margherita pizza = tomato, flour, mozzarella, basil
         (3, 9),
         (3, 13),
         (3, 14),
-        (4, 9),  # Chocolate cake = flour, cocoa powder, sugar, baking powder
+        (4, 9),   # Chocolate cake = flour, cocoa powder, sugar, baking powder
         (4, 15),
         (4, 16),
         (4, 17),
+        (5, 3),   # Scrambled eggs = egg
+        (6, 20),  # Fish and Chips = fish, potato
+        (6, 21),
+        (7, 18),  # Steak and salad = steak, lettuce, tomato, avocado
+        (7, 19),
+        (7, 7),
+        (7, 2),
+        (8, 10),  # Matcha ice cream = milk, sugar, matcha, egg
+        (8, 16),
+        (8, 22),
+        (8, 3),
+        (9, 23),  # Spaghetti Bolognese = spaghetti, mince, tomato, onion
+        (9, 24),
+        (9, 7),
+        (9, 4),
+        (10, 6),  # Korean BBQ = beef, chicken, pork
+        (10, 25),
+        (10, 26),
+        (11, 27), # Omakase = rice, salmon, tuna, scallop, squid, crab, uni
+        (11, 28),
+        (11, 29),
+        (11, 30),
+        (11, 31),
+        (11, 32),
+        (11, 33)
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEM_INGREDIENTS (item_id, ingredient_id) VALUES (?, ?)", item_ingredients)
 
@@ -98,50 +132,66 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS TABLES (
         table_id INTEGER PRIMARY KEY AUTOINCREMENT,
         code TEXT NOT NULL,
-        is_occupied BOOLEAN NOT NULL DEFAULT 0
+        session_id INTEGER NOT NULL DEFAULT 0,
+        is_occupied BOOLEAN NOT NULL DEFAULT FALSE
     )"""
     cursor.execute(sql6)
 
     tables = [
-        ('????', 0),  
-        ('????', 0)
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
+        ('0000', 0, False),  
+        ('0000', 0, False),
     ]
-    cursor.executemany("INSERT INTO TABLES (code, is_occupied) VALUES (?, ?)", tables)
+    cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied) VALUES (?, ?, ?)", tables)
 
     # ORDERS
     sql7 = """
     CREATE TABLE IF NOT EXISTS ORDERS ( 
-        order_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        order_id INTEGER PRIMARY KEY,
         table_id INTEGER,
-        item_id INTEGER NOT NULL,
-        quantity INTEGER NOT NULL,
-        FOREIGN KEY (item_id) REFERENCES ITEMS(item_id),
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+        session_id INTEGER
     )"""
     cursor.execute(sql7)
 
-    # STAFF
     sql8 = """
+    CREATE TABLE IF NOT EXISTS IN_ORDER (
+        order_id INTEGER,
+        item_id INTEGER,
+        quantity INTEGER,
+        FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
+        FOREIGN KEY (item_id) REFERENCES ITEMS(item_id)
+    )"""
+    cursor.execute(sql8)
+
+    # STAFF
+    sql9 = """
     CREATE TABLE IF NOT EXISTS STAFF (
         staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password TEXT NOT NULL,
-        table_id INTEGER,
-        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+        role TEXT NOT NULL
     )"""
-    cursor.execute(sql8)
+    cursor.execute(sql9)
     # tables numbers are 0 for all staff
     staff_logins = [
         ('table1_login', 'table1_password', '1'),
         ('table2_login', 'table2_password', '2'),
-        ('wait', 'wait_password', '0'),
-        ('kitchen', 'kitchen_password', '0'),
-        ('manager', 'manager_password', '0')
+        ('wait', 'wait_password', 'wait'),
+        ('kitchen', 'kitchen_password', 'kitchen'),
+        ('manager', 'manager_password', 'manager')
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, table_id) VALUES (?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password, role) VALUES (?, ?, ?)", staff_logins)
 
     connection.commit()
     connection.close()
-
-# Call the function to initialise the database
-initialise_db()

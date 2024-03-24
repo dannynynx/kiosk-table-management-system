@@ -1,0 +1,36 @@
+Week 1:
+- Group was formed and named.
+- Selected Scrum Master (Sree) and Product Owner (Ashley)
+- Created Jira scrum board and communication server (discord + messenger)
+- Assigned to research 1 pre existing waiting management system (kiosk) and outline the pros and cons
+- For week 2: we will hopefully complete the proposal doc so we can start coding and setting up our project
+
+Week 2: 
+- Researched more on the impacts of the Kiosk system highlighting potential process flaws which can be improved on by our product
+- Created user stories for the proposal + project and together with the backend split them up into the 3 different sprints.
+- Assigned different user stories and wrote stub functions for customer ordering functions.
+- Came up with rough diagram of the system architecture diagram and external actors
+- For week 3: finalise and finish my part for the proposal so we can start coding and implementing functions
+
+Week 3: 
+- Finished and changed the format of the Kiosk system to match the format in the proposal
+- Decided on what database engine to use (sqlite3) as well as the structure of our tables in the database
+- Complete the jusitification of 2 of the novel functionalities
+- Create the orders database
+- Create planned out functions for my assigned functions in Sprint 1
+- With the backend, decided on the format for the server file
+- Decided on the methods used for the server routes
+- For week 4: set up our backend repository and start coding
+
+Week 4: 
+- Create and set up customer, manager, kitchen, waiting, database and server files with backend team
+- Finish implementation of customer ordering functions as well as server routes
+- For week 5: hopefully all the code will be working so we can work on testing and fixing issues so we can present on wedneday
+
+Week 5:
+- Fixed up and changed the implementation of the customer ordering functionality as majority was done in the frontend
+- Created a function to parse information from the frontend and put it into the database and server route for the function
+- Fixed errors in the backend code
+- Added a get all categories function and server route to help the frontend
+- Fixed show menu output format to the format set out by frontend
+- Added menu item pictures to the backend to be used by the frontend

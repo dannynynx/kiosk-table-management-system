@@ -4,6 +4,9 @@ import os
 
 # GOT INFO FROM: https://www.bacancytechnology.com/qanda/python/return-sql-data-in-json-format-python 
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
+
 def export_table_to_json(table_name, file_name):
     connection = sqlite3.connect("BlueZebra.db")
     cursor = connection.cursor()
@@ -41,7 +44,6 @@ tables_to_export = {
     'STAFF': 'staff.json'
 }
 
+
 for table_name, file_name in tables_to_export.items():
     export_table_to_json(table_name, file_name)
-
-print("Data exported to JSON files.")

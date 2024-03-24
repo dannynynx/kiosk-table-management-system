@@ -1,0 +1,20 @@
+Week 1
+Formed our group and selected Sree as Scrum Master.
+Researched the virtual menu system at Don Don, and discussed the pros and cons with the team.
+Decided on which waiting systems had the most potential cons to bonus features.
+Set up further meeting times and consolidated languages to use. Created meeting documents and discord channels.
+
+Week 2
+Team split into backend and frontend developers. 
+I was put into backend. 
+I worked on writing the background information, user stories and the system architecture diagram. 
+I wrote stub functions for basic functions that we needed in python, like a customer selecting table or adding orders.
+
+Week 3
+I mainly focussed on proofreading and adding any additional information for the project proposal. 
+I started on creating databases, taking inspiration from my previous coding courses by using SQLite, as well as creating more python stubs for some functions to satisfy additional user stories.
+
+Week 4
+Discussed with backend developers to fully flesh out the languages and structure of how to conduct our work. 
+Installed SQLite, Flask and Postman to write and test my backend code. 
+Wrote the functionality of some customer based stories. 
