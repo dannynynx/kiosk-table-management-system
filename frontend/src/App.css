@@ -4,6 +4,39 @@ body {
     border: 0;
 }
 
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+table th {
+    border: 1px solid black;
+    padding: 0.5em;
+    font-size: 1.2em;
+}
+
+table td {
+    border: 1px solid black;
+    padding: 0.5em;
+    text-align: center;
+}
+
+table caption {
+    font-size: 3em;
+    font-weight: 600;
+}
+
+.logout-btn {
+    background-color: black;
+    color: white;
+    padding: 1em;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    border-radius: 2em;
+    font-weight: 600;
+}
+
 ::-webkit-scrollbar {
     width: 1em;
 }
