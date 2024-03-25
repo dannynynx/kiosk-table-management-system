@@ -9,11 +9,11 @@
 
 .sidebar-container {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 6em;
+    left: 0;
     height: 100%;
-    width: 6em;
-    background-color: #2754A5;
+    width: 12em;
+    background-color: white;
     z-index: 4; /* stack sidebar on top of other bars */
 }
 
@@ -30,9 +30,9 @@
 .main-content-container {
     position: fixed;
     top: 6em;
-    bottom: 0.001em;
-    right: 6em;
-    left: 0;
+    bottom: 0;
+    right: 0;
+    left: 12em;
     background-color: #ffffff;
     overflow: auto;
     display: flex;

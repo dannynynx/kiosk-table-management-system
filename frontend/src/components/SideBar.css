@@ -17,10 +17,20 @@
     height: 100%;
     position: fixed;
     top: 0;
-    right: 6em;
+    left: 6em;
     background-color: #D3D3D3;
     transition: width 0.3s ease;
     border-radius: 1em;
+}
+.categories { 
+    width: 80%;
+    height: 100%;
+    /* color: darkslategray; */
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    gap: 3em;
+    /* align-items: center; */
 }
 
 .sidebar.expanded {
