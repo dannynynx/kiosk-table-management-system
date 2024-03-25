@@ -33,8 +33,10 @@ const MenuProvider = ({ children }) => {
 
 
     const filterMenu = (category) => { 
-        menu.some(item => item.category === category)
-    };
+        const filteredItems = menu.filter(item => item.category === category);
+        console.log(filteredItems);
+        return filteredItems;
+    }
 
     return (
         <MenuContext.Provider value={menu}>
