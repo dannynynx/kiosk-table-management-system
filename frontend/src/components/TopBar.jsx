@@ -2,13 +2,10 @@ import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
-import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
 const TopBar = ({tablenumber, onCategorySelect}) => {
-
     const [categories, setCategories] = React.useState([]);
-    const filter = useFilterMenuItems(); 
    
     React.useEffect(() => {
         const getCategories = async () => {
@@ -27,7 +24,7 @@ const TopBar = ({tablenumber, onCategorySelect}) => {
             }
         }; 
         getCategories();
-    });
+    },[]);
 
 
     return (
@@ -37,7 +34,7 @@ const TopBar = ({tablenumber, onCategorySelect}) => {
                 <div className="categories">
                     <button onClick={() => onCategorySelect(null)}><h2 className="all">All</h2></button>
                         {categories.map((category) => (
-                            <button key={category.id} onClick={() => filter(category.name)}>
+                            <button key={category.id} onClick={() => onCategorySelect(category.name)}>
                                 <h2 className="category" id={category.id}>{category.name}</h2>
                             </button>
                         ))}
