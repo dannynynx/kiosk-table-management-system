@@ -5,7 +5,7 @@ import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
-const TopBar = ({tablenumber}) => {
+const TopBar = ({tablenumber, onCategorySelect}) => {
 
     const [categories, setCategories] = React.useState([]);
     const filter = useFilterMenuItems(); 
@@ -35,12 +35,12 @@ const TopBar = ({tablenumber}) => {
             <div className="topbar">
                 <img className="logo" src={zebra} alt='Zebra Icon'></img>
                 <div className="categories">
-                    <button><h2 className="all">All</h2></button>
-                    {categories.map((category) => (
-                        <button key={category.id} onClick={() => filter(category.name)}>
-                            <h2 className="category" id={category.id}>{category.name}</h2>
-                        </button>
-                    ))}
+                    <button onClick={() => onCategorySelect(null)}><h2 className="all">All</h2></button>
+                        {categories.map((category) => (
+                            <button key={category.id} onClick={() => filter(category.name)}>
+                                <h2 className="category" id={category.id}>{category.name}</h2>
+                            </button>
+                        ))}
                 </div>
                 <h2 className="table-number">#{tablenumber}</h2>
             </div>
@@ -51,6 +51,7 @@ const TopBar = ({tablenumber}) => {
 
 TopBar.propTypes = {
     tablenumber: PropTypes.number.isRequired,
+    onCategorySelect: PropTypes.func.isRequired,
 };
 
 export default TopBar;

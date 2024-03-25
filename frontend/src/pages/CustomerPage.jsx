@@ -5,8 +5,8 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
-import { useEffect } from "react";
+import { useInitialiseMenu, useMenu, useFilterMenuItems } from "../context/MenuContext.jsx"; // Import useFilterMenuItems hook
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useLocation } from 'react-router-dom';
 
@@ -14,6 +14,8 @@ const CustomerPage = (props) => {
     const location = useLocation();
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
+    const filterMenu = useFilterMenuItems(); // Get the filterMenu function from the context
+    const [selectedCategory, setSelectedCategory] = useState(null);
     useEffect(() => {
 
         const fetchData = async () => {
@@ -31,11 +33,17 @@ const CustomerPage = (props) => {
             // Cleanup logic here
         };
     }, []);
+
+    const handleCategoryFilter = (category) => {
+        setSelectedCategory(category); // Set the selected category
+        filterMenu(category); // Call the filterMenu function with the selected category
+    };
+
     const { display } = props;
     return (
         <>
             <div className='topbar-container'>
-                <TopBar tablenumber={location.state.tablenumber}/>
+                <TopBar tablenumber={location.state.tablenumber} onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='sidebar-container'>
                 <SideBar/>
@@ -44,7 +52,7 @@ const CustomerPage = (props) => {
                 <BottomBar/>
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && <Menu/>}
+                {display === 'menu'  && <Menu selectedCategory={selectedCategory}/>}
                 {display === 'item' && <Item/>}
             </div>
         </>
