@@ -1,0 +1,23 @@
+.waiter-page {
+    margin-top: 6em;
+    padding: 0 4em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.waiter-table-container {
+    width: 60%;
+    margin: 0 2em;
+    height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.waiter-table {
+    width: 100%;
+}
+
+.notifications-container {
+    padding: 0 2em;
+}
