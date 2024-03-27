@@ -11,16 +11,16 @@ img.logo {
     height: 100%;
 }
 
-/* .categories { 
+.categories { 
     width: 80%;
     height: 100%;
-    /* color: darkslategray; */
+    /* color: darkslategray;
     display: flex;
     flex-direction: row;
     padding: 0px;
     gap: 3em;
     align-items: center;
-} */
+}
 
 h2.category { 
     /* border-left: 4px solid darkgray; */
@@ -28,6 +28,14 @@ h2.category {
     margin-left: 5px; */
     /* height: 80%; */
     /* border-color: transparent; */
+}
+
+.search-bar {
+    height: 3em;
+    width: 30em;
+    align-self: center;
+    background-color: #e8e8e8;
+    border: none;
 }
 
 button { 

@@ -31,7 +31,7 @@ section.first-page, section.selection-page, section.table-code-page {
 .code-bottom-container {
     height: 40%;
     background-color: #222a5c;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     flex-direction: column;
 }
 
@@ -40,7 +40,7 @@ section.first-page, section.selection-page, section.table-code-page {
     width: 60%;
     background-color: #222a5c;
     border: 0px;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #dfe5f1;
     font-size: 3em;
     border-radius: 20px;
@@ -53,7 +53,7 @@ section.first-page, section.selection-page, section.table-code-page {
 
 .kiosk-title, .selection-title {
     color: #222a5c;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 7em;
     font-weight: 200;
     padding-bottom: 15%;
@@ -135,7 +135,7 @@ section.first-page, section.selection-page, section.table-code-page {
     font-size: 200%;
     border-radius: 20px;
     color: white;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .confirm-button:hover {

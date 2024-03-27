@@ -34,6 +34,7 @@ const TopBar = ({tablenumber}) => {
         <>
             <div className="topbar">
                 <img className="logo" src={zebra} alt='Zebra Icon'></img>
+                <input className="search-bar" type='text' placeholder='Search'></input>
                 <h2 className="table-number">#{tablenumber}</h2>
             </div>
            

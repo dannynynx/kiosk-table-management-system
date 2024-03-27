@@ -17,7 +17,7 @@
     height: 100%;
     position: fixed;
     top: 0;
-    left: 6em;
+    left: 0;
     background-color: #D3D3D3;
     transition: width 0.3s ease;
     border-radius: 1em;
@@ -28,7 +28,8 @@
     /* color: darkslategray; */
     display: flex;
     flex-direction: column;
-    padding: 0px;
+    margin-top: 20px;
+    padding: 10px;
     gap: 3em;
     /* align-items: center; */
 }

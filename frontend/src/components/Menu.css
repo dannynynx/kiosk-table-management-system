@@ -1,8 +1,8 @@
 .menu {
     display: grid;
-    grid-template-columns: repeat(5, 15em);
-    column-gap: 2em;
-    row-gap: 4em;
+    grid-template-columns: repeat(4, 15em);
+    column-gap: 3em;
+    row-gap: 6em;
 }
 
 ::-webkit-scrollbar {

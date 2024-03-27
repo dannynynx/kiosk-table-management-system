@@ -12,7 +12,7 @@
     top: 6em;
     left: 0;
     height: 100%;
-    width: 12em;
+    width: 2em;
     background-color: white;
     z-index: 4; /* stack sidebar on top of other bars */
 }
@@ -32,7 +32,7 @@
     top: 6em;
     bottom: 0;
     right: 0;
-    left: 12em;
+    left: 8em;
     background-color: #ffffff;
     overflow: auto;
     display: flex;
