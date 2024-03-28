@@ -2,15 +2,16 @@
 #                https://www.geeksforgeeks.org/use-jsonify-instead-of-json-dumps-in-flask/ 
 #                and 1531 server files/ lectures
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, request
 import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Staff import staff_tablet_authentication
-from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories
+from Staff import staff_tablet_authentication, staff_tablet_logout
+from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, add_notification
 from flask_cors import CORS
 from Helper import decode_token, decode_token_get_role
+from WaitingStaff import get_notifications
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -101,10 +102,9 @@ def create_notification():
     add_notification(DB_PATH, table_id, notification_type, token)
     return jsonify({'message': 'Notification added successfully'}), 200
 
-@app.route('waitstaff/notifications/get', methods=['GET'])
+@app.route('/waitstaff/notifications/get', methods=['GET'])
 def fetch_notifications():
-    data = request.get_json()
-    token = data.get('token')
+    token = request.headers.get('Authorization')
     notifications = get_notifications(DB_PATH, token)
     
     if notifications:
@@ -163,4 +163,4 @@ def get_categories():
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=3457)
+    app.run(debug=True, port=3455)

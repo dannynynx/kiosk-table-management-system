@@ -4,34 +4,39 @@
         "username": "table1_login",
         "password": "table1_password",
         "role": "1",
-        "token": null
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 2,
         "username": "table2_login",
         "password": "table2_password",
         "role": "2",
-        "token": null
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 3,
         "username": "wait",
         "password": "wait_password",
         "role": "wait",
-        "token": null
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 4,
         "username": "kitchen",
         "password": "kitchen_password",
         "role": "kitchen",
-        "token": null
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 5,
         "username": "manager",
         "password": "manager_password",
         "role": "manager",
-        "token": null
+        "token": null,
+        "logout_code": "1234"
     }
 ]

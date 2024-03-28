@@ -200,7 +200,7 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS NOTIFICATIONS (
         notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
         table_id INTEGER,
-        notification_type TEXT NOT NULL,
+        notification_type TEXT NOT NULL CHECK (notification_type IN ('assistance', 'bill')),
         status TEXT NOT NULL,
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""

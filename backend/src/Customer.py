@@ -227,7 +227,7 @@ def get_all_categories(db, token):
     
     return category_list
 
-def add_notification(db, table_id, notification_type, token)
+def add_notification(db, table_id, notification_type, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
