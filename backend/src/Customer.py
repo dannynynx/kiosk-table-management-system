@@ -226,3 +226,18 @@ def get_all_categories(db, token):
     connection.close()
     
     return category_list
+
+def add_notification(db, table_id, notification_type, token)
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    if not valid_user(token):
+        connection.close()
+        return None
+
+    sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
+    cursor.execute(sql, (table_id, notification_type, "new"))
+    connection.commit()
+
+    connection.close()
+

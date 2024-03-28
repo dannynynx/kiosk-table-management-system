@@ -88,6 +88,30 @@ def table_authentication():
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
 
+@app.route('/customer/notifications/add', methods=['POST'])
+def create_notification():
+    data = request.get_json()
+    table_id = data.get('table_id')
+    notification_type = data.get('notification_type')
+    token = data.get('token')
+    
+    if not table_id or not notification_type:
+        return jsonify({'error': 'Missing table_id or notification_type'}), 400
+
+    add_notification(DB_PATH, table_id, notification_type, token)
+    return jsonify({'message': 'Notification added successfully'}), 200
+
+@app.route('waitstaff/notifications/get', methods=['GET'])
+def fetch_notifications():
+    data = request.get_json()
+    token = data.get('token')
+    notifications = get_notifications(DB_PATH, token)
+    
+    if notifications:
+        return jsonify(notifications), 200
+    else:
+        return jsonify({'error': 'Failed to retrieve notifications'}), 500
+
 @app.route('/customer/send_order', methods=['POST'])
 def send_order():
     data = request.get_json()

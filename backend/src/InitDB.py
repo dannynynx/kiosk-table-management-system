@@ -195,5 +195,16 @@ def initialise_db():
     ]
     cursor.executemany("INSERT INTO STAFF (username, password, role, token, logout_code) VALUES (?, ?, ?, ?, ?)", staff_logins)
 
+    # NOTIFICATIONS
+    sql10 = """
+    CREATE TABLE IF NOT EXISTS NOTIFICATIONS (
+        notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        table_id INTEGER,
+        notification_type TEXT NOT NULL,
+        status TEXT NOT NULL,
+        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
+    )"""
+    cursor.execute(sql10)
+
     connection.commit()
     connection.close()
