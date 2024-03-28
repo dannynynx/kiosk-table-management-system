@@ -7,8 +7,10 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role
+from Staff import staff_tablet_authentication
+from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories
 from flask_cors import CORS
+from Helper import decode_token, decode_token_get_role
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -35,10 +37,11 @@ def staff_authentication():
     if not username or not password:
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
-    role = get_role(DB_PATH, username, password)
-
-    if staff_tablet_authentication(DB_PATH, username, password):
-        return jsonify({'authentication': 'Successful', 'role': role}), 200
+    token = staff_tablet_authentication(DB_PATH, username, password)
+    
+    if token:
+        decode_token_role = decode_token_get_role(token)
+        return jsonify({'authentication': 'Successful', 'role': decode_token_role, 'token': token}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
@@ -46,23 +49,25 @@ def staff_authentication():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
+    token = data.get('token')
 
     # Don't think this check is needed
     # if not table_id:
     #     return jsonify({'error': 'Invalid table_id'}), 400
 
-    code = confirm_table(DB_PATH, table_id)
+    code = confirm_table(DB_PATH, table_id, token)
     return jsonify({'code': code}), 200
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
     data = request.get_json()
     entered_code = data.get('code')
+    token = data.get('token')
 
     # if not entered_code:
     #     return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400
 
-    if authenticate_table(DB_PATH, entered_code):
+    if authenticate_table(DB_PATH, entered_code, token):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
@@ -74,13 +79,17 @@ def send_order():
     table_id = data.get('table_id')
     session_id = data.get('session_id')
     order_items = data.get('order_items')
+    token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, order_id, table_id, session_id, order_items)
+    return_data = send_order_to_database(DB_PATH, order_id, table_id, session_id, order_items, token)
     return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-    return_data = show_table(DB_PATH)
+    data = request.get_json()
+    token = data.get('token')
+    
+    return_data = show_table(DB_PATH, token)
     return jsonify(return_data), 200
 
 # @app.route("/customer/selectTable", methods=['POST'])
@@ -99,13 +108,19 @@ def showTable():
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
-    return_data = show_menu(DB_PATH)
+    data = request.get_json()
+    token = data.get('token')
+
+    return_data = show_menu(DB_PATH, token)
     return jsonify(return_data), 200
 
 @app.route("/customer/get_all_categories", methods=['GET'])
 def get_categories():
-    return_data = get_all_categories(DB_PATH)
+    data = request.get_json()
+    token = data.get('token')
+
+    return_data = get_all_categories(DB_PATH, token)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=3457)

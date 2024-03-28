@@ -180,18 +180,19 @@ def initialise_db():
         staff_id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
         password TEXT NOT NULL,
-        role TEXT NOT NULL
+        role TEXT NOT NULL,
+        token TEXT 
     )"""
     cursor.execute(sql9)
     # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password', '1'),
-        ('table2_login', 'table2_password', '2'),
-        ('wait', 'wait_password', 'wait'),
-        ('kitchen', 'kitchen_password', 'kitchen'),
-        ('manager', 'manager_password', 'manager')
+        ('table1_login', 'table1_password', '1', None),
+        ('table2_login', 'table2_password', '2', None),
+        ('wait', 'wait_password', 'wait', None),
+        ('kitchen', 'kitchen_password', 'kitchen', None),
+        ('manager', 'manager_password', 'manager', None)
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, role) VALUES (?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password, role, token) VALUES (?, ?, ?, ?)", staff_logins)
 
     connection.commit()
     connection.close()
