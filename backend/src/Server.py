@@ -126,8 +126,7 @@ def send_order():
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-    data = request.get_json()
-    token = data.get('token')
+    token = request.headers.get('Authorization')
     
     return_data = show_table(DB_PATH, token)
     return jsonify(return_data), 200
@@ -148,16 +147,14 @@ def showTable():
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
-    data = request.get_json()
-    token = data.get('token')
+    token = request.headers.get('Authorization')
 
     return_data = show_menu(DB_PATH, token)
     return jsonify(return_data), 200
 
 @app.route("/customer/get_all_categories", methods=['GET'])
 def get_categories():
-    data = request.get_json()
-    token = data.get('token')
+    token = request.headers.get('Authorization')
 
     return_data = get_all_categories(DB_PATH, token)
     return jsonify(return_data), 200
