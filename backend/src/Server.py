@@ -45,6 +45,22 @@ def staff_authentication():
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
+@app.route('/staff/staff_logout', methods=['POST'])
+def staff_logout():
+    data = request.get_json()
+    logout_code = data.get('logout_code')
+    token = data.get('token')
+
+    if not logout_code or not token:
+        return jsonify({'error': 'Ensure logout_code and token fields have been filled'}), 400
+
+    result = staff_tablet_logout(DB_PATH, logout_code, token)
+
+    if result == "Logout successful":
+        return jsonify({'message': 'Logout successful'}), 200
+    else:
+        return jsonify({'error': 'Invalid logout code'}), 401
+
 @app.route('/customer/table_confirmation', methods=['POST'])
 def table_confirmation():
     data = request.get_json()

@@ -1,6 +1,6 @@
 import sqlite3
 import jwt
-from Helper import generate_token
+from Helper import generate_token, valid_user, decode_token
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)
@@ -23,6 +23,31 @@ def staff_tablet_authentication(db, username, password):
     else:
         connection.close()
         return None
+
+def staff_tablet_logout(db, logout_code, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check valid token
+    if not valid_user(token):
+        connection.close()
+        return None
+    
+    decoded_token = decode_token(token)
+    username = decoded_token.get('username')
+
+    cursor.execute("SELECT * FROM STAFF WHERE username=? AND logout_code=?", (username, logout_code))
+    user_info = cursor.fetchone()
+
+    if user_info is not None:
+        # Clear the token
+        cursor.execute("UPDATE STAFF SET token=NULL WHERE username=?", (username,))
+        connection.commit()
+        connection.close()
+        return "Logout successful"
+    else:
+        connection.close()
+        return "Invalid username or logout code"
     
 def get_role(db, username, password):
     connection = sqlite3.connect(db)
