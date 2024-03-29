@@ -41,7 +41,7 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar tablenumber={location.state.tablenumber} onCategorySelect={handleCategoryFilter} />
+                <TopBar tablenumber={parseInt(location.state.tablenumber)} onCategorySelect={handleCategoryFilter} />
             </div>
             <div className='sidebar-container'>
                 <SideBar />
