@@ -21,22 +21,33 @@
     background-color: #D3D3D3;
     transition: width 0.3s ease;
     border-radius: 1em;
+    font-size: 10pt;
+
 }
 .categories { 
     width: 80%;
     height: 100%;
-    /* color: darkslategray; */
     display: flex;
     flex-direction: column;
     margin-top: 20px;
-    padding: 10px;
-    gap: 3em;
-    /* align-items: center; */
+    padding: 20px;
+    gap: 5em;
+    font-size: 10pt;
 }
 
 .sidebar.expanded {
     width: 20em;
     transition: width 0.3s ease;
+}
+
+button { 
+    background: none;
+    border: none;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.category {
+    font-size: 20pt;
 }
 
 .cart {

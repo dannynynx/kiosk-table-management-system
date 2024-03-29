@@ -5,8 +5,15 @@ import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
-const TopBar = ({tablenumber}) => {
+import cart from '../assets/cart-icon.svg';
+import orderList from '../assets/list-icon.svg';
+import {useState} from "react";
+import Cart from './Cart';
+import PastOrders from './PastOrders';
 
+const TopBar = ({tablenumber}) => {
+    const [renderContent, setRenderContent] = useState(null);
+    const [expanded, setExpanded] = useState(false);
     const [categories, setCategories] = React.useState([]);
     const filter = useFilterMenuItems(); 
    
@@ -29,15 +36,32 @@ const TopBar = ({tablenumber}) => {
         getCategories();
     });
 
+    const toggleExpand = (contentType) => {
+        setRenderContent(expanded ? null : contentType);
+        setExpanded(!expanded);
+    };
+
 
     return (
         <>
             <div className="topbar">
-                <img className="logo" src={zebra} alt='Zebra Icon'></img>
-                <input className="search-bar" type='text' placeholder='Search'></input>
-                <h2 className="table-number">#{tablenumber}</h2>
+                <div className="left-topbar">
+                    <img className="logo" src={zebra} alt='Zebra Icon'></img>
+                    <input className="search-bar" type='text' placeholder='Search'></input>
+                </div>
+                <div className="right-topbar">
+                    <div className='topbar-icon-container' onClick={() => toggleExpand('cart')}>
+                        <img src={cart} className='cart' alt='Cart Icon'/>
+                    </div>
+                    <div className='topbar-icon-container' onClick={() => toggleExpand('pastOrders')}>
+                        <img src={orderList} className='order-list' alt='Order List Icon'/>
+                    </div>
+                    <h2 className="table-number">#{tablenumber}</h2>
+                </div>
+                
+                
             </div>
-           
+                
         </>
     );
 };
