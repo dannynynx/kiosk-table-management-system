@@ -66,5 +66,69 @@
     {
         "ingredient_id": 17,
         "ingredient_name": "Baking Powder"
+    },
+    {
+        "ingredient_id": 18,
+        "ingredient_name": "Steak"
+    },
+    {
+        "ingredient_id": 19,
+        "ingredient_name": "Lettuce"
+    },
+    {
+        "ingredient_id": 20,
+        "ingredient_name": "Fish"
+    },
+    {
+        "ingredient_id": 21,
+        "ingredient_name": "Potato"
+    },
+    {
+        "ingredient_id": 22,
+        "ingredient_name": "Matcha"
+    },
+    {
+        "ingredient_id": 23,
+        "ingredient_name": "Spaghetti"
+    },
+    {
+        "ingredient_id": 24,
+        "ingredient_name": "Beef Mince"
+    },
+    {
+        "ingredient_id": 25,
+        "ingredient_name": "Chicken"
+    },
+    {
+        "ingredient_id": 26,
+        "ingredient_name": "Pork"
+    },
+    {
+        "ingredient_id": 27,
+        "ingredient_name": "Rice"
+    },
+    {
+        "ingredient_id": 28,
+        "ingredient_name": "Salmon"
+    },
+    {
+        "ingredient_id": 29,
+        "ingredient_name": "Tuna"
+    },
+    {
+        "ingredient_id": 30,
+        "ingredient_name": "Scallop"
+    },
+    {
+        "ingredient_id": 31,
+        "ingredient_name": "Squid"
+    },
+    {
+        "ingredient_id": 32,
+        "ingredient_name": "Crab"
+    },
+    {
+        "ingredient_id": 33,
+        "ingredient_name": "Uni"
     }
 ]
