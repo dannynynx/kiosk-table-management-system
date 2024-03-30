@@ -8,7 +8,7 @@ import KitchenPage from "./pages/KitchenPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
-import PastOrdersProvider from "./context/PastOrdersContext.jsx";
+import TableNumberProvider from './context/TableNumberContext.jsx';
 import WaiterPage from "./pages/WaiterPage.jsx";
 
 const App = () => {
@@ -19,23 +19,23 @@ const App = () => {
                 <Route path='/login' element={<LogInPage />} />
                 <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
                 <Route path='/menu' element={
-                    <MenuProvider>
-                        <CartProvider>
-                            <PastOrdersProvider>
+                     <TableNumberProvider>
+                        <MenuProvider>
+                            <CartProvider>
                                 <CustomerPage display={'menu'}/>
-                            </PastOrdersProvider>
-                        </CartProvider>
-                    </MenuProvider>
+                            </CartProvider>
+                        </MenuProvider>
+                    </TableNumberProvider>
                 } />
 
                 <Route path='/menu/:id' element={
-                    <MenuProvider>
-                        <CartProvider>
-                            <PastOrdersProvider>
+                    <TableNumberProvider>
+                        <MenuProvider>
+                            <CartProvider>
                                 <CustomerPage display={'item'}/>
-                            </PastOrdersProvider>
-                        </CartProvider>
-                    </MenuProvider>
+                            </CartProvider>
+                        </MenuProvider>
+                    </TableNumberProvider>
                 } />
                 <Route path='/kitchen' element={<KitchenPage />} />
                 <Route path='/waiter' element={<WaiterPage />} />

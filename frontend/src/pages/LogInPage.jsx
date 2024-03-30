@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom"
+import { useInitialiseTableNumber, useTableNumber } from '../context/TableNumberContext';
 import './LogInPage.css';
 
 const LogInPage = () => {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
+    const initialiseTableNumber = useInitialiseTableNumber();
+    const tablenumber = useTableNumber();
 
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
-            navigate('/kiosk/authentication', {state:{tablenumber : response.data.role}});
+            const { role } = response.data;
+            console.log(role);
+            initialiseTableNumber(role);
+            console.log(tablenumber)
+            navigate('/kiosk/authentication');
         } catch (error) {
             console.error('Error submitting data:', error);
         }
