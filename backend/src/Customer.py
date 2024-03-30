@@ -237,3 +237,51 @@ def get_all_categories(db):
     connection.close()
     
     return category_list
+
+def get_customer_past_orders(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    session_id = get_table_session_id(db, table_id)
+
+    sql = """
+    SELECT io.quantity, i.name, i.cost
+    FROM ORDERS AS o
+    JOIN IN_ORDER AS io on io.order_id = o.order_id
+    JOIN ITEMS AS i on i.item_id = io.item_id
+    WHERE o.session_id = :a AND o.table_id = :b
+    """
+
+    cursor.execute(sql, {"a": session_id, "b": table_id})
+    
+    past_items = cursor.fetchall()
+    past_list = []
+
+    for items in past_items:
+        items_dict = {
+            'quantity': items[0],
+            'name': items[1],
+            'price': items[2]
+        }
+        past_list.append(items_dict)
+    
+    connection.close()
+
+    return past_list
+
+def get_table_session_id(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT session_id
+    FROM TABLES
+    WHERE table_id = :t
+    """
+
+    cursor.execute(sql, {"t": table_id})
+    session_id = cursor.fetchone()[0]
+
+    connection.close()
+
+    return session_id
