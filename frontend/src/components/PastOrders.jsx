@@ -11,9 +11,12 @@ const PastOrders = ({ toggleExpand }) => {
     const getPastOrders = usePastMenu();
 
     useEffect(() => {
+
+        const tablenumber = {'table_id': localStorage.getItem('tablenumber')}
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://127.0.0.1:5000/customer/get_past_orders');
+                console.log(localStorage.getItem('tablenumber'))
+                const response = await axios.post('http://127.0.0.1:5000/customer/get_past_orders', tablenumber);
                 const data = response.data;
                 console.log(data);
                 InitialisePastOrders(data);
