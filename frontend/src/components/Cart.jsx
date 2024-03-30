@@ -13,13 +13,17 @@ const Cart = ({ toggleExpand }) => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
-
     const sendOrder = async () => { 
         try { 
             const order = {
-                "order_items": [getCart.map((item) =>  { return item.id})],
+                "order_items": getCart.map((item) => { 
+                    return {"item_id": item.index,
+                            "quantity": item.qty}
+                }),
                 "table_id": localStorage.getItem('tablenumber')
             }
+
+            console.log(order)
             await axios.post('http://127.0.0.1:5000/customer/send_order', order)
             getCart.forEach(item => {
                 removeCartItem(item.name);
