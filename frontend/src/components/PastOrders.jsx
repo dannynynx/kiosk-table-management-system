@@ -35,7 +35,7 @@ const PastOrders = ({ toggleExpand }) => {
                     <h3 className="past-name">Past Orders</h3>
             </div>
             <div className='past-content'>
-                 {getPastOrders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)}
+                 {getPastOrders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)}
             </div>
             <div className='past-total'>Current Total: </div>
         </div>

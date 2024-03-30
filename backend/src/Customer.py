@@ -279,6 +279,7 @@ def get_customer_past_orders(db, table_id):
 
     return past_list
 
+
 def get_table_session_id(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
