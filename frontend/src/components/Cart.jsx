@@ -20,7 +20,7 @@ const Cart = ({ toggleExpand }) => {
                 "order_items": [getCart.map((item) =>  { return item.id})],
                 "table_id": localStorage.getItem('tablenumber')
             }
-            await axios.post('http://127.0.0.1:5000/customer/send_order', getCart)
+            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
             getCart.forEach(item => {
                 removeCartItem(item.name);
             })

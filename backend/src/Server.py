@@ -70,12 +70,10 @@ def table_authentication():
 @app.route('/customer/send_order', methods=['POST'])
 def send_order():
     data = request.get_json()
-    order_id = data.get('order_id')
     table_id = data.get('table_id')
-    session_id = data.get('session_id')
     order_items = data.get('order_items')
 
-    return_data = send_order_to_database(DB_PATH, order_id, table_id, session_id, order_items)
+    return_data = send_order_to_database(DB_PATH, table_id, order_items)
     return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
