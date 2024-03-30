@@ -8,9 +8,6 @@ const PastItem = ({ name, price, qty }) => {
     return (
         <>
             <div className='past-item'>
-                <div className='img-qty-container'>
-                    <img src='https://via.placeholder.com/150' className='cart-item-img' alt='Item'/>
-                </div>
                 <div className='name-price-container'>
                     <span className='past-item-qty'>{qty}</span>
                     <h2 className='cart-item-name'>{name}</h2>
