@@ -3,13 +3,11 @@ import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
 import PropTypes from "prop-types";
-import { useTableNumber } from "../context/TableNumberContext";
 
 const TopBar = ({onCategorySelect}) => {
     const [categories, setCategories] = React.useState([]);
-    const tablenumber = useTableNumber();
+    const tablenumber = localStorage.getItem('tablenumber');
     React.useEffect(() => {
-        console.log(tablenumber);
         const getCategories = async () => {
             try {
                 const list = [];

@@ -8,7 +8,6 @@ import KitchenPage from "./pages/KitchenPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
-import TableNumberProvider from './context/TableNumberContext.jsx';
 import WaiterPage from "./pages/WaiterPage.jsx";
 
 const App = () => {
@@ -19,23 +18,19 @@ const App = () => {
                 <Route path='/login' element={<LogInPage />} />
                 <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
                 <Route path='/menu' element={
-                     <TableNumberProvider>
-                        <MenuProvider>
-                            <CartProvider>
-                                <CustomerPage display={'menu'}/>
-                            </CartProvider>
-                        </MenuProvider>
-                    </TableNumberProvider>
+                    <MenuProvider>
+                        <CartProvider>
+                            <CustomerPage display={'menu'}/>
+                        </CartProvider>
+                    </MenuProvider>
                 } />
 
                 <Route path='/menu/:id' element={
-                    <TableNumberProvider>
-                        <MenuProvider>
-                            <CartProvider>
-                                <CustomerPage display={'item'}/>
-                            </CartProvider>
-                        </MenuProvider>
-                    </TableNumberProvider>
+                    <MenuProvider>
+                        <CartProvider>
+                            <CustomerPage display={'item'}/>
+                        </CartProvider>
+                    </MenuProvider>
                 } />
                 <Route path='/kitchen' element={<KitchenPage />} />
                 <Route path='/waiter' element={<WaiterPage />} />
