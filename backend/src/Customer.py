@@ -94,21 +94,31 @@ def authenticate_table(db, entered_code):
             return True #successfull authentication
     return False 
 
-def send_order_to_database(db, order_id, table_id, session_id, order_items):
+def send_order_to_database(db, table_id, order_items):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    sql = """
-    INSERT OR IGNORE INTO ORDERS (order_id, table_id, session_id)
-    VALUES (:o, :t, :s)
+    session_id = get_table_session_id(db, table_id)
+
+    sql1 = """
+    INSERT OR IGNORE INTO ORDERS (table_id, session_id)
+    VALUES (:t, :s)
     """
+
+    cursor.execute(sql1, {"t": table_id, "s": session_id})
+    connection.commit()
+
+    sql2 = """
+    SELECT MAX(order_id) FROM ORDERS
+    WHERE table_id = :t AND session_id = :s
+    """
+
+    cursor.execute(sql2, {"t": table_id, "s": session_id})
+    order_id = cursor.fetchone()[0]
 
     for i in order_items:
         add_item_to_order(db, order_id, i['item_id'], i['quantity'])
 
-    cursor.execute(sql, {"o": order_id, "t": table_id, "s": session_id})
-
-    connection.commit()
     connection.close()
     return {}
 
