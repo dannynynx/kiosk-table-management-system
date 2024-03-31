@@ -1,17 +1,3 @@
-.sidebar-icon-container {
-    margin: 1em;
-    padding: 0.5em;
-    background-color: #C0C0C0;
-    border-radius: 0.5em;
-    border: black 2px solid;
-    overflow: hidden;
-}
-
-.sidebar-icon-container:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease;
-}
-
 .sidebar {
     width: 0;
     height: 100%;
@@ -22,22 +8,16 @@
     transition: width 0.3s ease;
     border-radius: 1em;
     font-size: 10pt;
-
 }
 .categories { 
     width: 80%;
-    height: 100%;
+    height: 40%;
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     padding: 20px;
     gap: 5em;
     font-size: 10pt;
-}
-
-.sidebar.expanded {
-    width: 20em;
-    transition: width 0.3s ease;
 }
 
 button { 
@@ -50,10 +30,9 @@ button {
     font-size: 20pt;
 }
 
-.cart {
-
-}
-
-.order-list {
-
+.bill {
+    width: 8vw;
+    position: fixed;
+    bottom: 2vh;
+    left: 1vw;
 }

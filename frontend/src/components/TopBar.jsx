@@ -7,6 +7,8 @@ import PropTypes from "prop-types";
 
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
+import assistance from '../assets/call-assistance-icon.svg';
+import requestBill from '../assets/request-bill-icon.svg';
 import {useState} from "react";
 import Cart from './Cart';
 import PastOrders from './PastOrders';
@@ -54,14 +56,19 @@ const TopBar = ({tablenumber}) => {
                         <img src={cart} className='cart' alt='Cart Icon'/>
                     </div>
                     <div className='topbar-icon-container' onClick={() => toggleExpand('pastOrders')}>
-                        <img src={orderList} className='order-list' alt='Order List Icon'/>
+                        <img src={orderList} className='cart' alt='Order List Icon'/>
                     </div>
+                    <div className='topbar-icon-container' onClick={() => toggleExpand('assistance')}>
+                        <img src={assistance} className='cart' alt='Call for Assistance Icon'/>
+                    </div>   
+                    <div className={`right-topbar ${expanded ? 'expanded' : ''}`}>
+                        {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
+                        {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
+                        {renderContent === 'assistance' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
+                    </div> 
                     <h2 className="table-number">#{tablenumber}</h2>
                 </div>
-                
-                
-            </div>
-                
+            </div>  
         </>
     );
 };

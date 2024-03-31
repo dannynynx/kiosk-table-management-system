@@ -4,6 +4,7 @@ import orderList from '../assets/list-icon.svg';
 import {useState} from "react";
 import Cart from './Cart';
 import PastOrders from './PastOrders';
+import requestBill from '../assets/request-bill-icon.svg';
 
 import zebra from "../assets/zebra.svg";
 import axios from 'axios';
@@ -54,13 +55,15 @@ const SideBar = () => {
                 {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
             </div> */}
             <div className="categories">
-                    {/* <button><h2 className="all">All</h2></button> */}
-                    {categories.map((category) => (
-                        <button key={category.id} onClick={() => filter(category.name)}>
-                            <h2 className="category" id={category.id}>{category.name}</h2>
-                        </button>
-                    ))}
-                </div>
+                {categories.map((category) => (
+                    <button key={category.id} onClick={() => filter(category.name)}>
+                        <h2 className="category" id={category.id}>{category.name}</h2>
+                    </button>
+                ))}
+            </div>
+            <div className="sidebar-icon-container" onClick={() => toggleExpand('requestBills')}>
+                <img src={requestBill} className='bill' alt='Request Bill Icon'/>
+            </div>
         </>
     );
 };

@@ -5,10 +5,12 @@ import CartItem from './CartItem.jsx';
 import { useCart, useRemoveCartItem } from '../context/CartContext';
 import PopUp from "./PopUp";
 import { useState } from 'react';
+import React from "react";
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
     const removeCartItem = useRemoveCartItem();
+    const [isCartEmpty, setCartEmpty] = useState(true);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
@@ -25,6 +27,18 @@ const Cart = ({ toggleExpand }) => {
         setPopUpVisible(false);
     };
 
+    React.useEffect(() => {
+        const cartEmpty = () => {
+            if (getCart.length === 0) {
+                setCartEmpty(true);
+            } else {
+                setCartEmpty(false);
+            }
+            
+        }
+        cartEmpty();
+    });
+
     const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
 
 
@@ -35,7 +49,12 @@ const Cart = ({ toggleExpand }) => {
                         <img src={cross} className='cross-icon' alt='Cross Icon' onClick={toggleExpand}/>
                 </div>
                 <div className='cart-content'>
-                    {getCart.map(item => <CartItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)}
+                    {isCartEmpty ? (
+                        <h7>Cart is empty</h7>
+                    ) : (
+                        getCart.map(item => <CartItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)
+                    )
+                    }
                 </div>
                 <div className='cart-total'>Total: {calculateTotal}</div>
                 <div className='cart-footer' onClick={sendOrder}>Order Now</div>
