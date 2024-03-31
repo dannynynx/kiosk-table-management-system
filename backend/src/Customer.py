@@ -131,7 +131,7 @@ def show_table(db):
     
     showTable = '''
     select
-        table_id, is_occupied
+        table_id, is_occupied, size
     from
         tables
     '''
@@ -143,7 +143,8 @@ def show_table(db):
     for table in tables:
         table_dict = {
             "id": table[0],
-            "avail": table[1]
+            "avail": table[1],
+            "size": table[2]
         }
         table_list.append(table_dict)
     connection.close()
