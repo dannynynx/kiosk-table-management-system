@@ -66,13 +66,12 @@ def staff_logout():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
-    token = data.get('token')
 
     # Don't think this check is needed
     # if not table_id:
     #     return jsonify({'error': 'Invalid table_id'}), 400
 
-    code = confirm_table(DB_PATH, table_id, token)
+    code = confirm_table(DB_PATH, table_id)
     return jsonify({'code': code}), 200
 
 @app.route('/customer/table_authentication', methods=['POST'])

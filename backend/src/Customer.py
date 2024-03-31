@@ -15,14 +15,9 @@ def generate_unique_code():
             generated_codes.add(code)
             return code
 
-def confirm_table(db, table_id, token):
+def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
 
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
