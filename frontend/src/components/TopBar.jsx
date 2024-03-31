@@ -5,9 +5,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const TopBar = ({onCategorySelect}) => {
-    const tablenumber = localStorage.getItem('tablenumber');
     const [categories, setCategories] = React.useState([]);
-   
+    const tablenumber = localStorage.getItem('tablenumber');
     React.useEffect(() => {
         const getCategories = async () => {
             try {

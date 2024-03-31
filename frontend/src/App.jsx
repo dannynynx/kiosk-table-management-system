@@ -8,7 +8,6 @@ import KitchenPage from "./pages/KitchenPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
-import PastOrdersProvider from "./context/PastOrdersContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import axios from 'axios';
 
@@ -25,9 +24,7 @@ const App = () => {
                 <Route path='/menu' element={
                     <MenuProvider>
                         <CartProvider>
-                            <PastOrdersProvider>
-                                <CustomerPage display={'menu'}/>
-                            </PastOrdersProvider>
+                            <CustomerPage display={'menu'}/>
                         </CartProvider>
                     </MenuProvider>
                 } />
@@ -35,9 +32,7 @@ const App = () => {
                 <Route path='/menu/:id' element={
                     <MenuProvider>
                         <CartProvider>
-                            <PastOrdersProvider>
-                                <CustomerPage display={'item'}/>
-                            </PastOrdersProvider>
+                            <CustomerPage display={'item'}/>
                         </CartProvider>
                     </MenuProvider>
                 } />

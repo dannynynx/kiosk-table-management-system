@@ -3,6 +3,33 @@ import random
 import time
 from Helper import valid_user, valid_user_specific
 
+def staff_tablet_authentication(db, username, password):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT * FROM STAFF WHERE username=? AND password=?", (username, password))
+    table_info = cursor.fetchone()
+
+    connection.close()
+
+    return table_info is not None
+    
+def get_role(db, username, password):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check if the username-password combination exists in the database
+    cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        role = result[0]
+    else:
+        role = None
+
+    connection.close()
+
+    return role
 
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
@@ -34,14 +61,9 @@ def confirm_table(db, table_id):
 
     return code
 
-def authenticate_table(db, entered_code, token):
+def authenticate_table(db, entered_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
 
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
@@ -55,44 +77,44 @@ def authenticate_table(db, entered_code, token):
             return True #successfull authentication
     return False 
 
-def send_order_to_database(db, order_id, table_id, session_id, order_items, token):
+def send_order_to_database(db, table_id, order_items):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
+    session_id = get_table_session_id(db, table_id)
 
-    sql = """
-    INSERT OR IGNORE INTO ORDERS (order_id, table_id, session_id)
-    VALUES (:o, :t, :s)
+    sql1 = """
+    INSERT OR IGNORE INTO ORDERS (table_id, session_id)
+    VALUES (:t, :s)
     """
+
+    cursor.execute(sql1, {"t": table_id, "s": session_id})
+    connection.commit()
+
+    sql2 = """
+    SELECT MAX(order_id) FROM ORDERS
+    WHERE table_id = :t AND session_id = :s
+    """
+
+    cursor.execute(sql2, {"t": table_id, "s": session_id})
+    order_id = cursor.fetchone()[0]
 
     for i in order_items:
         add_item_to_order(db, order_id, i['item_id'], i['quantity'])
 
-    cursor.execute(sql, {"o": order_id, "t": table_id, "s": session_id})
-
-    connection.commit()
     connection.close()
     return {}
 
-def add_item_to_order(db, order_id, item_id, quantity, token):
+def add_item_to_order(db, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
-
     sql = """
-    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity)
-    VALUES (:o, :i, :q)
+    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
+    VALUES (:o, :i, :q, :s)
     """
 
-    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity, "s": "ordered"})
     connection.commit()
     connection.close()
 
@@ -120,43 +142,10 @@ def show_table(db):
 
     return table_list
 
-# def select_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     selectTable = '''
-#     UPDATE tables 
-#     SET is_occupied =  
-#     WHERE table_id = :o and
-#     is_occupied = 0
-#     '''
 
-#     cursor.execute(selectTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
-
-# def go_back_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     goBackTable = '''
-#     UPDATE tables 
-#     SET is_occupied = 0 
-#     WHERE table_id = :o and
-#     is_occupied = 1
-#     '''
-
-#     cursor.execute(goBackTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
-
-def show_menu(db, token):
+def show_menu(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    if not valid_user(token):
-        connection.close()
-        return None
     
     showMenu = '''
     SELECT DISTINCT i.name, i.description, c.name, i.cost, (SELECT group_concat(C.ingredient_name, ', ') 
@@ -187,13 +176,9 @@ def show_menu(db, token):
 
     return items_list
 
-def get_all_categories(db, token):
+def get_all_categories(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    if not valid_user(token):
-        connection.close()
-        return None
 
     sql = """
     SELECT *
@@ -216,17 +201,70 @@ def get_all_categories(db, token):
     
     return category_list
 
+def get_customer_past_orders(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    session_id = get_table_session_id(db, table_id)
+
+    sql = """
+    SELECT io.quantity, i.name, i.cost
+    FROM ORDERS AS o
+    JOIN IN_ORDER AS io on io.order_id = o.order_id
+    JOIN ITEMS AS i on i.item_id = io.item_id
+    WHERE o.session_id = :a AND o.table_id = :b
+    """
+
+    cursor.execute(sql, {"a": session_id, "b": table_id})
+    
+    past_items = cursor.fetchall()
+    past_list = []
+
+    for items in past_items:
+        items_dict = {
+            'quantity': items[0],
+            'name': items[1],
+            'price': items[2]
+        }
+        past_list.append(items_dict)
+    
+    connection.close()
+
+    return past_list
+
+def get_table_session_id(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT session_id
+    FROM TABLES
+    WHERE table_id = :t
+    """
+
+    cursor.execute(sql, {"t": table_id})
+    session_id = cursor.fetchone()[0]
+
+    connection.close()
+
+    return session_id
+
 def add_notification(db, table_id, notification_type, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    if not valid_user(token):
+    # Check if the token is valid
+    if not valid_user_specific(token):
         connection.close()
         return None
-
+        
     sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
-    cursor.execute(sql, (table_id, notification_type, "new"))
-    connection.commit()
-
-    connection.close()
-
+    try:
+        cursor.execute(sql, (table_id, notification_type, "new"))
+        connection.commit()
+        print("Notification added successfully")
+    except sqlite3.Error as e:
+        print(f"Error adding notification: {e}")
+        connection.rollback()
+    finally:
+        connection.close()
