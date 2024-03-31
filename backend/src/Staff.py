@@ -1,6 +1,6 @@
 import sqlite3
 import jwt
-from Helper import generate_token, valid_user, decode_token
+from Helper import generate_token, valid_user, decode_token, valid_user_specific
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)

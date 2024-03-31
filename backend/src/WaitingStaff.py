@@ -1,12 +1,12 @@
 import sqlite3
-from Helper import valid_user
+from Helper import valid_user, valid_user_specific
 
-def get_notifications(db, token):
+def get_notifications(db, token, role):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
     # Check if the token is valid
-    if not valid_user(token):
+    if not valid_user_specific(db, token, "wait"):
         connection.close()
         return None
 

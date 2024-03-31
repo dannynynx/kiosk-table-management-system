@@ -1,7 +1,7 @@
 import sqlite3
 import random
 import time
-from Helper import valid_user
+from Helper import valid_user, valid_user_specific
 
 
 # Only generate and add code to set once customer confirms table
@@ -99,7 +99,11 @@ def add_item_to_order(db, order_id, item_id, quantity, token):
 def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
+<<<<<<< HEAD
+
+=======
     
+>>>>>>> main
     showTable = '''
     select
         table_id, is_occupied
