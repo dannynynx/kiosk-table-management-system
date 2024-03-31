@@ -9,7 +9,7 @@ import shutil
 from InitDB import initialise_db
 from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders
 from flask_cors import CORS
-from WaitingStaff import get_notifications
+from WaitingStaff import get_notifications, update_notification
 from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
 
@@ -86,12 +86,29 @@ def create_notification():
 @app.route('/waitstaff/notifications/get', methods=['GET'])
 def fetch_notifications():
     token = request.headers.get('Authorization')
-    notifications = get_notifications(DB_PATH, token, "wait")
+    notifications = get_notifications(DB_PATH, token)
     
     if notifications:
         return jsonify(notifications), 200
     else:
         return jsonify({'error': 'Failed to retrieve notifications'}), 500
+
+@app.route('/waitstaff/notifications/update', methods=['PUT'])
+def update_notifications():
+    data = request.get_json()
+    token = data.get('token')
+    notification_id = data.get('notification_id')
+    new_status = data.get('new_status')
+
+    if not token or not notification_id or not new_status:
+        return jsonify({'error': 'Missing token, notification_id, or new_status'}), 400
+
+    success, updated_notification = update_notification(DB_PATH, token, notification_id, new_status)
+
+    if success:
+        return jsonify({'notification': updated_notification}), 200
+    else:
+        return jsonify({'error': 'Failed to update notification'}), 500
 
 @app.route('/customer/send_order', methods=['POST'])
 def send_order():
