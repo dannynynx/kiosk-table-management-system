@@ -20,14 +20,13 @@ const Item = () => {
     const item = getMenu[index];
     const { price, description, ingredients } = getMenu[index];
     const [quantity, setQuantity] = useState(1);
-    console.log(price, description, ingredients);
     const increaseQuantity = () => setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
         const isItemInCart = getCart.some(cartItem => cartItem.name === name);
         if (!isItemInCart) {
-            const itemWithQty = { ...item, qty: quantity };
+            const itemWithQty = { index, ...item, qty: quantity };
             addToCartContext(itemWithQty);
         } else {
             const existingItem = getCart.find(cartItem => cartItem.name === name);

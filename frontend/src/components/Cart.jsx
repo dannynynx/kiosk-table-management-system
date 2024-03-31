@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
 import { useCart, useRemoveCartItem } from '../context/CartContext';
 import PopUp from "./PopUp";
+import axios from 'axios';
 import { useState } from 'react';
 import React from "react";
 
@@ -14,13 +15,27 @@ const Cart = ({ toggleExpand }) => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
+    const sendOrder = async () => { 
+        try { 
+            const order = {
+                "order_items": getCart.map((item) => { 
+                    return {"item_id": parseInt(item.index+1),
+                            "quantity": item.qty}
+                }),
+                "table_id": localStorage.getItem('tablenumber')
+            }
 
-    const sendOrder = () => { 
-        getCart.forEach(item => {
-            removeCartItem(item.name);
-        })
-        setPopupMessage("Your order has been sent");
-        setPopUpVisible(true);
+            console.log(order)
+            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
+            getCart.forEach(item => {
+                removeCartItem(item.name);
+            })
+            setPopupMessage("Your order has been sent");
+            setPopUpVisible(true);
+        } catch (error) { 
+            console.error(error.message);
+        }
+       
     }
 
     const closePopUp = () => {
