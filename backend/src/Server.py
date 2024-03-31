@@ -2,16 +2,13 @@
 #                https://www.geeksforgeeks.org/use-jsonify-instead-of-json-dumps-in-flask/ 
 #                and 1531 server files/ lectures
 
-from flask import Flask, request, jsonify, request
+from flask import Flask, request, jsonify
 import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Staff import staff_tablet_authentication, staff_tablet_logout
-from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, add_notification
+from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders
 from flask_cors import CORS
-from Helper import decode_token, decode_token_get_role
-from WaitingStaff import get_notifications
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -38,29 +35,12 @@ def staff_authentication():
     if not username or not password:
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
-    token = staff_tablet_authentication(DB_PATH, username, password)
-    
-    if token:
-        decode_token_role = decode_token_get_role(token)
-        return jsonify({'authentication': 'Successful', 'role': decode_token_role, 'token': token}), 200
+    role = get_role(DB_PATH, username, password)
+
+    if staff_tablet_authentication(DB_PATH, username, password):
+        return jsonify({'authentication': 'Successful', 'role': role}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
-
-@app.route('/staff/staff_logout', methods=['POST'])
-def staff_logout():
-    data = request.get_json()
-    logout_code = data.get('logout_code')
-    token = data.get('token')
-
-    if not logout_code or not token:
-        return jsonify({'error': 'Ensure logout_code and token fields have been filled'}), 400
-
-    result = staff_tablet_logout(DB_PATH, logout_code, token)
-
-    if result == "Logout successful":
-        return jsonify({'message': 'Logout successful'}), 200
-    else:
-        return jsonify({'error': 'Invalid logout code'}), 401
 
 @app.route('/customer/table_confirmation', methods=['POST'])
 def table_confirmation():
@@ -74,12 +54,11 @@ def table_confirmation():
 def table_authentication():
     data = request.get_json()
     entered_code = data.get('code')
-    token = data.get('token')
 
     # if not entered_code:
     #     return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400
 
-    if authenticate_table(DB_PATH, entered_code, token):
+    if authenticate_table(DB_PATH, entered_code):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
@@ -110,13 +89,10 @@ def fetch_notifications():
 @app.route('/customer/send_order', methods=['POST'])
 def send_order():
     data = request.get_json()
-    order_id = data.get('order_id')
     table_id = data.get('table_id')
-    session_id = data.get('session_id')
     order_items = data.get('order_items')
-    token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, order_id, table_id, session_id, order_items, token)
+    return_data = send_order_to_database(DB_PATH, table_id, order_items)
     return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
@@ -140,16 +116,20 @@ def showTable():
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
-    token = request.headers.get('Authorization')
-
-    return_data = show_menu(DB_PATH, token)
+    return_data = show_menu(DB_PATH)
     return jsonify(return_data), 200
 
 @app.route("/customer/get_all_categories", methods=['GET'])
 def get_categories():
-    token = request.headers.get('Authorization')
+    return_data = get_all_categories(DB_PATH)
+    return jsonify(return_data), 200
 
-    return_data = get_all_categories(DB_PATH, token)
+@app.route("/customer/get_past_orders", methods=['POST'])
+def get_past_orders():
+    data = request.get_json()
+    table_id = data.get('table_id')
+
+    return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
