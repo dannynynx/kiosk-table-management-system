@@ -6,7 +6,7 @@ def get_notifications(db, token, role):
     cursor = connection.cursor()
     
     # Check if the token is valid
-    if not valid_user_specific(db, token, "wait"):
+    if not valid_user_specific(token):
         connection.close()
         return None
 

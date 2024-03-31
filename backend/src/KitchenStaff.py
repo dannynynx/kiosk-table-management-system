@@ -6,7 +6,7 @@ def kitchen_show_orders(db, token):
     cursor = connection.cursor()
 
     # Check if the token is valid
-    if not valid_user_specific(db, token, "kitchen"):
+    if not valid_user_specific(token):
         connection.close()
         return None
 
