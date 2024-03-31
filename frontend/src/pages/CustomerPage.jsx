@@ -8,13 +8,19 @@ import Item from "../components/Item.jsx";
 import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (!localStorage.getItem('token')) { 
+            navigate('/login');
+        } 
+
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');

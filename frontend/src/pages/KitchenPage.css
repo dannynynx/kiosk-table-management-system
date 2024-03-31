@@ -4,3 +4,17 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.start-btn { 
+    background: lightblue;
+    border: none;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.finish-btn { 
+    background-color: darkgray;
+    border: none;
+    width: 20%;
+    border-radius: 5px;
+}

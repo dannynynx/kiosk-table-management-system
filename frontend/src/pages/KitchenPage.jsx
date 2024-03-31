@@ -6,19 +6,29 @@ const KitchenPage = () => {
         {
             tableNumber: 1,
             item: 'Pizza',
-            status: 'Start'
+            status: 'start'
         },
         {
             tableNumber: 2,
             item: 'Pasta',
-            status: 'Start'
+            status: 'start'
         },
         {
             tableNumber: 3,
             item: 'Burger',
-            status: 'Start'
+            status: 'start'
+        },
+        {
+            tableNumber: 4,
+            item: 'Sushi',
+            status: 'preparing'
         },
     ]);
+
+    const handleStart = (order) => { 
+        //send a request back to backend to change the status 
+    }
+
 
     return (
         <div className='kitchen-page'>
@@ -37,7 +47,10 @@ const KitchenPage = () => {
                     <tr key={index}>
                         <td>{order.tableNumber}</td>
                         <td>{order.item}</td>
-                        <td>{order.status}</td>
+                        {order.status == "start" ? (
+                            <td><button className='start-btn' onClick={handleStart(order)}>Start</button></td>) : 
+                            order.status == "preparing" ? 
+                         (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
                     </tr>
                 ))}
                 </tbody>

@@ -48,7 +48,6 @@ const TopBar = ({onCategorySelect}) => {
 };
 
 TopBar.propTypes = {
-    tablenumber: PropTypes.number.isRequired,
     onCategorySelect: PropTypes.func.isRequired,
 };
 
