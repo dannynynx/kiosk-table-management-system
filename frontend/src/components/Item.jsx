@@ -24,6 +24,7 @@ const Item = () => {
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
+        console.log(item)
         const isItemInCart = getCart.some(cartItem => cartItem.name === name);
         if (!isItemInCart) {
             const itemWithQty = { index, ...item, qty: quantity };
