@@ -77,6 +77,9 @@ def create_notification():
     if not table_id or not notification_type:
         return jsonify({'error': 'Missing table_id or notification_type'}), 400
 
+    if notification_type not in ['assistance', 'bill']:
+        return jsonify({'error': 'Invalid notification_type'}), 400
+
     add_notification(DB_PATH, table_id, notification_type, token)
     return jsonify({'message': 'Notification added successfully'}), 200
 

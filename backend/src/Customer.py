@@ -248,3 +248,23 @@ def get_table_session_id(db, table_id):
     connection.close()
 
     return session_id
+
+def add_notification(db, table_id, notification_type, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check if the token is valid
+    if not valid_user_specific(token):
+        connection.close()
+        return None
+        
+    sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
+    try:
+        cursor.execute(sql, (table_id, notification_type, "new"))
+        connection.commit()
+        print("Notification added successfully")
+    except sqlite3.Error as e:
+        print(f"Error adding notification: {e}")
+        connection.rollback()
+    finally:
+        connection.close()
