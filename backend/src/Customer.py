@@ -101,15 +101,10 @@ def add_item_to_order(db, order_id, item_id, quantity, token):
     connection.commit()
     connection.close()
 
-def show_table(db, token):
+def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
-
     showTable = '''
     select
         table_id, is_occupied

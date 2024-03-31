@@ -126,9 +126,8 @@ def send_order():
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-    token = request.headers.get('Authorization')
-    
-    return_data = show_table(DB_PATH, token)
+ 
+    return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
 # @app.route("/customer/selectTable", methods=['POST'])
