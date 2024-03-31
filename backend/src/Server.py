@@ -121,10 +121,6 @@ def send_order():
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-<<<<<<< HEAD
-=======
- 
->>>>>>> main
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
