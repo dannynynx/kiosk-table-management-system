@@ -39,7 +39,7 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar onCategorySelect={handleCategoryFilter} />
+                <TopBar/>
             </div>
             <div className='sidebar-container'>
                 <SideBar onCategorySelect={handleCategoryFilter}/>

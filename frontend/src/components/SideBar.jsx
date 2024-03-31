@@ -12,7 +12,7 @@ import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
-const SideBar = ({onSelectCategory}) => {
+const SideBar = ({onCategorySelect}) => {
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);
     const [categories, setCategories] = React.useState([]);
@@ -46,7 +46,7 @@ const SideBar = ({onSelectCategory}) => {
         <>
             <div className="categories">
                 {categories.map((category) => (
-                    <button key={category.id} onClick={() => filter(category.name)}>
+                    <button key={category.id} onClick={() => onCategorySelect(category.name)}>
                         <h2 className="category" id={category.id}>{category.name}</h2>
                     </button>
                 ))}
@@ -56,6 +56,10 @@ const SideBar = ({onSelectCategory}) => {
             </div>
         </>
     );
+};
+
+SideBar.propTypes = {
+    onCategorySelect: PropTypes.func.isRequired,
 };
 
 export default SideBar;

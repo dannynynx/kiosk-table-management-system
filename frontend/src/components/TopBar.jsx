@@ -15,18 +15,25 @@ import PastOrders from './PastOrders';
 const TopBar = () => {
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
+    const tablenumber = localStorage.getItem('tablenumber');
     
     const toggleExpand = (contentType) => {
         setRenderContent(expanded ? null : contentType);
         setExpanded(!expanded);
     };
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+          
+        }
+      }
+
     return (
         <>
             <div className="topbar">
                 <div className="left-topbar">
                     <img className="logo" src={zebra} alt='Zebra Icon'></img>
-                    <input className="search-bar" type='text' placeholder='Search'></input>
+                    <input className="search-bar" type='text' placeholder='Search' onKeyDown={handleKeyDown}></input>
                 </div>
                 <div className="right-topbar">
                     <div className='topbar-icon-container' onClick={() => toggleExpand('cart')}>
@@ -48,10 +55,6 @@ const TopBar = () => {
             </div>  
         </>
     );
-};
-
-TopBar.propTypes = {
-    tablenumber: PropTypes.number.isRequired,
 };
 
 export default TopBar;
