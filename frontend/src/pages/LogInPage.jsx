@@ -10,7 +10,12 @@ const LogInPage = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
-            navigate('/kiosk/authentication', {state:{tablenumber : response.data.role}});
+            console.log(response)
+            const role = response.data.role;
+            const token = response.data.token;
+            localStorage.setItem('tablenumber', role)
+            localStorage.setItem('token', token)
+            navigate('/kiosk/authentication');
         } catch (error) {
             console.error('Error submitting data:', error);
         }

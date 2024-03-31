@@ -12,7 +12,7 @@ import {useState} from "react";
 import Cart from './Cart';
 import PastOrders from './PastOrders';
 
-const TopBar = ({tablenumber}) => {
+const TopBar = () => {
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
     
@@ -20,7 +20,6 @@ const TopBar = ({tablenumber}) => {
         setRenderContent(expanded ? null : contentType);
         setExpanded(!expanded);
     };
-
 
     return (
         <>

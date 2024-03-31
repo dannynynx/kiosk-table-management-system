@@ -66,11 +66,6 @@ def staff_logout():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
-    # token = data.get('token')
-
-    # Don't think this check is needed
-    # if not table_id:
-    #     return jsonify({'error': 'Invalid table_id'}), 400
 
     code = confirm_table(DB_PATH, table_id)
     return jsonify({'code': code}), 200
@@ -105,7 +100,7 @@ def create_notification():
 @app.route('/waitstaff/notifications/get', methods=['GET'])
 def fetch_notifications():
     token = request.headers.get('Authorization')
-    notifications = get_notifications(DB_PATH, token)
+    notifications = get_notifications(DB_PATH, token, "wait")
     
     if notifications:
         return jsonify(notifications), 200
@@ -126,8 +121,6 @@ def send_order():
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-    # token = request.headers.get('Authorization')
-    
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
@@ -154,9 +147,8 @@ def showMenu():
 
 @app.route("/customer/get_all_categories", methods=['GET'])
 def get_categories():
-
     token = request.headers.get('Authorization')
-    print(f"Token received: {token}")
+
     return_data = get_all_categories(DB_PATH, token)
     return jsonify(return_data), 200
 
