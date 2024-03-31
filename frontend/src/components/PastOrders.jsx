@@ -9,6 +9,7 @@ import PastItem from "../components/PastItem.jsx";
 const PastOrders = ({ toggleExpand }) => {
     const InitialisePastOrders = useInitialisePastMenu();
     const getPastOrders = usePastMenu();
+    const total = getPastOrders.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
 
     useEffect(() => {
 
@@ -37,7 +38,7 @@ const PastOrders = ({ toggleExpand }) => {
             <div className='past-content'>
                  {getPastOrders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)}
             </div>
-            <div className='past-total'>Current Total: </div>
+            <div className='past-total'>Current Total: ${total} </div>
         </div>
     </>
     );

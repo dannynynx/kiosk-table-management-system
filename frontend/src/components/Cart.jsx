@@ -17,7 +17,7 @@ const Cart = ({ toggleExpand }) => {
         try { 
             const order = {
                 "order_items": getCart.map((item) => { 
-                    return {"item_id": item.index,
+                    return {"item_id": parseInt(item.index+1),
                             "quantity": item.qty}
                 }),
                 "table_id": localStorage.getItem('tablenumber')
