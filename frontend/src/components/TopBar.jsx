@@ -4,7 +4,8 @@ import axios from 'axios';
 import React from "react";
 import PropTypes from "prop-types";
 
-const TopBar = ({tablenumber, onCategorySelect}) => {
+const TopBar = ({onCategorySelect}) => {
+    const tablenumber = localStorage.getItem('tablenumber');
     const [categories, setCategories] = React.useState([]);
    
     React.useEffect(() => {
