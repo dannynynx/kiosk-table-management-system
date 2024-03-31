@@ -10,8 +10,13 @@ import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
 import PastOrdersProvider from "./context/PastOrdersContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
+import axios from 'axios';
+
 
 const App = () => {
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+
+
     return (
         <>
             <Routes>

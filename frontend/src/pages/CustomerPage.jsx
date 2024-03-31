@@ -5,13 +5,11 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu, useFilterMenuItems } from "../context/MenuContext.jsx";
+import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useLocation } from 'react-router-dom';
 
 const CustomerPage = (props) => {
-    const location = useLocation();
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
@@ -41,7 +39,7 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar tablenumber={location.state.tablenumber} onCategorySelect={handleCategoryFilter} />
+                <TopBar onCategorySelect={handleCategoryFilter} />
             </div>
             <div className='sidebar-container'>
                 <SideBar />
