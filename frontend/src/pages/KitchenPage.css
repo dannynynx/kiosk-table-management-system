@@ -18,3 +18,19 @@
     width: 20%;
     border-radius: 5px;
 }
+
+.status-ordered { 
+    background-color: lightcoral;
+}
+
+.status-cooking { 
+    background-color: orange;
+}
+
+.status-cooked { 
+    background: lightblue;
+}
+
+.status-served { 
+    background-color: lightgreen;
+}
