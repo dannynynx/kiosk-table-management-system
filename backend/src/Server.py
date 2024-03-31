@@ -12,6 +12,7 @@ from Customer import confirm_table, authenticate_table, show_table, show_menu, s
 from flask_cors import CORS
 from Helper import decode_token, decode_token_get_role
 from WaitingStaff import get_notifications
+from KitchenStaff import kitchen_show_orders
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -121,26 +122,8 @@ def send_order():
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
-<<<<<<< HEAD
-=======
- 
->>>>>>> main
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
-
-# @app.route("/customer/selectTable", methods=['POST'])
-# def selectTable():
-#     data = request.get_json()
-#     table_id = data.get('table_id')
-#     return_data = select_table(DB_PATH, table_id)
-#     return jsonify(return_data), 200
-
-# @app.route("/customer/goBackTable", methods=['POST'])
-# def goBackTable():
-#     data = request.get_json()
-#     table_id = data.get('table_id')
-#     return_data = go_back_table(DB_PATH, table_id)
-#     return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
@@ -154,6 +137,14 @@ def get_categories():
     token = request.headers.get('Authorization')
 
     return_data = get_all_categories(DB_PATH, token)
+    return jsonify(return_data), 200
+
+@app.route("/kitchen/showOrders", methods=['GET'])
+def show_orders():
+    data = request.get_json()
+    token = data.get('token')
+
+    return_data = kitchen_show_orders(DB_PATH, token)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':

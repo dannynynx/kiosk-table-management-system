@@ -164,11 +164,13 @@ def initialise_db():
     )"""
     cursor.execute(sql7)
 
+    # ORDER DETAILS
     sql8 = """
     CREATE TABLE IF NOT EXISTS IN_ORDER (
         order_id INTEGER,
         item_id INTEGER,
         quantity INTEGER,
+        status TEXT,
         FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
         FOREIGN KEY (item_id) REFERENCES ITEMS(item_id)
     )"""

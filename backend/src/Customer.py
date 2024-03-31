@@ -88,22 +88,18 @@ def add_item_to_order(db, order_id, item_id, quantity, token):
         return None
 
     sql = """
-    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity)
-    VALUES (:o, :i, :q)
+    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
+    VALUES (:o, :i, :q, :s)
     """
 
-    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity, "s": "ordered"})
     connection.commit()
     connection.close()
 
 def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-<<<<<<< HEAD
-
-=======
     
->>>>>>> main
     showTable = '''
     select
         table_id, is_occupied
@@ -124,36 +120,6 @@ def show_table(db):
     connection.close()
 
     return table_list
-
-# def select_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     selectTable = '''
-#     UPDATE tables 
-#     SET is_occupied =  
-#     WHERE table_id = :o and
-#     is_occupied = 0
-#     '''
-
-#     cursor.execute(selectTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
-
-# def go_back_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     goBackTable = '''
-#     UPDATE tables 
-#     SET is_occupied = 0 
-#     WHERE table_id = :o and
-#     is_occupied = 1
-#     '''
-
-#     cursor.execute(goBackTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
 
 def show_menu(db, token):
     connection = sqlite3.connect(db)
