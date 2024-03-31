@@ -43,6 +43,7 @@ tables_to_export = {
     'ORDERS': 'orders.json',
     'STAFF': 'staff.json',
     'NOTIFICATIONS': 'notifications.json'
+    'IN_ORDER': 'in_order.json'
 }
 
 
