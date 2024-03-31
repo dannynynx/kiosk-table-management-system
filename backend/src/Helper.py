@@ -33,3 +33,17 @@ def decode_token_get_role(token):
 def valid_user(token):
     decoded_token = decode_token(token)
     return decoded_token is not None
+
+def valid_user_specific(db, token, required_role):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    query = "SELECT role FROM STAFF WHERE token = ?"
+    cursor.execute(query, (token,))
+    result = cursor.fetchone()
+
+    connection.close()
+
+    if result and result[0].lower() == required_role.lower():
+        return True
+    return False

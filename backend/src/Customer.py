@@ -1,6 +1,7 @@
 import sqlite3
 import random
 import time
+from Helper import valid_user, valid_user_specific
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)
@@ -138,7 +139,6 @@ def add_item_to_order(db, order_id, item_id, quantity):
 def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
     showTable = '''
     select
         table_id, is_occupied

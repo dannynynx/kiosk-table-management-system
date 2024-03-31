@@ -9,8 +9,12 @@ import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
+import axios from 'axios';
+
 
 const App = () => {
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+    
     return (
         <>
             <Routes>

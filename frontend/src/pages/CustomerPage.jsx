@@ -9,7 +9,6 @@ import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
