@@ -18,6 +18,22 @@
     width: 100%;
 }
 
+.status-ordered { 
+    background-color: lightcoral;
+}
+
+.status-cooking { 
+    background-color: orange;
+}
+
+.status-ready { 
+    background: lightblue;
+}
+
+.status-served { 
+    background-color: lightgreen;
+}
+
 .serve-btn { 
     background-color: lightblue;
     border: none;
