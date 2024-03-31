@@ -99,11 +99,6 @@ def add_item_to_order(db, order_id, item_id, quantity, token):
 def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-<<<<<<< HEAD
-
-=======
-    
->>>>>>> main
     showTable = '''
     select
         table_id, is_occupied
