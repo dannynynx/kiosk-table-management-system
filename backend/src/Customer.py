@@ -1,7 +1,7 @@
 import sqlite3
 import random
 import time
-from Helper import valid_user
+from Helper import valid_user, valid_user_specific
 
 
 # Only generate and add code to set once customer confirms table
@@ -15,14 +15,9 @@ def generate_unique_code():
             generated_codes.add(code)
             return code
 
-def confirm_table(db, table_id, token):
+def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
 
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
@@ -101,14 +96,9 @@ def add_item_to_order(db, order_id, item_id, quantity, token):
     connection.commit()
     connection.close()
 
-def show_table(db, token):
+def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
 
     showTable = '''
     select
