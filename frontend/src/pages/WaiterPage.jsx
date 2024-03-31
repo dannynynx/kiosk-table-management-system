@@ -2,6 +2,16 @@ import './WaiterPage.css';
 import {useState} from "react";
 
 const WaiterPage = () => {
+    const [notifs, setNotifs] = useState([
+        {
+            msg : "Assistance: #1",
+            status: 'unfulfilled',
+        },
+        { 
+            msg : 'Requested bill: #1',
+            status: 'fulfilled',
+        }
+    ])
     const [orders, setOrders] = useState([
         {
             tableNumber: 1,
@@ -193,8 +203,13 @@ const WaiterPage = () => {
 
             <div className='notifications-container'>
                 <h2>Notifications</h2>
-                <p>Assistance: #1</p>
-                <div>Done</div>
+                {notifs.map((notif, index) => (
+                        <div key={index} className='notif'>
+                            <h4>{notif.msg}</h4>
+                            {notif.status == 'unfulfilled' ? 
+                            (<button className="done-btn">Done</button>) : null }
+                        </div>
+                ))}
             </div>
         </div>
     );

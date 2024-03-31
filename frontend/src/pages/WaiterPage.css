@@ -25,6 +25,24 @@
     width: 100%;
 }
 
+.notif { 
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+    background-color: lavender;
+    border-bottom: 2px solid lightgray;
+    border-radius: 5px;
+}
+
+.done-btn { 
+    margin-left: 30px;
+    background-color: darkgray;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
 .notifications-container {
     padding: 0 2em;
 }
