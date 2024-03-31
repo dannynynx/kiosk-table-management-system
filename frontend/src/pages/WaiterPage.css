@@ -18,6 +18,13 @@
     width: 100%;
 }
 
+.serve-btn { 
+    background-color: lightblue;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+}
+
 .notifications-container {
     padding: 0 2em;
 }
