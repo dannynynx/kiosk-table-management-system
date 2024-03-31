@@ -193,8 +193,8 @@ const WaiterPage = () => {
                         <tr key={index}>
                             <td>{order.tableNumber}</td>
                             <td>{order.item}</td>
-                            {order.status == 'Ready to Serve' ? 
-                            (<button className='serve-btn'>Ready to serve</button>) :  (<td>{order.status}</td>)}
+                            {order.status == 'cooked' ? 
+                            (<button className='serve-btn'>Ready to serve</button>) :  (<td className={`status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</td>)}
                         </tr>
                     ))}
                     </tbody>
