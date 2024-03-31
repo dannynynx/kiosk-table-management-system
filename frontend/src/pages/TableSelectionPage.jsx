@@ -38,7 +38,7 @@ const TableSelectionPage = () => {
                     return tableIconLarge;
             }
         } else {
-            return tableOccupiedIcon;
+            return tableIconOccupied;
         }
     };
 
