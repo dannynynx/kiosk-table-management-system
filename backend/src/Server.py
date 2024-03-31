@@ -83,7 +83,7 @@ def create_notification():
     add_notification(DB_PATH, table_id, notification_type, token)
     return jsonify({'message': 'Notification added successfully'}), 200
 
-@app.route('/waitstaff/notifications/get', methods=['GET'])
+@app.route('/waitstaff/get_notification_status', methods=['GET'])
 def fetch_notifications():
     token = request.headers.get('Authorization')
     notifications = get_notifications(DB_PATH, token)
@@ -93,7 +93,7 @@ def fetch_notifications():
     else:
         return jsonify({'error': 'Failed to retrieve notifications'}), 500
 
-@app.route('/waitstaff/notifications/update', methods=['PUT'])
+@app.route('/waitstaff/update_notification_status', methods=['PUT'])
 def update_notifications():
     data = request.get_json()
     token = data.get('token')
@@ -142,7 +142,7 @@ def get_past_orders():
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
 
-@app.route("/kitchen/showOrders", methods=['GET'])
+@app.route("/kitchen/get_order_status", methods=['GET'])
 def show_orders():
     data = request.get_json()
     token = data.get('token')
