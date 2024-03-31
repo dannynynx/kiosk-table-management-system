@@ -2,51 +2,41 @@
     {
         "staff_id": 1,
         "username": "table1_login",
-        "password": "table1_password"
+        "password": "table1_password",
+        "role": "1",
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 2,
         "username": "table2_login",
-        "password": "table2_password"
+        "password": "table2_password",
+        "role": "2",
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 3,
         "username": "wait",
-        "password": "wait_password"
+        "password": "wait_password",
+        "role": "wait",
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 4,
         "username": "kitchen",
-        "password": "kitchen_password"
+        "password": "kitchen_password",
+        "role": "kitchen",
+        "token": null,
+        "logout_code": "1234"
     },
     {
         "staff_id": 5,
         "username": "manager",
-        "password": "manager_password"
-    },
-    {
-        "staff_id": 6,
-        "username": "table1_login",
-        "password": "table1_password"
-    },
-    {
-        "staff_id": 7,
-        "username": "table2_login",
-        "password": "table2_password"
-    },
-    {
-        "staff_id": 8,
-        "username": "wait",
-        "password": "wait_password"
-    },
-    {
-        "staff_id": 9,
-        "username": "kitchen",
-        "password": "kitchen_password"
-    },
-    {
-        "staff_id": 10,
-        "username": "manager",
-        "password": "manager_password"
+        "password": "manager_password",
+        "role": "manager",
+        "token": null,
+        "logout_code": "1234"
     }
 ]

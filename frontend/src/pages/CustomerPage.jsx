@@ -5,22 +5,23 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
-import { useEffect } from "react";
+import { useInitialiseMenu, useMenu, useFilterMenuItems } from "../context/MenuContext.jsx";
+import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const CustomerPage = (props) => {
-    // const location = useLocation();
+    const location = useLocation();
     const initialiseMenuItem = useInitialiseMenu();
     const getMenu = useMenu();
-    useEffect(() => {
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');
                 const data = response.data;
-                    initialiseMenuItem(data);
+                initialiseMenuItem(data);
             } catch (error) {
                 console.error('Error fetching menu:', error);
             }
@@ -31,18 +32,23 @@ const CustomerPage = (props) => {
             // Cleanup logic here
         };
     }, []);
+
+    const handleCategoryFilter = (category) => {
+        setSelectedCategory(category);
+    };
+
     const { display } = props;
     return (
         <>
             <div className='topbar-container'>
-                <TopBar tablenumber={1}/>
+                <TopBar tablenumber={parseInt(location.state.tablenumber)} />
             </div>
             <div className='sidebar-container'>
-                <SideBar/>
+                <SideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && <Menu/>}
-                {display === 'item' && <Item/>}
+                {display === 'menu' && <Menu selectedCategory={selectedCategory} />}
+                {display === 'item' && <Item />}
             </div>
         </>
     );

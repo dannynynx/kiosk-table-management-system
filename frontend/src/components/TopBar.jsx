@@ -2,7 +2,6 @@ import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
 import React from "react";
-import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
 import cart from '../assets/cart-icon.svg';
@@ -15,29 +14,8 @@ import PastOrders from './PastOrders';
 
 const TopBar = ({tablenumber}) => {
     const [renderContent, setRenderContent] = useState(null);
-    const [expanded, setExpanded] = useState(false);
-    const [categories, setCategories] = React.useState([]);
-    const filter = useFilterMenuItems(); 
-   
-    React.useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const list = [];
-                const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.data) { 
-                    list.push({
-                        id: category.category_id,
-                        name: category.name,
-                    })
-                }
-                setCategories(list);
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
-        }; 
-        getCategories();
-    });
-
+    const [expanded, setExpanded] = useState(false);  
+    
     const toggleExpand = (contentType) => {
         setRenderContent(expanded ? null : contentType);
         setExpanded(!expanded);

@@ -12,7 +12,7 @@ import React from "react";
 import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
-const SideBar = () => {
+const SideBar = ({onSelectCategory}) => {
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);
     const [categories, setCategories] = React.useState([]);
@@ -44,16 +44,6 @@ const SideBar = () => {
 
     return (
         <>
-            {/* <div className='sidebar-icon-container' onClick={() => toggleExpand('cart')}>
-                <img src={cart} className='cart' alt='Cart Icon'/>
-            </div>
-            <div className='sidebar-icon-container' onClick={() => toggleExpand('pastOrders')}>
-                <img src={orderList} className='order-list' alt='Order List Icon'/>
-            </div>
-            <div className={`sidebar ${expanded ? 'expanded' : ''}`}>
-                {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
-                {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
-            </div> */}
             <div className="categories">
                 {categories.map((category) => (
                     <button key={category.id} onClick={() => filter(category.name)}>

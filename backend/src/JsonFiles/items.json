@@ -29,30 +29,51 @@
     },
     {
         "item_id": 5,
-        "name": "Avo Toast",
-        "description": "A delicious and simple breakfast",
+        "name": "Scrambled Eggs",
+        "description": "An eggscellent breakfast",
         "category_id": 1,
-        "cost": 6.99
+        "cost": 5.99
     },
     {
         "item_id": 6,
-        "name": "Lasagna",
-        "description": "A rich and cheesy pasta stockful of beef mince",
+        "name": "Fish and Chips",
+        "description": "Fresh fish with crispy chips",
         "category_id": 2,
-        "cost": 16
+        "cost": 14.99
     },
     {
         "item_id": 7,
-        "name": "Margherita Pizza",
-        "description": "Authentic italian pizza",
+        "name": "Steak and Salad",
+        "description": "Wagyu steak with fresh caesar salad",
         "category_id": 3,
-        "cost": 24
+        "cost": 50
     },
     {
         "item_id": 8,
-        "name": "Chocolate Cake",
-        "description": "A delicious chocolate dessert",
+        "name": "Matcha Ice Cream",
+        "description": "Refreshing sweet treat for a hot day",
         "category_id": 4,
-        "cost": 10.99
+        "cost": 3.99
+    },
+    {
+        "item_id": 9,
+        "name": "Spaghetti Bolognese",
+        "description": "One of the most popular Italian dishes",
+        "category_id": 4,
+        "cost": 17.99
+    },
+    {
+        "item_id": 10,
+        "name": "Korean BBQ",
+        "description": "Why Not?",
+        "category_id": 4,
+        "cost": 60.99
+    },
+    {
+        "item_id": 11,
+        "name": "Omakase",
+        "description": "For the ballers",
+        "category_id": 4,
+        "cost": 200
     }
 ]

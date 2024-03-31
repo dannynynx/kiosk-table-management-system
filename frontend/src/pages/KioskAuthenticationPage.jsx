@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import './KioskAuthenticationPage.css';
 
 const KioskAuthenticationPage = () => {
+    const location = useLocation();
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
-        navigate('/menu', {state:{tablenumber : 1}});
+        navigate('/menu', {state: {tablenumber: location.state.tablenumber}});
     };
 
     return (

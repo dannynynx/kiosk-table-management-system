@@ -41,7 +41,8 @@ tables_to_export = {
     'MENU': 'menu.json',
     'TABLES': 'tables.json',
     'ORDERS': 'orders.json',
-    'STAFF': 'staff.json'
+    'STAFF': 'staff.json',
+    'NOTIFICATIONS': 'notifications.json'
 }
 
 
