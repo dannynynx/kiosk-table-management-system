@@ -18,7 +18,7 @@ const PastOrders = ({ toggleExpand }) => {
                 const response = await axios.post('http://127.0.0.1:5000/customer/get_past_orders', tablenumber);
                 const data = response.data;
                 InitialisePastOrders(data);
-                updateData(); // Call the updateData function after fetching data
+                updateData(); 
             } catch (error) {
                 console.error('Error fetching menu:', error);
             }
