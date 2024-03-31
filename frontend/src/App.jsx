@@ -15,8 +15,7 @@ import axios from 'axios';
 
 const App = () => {
     axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-
-
+    
     return (
         <>
             <Routes>
