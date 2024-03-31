@@ -1,7 +1,7 @@
 import './PastOrders.css';
 import cross from "../assets/cross-icon.svg";
 import PropTypes from "prop-types";
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from "axios";
 import { usePastMenu, useInitialisePastMenu } from '../context/MenuContext';
 import PastItem from "../components/PastItem.jsx";
@@ -10,23 +10,37 @@ const PastOrders = ({ toggleExpand }) => {
     const InitialisePastOrders = useInitialisePastMenu();
     const getPastOrders = usePastMenu();
     const total = getPastOrders.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
-
+    const [orders, setOrders] = useState([]);
     useEffect(() => {
-
-        const tablenumber = {'table_id': localStorage.getItem('tablenumber')}
         const fetchData = async () => {
             try {
-                console.log(localStorage.getItem('tablenumber'))
+                const tablenumber = { 'table_id': localStorage.getItem('tablenumber') };
                 const response = await axios.post('http://127.0.0.1:5000/customer/get_past_orders', tablenumber);
                 const data = response.data;
-                console.log(data);
                 InitialisePastOrders(data);
+                updateData(); // Call the updateData function after fetching data
             } catch (error) {
                 console.error('Error fetching menu:', error);
             }
         };
-        fetchData().then(() => console.log(getPastOrders))
-    }, []);
+        
+        const updateData = () => {
+            const newData = [];
+            getPastOrders.forEach(item => {
+                const existingItemIndex = newData.findIndex(i => i.name === item.name);
+                if (existingItemIndex !== -1) {
+                    newData[existingItemIndex].quantity += item.quantity;
+                } else {
+                    newData.push(item);
+                }
+            });
+            setOrders(newData);
+        };
+        fetchData();
+    }, [getPastOrders]);
+
+
+
 
     return (
         <>
@@ -36,7 +50,7 @@ const PastOrders = ({ toggleExpand }) => {
                     <h3 className="past-name">Past Orders</h3>
             </div>
             <div className='past-content'>
-                 {getPastOrders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)}
+                 {orders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)}
             </div>
             <div className='past-total'>Current Total: ${total} </div>
         </div>
