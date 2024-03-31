@@ -183,7 +183,7 @@ const WaiterPage = () => {
                         <tr key={index}>
                             <td>{order.tableNumber}</td>
                             <td>{order.item}</td>
-                            <td>{order.status}</td>
+                            <td className={`status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</td>
                         </tr>
                     ))}
                     </tbody>
