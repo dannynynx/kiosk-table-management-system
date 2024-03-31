@@ -13,6 +13,7 @@ import {useState} from "react";
 import Cart from './Cart';
 import PastOrders from './PastOrders';
 
+
 const TopBar = () => {
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
@@ -24,37 +25,20 @@ const TopBar = () => {
         try {
             const tablenumber = {"table_id": localStorage.getItem('tablenumber')};
             const token = {"token": localStorage.getItem('token')};
-            
-            const response = {await axios.post('http://127.0.0.1:5000/customer/notifications/add', tablenumber)
+            const type = {"notification_type": 'assistance'};
+            const data = {
+                tablenumber,
+                token,
+                type
+            }
+            await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
+        } catch (error) {
+            console.log(error)
         }
         setPopupMessage("Assistance is on the way");
         setPopUpVisible(true);
 
     };
-    const sendOrder = async () => { 
-        try { 
-            const order = {
-                "order_items": getCart.map((item) => { 
-                    return {"item_id": parseInt(item.index+1),
-                            "quantity": item.qty}
-                }),
-                "table_id": localStorage.getItem('tablenumber')
-            }
-
-            console.log(order)
-            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
-            getCart.forEach(item => {
-                removeCartItem(item.name);
-            })
-            setPopupMessage("Your order has been sent");
-            setPopUpVisible(true);
-        } catch (error) { 
-            console.error(error.message);
-        }
-       
-    }
-
-    
 
     const closePopUp = () => {
         setPopUpVisible(false);
