@@ -11,8 +11,8 @@ def staff_tablet_authentication(db, username, password):
 
     if table_info is not None:
         # If the user exists, generate a token
-        role = table_info[3]  
-        token = generate_token(username, password, role)
+        staff_id = table_info[0]  
+        token = generate_token(staff_id)
 
         cursor.execute("UPDATE STAFF SET token=? WHERE username=? AND password=?", (token, username, password))
         connection.commit() 
