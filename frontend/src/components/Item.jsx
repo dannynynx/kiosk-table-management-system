@@ -21,7 +21,7 @@ const Item = () => {
     const { name, description, price, ingredients, image } = item;
     const ingredientsList = ingredients.join(', ');
     const [quantity, setQuantity] = useState(1);
-    const increaseQuantity = () => setQuantity(quantity + 1);
+    const increaseQuantity = () => quantity < 9 && setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
@@ -41,16 +41,19 @@ const Item = () => {
     return (
         <div className='item'>
             <Link to='/menu'><img src={backArrow} className='back-arrow' alt='Back Arrow Icon'/></Link>
-            <img src={addToCart} className='add-to-cart' alt='Cart Plus Icon' onClick={() => addItemToCart(quantity)}/>
             <div className='item-container'>
                 <div className='item-image-container'>
                     <h1 className='item-name'>{name}</h1>
                     {image && <img src={`data:image/png;base64,${image}`} className='item-image-container' alt={name} />}
-                    <div className='item-quantity-bar'>
-                        <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
-                        <span className='quantity-text'>{quantity}</span>
-                        <img src={remove} className='quantity-bar-icon' alt='minus icon' onClick={decreaseQuantity}/>
+                    <div className='item-cart-quantity-row'>
+                        <div className='item-quantity-bar'>
+                            <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
+                            <span className='quantity-text'>{quantity}</span>
+                            <img src={remove} className='quantity-bar-icon' alt='minus icon' onClick={decreaseQuantity}/>
+                        </div>
+                        <img src={addToCart} className='add-to-cart' alt='Cart Plus Icon' onClick={() => addItemToCart(quantity)}/>
                     </div>
+                    
                 </div>
                 <div className='description-container'>
                     <h2 className='price'>${price}</h2>

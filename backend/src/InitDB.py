@@ -15,7 +15,7 @@ def initialise_db():
     )"""
     cursor.execute(sql1)
 
-    categories = [('BREKKIE',), ('LUNCH',), ('DINNER',), ('DESSERT',)]
+    categories = [('Brekkie',), ('Lunch',), ('Dinner',), ('Dessert',)]
     cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (?)", categories)
 
     # INGREDIENTS

@@ -11,6 +11,7 @@ const PastOrders = ({ toggleExpand }) => {
     const getPastOrders = usePastMenu();
     const total = getPastOrders.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
     const [orders, setOrders] = useState([]);
+    const [isPastOrdersEmpty, setPastOrdersEmpty] = useState(true);
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -36,7 +37,19 @@ const PastOrders = ({ toggleExpand }) => {
             });
             setOrders(newData);
         };
+
+        const PastOrdersEmpty = () => {
+            if (getPastOrders.length === 0) {
+                setPastOrdersEmpty(true);
+            } else {
+                setPastOrdersEmpty(false);
+            }
+            
+        }
+        PastOrdersEmpty();
         fetchData();
+
+        
     }, [getPastOrders]);
 
 
@@ -50,7 +63,11 @@ const PastOrders = ({ toggleExpand }) => {
                     <h3 className="past-name">Past Orders</h3>
             </div>
             <div className='past-content'>
-                 {orders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)}
+                {isPastOrdersEmpty ? (
+                    <h7>Past Orders are shown here</h7>
+                ) : (
+                    orders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)
+                )}
             </div>
             <div className='past-total'>Current Total: ${total} </div>
         </div>

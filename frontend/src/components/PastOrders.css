@@ -1,8 +1,3 @@
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
 .cross-icon {
     padding: 1em;
     width: 1.6em;
@@ -13,10 +8,11 @@
 }
 
 .past {
-    animation: fadeIn 300ms ease-in-out forwards;
     display: flex;
     flex-direction: column;
     height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 
 .past-header {
@@ -35,7 +31,7 @@
     flex:  12;
     padding: 2em 1.5em;
     border-radius: 0.5em;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .past-total {

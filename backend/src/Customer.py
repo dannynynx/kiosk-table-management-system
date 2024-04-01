@@ -47,6 +47,11 @@ def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    # Check if the token is valid
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
+
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
     new_session_id = max_session_id + 1 if max_session_id is not None else 1
