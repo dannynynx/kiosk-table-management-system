@@ -18,7 +18,7 @@ const Menu = ({selectedCategory}) => {
     );
 };
 
-Menu.prototype = {
+Menu.propTypes = {
     selectedCategory: PropTypes.string,
 };
 
