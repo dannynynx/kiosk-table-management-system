@@ -1,20 +1,25 @@
 import ItemPreview from './ItemPreview.jsx';
 import './Menu.css';
-import { Link, useLocation } from "react-router-dom";
-import { useMenu, useFilterMenuItems } from "../context/MenuContext.jsx";
+import { Link } from "react-router-dom";
+import { useMenu } from "../context/MenuContext.jsx";
+import PropTypes from "prop-types";
 
 const Menu = ({selectedCategory}) => {
     const processLink = (str) => str.toLowerCase().replace(/\s/g, '-');
-    const filterMenu = useFilterMenuItems();
-    const filteredItems = selectedCategory ? filterMenu(selectedCategory) : useMenu(); // Filtering menu items based on the selected category
+    const getMenu = useMenu();
+    const filteredItems = selectedCategory ? getMenu.filter(item => item.category === selectedCategory) : getMenu;
 
     return (
         <div className='menu'>
             {filteredItems.map((item, key) => <Link className='item-link' to= {{
-                    pathname: `${processLink(item.name)}`,}} 
+                    pathname: `${processLink(item.name)}`, search: `?param=${item.id}`}}
                 key={key}><ItemPreview name={item.name} cost={item.price}/></Link> )}
         </div>
     );
+};
+
+Menu.prototype = {
+    selectedCategory: PropTypes.string,
 };
 
 export default Menu;

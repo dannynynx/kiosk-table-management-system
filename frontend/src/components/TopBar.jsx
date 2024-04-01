@@ -1,13 +1,13 @@
 import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
-import React from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 const TopBar = ({onCategorySelect}) => {
-    const [categories, setCategories] = React.useState([]);
+    const [categories, setCategories] = useState([]);
     const tablenumber = localStorage.getItem('tablenumber');
-    React.useEffect(() => {
+    useEffect(() => {
         const getCategories = async () => {
             try {
                 const list = [];
