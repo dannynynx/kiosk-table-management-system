@@ -5,7 +5,7 @@ import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
+import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
