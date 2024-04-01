@@ -1,49 +1,63 @@
 import jwt
+import sqlite3
 from jwt.exceptions import DecodeError
 
 SECRET = "BLUEZEBRA"
 
-def generate_token(username, password, role):
-    global SECRET
+def generate_token(staff_id):
+    try:
+        global SECRET
+        payload = {'staff_id': staff_id}
+        token = jwt.encode(payload, SECRET, algorithm='HS256')
+        # print(f"Generated token: {token}, type: {type(token)}")
+        return token
+    except Exception as e:
+        print(f"An error occurred while generating the token: {e}")
+        return None
 
-    payload = {
-        'username': username,
-        'password': password,
-        'role': role
-    }
-    token = jwt.encode(payload, SECRET, algorithm='HS256')
-    return token
 
 def decode_token(token):
     global SECRET
     if token is None:
-        raise ValueError("Token cannot be None")
-    if not isinstance(token, bytes):
-        token = token.encode()  # Encode to bytes if not already
+        return None
     try:
-        decode = jwt.decode(token, SECRET, algorithms=['HS256'])
-        return decode
-    except jwt.DecodeError as e:
-        raise DecodeError(f"Invalid token: {e}")
-
-def decode_token_get_role(token):
-    decoded = decode_token(token)
-    return decoded.get('role')
+        decoded = jwt.decode(token, SECRET, algorithms=['HS256'])
+        return decoded
+    except jwt.InvalidTokenError:
+        print("Invalid token.")
+        return None
 
 def valid_user(token):
     decoded_token = decode_token(token)
-    return decoded_token is not None
+    if decoded_token is None:
+        return False
 
-def valid_user_specific(db, token, required_role):
+    staff_id = decoded_token.get('staff_id')
+    if staff_id is None:
+        return False 
+
+    return True
+
+def valid_user_specific(db, token):
+    decoded_token = decode_token(token)
+    if decoded_token is None:
+        return False
+
+    staff_id = decoded_token.get('staff_id')
+    if staff_id is None:
+        return False
+
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    query = "SELECT role FROM STAFF WHERE token = ?"
-    cursor.execute(query, (token,))
+    query = "SELECT role FROM STAFF WHERE staff_id = ?"
+    cursor.execute(query, (staff_id,))
+
     result = cursor.fetchone()
-
     connection.close()
-
-    if result and result[0].lower() == required_role.lower():
-        return True
-    return False
+    print(result)
+    
+    if result:
+        return result[0]  # Return the role
+    else:
+        return None

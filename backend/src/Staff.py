@@ -3,25 +3,28 @@ import jwt
 from Helper import generate_token, valid_user, decode_token, valid_user_specific
 
 def staff_tablet_authentication(db, username, password):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
+    connection = None
+    try:
+        connection = sqlite3.connect(db)
+        cursor = connection.cursor()
 
-    cursor.execute("SELECT * FROM STAFF WHERE username=? AND password=?", (username, password))
-    table_info = cursor.fetchone()
+        cursor.execute("SELECT * FROM STAFF WHERE username=? AND password=?", (username, password))
+        table_info = cursor.fetchone()
 
-    if table_info is not None:
-        # If the user exists, generate a token
-        role = table_info[3]  
-        token = generate_token(username, password, role)
-        print(f"Updating STAFF table for username: {username} with new token: {token}")
-        cursor.execute("UPDATE STAFF SET token=? WHERE username=? AND password=?", (token, username, password))
-        connection.commit() 
+        if table_info is not None:
+            # If the user exists, generate a token
+            staff_id = table_info[0] 
+            token = generate_token(staff_id)
+            table_id = get_role(db, username, password)
 
-        connection.close()
-
-        return token
-    else:
-        connection.close()
+            cursor.execute("UPDATE STAFF SET in_use = ? WHERE role = ?", (1, table_id))
+            connection.commit()
+            
+            return token
+        else:
+            return None
+    except Exception as e:
+        print(f"An error occurred in staff_tablet_authentication: {e}")
         return None
 
 def staff_tablet_logout(db, logout_code, token):
@@ -34,20 +37,37 @@ def staff_tablet_logout(db, logout_code, token):
         return None
     
     decoded_token = decode_token(token)
-    username = decoded_token.get('username')
+    staff_id = decoded_token.get('staff_id')
 
-    cursor.execute("SELECT * FROM STAFF WHERE username=? AND logout_code=?", (username, logout_code))
+    # Check if the staff_id exists in the database
+    cursor.execute("SELECT * FROM STAFF WHERE staff_id=?", (staff_id,))
+    staff_info = cursor.fetchone()
+    if staff_info is None:
+        connection.close()
+        return "Invalid staff ID"
+
+    # Check if the provided logout_code matches the staff_id
+    cursor.execute("SELECT * FROM STAFF WHERE staff_id=? AND logout_code=?", (staff_id, logout_code))
     user_info = cursor.fetchone()
 
-    if user_info is not None:
-        # Clear the token
-        cursor.execute("UPDATE STAFF SET token=NULL WHERE username=?", (username,))
-        connection.commit()
-        connection.close()
-        return "Logout successful"
-    else:
+    if user_info is None:
         connection.close()
         return "Invalid username or logout code"
+
+    # Check if the session_id is not 0
+    cursor.execute("SELECT in_use FROM STAFF WHERE staff_id=?", (staff_id,))
+    session_id = cursor.fetchone()[0]
+   
+    if session_id == 0:
+        connection.close()
+        return "Session ID is 0. Cannot logout."
+    print(staff_id)
+    cursor.execute("UPDATE STAFF SET in_use = ? WHERE staff_id = ?", (0, staff_id))
+    connection.commit()
+
+    connection.close()
+    return "Logout successful"
+
     
 def get_role(db, username, password):
     connection = sqlite3.connect(db)
