@@ -183,25 +183,26 @@ def initialise_db():
         username TEXT NOT NULL,
         password TEXT NOT NULL,
         role TEXT NOT NULL,
+        in_use TEXT NOT NULL,
         logout_code TEXT NOT NULL
     )"""
     cursor.execute(sql9)
     # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password', '1', "1234"),
-        ('table2_login', 'table2_password', '2', "1234"),
-        ('wait', 'wait_password', 'wait', "1234"),
-        ('kitchen', 'kitchen_password', 'kitchen', "1234"),
-        ('manager', 'manager_password', 'manager', "1234")
+        ('table1_login', 'table1_password', '1', '0', "1234"),
+        ('table2_login', 'table2_password', '2', '0', "1234"),
+        ('wait', 'wait_password', 'wait', '0', "1234"),
+        ('kitchen', 'kitchen_password', 'kitchen', '0', "1234"),
+        ('manager', 'manager_password', 'manager', '0', "1234")
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, role, logout_code) VALUES (?, ?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password, role, in_use, logout_code) VALUES (?, ?, ?, ?, ?)", staff_logins)
 
     # NOTIFICATIONS
     sql10 = """
     CREATE TABLE IF NOT EXISTS NOTIFICATIONS (
         notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
         table_id INTEGER,
-        notification_type TEXT NOT NULL CHECK (notification_type IN ('assistance', 'bill')),
+        notification_type TEXT NOT NULL,
         status TEXT NOT NULL,
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""

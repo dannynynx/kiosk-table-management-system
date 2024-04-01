@@ -1,25 +1,31 @@
 import jwt
+import sqlite3
 from jwt.exceptions import DecodeError
 
 SECRET = "BLUEZEBRA"
 
 def generate_token(staff_id):
-    global SECRET
+    try:
+        global SECRET
+        payload = {'staff_id': staff_id}
+        token = jwt.encode(payload, SECRET, algorithm='HS256')
+        # print(f"Generated token: {token}, type: {type(token)}")
+        return token
+    except Exception as e:
+        print(f"An error occurred while generating the token: {e}")
+        return None
 
-    payload = {
-        'staff_id': staff_id
-    }
-    token = jwt.encode(payload, SECRET, algorithm='HS256')
-    return token
 
 def decode_token(token):
     global SECRET
     if token is None:
         return None
-    if not isinstance(token, bytes):
-        token = token.encode()  # Encode to bytes if not already
-    decoded = jwt.decode(token, SECRET, algorithms=['HS256'])
-    return decoded
+    try:
+        decoded = jwt.decode(token, SECRET, algorithms=['HS256'])
+        return decoded
+    except jwt.InvalidTokenError:
+        print("Invalid token.")
+        return None
 
 def valid_user(token):
     decoded_token = decode_token(token)
@@ -28,7 +34,9 @@ def valid_user(token):
 
     staff_id = decoded_token.get('staff_id')
     if staff_id is None:
-        return False
+        return False 
+
+    return True
 
 def valid_user_specific(db, token):
     decoded_token = decode_token(token)
@@ -47,6 +55,7 @@ def valid_user_specific(db, token):
 
     result = cursor.fetchone()
     connection.close()
+    print(result)
     
     if result:
         return result[0]  # Return the role
