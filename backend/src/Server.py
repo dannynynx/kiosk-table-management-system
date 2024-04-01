@@ -11,7 +11,7 @@ from Customer import confirm_table, authenticate_table, show_table, show_menu, s
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout
 from WaitingStaff import get_notifications, update_notification
-from KitchenStaff import kitchen_show_orders
+from KitchenStaff import kitchen_show_orders, get_status
 from flask_cors import CORS
 
 app = Flask(__name__)
