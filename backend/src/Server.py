@@ -182,4 +182,4 @@ def show_orders():
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, port=4576)
+    app.run(debug=True)
