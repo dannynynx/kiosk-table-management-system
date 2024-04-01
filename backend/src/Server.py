@@ -7,7 +7,11 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import staff_tablet_authentication, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders
+from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
+from flask_cors import CORS
+from Staff import staff_tablet_authentication, staff_tablet_logout
+from WaitingStaff import get_notifications, update_notification
+from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -36,11 +40,39 @@ def staff_authentication():
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
     role = get_role(DB_PATH, username, password)
-
-    if staff_tablet_authentication(DB_PATH, username, password):
-        return jsonify({'authentication': 'Successful', 'role': role}), 200
+    token = staff_tablet_authentication(DB_PATH, username, password)
+    print(token)
+    
+    if token is not None:
+        return jsonify({'token': token, 'role': role}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
+
+@app.route('/staff/tablet_logout', methods=['POST'])
+def tablet_logout():
+    data = request.get_json()
+    logout_code = data.get('logout_code')
+    token = data.get('token')
+
+    if not logout_code or not token:
+        return jsonify({'error': 'Missing logout_code or token'}), 400
+    
+    user_info = staff_tablet_logout(DB_PATH, logout_code, token)
+
+    # Call staff_tablet_logout function with the provided data
+    result = staff_tablet_logout(DB_PATH, logout_code, token)
+
+    # Check the result and return appropriate response
+    if result == "Logout successful":
+        return jsonify({'message': 'Logout successful'}), 200
+    elif result == "Invalid username or logout code":
+        return jsonify({'error': 'Invalid username or logout code'}), 401
+    elif result == "Invalid staff ID":
+        return jsonify({'error': 'Invalid staff ID'}), 401
+    elif result == "Session ID is 0. Cannot logout.":
+        return jsonify({'error': 'Session ID is 0. Cannot logout.'}), 401
+    else:
+        return jsonify({'error': 'Unknown error occurred'}), 500
 
 @app.route('/customer/table_confirmation', methods=['POST'])
 def table_confirmation():
@@ -54,11 +86,9 @@ def table_confirmation():
 def table_authentication():
     data = request.get_json()
     entered_code = data.get('code')
+    token = data.get('token')
 
-    # if not entered_code:
-    #     return jsonify({'error': 'Ensure a 4 digit code has been entered'}), 400
-
-    if authenticate_table(DB_PATH, entered_code):
+    if authenticate_table(DB_PATH, entered_code, token):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
@@ -73,46 +103,57 @@ def create_notification():
     if not table_id or not notification_type:
         return jsonify({'error': 'Missing table_id or notification_type'}), 400
 
-    add_notification(DB_PATH, table_id, notification_type, token)
-    return jsonify({'message': 'Notification added successfully'}), 200
+    if notification_type not in ['assistance', 'bill']:
+        return jsonify({'error': 'Invalid notification_type'}), 400
 
-@app.route('/waitstaff/notifications/get', methods=['GET'])
+    if add_notification(DB_PATH, table_id, notification_type, token):
+        # Assuming add_notification returns True if successful
+        return jsonify({'message': 'Notification added successfully'}), 200
+    else:
+        # If add_notification returns False, indicating failure
+        return jsonify({'error': 'Could not send notification'}), 500 
+
+@app.route('/waitstaff/get_notification_status', methods=['GET'])
 def fetch_notifications():
     token = request.headers.get('Authorization')
-    notifications = get_notifications(DB_PATH, token, "wait")
+    notifications = get_notifications(DB_PATH, token)
     
     if notifications:
         return jsonify(notifications), 200
     else:
         return jsonify({'error': 'Failed to retrieve notifications'}), 500
 
+@app.route('/waitstaff/update_notification_status', methods=['PUT'])
+def update_notifications():
+    data = request.get_json()
+    token = data.get('token')
+    notification_id = data.get('notification_id')
+    new_status = data.get('new_status')
+
+    if not token or not notification_id or not new_status:
+        return jsonify({'error': 'Missing token, notification_id, or new_status'}), 400
+
+    success, updated_notification = update_notification(DB_PATH, notification_id, new_status, token)
+
+    if updated_notification:
+        return jsonify({'notification': updated_notification}), 200
+    else:
+        return jsonify({'error': 'Failed to update notification'}), 500
+
 @app.route('/customer/send_order', methods=['POST'])
 def send_order():
     data = request.get_json()
     table_id = data.get('table_id')
     order_items = data.get('order_items')
+    token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, table_id, order_items)
+    return_data = send_order_to_database(DB_PATH, table_id, order_items, token)
     return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
-
-# @app.route("/customer/selectTable", methods=['POST'])
-# def selectTable():
-#     data = request.get_json()
-#     table_id = data.get('table_id')
-#     return_data = select_table(DB_PATH, table_id)
-#     return jsonify(return_data), 200
-
-# @app.route("/customer/goBackTable", methods=['POST'])
-# def goBackTable():
-#     data = request.get_json()
-#     table_id = data.get('table_id')
-#     return_data = go_back_table(DB_PATH, table_id)
-#     return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
@@ -130,6 +171,14 @@ def get_past_orders():
     table_id = data.get('table_id')
 
     return_data = get_customer_past_orders(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route("/kitchen/get_order_status", methods=['GET'])
+def show_orders():
+    data = request.get_json()
+    token = data.get('token')
+
+    return_data = kitchen_show_orders(DB_PATH, token)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':

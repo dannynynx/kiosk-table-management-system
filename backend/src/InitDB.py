@@ -164,11 +164,13 @@ def initialise_db():
     )"""
     cursor.execute(sql7)
 
+    # ORDER DETAILS
     sql8 = """
     CREATE TABLE IF NOT EXISTS IN_ORDER (
         order_id INTEGER,
         item_id INTEGER,
         quantity INTEGER,
+        status TEXT,
         FOREIGN KEY (order_id) REFERENCES ORDERS(order_id)
         FOREIGN KEY (item_id) REFERENCES ITEMS(item_id)
     )"""
@@ -181,26 +183,26 @@ def initialise_db():
         username TEXT NOT NULL,
         password TEXT NOT NULL,
         role TEXT NOT NULL,
-        token TEXT,
+        in_use TEXT NOT NULL,
         logout_code TEXT NOT NULL
     )"""
     cursor.execute(sql9)
     # tables numbers are 0 for all staff
     staff_logins = [
-        ('table1_login', 'table1_password', '1', None, "1234"),
-        ('table2_login', 'table2_password', '2', None, "1234"),
-        ('wait', 'wait_password', 'wait', None, "1234"),
-        ('kitchen', 'kitchen_password', 'kitchen', None, "1234"),
-        ('manager', 'manager_password', 'manager', None, "1234")
+        ('table1_login', 'table1_password', '1', '0', "1234"),
+        ('table2_login', 'table2_password', '2', '0', "1234"),
+        ('wait', 'wait_password', 'wait', '0', "1234"),
+        ('kitchen', 'kitchen_password', 'kitchen', '0', "1234"),
+        ('manager', 'manager_password', 'manager', '0', "1234")
     ]
-    cursor.executemany("INSERT INTO STAFF (username, password, role, token, logout_code) VALUES (?, ?, ?, ?, ?)", staff_logins)
+    cursor.executemany("INSERT INTO STAFF (username, password, role, in_use, logout_code) VALUES (?, ?, ?, ?, ?)", staff_logins)
 
     # NOTIFICATIONS
     sql10 = """
     CREATE TABLE IF NOT EXISTS NOTIFICATIONS (
         notification_id INTEGER PRIMARY KEY AUTOINCREMENT,
         table_id INTEGER,
-        notification_type TEXT NOT NULL CHECK (notification_type IN ('assistance', 'bill')),
+        notification_type TEXT NOT NULL,
         status TEXT NOT NULL,
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
