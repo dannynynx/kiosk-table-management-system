@@ -32,14 +32,16 @@ const KitchenOrdersProvider = ({ children }) => {
    
 
     return (
-    <InitialiseKitchenOrdersContext.Provider value={setKitchenOrder}>
-        <RemoveKitchenOrderContext.Provider value={removeKitchenOrder}>
-                <KitchenOrderContext.Provider value={kitchenOrders}>
-                    {children}
-                </KitchenOrderContext.Provider>
-        </RemoveKitchenOrderContext.Provider>
-    </InitialiseKitchenOrdersContext.Provider>
-    
+
+    <KitchenOrderContext.Provider>
+        <InitialiseKitchenOrdersContext.Provider value={setKitchenOrder}>
+            <RemoveKitchenOrderContext.Provider value={removeKitchenOrder}>
+                    <KitchenOrderContext.Provider value={kitchenOrders}>
+                        {children}
+                    </KitchenOrderContext.Provider>
+            </RemoveKitchenOrderContext.Provider>
+        </InitialiseKitchenOrdersContext.Provider>
+    </KitchenOrderContext.Provider>
     );
 }
 

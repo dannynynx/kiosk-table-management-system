@@ -1,21 +1,30 @@
 import './KitchenPage.css';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
+import { useIntialiseKitchenOrders, useKitchenOrders } from '../context/KitchenContext.jsx';
+
 
 const KitchenPage = () => {
-    const [orders, setOrders] = useState([]);
+
+    const intialiseKitchenOrders = useIntialiseKitchenOrders();
+    const token = { "token": localStorage.getItem('token')};
+    const orders = useKitchenOrders();
 
     useEffect(() => { 
         const fetchData = async () => { 
             try { 
-                const token = { "token": localStorage.getItem('token')};
                 const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status', token);
                 const data = response.data;
                 console.log(data);
-                setOrders(data);
+                intialiseKitchenOrders(data);
             } catch (error) { 
                 console.error('Error fetching orders:', error);
             }
+        };
+
+        fetchData().then(() => console.log(orders));
+        return () => {
+            // Cleanup logic here
         };
     },[]);
 
