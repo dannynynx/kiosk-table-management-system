@@ -17,7 +17,7 @@ const KitchenPage = () => {
                 console.error('Error fetching orders:', error);
             }
         };
-    },[])
+    },[]);
 
     const handleStatusChange = (order) => { 
         //later
