@@ -20,7 +20,7 @@ const Item = () => {
     const item = getMenu[index];
     const { price, description, ingredients } = getMenu[index];
     const [quantity, setQuantity] = useState(1);
-    const increaseQuantity = () => setQuantity(quantity + 1);
+    const increaseQuantity = () => quantity < 9 && setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
