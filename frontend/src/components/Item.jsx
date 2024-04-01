@@ -1,5 +1,4 @@
 import './Item.css';
-import placeholderItem from '../assets/item-placeholder.svg';
 import backArrow from '../assets/back-arrow-icon.svg';
 import addToCart from '../assets/cart-plus-icon.svg';
 import add from '../assets/plus-icon.svg';
@@ -18,7 +17,8 @@ const Item = () => {
     const updateCartItemContext = useUpdateCartItem();
 
     const item = getMenu.find(item => item.id === id);
-    const { name, description, price, ingredients } = item;
+    console.log(getMenu, id)
+    const { name, description, price, ingredients, image } = item;
     const ingredientsList = ingredients.join(', ');
     const [quantity, setQuantity] = useState(1);
     const increaseQuantity = () => setQuantity(quantity + 1);
@@ -45,7 +45,7 @@ const Item = () => {
             <div className='item-container'>
                 <div className='item-image-container'>
                     <h1 className='item-name'>{name}</h1>
-                    <img src={placeholderItem} className='item-image' alt='Placeholder Item'/>
+                    {image && <img src={`data:image/png;base64,${image}`} className='item-image-container' alt={name} />}
                     <div className='item-quantity-bar'>
                         <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
                         <span className='quantity-text'>{quantity}</span>

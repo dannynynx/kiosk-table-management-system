@@ -11,9 +11,9 @@ const Menu = ({selectedCategory}) => {
 
     return (
         <div className='menu'>
-            {filteredItems.map((item, key) => <Link className='item-link' to= {{
+            {filteredItems.map(item => <Link className='item-link' to= {{
                     pathname: `${processLink(item.name)}`, search: `?param=${item.id}`}}
-                key={key}><ItemPreview name={item.name} cost={item.price}/></Link> )}
+                key={item.id}><ItemPreview id={item.id}/></Link> )}
         </div>
     );
 };

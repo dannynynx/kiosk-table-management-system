@@ -41,24 +41,25 @@ def initialise_db():
         description TEXT NOT NULL,
         category_id INTEGER,
         cost NUMERIC,
+        image TEXT NOT NULL,
         FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id)
     )"""
     cursor.execute(sql3)
 
     items = [
-        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99),
-        ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00),
-        ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00),
-        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99),
-        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99),
-        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99),
-        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00),
-        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99),
-        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99),
-        ('Korean BBQ', 'Why Not?', 4, 60.99),
-        ('Omakase', 'For the ballers', 4, 200.000)
+        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99, 'Avocado_Toast.png'),
+        ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00, 'Lasagna.png'),
+        ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00, 'Margherita_Pizza.png'),
+        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99, 'Chocolate_Cake.png'),
+        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99, 'Scrambled_Eggs.png'),
+        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99, 'Fish_and_Chips.png'),
+        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00, 'Steak_and_Salad.png'),
+        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99, 'Matcha_Ice_Cream.png'),
+        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99, 'Spaghetti_Bolognese.png'),
+        ('Korean BBQ', 'Why Not?', 4, 60.99, 'Korean_BBQ.png'),
+        ('Omakase', 'For the ballers', 4, 200.000, 'Omakase.png')
     ]
-    cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost) VALUES (?, ?, ?, ?)", items)
+    cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost, image) VALUES (?, ?, ?, ?, ?)", items)
 
     # LINKED ITEMS AND INGREDIENTS
     sql4 = """

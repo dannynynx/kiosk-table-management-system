@@ -1,3 +1,4 @@
+import base64
 import sqlite3
 import random
 import time
@@ -162,7 +163,7 @@ def show_menu(db):
     cursor = connection.cursor()
 
     showMenu = '''
-    SELECT DISTINCT i.item_id, i.name, i.description, c.name, i.cost, 
+    SELECT DISTINCT i.item_id, i.name, i.description, c.name, i.cost, i.image, 
         (SELECT group_concat(C.ingredient_name, ', ') 
          FROM ITEMS AS A 
          JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
@@ -178,18 +179,21 @@ def show_menu(db):
     items_list = []
 
     for item in items:
+        with open(f'ItemImages/{item[5]}', "rb") as image_file:
+            # Encode the image as base64 string
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],
             "price": item[4],
             "description": item[2],
             "category": item[3],
-            "ingredients": item[5].split(', ')
+            "image": encoded_image,
+            "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
 
     connection.close()
-    print(items_list)
     return items_list
 
 def get_all_categories(db):
