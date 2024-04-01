@@ -50,7 +50,6 @@ def staff_authentication():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
-
     code = confirm_table(DB_PATH, table_id)
     return jsonify({'code': code}), 200
 

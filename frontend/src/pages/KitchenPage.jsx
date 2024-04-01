@@ -1,32 +1,26 @@
 import './KitchenPage.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const KitchenPage = () => {
-    const [orders, setOrders] = useState([
-        {
-            tableNumber: 1,
-            item: 'Pizza',
-            status: 'start'
-        },
-        {
-            tableNumber: 2,
-            item: 'Pasta',
-            status: 'start'
-        },
-        {
-            tableNumber: 3,
-            item: 'Burger',
-            status: 'start'
-        },
-        {
-            tableNumber: 4,
-            item: 'Sushi',
-            status: 'preparing'
-        },
-    ]);
+    const [orders, setOrders] = useState([]);
 
-    const handleStart = (order) => { 
-        //send a request back to backend to change the status 
+    useEffect(() => { 
+        const fetchData = async () => { 
+            try { 
+                const token = { "token": localStorage.getItem('token')};
+                const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status', token);
+                const data = response.data;
+                console.log(data);
+                setOrders(data);
+            } catch (error) { 
+                console.error('Error fetching orders:', error);
+            }
+        };
+    },[])
+
+    const handleStatusChange = (order) => { 
+        //later
     }
 
 
@@ -48,7 +42,7 @@ const KitchenPage = () => {
                         <td>{order.tableNumber}</td>
                         <td>{order.item}</td>
                         {order.status == "start" ? (
-                            <td><button className='start-btn' onClick={handleStart(order)}>Start</button></td>) : 
+                            <td><button className='start-btn' onClick={handleStatusChange(order)}>Start</button></td>) : 
                             order.status == "preparing" ? 
                          (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
                     </tr>
