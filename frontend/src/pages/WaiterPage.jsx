@@ -5,15 +5,28 @@ import axios from "axios";
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status')
-            } catch {
+    const intialiseKitchenOrders = useIntialiseKitchenOrders();
+    const token = { 'token': localStorage.getItem('token')};
+    const orders = useKitchenOrders();
 
+    useEffect(() => { 
+        const fetchData = async () => { 
+            try { 
+                const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status', token);
+                const data = response.data;
+                console.log(data);
+                intialiseKitchenOrders(data);
+            } catch (error) { 
+                console.error('Error fetching orders:', error);
             }
         };
-    }, []);
+
+        fetchData().then(() => console.log(orders));
+        return () => {
+            // Cleanup logic here
+        };
+    },[]);
+
    
 
     return (
