@@ -172,12 +172,32 @@ def get_past_orders():
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
 
-@app.route("/kitchen/get_order_status", methods=['GET'])
+@app.route("/staff/show_orders", methods=['GET'])
 def show_orders():
+    token = request.args.get('token')
+    return_data = show_all_orders(DB_PATH, token)
+    return jsonify(return_data), 200
+
+@app.route("/staff/get_order_status", methods=['GET'])
+def get_order_status():
+    order_id = request.args.get('order_id')
+    item_id = request.args.get('item_id')
+    quantity = request.args.get('quantity')
+    token = request.args.get('token')
+
+    return_data = get_status(DB_PATH, order_id, item_id, quantity, token)
+    return jsonify(return_data), 200
+
+@app.route("/staff/update_order_status", methods=['PUT'])
+def update_order_status():
     data = request.get_json()
+    status = data.get('status')
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
     token = data.get('token')
 
-    return_data = kitchen_show_orders(DB_PATH, token)
+    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity, token)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':
