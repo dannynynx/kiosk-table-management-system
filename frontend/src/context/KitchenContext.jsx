@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 
 const InitialiseKitchenOrdersContext = createContext();
-const RemoveKitchenOrderContext = createContext();
 const KitchenOrderContext = createContext();
 
 
@@ -16,30 +15,28 @@ const useIntialiseKitchenOrders = () => {
     return useContext(InitialiseKitchenOrdersContext);
 }
 
-const useRemoveKitchenOrder = () => {
-    return useContext(RemoveKitchenOrderContext);
-}
+// const useRemoveKitchenOrder = () => {
+//     return useContext(RemoveKitchenOrderContext);
+// }
 
 const KitchenOrdersProvider = ({ children }) => {
     const [kitchenOrders, setKitchenOrder] = useState([]);
 
-    const removeKitchenOrder = (name) => {
-        // const newOrder = kitchenOrder.filter((cartItem) => cartItem.name !== name);
-        // setCart(newCart);
-        // console.log(cart)
-    };
+    // const removeKitchenOrder = (name) => {
+    //     // const newOrder = kitchenOrder.filter((cartItem) => cartItem.name !== name);
+    //     // setCart(newCart);
+    //     // console.log(cart)
+    // };
 
    
 
     return (
 
-    <KitchenOrderContext.Provider>
+    <KitchenOrderContext.Provider value={kitchenOrders}>
         <InitialiseKitchenOrdersContext.Provider value={setKitchenOrder}>
-            <RemoveKitchenOrderContext.Provider value={removeKitchenOrder}>
-                    <KitchenOrderContext.Provider value={kitchenOrders}>
+            {/* <RemoveKitchenOrderContext.Provider value={removeKitchenOrder}> */}
                         {children}
-                    </KitchenOrderContext.Provider>
-            </RemoveKitchenOrderContext.Provider>
+            {/* </RemoveKitchenOrderContext.Provider> */}
         </InitialiseKitchenOrdersContext.Provider>
     </KitchenOrderContext.Provider>
     );
@@ -50,4 +47,4 @@ KitchenOrderContext.propTypes = {
 };
 
 export default KitchenOrdersProvider;
-export { useIntialiseKitchenOrders, useRemoveKitchenOrder, useKitchenOrders };
+export { useIntialiseKitchenOrders, useKitchenOrders };

@@ -7,7 +7,7 @@ import { useIntialiseKitchenOrders, useKitchenOrders } from '../context/KitchenC
 const KitchenPage = () => {
 
     const intialiseKitchenOrders = useIntialiseKitchenOrders();
-    const token = { "token": localStorage.getItem('token')};
+    const token = { 'token': localStorage.getItem('token')};
     const orders = useKitchenOrders();
 
     useEffect(() => { 
