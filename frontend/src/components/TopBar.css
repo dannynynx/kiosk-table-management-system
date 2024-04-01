@@ -35,9 +35,8 @@
     border-radius: 10px;
 }
 
-.table-number { 
-    margin: auto;
-    margin-right: 2vw;
+.table-number {
+    margin: auto 2vw auto auto;
     align-items: center;
     color: white;
 }

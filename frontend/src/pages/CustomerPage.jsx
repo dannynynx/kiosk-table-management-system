@@ -1,6 +1,5 @@
 import SideBar from '../components/SideBar.jsx';
 import TopBar from '../components/TopBar.jsx';
-import BottomBar from '../components/BottomBar.jsx';
 import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";

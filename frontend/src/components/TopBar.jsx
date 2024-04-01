@@ -1,42 +1,20 @@
 import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
-import { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 import PopUp from "./PopUp";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
-import requestBill from '../assets/request-bill-icon.svg';
 import Cart from './Cart';
 import PastOrders from './PastOrders';
 
-const TopBar = ({onCategorySelect}) => {
-    const [categories, setCategories] = useState([]);
+const TopBar = () => {
     const tablenumber = localStorage.getItem('tablenumber');
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
-     
-    useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const list = [];
-                const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.data) { 
-                    list.push({
-                        id: category.category_id,
-                        name: category.name,
-                    })
-                }
-                setCategories(list);
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
-        }; 
-        getCategories();
-    },[]);
 
     const handleAskForAssistance = async () => {
         try {

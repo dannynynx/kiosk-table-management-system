@@ -17,7 +17,6 @@ const Item = () => {
     const updateCartItemContext = useUpdateCartItem();
 
     const item = getMenu.find(item => item.id === id);
-    console.log(getMenu, id)
     const { name, description, price, ingredients, image } = item;
     const ingredientsList = ingredients.join(', ');
     const [quantity, setQuantity] = useState(1);
