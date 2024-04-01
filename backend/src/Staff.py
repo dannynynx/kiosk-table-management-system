@@ -85,3 +85,78 @@ def get_role(db, username, password):
     connection.close()
 
     return role
+
+def show_all_orders(db, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+     # Check if the token is valid
+    if not valid_user_specific(db, token):
+        connection.close()
+        return None
+    
+    sql = """
+    SELECT o.order_id, o.table_id, io.item_id, io.quantity, io.status
+    FROM ORDERS AS o
+    JOIN IN_ORDER AS io on io.order_id = o.order_id
+    """
+
+    cursor.execute(sql)
+    order_items = cursor.fetchall()
+    order_list = []
+
+    for item in order_items:
+        item_dict = {
+            "order_id": item[0],
+            "table_number": item[1],
+            "item_id": item[2],
+            "quantity": item[3],
+            "status": item[4]
+        }
+        order_list.append(item_dict)
+    
+    connection.close()
+
+    return order_list
+
+def get_status(db, order_id, item_id, quantity, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+     # Check if the token is valid
+    if not valid_user_specific(db, token):
+        connection.close()
+        return None
+    
+    sql = """
+    SELECT status
+    FROM IN_ORDER
+    WHERE order_id = :o AND item_id = :i AND quantity = :q
+    """
+    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    status = cursor.fetchall()[0][0]
+
+    connection.close()
+
+    return status 
+
+def change_order_status(db, status, order_id, item_id, quantity, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+     # Check if the token is valid
+    if not valid_user_specific(db, token):
+        connection.close()
+        return None
+    
+    sql = """
+    UPDATE IN_ORDER
+    SET status = :s
+    WHERE order_id = :o AND item_id = :i AND quantity = :q
+    """
+
+    cursor.execute(sql, {"s": status, "o": order_id, "i": item_id, "q": quantity})
+    connection.commit()
+    connection.close()
+
+    return {}
