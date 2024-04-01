@@ -42,7 +42,7 @@ def generate_unique_code():
             generated_codes.add(code)
             return code
 
-def confirm_table(db, table_id, token):
+def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
