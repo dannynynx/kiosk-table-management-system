@@ -5,26 +5,37 @@ import axios from "axios";
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     
-    const intialiseKitchenOrders = useIntialiseKitchenOrders();
-    const token = { 'token': localStorage.getItem('token')};
-    const orders = useKitchenOrders();
+    // const intialiseKitchenOrders = useIntialiseKitchenOrders();
+    // const token = { 'token': localStorage.getItem('token')};
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => { 
-        const fetchData = async () => { 
+        // const fetchData = async () => { 
+        //     try { 
+        //         const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status', token);
+        //         const data = response.data;
+        //         console.log(data);
+        //         intialiseKitchenOrders(data);
+        //     } catch (error) { 
+        //         console.error('Error fetching orders:', error);
+        //     }
+        // };
+
+        const fetchNotifs = async () => { 
             try { 
-                const response = await axios.get('http://127.0.0.1:5000/kitchen/get_order_status', token);
+                const response = await axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status');
                 const data = response.data;
                 console.log(data);
-                intialiseKitchenOrders(data);
+                setNotifs(data);
             } catch (error) { 
-                console.error('Error fetching orders:', error);
+                console.error('Error fetching notifications:', error);
             }
-        };
+        }
 
-        fetchData().then(() => console.log(orders));
-        return () => {
-            // Cleanup logic here
-        };
+        // fetchData().then(() => console.log(orders));
+        // return () => {
+        //     // Cleanup logic here
+        // };
     },[]);
 
    
