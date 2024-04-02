@@ -9,9 +9,8 @@ import shutil
 from InitDB import initialise_db
 from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, kitchen_show_orders;
 from WaitingStaff import get_notifications, update_notification
-from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
 
 app = Flask(__name__)

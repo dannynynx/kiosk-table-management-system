@@ -15,20 +15,9 @@ const useIntialiseKitchenOrders = () => {
     return useContext(InitialiseKitchenOrdersContext);
 }
 
-// const useRemoveKitchenOrder = () => {
-//     return useContext(RemoveKitchenOrderContext);
-// }
 
 const KitchenOrdersProvider = ({ children }) => {
     const [kitchenOrders, setKitchenOrder] = useState([]);
-
-    // const removeKitchenOrder = (name) => {
-    //     // const newOrder = kitchenOrder.filter((cartItem) => cartItem.name !== name);
-    //     // setCart(newCart);
-    //     // console.log(cart)
-    // };
-
-   
 
     return (
 
