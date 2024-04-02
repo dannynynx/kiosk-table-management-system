@@ -3,71 +3,37 @@ import cross from "../assets/cross-icon.svg";
 import PropTypes from "prop-types";
 import { useEffect, useState } from 'react';
 import axios from "axios";
-import { usePastMenu, useInitialisePastMenu } from '../context/MenuContext';
 import PastItem from "../components/PastItem.jsx";
+import { useMenu } from "../context/MenuContext.jsx";
 
 const PastOrders = ({ toggleExpand }) => {
-    const InitialisePastOrders = useInitialisePastMenu();
-    const getPastOrders = usePastMenu();
-    const total = getPastOrders.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2);
-    const [orders, setOrders] = useState([]);
-    const [isPastOrdersEmpty, setPastOrdersEmpty] = useState(true);
+    const menu = useMenu();
+    const [pastOrders, setPastOrders] = useState([]);
+    const noPastOrders = () => pastOrders.length === 0;
+    const total = pastOrders.reduce((total, item) => {
+        const menuItem = menu.find(menuItem => menuItem.id === item.id);
+        return total + (menuItem.price * item.quantity);
+    }, 0).toFixed(2);
+
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const tablenumber = { 'table_id': localStorage.getItem('tablenumber') };
-                const response = await axios.post('http://127.0.0.1:5000/customer/get_past_orders', tablenumber);
+        const table_id = localStorage.getItem('tablenumber');
+        axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
+            .then(response => {
                 const data = response.data;
-                InitialisePastOrders(data);
-                updateData(); 
-            } catch (error) {
+                setPastOrders(data);
+            })
+            .catch(error => {
                 console.error('Error fetching menu:', error);
-            }
-        };
-        
-        const updateData = () => {
-            const newData = [];
-            getPastOrders.forEach(item => {
-                const existingItemIndex = newData.findIndex(i => i.name === item.name);
-                if (existingItemIndex !== -1) {
-                    newData[existingItemIndex].quantity += item.quantity;
-                } else {
-                    newData.push(item);
-                }
             });
-            setOrders(newData);
-        };
-
-        const PastOrdersEmpty = () => {
-            if (getPastOrders.length === 0) {
-                setPastOrdersEmpty(true);
-            } else {
-                setPastOrdersEmpty(false);
-            }
-            
-        }
-        PastOrdersEmpty();
-        fetchData();
-
-        
-    }, [getPastOrders]);
-
-
-
+    }, []);
 
     return (
         <>
         <div className='past'>
             <div className='past-header'>
-                    <img src={cross} className='cross-icon' alt='Cross Icon' onClick={toggleExpand}/>
-                    <h3 className="past-name">Past Orders</h3>
-            </div>
+                    <img src={cross} className='cross-icon' alt='Cross Icon' onClick={toggleExpand}/></div>
             <div className='past-content'>
-                {isPastOrdersEmpty ? (
-                    <h7>Past Orders are shown here</h7>
-                ) : (
-                    orders.map(item => <PastItem key={item.name} name={item.name} price={item.price} qty={item.quantity}/>)
-                )}
+                {noPastOrders() ? <h6>No past orders</h6> : pastOrders.map(item => <PastItem key={item.id} id={item.id} qty={item.quantity}/>)}
             </div>
             <div className='past-total'>Current Total: ${total} </div>
         </div>

@@ -164,10 +164,9 @@ def get_categories():
     return_data = get_all_categories(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route("/customer/get_past_orders", methods=['POST'])
+@app.route("/customer/get_past_orders", methods=['GET'])
 def get_past_orders():
-    data = request.get_json()
-    table_id = data.get('table_id')
+    table_id = request.args.get('table_id')
 
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
