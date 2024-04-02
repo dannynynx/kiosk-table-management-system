@@ -9,8 +9,9 @@ import assistance from '../assets/call-assistance-icon.svg';
 import Cart from './Cart';
 import PastOrders from './PastOrders';
 import {Link} from "react-router-dom";
+import PropTypes from "prop-types";
 
-const TopBar = () => {
+const TopBar = ({ onHandleSearchFilter }) => {
     const tablenumber = localStorage.getItem('tablenumber');
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
@@ -36,29 +37,29 @@ const TopBar = () => {
     const closePopUp = () => {
         setPopUpVisible(false);
     };
-
     
     const toggleExpand = (contentType) => {
         setRenderContent(expanded ? null : contentType);
         setExpanded(!expanded);
     };
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-        }
-      }
-
     return (
         <>
             <div className="topbar">
-                <div className="left-topbar">
+                <div className="topbar-left">
                     <Link to='/menu' className="topbar-logo-link">
-                        <img  src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
+                        <img src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
                     </Link>
 
-                    <input className="search-bar" type='text' placeholder='Search' onKeyDown={handleKeyDown}></input>
+                    <input
+                        className="search-bar"
+                        type='text'
+                        placeholder='Search'
+                        onChange={(event) => onHandleSearchFilter(event.target.value)}
+                    />
+
                 </div>
-                <div className="right-topbar">
+                <div className="topbar-right">
                     <div className='topbar-icon-container' onClick={() => toggleExpand('cart')}>
                         <img src={cart} className='cart' alt='Cart Icon'/>
                     </div>
@@ -68,7 +69,7 @@ const TopBar = () => {
                     <div className='topbar-icon-container' onClick={handleAskForAssistance}>
                         <img src={assistance} className='cart' alt='Call for Assistance Icon'/>
                     </div>   
-                    <div className={`right-topbar ${expanded ? 'expanded' : ''}`}>
+                    <div className={`topbar-right ${expanded ? 'expanded' : ''}`}>
                         {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
                         {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
                     </div> 
@@ -81,5 +82,9 @@ const TopBar = () => {
         </>
     );
 };
+
+TopBar.propTypes = {
+    onHandleSearchFilter: PropTypes.func.isRequired,
+}
 
 export default TopBar;

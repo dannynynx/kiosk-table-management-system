@@ -1,14 +1,13 @@
 import './SideBar.css';
-import {useState} from "react";
 import requestBill from '../assets/request-bill-icon.svg';
 import PopUp from "./PopUp";
 import axios from 'axios';
-import React from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
-const SideBar = ({onCategorySelect}) => {
-    const [categories, setCategories] = React.useState([]);
+const SideBar = ({ onCategorySelect }) => {
+    const [categories, setCategories] = useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
@@ -33,7 +32,7 @@ const SideBar = ({onCategorySelect}) => {
         setPopUpVisible(false);
         navigate('../kiosk/authentication');
     };
-    React.useEffect(() => {
+    useEffect(() => {
         const getCategories = async () => {
             try {
                 const list = [];
