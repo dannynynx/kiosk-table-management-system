@@ -179,9 +179,8 @@ def get_order_status():
     order_id = request.args.get('order_id')
     item_id = request.args.get('item_id')
     quantity = request.args.get('quantity')
-    token = request.args.get('token')
 
-    return_data = get_status(DB_PATH, order_id, item_id, quantity, token)
+    return_data = get_status(DB_PATH, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
 @app.route("/staff/update_order_status", methods=['PUT'])

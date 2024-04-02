@@ -24,7 +24,24 @@ const KitchenPage = () => {
 
     const handleStatusChange = (order) => { 
         console.log(order)
-        axios.put('http://127.0.0.1:5000/staff/update_order_status', order)
+        let status = null;
+
+        if (order.status == "ordered") { 
+            status = "cooking";
+        } else if (order.status == "cooking") { 
+            status = "cooked";
+        }
+
+        const data = { 
+            status,
+            item_id: order.item_id,
+            order_id: order.order_id,
+            quantity: order.quantity,
+        }
+
+        console.log(data)
+
+        axios.put('http://127.0.0.1:5000/staff/update_order_status', data)
         .then(response => { 
             console.log(response);
             getOrders();
@@ -48,17 +65,32 @@ const KitchenPage = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {!(orders.length === 0) ? (orders.map((order, index) => (
-                    <tr key={index}>
-                        <td>{order.table_number}</td>
-                        <td>{order.name}</td>
-                        <td>{order.quantity}</td>
-                        {order.status == "ordered" ? (
-                            <td><button className='start-btn' onClick={() => handleStatusChange(order)}>Start</button></td>) : 
-                            order.status == "preparing" ? 
-                         (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
-                    </tr>
-                ))) : <tr><td>There are no orders currently.</td></tr>}
+                {!(orders.length === 0) ? (
+    orders.map((order, index) => {
+        if (order.status !== "cooked") {
+            return (
+                <tr key={index}>
+                    <td>{order.table_number}</td>
+                    <td>{order.name}</td>
+                    <td>{order.quantity}</td>
+                    {order.status === "ordered" ? (
+                        <td>
+                            <button className='start-btn' onClick={() => handleStatusChange(order)}>Start</button>
+                        </td>
+                    ) : order.status === "cooking" ? (
+                        <td style={{color: 'orange'}}>Preparing <button className='finish-btn' onClick={() => handleStatusChange(order)}>Finish</button></td>
+                    ) : null}
+                </tr>
+            );
+        } else {
+            return null;
+        }
+    })
+) : (
+    <tr>
+        <td colSpan="4">There are no orders currently.</td>
+    </tr>
+)}
                 </tbody>
             </table>
         </div>

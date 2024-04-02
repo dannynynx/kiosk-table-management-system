@@ -20,9 +20,15 @@
 .finish-btn { 
     background-color: darkgray;
     border: none;
-    width: 20%;
+    width: 50%;
     border-radius: 5px;
 }
+
+.finish-btn:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease;
+}
+
 
 .status-ordered { 
     background-color: lightcoral;

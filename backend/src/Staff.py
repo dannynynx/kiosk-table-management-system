@@ -91,11 +91,10 @@ def show_all_orders(db):
     cursor = connection.cursor()
     
     sql = """
-    SELECT o.order_id, o.table_id, io.item_id, i.name, SUM(io.quantity) AS total_quantity, io.status
+    SELECT o.order_id, o.table_id, io.item_id, i.name, io.quantity, io.status
     FROM ORDERS AS o
     JOIN IN_ORDER AS io ON io.order_id = o.order_id
     JOIN ITEMS AS i ON i.item_id = io.item_id
-    GROUP BY o.order_id, o.table_id, io.item_id, i.name, io.status
 """
 
     cursor.execute(sql)
@@ -141,11 +140,6 @@ def get_status(db, order_id, item_id, quantity, token):
 def change_order_status(db, status, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    #  # Check if the token is valid
-    # if not valid_user_specific(db, token):
-    #     connection.close()
-    #     return None
     
     sql = """
     UPDATE IN_ORDER
