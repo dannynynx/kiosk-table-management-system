@@ -27,7 +27,6 @@ const CartProvider = ({ children }) => {
 
     const addCartItem = (item) => {
         setCart([...cart, item]);
-        console.log(cart, "lala")
     };
 
     const removeCartItem = (name) => {

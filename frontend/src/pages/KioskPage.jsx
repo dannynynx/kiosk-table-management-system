@@ -78,9 +78,11 @@ const KioskPage = () => {
                     <h1 className='selection-title'>Select Table</h1>
                 </div>
                 <div className='table-selection-container'>
-                    {tables.map((table, key) => (
-                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? 'green' : 'red'} onClick={() => confirmTable(table.id)}></TablePreview>))}
-
+                    {tables.map((table) => (
+                        <TablePreview key={table.id} tableNumber={table.id} colour={table.avail == 0 ? 'green' : 'red'}
+                            onClick={() => confirmTable(table.id)}
+                        />
+                    ))}
                 </div>
             </section>
             <section className='confirmation-page' id='table-confirmation-page'>

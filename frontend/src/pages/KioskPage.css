@@ -1,7 +1,6 @@
 section.first-page, section.selection-page, section.table-code-page {
     width: 100%;
     height: 100vh;
-    background-image: url('../assets/login-background.jpg');
     background-size: cover;
     background-position: center;
     color: white;
@@ -31,7 +30,7 @@ section.first-page, section.selection-page, section.table-code-page {
 .code-bottom-container {
     height: 40%;
     background-color: #222a5c;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     flex-direction: column;
 }
 
@@ -39,8 +38,8 @@ section.first-page, section.selection-page, section.table-code-page {
     height: 80%;
     width: 60%;
     background-color: #222a5c;
-    border: 0px;
-    font-family: 'Bukhari Script', sans-serif;
+    border: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     color: #dfe5f1;
     font-size: 3em;
     border-radius: 20px;
@@ -53,7 +52,7 @@ section.first-page, section.selection-page, section.table-code-page {
 
 .kiosk-title, .selection-title {
     color: #222a5c;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 7em;
     font-weight: 200;
     padding-bottom: 15%;
@@ -62,11 +61,11 @@ section.first-page, section.selection-page, section.table-code-page {
 .top-bar {
     height: 10%;
     width: 100%;
-    background-color: #6a6fa2;
+    background-color: #222A5C;
 }
 
 .selection-title {
-    margin-top: 0%;
+    margin-top: 0;
     font-size: 4em;
     color: white;
 }
@@ -91,7 +90,7 @@ section.first-page, section.selection-page, section.table-code-page {
 }
 
 .table-selection-container::-webkit-scrollbar {
-    width: 0px;
+    width: 0;
     background: transparent;
 }
 
@@ -131,11 +130,11 @@ section.first-page, section.selection-page, section.table-code-page {
     height: 20%;
     margin: 1%;
     background-color: #6a6fa2;
-    border: 0px;
+    border: 0;
     font-size: 200%;
     border-radius: 20px;
     color: white;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .confirm-button:hover {

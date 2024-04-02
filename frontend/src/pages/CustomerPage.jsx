@@ -1,18 +1,16 @@
 import SideBar from '../components/SideBar.jsx';
 import TopBar from '../components/TopBar.jsx';
-import BottomBar from '../components/BottomBar.jsx';
 import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
+import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
-    const getMenu = useMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
 
@@ -31,12 +29,7 @@ const CustomerPage = (props) => {
                 console.error('Error fetching menu:', error);
             }
         };
-
-        fetchData().then(() => console.log(getMenu));
-        return () => {
-            // Cleanup logic here
-        };
-    }, []);
+    }, [initialiseMenuItem]);
 
     const handleCategoryFilter = (category) => {
         setSelectedCategory(category);
@@ -46,13 +39,10 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar onCategorySelect={handleCategoryFilter} />
+                <TopBar/>
             </div>
             <div className='sidebar-container'>
-                <SideBar />
-            </div>
-            <div className='bottombar-container'>
-                <BottomBar />
+                <SideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} />}
