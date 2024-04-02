@@ -63,20 +63,33 @@ const TableSelectionPage = () => {
         setCodeVisible(false);
     };
 
-    const handleConfirmSelection = (tableNumber) => {
+    const handleConfirmSelection = async (tableNumber) => {
         setPopUpVisible(false);
-        getTableCode(tableNumber);
+        await confirmTableSelection(tableNumber);
+        await getTableCode(tableNumber);
         setCodeVisible(true);
     };
 
     const getTableCode = async (tableNumber) => {
         try {
-            const data = {'table_id': tableNumber}
-            console.log(data)
             const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
             const rawCode = response.data;
+            setCode(rawCode);
+            console.log("the table code is:")
             console.log(rawCode)
-            setCode(rawCode)
+            console.log(code)
+            return rawCode;
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            return null;
+        }
+    }
+
+    const confirmTableSelection = async (tableNumber)=> {
+        try {
+            const data = {"table_id": tableNumber}
+            console.log(data)
+            const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', data);
         } catch (error) {
             console.error('Error submitting data:', error);
             return null;
@@ -97,12 +110,12 @@ const TableSelectionPage = () => {
                 <div className='table-selection-container'>
                     {tables.map((table, key) => (
                         <TablePreview tableNumber={table.id} colour={table.avail == 0 ? '#DBDCDE' : '#767A7B' } tablePicture={getTablePicture(table.size, table.avail)} onClick={() => handleConfirmTable(table.id.toString(), table.avail)}></TablePreview>))}
-                        {isPopUpVisible && (
-                            <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} nextStep={handleConfirmSelection}/>
-                        )}
-                        {isCodeVisible && (
-                            <CodePopUp tableCode={code} onClose={closeCodePopUp} isPopUpVisible={isCodeVisible}/>
-                        )}
+                    {isPopUpVisible && (
+                        <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} nextStep={handleConfirmSelection}/>
+                    )}
+                    {isCodeVisible && (
+                        <CodePopUp tableCode={code} onClose={closeCodePopUp} isPopUpVisible={isCodeVisible}/>
+                    )}
                 </div>
             </section>
 
