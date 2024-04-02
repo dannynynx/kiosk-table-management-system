@@ -29,7 +29,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
             const data = response.data ?? [];
             console.log(data);
             data.forEach(notif => {
-                if(notif.notification_type == "assistance" && notif.table_id == tablenumber) { 
+                if(notif.notification_type == "assistance" && notif.table_id == tablenumber && notif.status == "new") { 
                     setNotif(notif);
                     return;
                 }

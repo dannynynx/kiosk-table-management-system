@@ -108,13 +108,17 @@ const WaiterPage = () => {
 
             <div className='notifications-container'>
                 <h2>Notifications</h2>
-                {notifs.map((notif, index) => (
+                {notifs.map((notif, index) => {
+                if (notif.status =="new") {
+                    return (
                         <div key={index} className='notif'>
-                            <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
-                            {notif.status == 'new' ? 
-                            (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
-                        </div>
-                ))}
+                                    <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
+                                    {notif.status == 'new' ? 
+                                    (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
+                                </div>
+                    )} else { 
+                        null
+                    }})}
             </div>
         </div>
     );
