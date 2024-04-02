@@ -1,13 +1,8 @@
 import './Item.css';
-import backArrow from '../assets/back-arrow-icon.svg';
-import addToCart from '../assets/cart-plus-icon.svg';
-import add from '../assets/plus-icon.svg';
-import remove from '../assets/minus-icon.svg';
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import { useCart, useAddCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
-
 
 const Item = () => {
     const queryParams = new URLSearchParams(useLocation().search);
@@ -19,9 +14,10 @@ const Item = () => {
 
     const item = getMenu.find(item => item.id === id);
     const { name, description, price, ingredients, image } = item;
+    const formattedPrice = price.toFixed(2);
     const ingredientsList = ingredients.join(', ');
     const [quantity, setQuantity] = useState(1);
-    const increaseQuantity = () => quantity < 9 && setQuantity(quantity + 1);
+    const increaseQuantity = () => quantity < 10 && setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
@@ -39,30 +35,22 @@ const Item = () => {
 
     return (
         <div className='item'>
-            <Link to='/menu'><img src={backArrow} className='back-arrow' alt='Back Arrow Icon'/></Link>
-            <div className='item-container'>
-                <div className='item-image-container'>
-                    <h1 className='item-name'>{name}</h1>
-                    {image && <img src={`data:image/png;base64,${image}`} className='item-image-container' alt={name} />}
-                    <div className='item-cart-quantity-row'>
-                        <div className='item-quantity-bar'>
-                            <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
-                            <span className='quantity-text'>{quantity}</span>
-                            <img src={remove} className='quantity-bar-icon' alt='minus icon' onClick={decreaseQuantity}/>
-                        </div>
-                        <img src={addToCart} className='add-to-cart' alt='Cart Plus Icon' onClick={() => addItemToCart(quantity)}/>
+            {image && <img src={`data:image/png;base64,${image}`} className='item-image' alt={name} />}
+            <div className='item-details-container'>
+                <h1 className='item-name'>{name}</h1>
+                <div className='item-price'>${formattedPrice}</div>
+                <div className='item-add-line'>
+                    <div className='item-quantity-container'>
+                        <button onClick={decreaseQuantity}>-</button>
+                        <span>{quantity}</span>
+                        <button onClick={increaseQuantity}>+</button>
                     </div>
-                    
+                    <button className='item-add-to-cart' onClick={() => addItemToCart(quantity)}>ADD TO CART</button>
                 </div>
-                <div className='description-container'>
-                    <h2 className='price'>${price}</h2>
-                    <div className='divider'></div>
-                    <h3 className='description-header'>Description</h3>
-                    <p className='description-content'>{description}</p>
-                    <div className='divider'></div>
-                    <div className='ingredients-header'>Ingredients</div>
-                    <div className='ingredients-content'>{ingredientsList}</div>
-                </div>
+                <h2 className='item-detail-heading'>DESCRIPTION</h2>
+                <p className='item-description'>{description}</p>
+                <h2 className='item-detail-heading'>INGREDIENTS</h2>
+                <p className='item-ingredients'>{ingredientsList}</p>
             </div>
         </div>
     )
