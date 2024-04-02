@@ -4,10 +4,13 @@ import { Link } from "react-router-dom";
 import { useMenu } from "../context/MenuContext.jsx";
 import PropTypes from "prop-types";
 
-const Menu = ({selectedCategory}) => {
+const Menu = ({ selectedCategory, searchValue }) => {
     const processLink = (str) => str.toLowerCase().replace(/\s/g, '-');
     const getMenu = useMenu();
-    const filteredItems = selectedCategory ? getMenu.filter(item => item.category === selectedCategory) : getMenu;
+    const filteredItems = getMenu.filter(item =>
+        (!selectedCategory || item.category === selectedCategory) &&
+        (!searchValue || item.name.toLowerCase().includes(searchValue.toLowerCase()))
+    );
 
     return (
         <div className='menu'>
@@ -20,6 +23,7 @@ const Menu = ({selectedCategory}) => {
 
 Menu.propTypes = {
     selectedCategory: PropTypes.string,
+    searchValue: PropTypes.string,
 };
 
 export default Menu;

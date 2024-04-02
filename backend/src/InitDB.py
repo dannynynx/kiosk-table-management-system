@@ -57,7 +57,7 @@ def initialise_db():
         ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99, 'Matcha_Ice_Cream.png'),
         ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 4, 17.99, 'Spaghetti_Bolognese.png'),
         ('Korean BBQ', 'Why Not?', 4, 60.99, 'Korean_BBQ.png'),
-        ('Omakase', 'For the ballers', 4, 200.000, 'Omakase.png')
+        ('Omakase', 'For the ballers', 4, 200.00, 'Omakase.png')
     ]
     cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost, image) VALUES (?, ?, ?, ?, ?)", items)
 

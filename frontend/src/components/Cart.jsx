@@ -2,52 +2,53 @@ import './Cart.css';
 import cross from '../assets/cross-icon.svg';
 import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
-import { useCart, useRemoveCartItem } from '../context/CartContext';
+import { useCart, useInitialiseCart } from '../context/CartContext';
 import PopUp from "./PopUp";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useMenu } from "../context/MenuContext.jsx";
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
+    const menu = useMenu();
     useEffect(() => {}, [getCart]);
 
-    const removeCartItem = useRemoveCartItem();
+    const setCart = useInitialiseCart()
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const emptyCart = () => getCart.length === 0;
+    const calculateTotal = getCart.reduce((total, cartItem) => {
+        const menuItem = menu.find(item => item.id === cartItem.id);
+        return total + (menuItem.price * cartItem.qty);
+    }, 0).toFixed(2);
 
-    const sendOrder = async () => {
+    const sendOrder = () => {
         if (getCart.length === 0) {
             return;
         }
 
-        try { 
-            const order = {
-                "order_items": getCart.map((item) => { 
-                    return {"item_id": parseInt(item.id),
-                            "quantity": item.qty}
-                }),
-                "table_id": localStorage.getItem('tablenumber')
-            }
+        const order = {
+            "order_items": getCart.map((item) => {
+                return {"item_id": parseInt(item.id),
+                    "quantity": item.id}
+            }),
+            "table_id": localStorage.getItem('tablenumber')
+        };
 
-            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
-            getCart.forEach(item => {
-                removeCartItem(item.name);
+        axios.post('http://127.0.0.1:5000/customer/send_order', order)
+            .then(() => {
+                setCart([]);
+                setPopupMessage("Your order has been sent");
+                setPopUpVisible(true);
             })
-            setPopupMessage("Your order has been sent");
-            setPopUpVisible(true);
-        } catch (error) { 
-            console.error(error.message);
-        }
-       
+            .catch((error) => {
+                console.error(error.message);
+            });
     }
 
     const closePopUp = () => {
         setPopUpVisible(false);
     };
-
-    const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
-
 
     return (
         <>

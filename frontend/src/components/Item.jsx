@@ -28,12 +28,11 @@ const Item = () => {
 
         const isItemInCart = getCart.some(cartItem => cartItem.id === id);
         if (!isItemInCart) {
-            const itemWithQty = { ...item, qty: quantity };
-            addToCartContext(itemWithQty);
+            addToCartContext(item.id, quantity);
         } else {
-            const existingItem = getCart.find(cartItem => cartItem.name === name);
+            const existingItem = getCart.find(cartItem => cartItem.id === id);
             const newQty = Math.min(existingItem.qty + quantity, 10);
-            updateCartItemContext(name, newQty);
+            updateCartItemContext(item.id, newQty);
         }
         setQuantity(1)
     }

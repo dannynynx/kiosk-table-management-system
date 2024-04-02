@@ -13,7 +13,8 @@ const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
-    
+    const [searchValue, setSearchValue] = useState('');
+
     useEffect(() => {
         if (!localStorage.getItem('token')) { 
             navigate('/login');
@@ -32,17 +33,21 @@ const CustomerPage = (props) => {
         setSelectedCategory(category);
     };
 
+    const handleSearchFilter = (searchValue) => {
+        setSearchValue(searchValue);
+    }
+
     const { display } = props;
     return (
         <>
             <div className='topbar-container'>
-                <TopBar/>
+                <TopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
             <div className='sidebar-container'>
                 <SideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && <Menu selectedCategory={selectedCategory} />}
+                {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
                 {display === 'item' && <Item />}
             </div>
         </>

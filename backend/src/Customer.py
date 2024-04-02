@@ -64,9 +64,23 @@ def confirm_table(db, table_id):
 
     connection.close()
 
+    return {}
+
+def get_table_code(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("SELECT code FROM TABLES WHERE table_id=?", [table_id])
+
+    code = cursor.fetchone()[0]
+
+    connection.commit()
+
+    connection.close()
+
     return code
 
-def authenticate_table(db, entered_code, token):
+def authenticate_table(db, table_id, entered_code, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -76,7 +90,7 @@ def authenticate_table(db, entered_code, token):
     #     return None
         
     # Retrieve stored code for the table
-    cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
+    cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1 AND table_id=?", [table_id])
     
     stored_codes = cursor.fetchall()
 

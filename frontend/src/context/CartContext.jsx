@@ -5,6 +5,7 @@ const AddCartItemContext = createContext();
 const RemoveCartItemContext = createContext();
 const UpdateCartItemContext = createContext();
 const CartContext = createContext();
+const initialiseCartContext = createContext();
 
 const useAddCartItem = () => {
     return useContext(AddCartItemContext);
@@ -22,22 +23,29 @@ const useCart = () => {
     return useContext(CartContext);
 }
 
+const useInitialiseCart = () => {
+    return useContext(initialiseCartContext);
+}
+
 const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
-    const addCartItem = (item) => {
+    const addCartItem = (id, qty) => {
+        console.log(id, qty, cart);
+        const item = { "id": id, "qty": qty };
         setCart([...cart, item]);
     };
 
-    const removeCartItem = (name) => {
-        const newCart = cart.filter((cartItem) => cartItem.name !== name);
+    const removeCartItem = (id) => {
+        const newCart = cart.filter((cartItem) => cartItem.id !== id);
         setCart(newCart);
     };
 
-    const updateCartItem = (name, qty) => {
+    const updateCartItem = (id, qty) => {
+        console.log(id, qty, cart);
         const newCart = cart.map((cartItem) => {
-            if (cartItem.name === name) {
-                return { ...cartItem, qty: qty };
+            if (cartItem.id === id) {
+                return { ...cartItem, qty};
             }
             return cartItem;
         });
@@ -48,9 +56,11 @@ const CartProvider = ({ children }) => {
         <AddCartItemContext.Provider value={addCartItem}>
             <RemoveCartItemContext.Provider value={removeCartItem}>
                 <UpdateCartItemContext.Provider value={updateCartItem}>
-                    <CartContext.Provider value={cart}>
-                        {children}
-                    </CartContext.Provider>
+                    <initialiseCartContext.Provider value={setCart}>
+                        <CartContext.Provider value={cart}>
+                            {children}
+                        </CartContext.Provider>
+                    </initialiseCartContext.Provider>
                 </UpdateCartItemContext.Provider>
             </RemoveCartItemContext.Provider>
         </AddCartItemContext.Provider>
@@ -62,4 +72,4 @@ CartProvider.propTypes = {
 };
 
 export default CartProvider;
-export { useAddCartItem, useRemoveCartItem, useUpdateCartItem, useCart };
+export { useAddCartItem, useRemoveCartItem, useUpdateCartItem, useCart, useInitialiseCart };
