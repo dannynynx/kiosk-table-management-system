@@ -60,10 +60,12 @@ const TableSelectionPage = () => {
         }
     };
 
-    const handleConfirmTable = (number) => {
-        const confirmMessage = "You have selected Table #" + number
-        setPopupMessage(confirmMessage);
-        setPopUpVisible(true);
+    const handleConfirmTable = (number, avail) => {
+        if (avail == 0) {
+            const confirmMessage = "You have selected Table #" + number
+            setPopupMessage(confirmMessage);
+            setPopUpVisible(true);
+        }
     };
 
     const closePopUp = () => {
@@ -79,7 +81,20 @@ const TableSelectionPage = () => {
         generateCode(tableNumber);
         setCodeMessage(code);
         setCodeVisible(true);
+        confirmTableSelection(tableNumber);
     };
+
+    const confirmTableSelection = async (tableNumber)=> {
+        try {
+            const response = await axios.post( 'http://127.0.0.1:5000/customer/confirmTable', tableNumber);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            return null;
+        }
+    }
+
+
 
     return (
         <>
@@ -94,7 +109,7 @@ const TableSelectionPage = () => {
                 </div>
                 <div className='table-selection-container'>
                     {tables.map((table, key) => (
-                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? '#DBDCDE' : '#767A7B' } tablePicture={getTablePicture(table.size, table.avail)} onClick={() => handleConfirmTable(table.id.toString())}></TablePreview>))}
+                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? '#DBDCDE' : '#767A7B' } tablePicture={getTablePicture(table.size, table.avail)} onClick={() => handleConfirmTable(table.id.toString(), table.avail)}></TablePreview>))}
                         {isPopUpVisible && (
                             <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} nextStep={handleConfirmSelection}/>
                         )}

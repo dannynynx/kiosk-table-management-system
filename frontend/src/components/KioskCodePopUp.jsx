@@ -1,5 +1,6 @@
 import "./KioskCodePopUp.css";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 const KioskCodePopUp = (props) => { 
 
@@ -13,9 +14,9 @@ const KioskCodePopUp = (props) => {
                     <h2>Your Table Code Is:</h2>
                     <h2 className="kiosk-code-text">0000</h2>
                 </div>
-                <div className="kiosk-popup-button-container">
+                <Link className="kiosk-popup-button-container" to="/kiosk">
                     <input type="button" onClick={props.onClose} className="kiosk-popup-button" value='Exit'></input>
-                </div>
+                </Link>
             </div>
         </div>
     </>)
