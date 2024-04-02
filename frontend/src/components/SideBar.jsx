@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 
 const SideBar = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
@@ -54,11 +55,21 @@ const SideBar = ({ onCategorySelect }) => {
     return (
         <>
             <div className="categories">
-                <button onClick={() => onCategorySelect("")}>
+                <button onClick={() => {
+                    onCategorySelect("");
+                    setSelectedCategory(null);
+                }} className={!selectedCategory ? 'selected' : ''}>
                     <h2 className="category">All</h2>
                 </button>
                 {categories.map((category) => (
-                    <button key={category.id} onClick={() => onCategorySelect(category.name)}>
+                    <button
+                        key={category.id}
+                        onClick={() => {
+                            onCategorySelect(category.name);
+                            setSelectedCategory(category.id);
+                        }}
+                        className={selectedCategory === category.id ? 'selected' : ''}
+                    >
                         <h2 className="category" id={category.id}>{category.name}</h2>
                     </button>
                 ))}
@@ -67,8 +78,8 @@ const SideBar = ({ onCategorySelect }) => {
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
             </div>
             {isPopUpVisible && (
-            <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
-        )}
+                <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
+            )}
         </>
     );
 };
