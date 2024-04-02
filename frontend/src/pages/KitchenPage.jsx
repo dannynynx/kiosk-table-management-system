@@ -49,11 +49,11 @@ const KitchenPage = () => {
                         <td>{order.name}</td>
                         <td>{order.quantity}</td>
                         {order.status == "ordered" ? (
-                            <td><button className='start-btn' onClick={handleStatusChange(order)}>Start</button></td>) : 
+                            <td><button className='start-btn' onClick={() => handleStatusChange(order)}>Start</button></td>) : 
                             order.status == "preparing" ? 
                          (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
                     </tr>
-                ))) : <tr>There are no orders currently.</tr>}
+                ))) : <tr><td>There are no orders currently.</td></tr>}
                 </tbody>
             </table>
         </div>
