@@ -19,13 +19,10 @@ const TopBar = () => {
 
     const handleAskForAssistance = async () => {
         try {
-            const tablenumber = {"table_id": localStorage.getItem('tablenumber')};
-            const token = {"token": localStorage.getItem('token')};
-            const type = {"notification_type": 'assistance'};
             const data = {
-                tablenumber,
-                token,
-                type
+                "table_id": localStorage.getItem('tablenumber'),
+                "token": localStorage.getItem('token'),
+                "notification_type": 'assistance',
             }
             await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
         } catch (error) {
@@ -33,7 +30,7 @@ const TopBar = () => {
         }
         setPopupMessage("Assistance is on the way");
         setPopUpVisible(true);
-
+        
     };
 
     const closePopUp = () => {
