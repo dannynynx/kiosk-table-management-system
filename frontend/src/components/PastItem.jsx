@@ -1,6 +1,6 @@
 import './CartItem.css'
 import PropTypes from "prop-types";
-import { useMenu} from "../context/MenuContext.jsx";
+import { useMenu } from "../context/MenuContext.jsx";
 
 const PastItem = ({ id, qty }) => {
     // Calculate the total price and format it with two decimal places
