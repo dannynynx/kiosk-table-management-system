@@ -138,14 +138,14 @@ def get_status(db, order_id, item_id, quantity, token):
 
     return status 
 
-def change_order_status(db, status, order_id, item_id, quantity, token):
+def change_order_status(db, status, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-     # Check if the token is valid
-    if not valid_user_specific(db, token):
-        connection.close()
-        return None
+    #  # Check if the token is valid
+    # if not valid_user_specific(db, token):
+    #     connection.close()
+    #     return None
     
     sql = """
     UPDATE IN_ORDER

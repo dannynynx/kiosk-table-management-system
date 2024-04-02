@@ -9,7 +9,7 @@ import shutil
 from InitDB import initialise_db
 from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status;
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
 from WaitingStaff import get_notifications, update_notification
 from flask_cors import CORS
 
@@ -191,9 +191,8 @@ def update_order_status():
     order_id = data.get('order_id')
     item_id = data.get('item_id')
     quantity = data.get('quantity')
-    token = data.get('token')
 
-    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity, token)
+    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':

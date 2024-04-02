@@ -12,6 +12,11 @@
     width: 80%;
 }
 
+.start-btn:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease;
+}
+
 .finish-btn { 
     background-color: darkgray;
     border: none;
