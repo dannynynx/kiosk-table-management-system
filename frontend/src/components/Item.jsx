@@ -1,37 +1,38 @@
 import './Item.css';
-import placeholderItem from '../assets/item-placeholder.svg';
 import backArrow from '../assets/back-arrow-icon.svg';
 import addToCart from '../assets/cart-plus-icon.svg';
 import add from '../assets/plus-icon.svg';
 import remove from '../assets/minus-icon.svg';
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import { useCart, useAddCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
 
+
 const Item = () => {
+    const queryParams = new URLSearchParams(useLocation().search);
+    const id = parseInt(queryParams.get('param'),10);
     const getMenu = useMenu();
     const getCart = useCart();
     const addToCartContext = useAddCartItem();
     const updateCartItemContext = useUpdateCartItem();
-    const { id: name } = useParams();
-    const linkProcessedMenu = getMenu.map(item => item.name.toLowerCase().replace(/\s/g, '-'));
-    const index = linkProcessedMenu.findIndex(item => item === name.toLowerCase().replace(/\s/g, '-'));
-    const item = getMenu[index];
-    const { price, description, ingredients } = getMenu[index];
+
+    const item = getMenu.find(item => item.id === id);
+    const { name, description, price, ingredients, image } = item;
+    const ingredientsList = ingredients.join(', ');
     const [quantity, setQuantity] = useState(1);
     const increaseQuantity = () => quantity < 9 && setQuantity(quantity + 1);
     const decreaseQuantity = () => quantity > 1 && setQuantity(quantity - 1);
 
     const addItemToCart = (quantity) => {
-        const isItemInCart = getCart.some(cartItem => cartItem.name === name);
+
+        const isItemInCart = getCart.some(cartItem => cartItem.id === id);
         if (!isItemInCart) {
-            const itemWithQty = { index, ...item, qty: quantity };
-            addToCartContext(itemWithQty);
+            addToCartContext(item.id, quantity);
         } else {
-            const existingItem = getCart.find(cartItem => cartItem.name === name);
-            const newQty = existingItem.qty + quantity;
-            updateCartItemContext(name, newQty);
+            const existingItem = getCart.find(cartItem => cartItem.id === id);
+            const newQty = Math.min(existingItem.qty + quantity, 10);
+            updateCartItemContext(item.id, newQty);
         }
         setQuantity(1)
     }
@@ -42,7 +43,7 @@ const Item = () => {
             <div className='item-container'>
                 <div className='item-image-container'>
                     <h1 className='item-name'>{name}</h1>
-                    <img src={placeholderItem} className='item-image' alt='Placeholder Item'/>
+                    {image && <img src={`data:image/png;base64,${image}`} className='item-image-container' alt={name} />}
                     <div className='item-cart-quantity-row'>
                         <div className='item-quantity-bar'>
                             <img src={add} className='quantity-bar-icon' alt='plus icon' onClick={increaseQuantity}/>
@@ -60,9 +61,7 @@ const Item = () => {
                     <p className='description-content'>{description}</p>
                     <div className='divider'></div>
                     <div className='ingredients-header'>Ingredients</div>
-                    <ul className='ingredients'>
-                        {ingredients.map(ingredient => <li key={ingredient}>{ingredient}</li>)}
-                    </ul>
+                    <div className='ingredients-content'>{ingredientsList}</div>
                 </div>
             </div>
         </div>

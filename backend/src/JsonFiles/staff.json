@@ -4,7 +4,7 @@
         "username": "table1_login",
         "password": "table1_password",
         "role": "1",
-        "in_use": "0",
+        "in_use": "1",
         "logout_code": "1234"
     },
     {
@@ -12,7 +12,7 @@
         "username": "table2_login",
         "password": "table2_password",
         "role": "2",
-        "in_use": "0",
+        "in_use": "1",
         "logout_code": "1234"
     },
     {

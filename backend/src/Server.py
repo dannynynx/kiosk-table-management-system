@@ -7,11 +7,10 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
+from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
 from WaitingStaff import get_notifications, update_notification
-from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -41,7 +40,6 @@ def staff_authentication():
 
     role = get_role(DB_PATH, username, password)
     token = staff_tablet_authentication(DB_PATH, username, password)
-    print(token)
     
     if token is not None:
         return jsonify({'token': token, 'role': role}), 200
@@ -78,17 +76,25 @@ def tablet_logout():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
+    return_data = confirm_table(DB_PATH, table_id)
+    return jsonify(return_data), 200
 
-    code = confirm_table(DB_PATH, table_id)
-    return jsonify({'code': code}), 200
+@app.route('/customer/table_code', methods=['GET'])
+def table_code():
+    table_id = request.args.get('table_id')
+
+    return_data = get_table_code(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
     data = request.get_json()
+    table_id = data.get('table_id')
     entered_code = data.get('code')
     token = data.get('token')
 
-    if authenticate_table(DB_PATH, entered_code, token):
+    if authenticate_table(DB_PATH, table_id, entered_code, token):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
@@ -165,10 +171,9 @@ def get_categories():
     return_data = get_all_categories(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route("/customer/get_past_orders", methods=['POST'])
+@app.route("/customer/get_past_orders", methods=['GET'])
 def get_past_orders():
-    data = request.get_json()
-    table_id = data.get('table_id')
+    table_id = request.args.get('table_id')
 
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
@@ -176,6 +181,26 @@ def get_past_orders():
 @app.route("/staff/show_orders", methods=['GET'])
 def show_orders():
     return_data = show_all_orders(DB_PATH)
+    return jsonify(return_data), 200
+
+@app.route("/staff/get_order_status", methods=['GET'])
+def get_order_status():
+    order_id = request.args.get('order_id')
+    item_id = request.args.get('item_id')
+    quantity = request.args.get('quantity')
+
+    return_data = get_status(DB_PATH, order_id, item_id, quantity)
+    return jsonify(return_data), 200
+
+@app.route("/staff/update_order_status", methods=['PUT'])
+def update_order_status():
+    data = request.get_json()
+    status = data.get('status')
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
+
+    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
 

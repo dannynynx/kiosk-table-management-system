@@ -2,60 +2,53 @@ import './Cart.css';
 import cross from '../assets/cross-icon.svg';
 import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
-import { useCart, useRemoveCartItem } from '../context/CartContext';
+import { useCart, useInitialiseCart } from '../context/CartContext';
 import PopUp from "./PopUp";
 import axios from 'axios';
-import { useState } from 'react';
-import React from "react";
+import { useEffect, useState } from 'react';
+import { useMenu } from "../context/MenuContext.jsx";
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
-    const removeCartItem = useRemoveCartItem();
-    const [isCartEmpty, setCartEmpty] = useState(true);
+    const menu = useMenu();
+    useEffect(() => {}, [getCart]);
+
+    const setCart = useInitialiseCart()
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
+    const emptyCart = () => getCart.length === 0;
+    const calculateTotal = getCart.reduce((total, cartItem) => {
+        const menuItem = menu.find(item => item.id === cartItem.id);
+        return total + (menuItem.price * cartItem.qty);
+    }, 0).toFixed(2);
 
-    const sendOrder = async () => { 
-        try { 
-            const order = {
-                "order_items": getCart.map((item) => { 
-                    return {"item_id": parseInt(item.index+1),
-                            "quantity": item.qty}
-                }),
-                "table_id": localStorage.getItem('tablenumber')
-            }
-
-            console.log(order)
-            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
-            getCart.forEach(item => {
-                removeCartItem(item.name);
-            })
-            setPopupMessage("Your order has been sent");
-            setPopUpVisible(true);
-        } catch (error) { 
-            console.error(error.message);
+    const sendOrder = () => {
+        if (getCart.length === 0) {
+            return;
         }
-       
+
+        const order = {
+            "order_items": getCart.map((item) => {
+                return {"item_id": parseInt(item.id),
+                    "quantity": item.id}
+            }),
+            "table_id": localStorage.getItem('tablenumber')
+        };
+
+        axios.post('http://127.0.0.1:5000/customer/send_order', order)
+            .then(() => {
+                setCart([]);
+                setPopupMessage("Your order has been sent");
+                setPopUpVisible(true);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
     }
 
     const closePopUp = () => {
         setPopUpVisible(false);
     };
-
-    React.useEffect(() => {
-        const cartEmpty = () => {
-            if (getCart.length === 0) {
-                setCartEmpty(true);
-            } else {
-                setCartEmpty(false);
-            }
-            
-        }
-        cartEmpty();
-    });
-
-    const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
-
 
     return (
         <>
@@ -64,12 +57,7 @@ const Cart = ({ toggleExpand }) => {
                         <img src={cross} className='cross-icon' alt='Cross Icon' onClick={toggleExpand}/>
                 </div>
                 <div className='cart-content'>
-                    {isCartEmpty ? (
-                        <h7>Cart is empty</h7>
-                    ) : (
-                        getCart.map(item => <CartItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)
-                    )
-                    }
+                    {emptyCart() ? <h6>Cart is empty</h6> : getCart.map(item => <CartItem key={item.id} id={item.id}/>)}
                 </div>
                 <div className='cart-total'>Total: {calculateTotal}</div>
                 <div className='cart-footer' onClick={sendOrder}>Order Now</div>

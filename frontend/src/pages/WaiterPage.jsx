@@ -4,8 +4,6 @@ import axios from "axios";
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
-    
-    // const intialiseKitchenOrders = useIntialiseKitchenOrders();
     const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
 

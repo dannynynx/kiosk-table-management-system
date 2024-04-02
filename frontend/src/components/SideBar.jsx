@@ -1,65 +1,71 @@
 import './SideBar.css';
-import cart from '../assets/cart-icon.svg';
-import orderList from '../assets/list-icon.svg';
-import {useState} from "react";
-import Cart from './Cart';
-import PastOrders from './PastOrders';
 import requestBill from '../assets/request-bill-icon.svg';
 import PopUp from "./PopUp";
-import zebra from "../assets/zebra.svg";
 import axios from 'axios';
-import React from "react";
-import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
-const SideBar = ({onCategorySelect}) => {
-    const [renderContent, setRenderContent] = useState(null);
-    const [expanded, setExpanded] = useState(false);
-    const [categories, setCategories] = React.useState([]);
-    const filter = useFilterMenuItems(); 
+const SideBar = ({ onCategorySelect }) => {
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
+    const navigate = useNavigate();
+    
    
-    const handleRequestBill = () => {
+    const handleRequestBill = async () => {
+        try {
+            const data = {
+                "table_id": localStorage.getItem('tablenumber'),
+                "token": localStorage.getItem('token'),
+                "notification_type": 'bill',
+            }
+            await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
+        } catch (error) {
+            console.log(error)
+        }
         setPopupMessage("Please make your way to the counter");
         setPopUpVisible(true);
     };
 
     const closePopUp = () => {
         setPopUpVisible(false);
+        navigate('../kiosk/authentication');
     };
-    React.useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const list = [];
-                const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.data) { 
-                    list.push({
-                        id: category.category_id,
-                        name: category.name,
-                    })
-                }
-                setCategories(list);
-            } catch (error) {
-                console.error('Error submitting data:', error);
-            }
-        }; 
-        getCategories();
-    }, []);
 
-    const toggleExpand = (contentType) => {
-        setRenderContent(expanded ? null : contentType);
-        setExpanded(!expanded);
-    };
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/customer/get_all_categories')
+            .then(response => {
+                const list = response.data.map(category => ({
+                    id: category.category_id,
+                    name: category.name,
+                }));
+                setCategories(list);
+            })
+            .catch(error => {
+                console.error('Error submitting data:', error);
+            });
+    }, []);
 
     return (
         <>
             <div className="categories">
-                <button onClick={() => onCategorySelect("")}>
+                <button onClick={() => {
+                    onCategorySelect("");
+                    setSelectedCategory(null);
+                }} className={!selectedCategory ? 'selected' : ''}>
                     <h2 className="category">All</h2>
                 </button>
                 {categories.map((category) => (
-                    <button key={category.id} onClick={() => onCategorySelect(category.name)}>
+                    <button
+                        key={category.id}
+                        onClick={() => {
+                            onCategorySelect(category.name);
+                            setSelectedCategory(category.id);
+                        }}
+                        className={selectedCategory === category.id ? 'selected' : ''}
+                    >
                         <h2 className="category" id={category.id}>{category.name}</h2>
                     </button>
                 ))}
@@ -68,8 +74,8 @@ const SideBar = ({onCategorySelect}) => {
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
             </div>
             {isPopUpVisible && (
-            <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
-        )}
+                <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
+            )}
         </>
     );
 };

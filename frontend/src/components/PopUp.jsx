@@ -1,5 +1,4 @@
 import "./PopUp.css";
-import zebra from "../assets/zebra.svg";
 import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 

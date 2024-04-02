@@ -91,11 +91,11 @@ def show_all_orders(db):
     cursor = connection.cursor()
     
     sql = """
-    SELECT o.order_id, o.table_id, io.item_id, SUM(io.quantity), io.status
+    SELECT o.order_id, o.table_id, io.item_id, i.name, io.quantity, io.status
     FROM ORDERS AS o
-    JOIN IN_ORDER AS io on io.order_id = o.order_id
-    GROUP BY io.item_id
-    """
+    JOIN IN_ORDER AS io ON io.order_id = o.order_id
+    JOIN ITEMS AS i ON i.item_id = io.item_id
+"""
 
     cursor.execute(sql)
     order_items = cursor.fetchall()
@@ -106,11 +106,49 @@ def show_all_orders(db):
             "order_id": item[0],
             "table_number": item[1],
             "item_id": item[2],
-            "quantity": item[3],
-            "status": item[4]
+            "name": item[3],
+            "quantity": item[4],
+            "status": item[5]
         }
         order_list.append(item_dict)
     
     connection.close()
 
     return order_list
+
+def get_status(db, order_id, item_id, quantity, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+     # Check if the token is valid
+    if not valid_user_specific(db, token):
+        connection.close()
+        return None
+    
+    sql = """
+    SELECT status
+    FROM IN_ORDER
+    WHERE order_id = :o AND item_id = :i AND quantity = :q
+    """
+    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    status = cursor.fetchall()[0][0]
+
+    connection.close()
+
+    return status 
+
+def change_order_status(db, status, order_id, item_id, quantity):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    sql = """
+    UPDATE IN_ORDER
+    SET status = :s
+    WHERE order_id = :o AND item_id = :i AND quantity = :q
+    """
+
+    cursor.execute(sql, {"s": status, "o": order_id, "i": item_id, "q": quantity})
+    connection.commit()
+    connection.close()
+
+    return {}

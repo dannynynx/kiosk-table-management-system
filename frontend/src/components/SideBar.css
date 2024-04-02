@@ -36,3 +36,7 @@ button {
     bottom: 2vh;
     left: 1vw;
 }
+
+.selected {
+    color: #439CEF;
+}

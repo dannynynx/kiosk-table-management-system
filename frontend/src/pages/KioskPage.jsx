@@ -7,30 +7,35 @@ const KioskPage = () => {
     const [tableNumber, setTableNumber] = useState({table_id: null});
     const [code, setCode] = useState(null);
     const [tables, setTables] = useState([])
-    const generateCode = async (tableNumber)=> {
+    const confirmTableSelection = async (tableNumber)=> {
         try {
-            const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', tableNumber);
-            const rawCode = response.data.code;
-            setCode(rawCode);
-            console.log(response.data.code);
+            const data = {"table_id": tableNumber}
+            console.log(data)
+            const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', data);
+            // console.log(response.data.code);
         } catch (error) {
             console.error('Error submitting data:', error);
             return null;
         }
     }
+
+    const getTableCode = async (tableNumber)=> {
+        try {
+            const data = {'table_id': tableNumber.table_id}
+            console.log(data)
+            const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber.table_id}`);
+            const rawCode = response.data;
+            setCode(rawCode)
+        } catch (error) {
+            console.error('Error submitting data:', error);
+            return null;
+        }
+    }
+
     const selectTable = async ()=> {
         try {
             const response = await axios.get( 'http://127.0.0.1:5000/customer/showTable');
             setTables(response.data);
-            console.log(response.data);
-        } catch (error) {
-            console.error('Error submitting data:', error);
-            return null;
-        }
-    }
-    const confirmTableSelection = async (tableNumber)=> {
-        try {
-            const response = await axios.post( 'http://127.0.0.1:5000/customer/confirmTable', tableNumber);
             console.log(response.data);
         } catch (error) {
             console.error('Error submitting data:', error);
@@ -57,7 +62,7 @@ const KioskPage = () => {
     }
 
     const tableCodePage = () => {
-        generateCode(tableNumber);
+        getTableCode(tableNumber);
         document.getElementById('table-confirmation-page').style.display = "none";
         document.getElementById('selection-page').style.display = "none";
         document.getElementById('table-code-page').style.display = "flex";
@@ -78,9 +83,11 @@ const KioskPage = () => {
                     <h1 className='selection-title'>Select Table</h1>
                 </div>
                 <div className='table-selection-container'>
-                    {tables.map((table, key) => (
-                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? 'green' : 'red'} onClick={() => confirmTable(table.id)}></TablePreview>))}
-
+                    {tables.map((table) => (
+                        <TablePreview key={table.id} tableNumber={table.id} colour={table.avail == 0 ? 'green' : 'red'}
+                            onClick={() => confirmTable(table.id)}
+                        />
+                    ))}
                 </div>
             </section>
             <section className='confirmation-page' id='table-confirmation-page'>
