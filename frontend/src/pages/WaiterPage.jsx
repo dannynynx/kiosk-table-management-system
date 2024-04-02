@@ -65,9 +65,9 @@ const WaiterPage = () => {
         console.log(notif)
      
         const data = { 
-            status: "done",
+            new_status: "closed",
             notification_id: notif.notification_id,
-            token
+            token: localStorage.getItem('token')
         }
 
         console.log(data)
@@ -112,7 +112,7 @@ const WaiterPage = () => {
                         <div key={index} className='notif'>
                             <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
                             {notif.status == 'new' ? 
-                            (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : null }
+                            (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
                         </div>
                 ))}
             </div>

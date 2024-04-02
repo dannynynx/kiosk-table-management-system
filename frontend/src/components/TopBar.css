@@ -52,6 +52,10 @@
     background-color: white;
 }
 
+.assist_waiting { 
+    background-color: red;
+}
+
 .search-bar {
     height: 3em;
     width: 30em;

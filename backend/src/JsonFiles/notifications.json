@@ -1,12 +1,6 @@
 [
     {
         "notification_id": 1,
-        "table_id": 1,
-        "notification_type": "assistance",
-        "status": "new"
-    },
-    {
-        "notification_id": 2,
         "table_id": 2,
         "notification_type": "bill",
         "status": "new"
