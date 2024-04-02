@@ -86,14 +86,9 @@ def get_role(db, username, password):
 
     return role
 
-def show_all_orders(db, token):
+def show_all_orders(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-     # Check if the token is valid
-    if not valid_user_specific(db, token):
-        connection.close()
-        return None
     
     sql = """
     SELECT o.order_id, o.table_id, io.item_id, io.quantity, io.status

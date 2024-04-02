@@ -171,8 +171,7 @@ def get_past_orders():
 
 @app.route("/staff/show_orders", methods=['GET'])
 def show_orders():
-    token = request.args.get('token')
-    return_data = show_all_orders(DB_PATH, token)
+    return_data = show_all_orders(DB_PATH)
     return jsonify(return_data), 200
 
 @app.route("/staff/get_order_status", methods=['GET'])

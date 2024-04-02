@@ -33,20 +33,22 @@ const KitchenPage = () => {
                 <tr>
                     <th>Table Number</th>
                     <th>Item</th>
+                    <th>Quantity</th>
                     <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 {!(orders.length === 0) ? (orders.map((order, index) => (
                     <tr key={index}>
-                        <td>{order.tableNumber}</td>
-                        <td>{order.item}</td>
-                        {order.status == "start" ? (
+                        <td>{order.table_number}</td>
+                        <td>{order.item_id}</td>
+                        <td>{order.quantity}</td>
+                        {order.status == "ordered" ? (
                             <td><button className='start-btn' onClick={handleStatusChange(order)}>Start</button></td>) : 
                             order.status == "preparing" ? 
                          (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
                     </tr>
-                ))) : <h4>There are no orders currently.</h4>}
+                ))) : <tr>There are no orders currently.</tr>}
                 </tbody>
             </table>
         </div>
