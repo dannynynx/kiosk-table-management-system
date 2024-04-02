@@ -6,6 +6,10 @@ import './LogInPage.css';
 const LogInPage = () => {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
+    const [usernameTextColor, setUsernameTextColor] = useState('#e7eaf9');
+    const [passwordTextColor, setPasswordTextColor] = useState('#e7eaf9');
+    const [usernameText, setUsernameText] = useState('USERNAME');
+    const [passwordText, setPasswordText] = useState('PASSWORD');
 
     const handleSubmit = async () => {
         try {
@@ -28,6 +32,10 @@ const LogInPage = () => {
 
         } catch (error) {
             console.error('Error submitting data:', error);
+            setUsernameTextColor('#d33d3d');
+            setPasswordTextColor('#d33d3d');
+            setUsernameText('USERNAME - Username or Password is invalid.');
+            setPasswordText('PASSWORD - Username or Password is invalid.');
         }
     };
 
@@ -41,9 +49,9 @@ const LogInPage = () => {
                 <form className='login-form'>
                     <h2 className='login-main-text'><b>Blue Zebra</b></h2>
                     <p className='login-main-text'>Staff Login</p>
-                    <p className='input-label'>USERNAME</p>
+                    <p className='input-label' style={{ color: usernameTextColor }}>{usernameText}</p>
                     <input type='text' className='login-text-inputs' id='username' name='username' onChange={handleChange} />
-                    <p className='input-label'>PASSWORD</p>
+                    <p className='input-label' style={{ color: passwordTextColor }}>{passwordText}</p>
                     <input type='password' className='login-text-inputs' id='password' name='password' onChange={handleChange} />
                     <input type='button' className='login-button' value='Login' id='login-submit' onClick={handleSubmit} />
                 </form>
