@@ -85,3 +85,32 @@ def get_role(db, username, password):
     connection.close()
 
     return role
+
+def show_all_orders(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+    
+    sql = """
+    SELECT o.order_id, o.table_id, io.item_id, SUM(io.quantity), io.status
+    FROM ORDERS AS o
+    JOIN IN_ORDER AS io on io.order_id = o.order_id
+    GROUP BY io.item_id
+    """
+
+    cursor.execute(sql)
+    order_items = cursor.fetchall()
+    order_list = []
+
+    for item in order_items:
+        item_dict = {
+            "order_id": item[0],
+            "table_number": item[1],
+            "item_id": item[2],
+            "quantity": item[3],
+            "status": item[4]
+        }
+        order_list.append(item_dict)
+    
+    connection.close()
+
+    return order_list

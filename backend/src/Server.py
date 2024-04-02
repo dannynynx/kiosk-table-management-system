@@ -9,7 +9,7 @@ import shutil
 from InitDB import initialise_db
 from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders
 from WaitingStaff import get_notifications, update_notification
 from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
@@ -173,13 +173,13 @@ def get_past_orders():
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
 
-@app.route("/kitchen/get_order_status", methods=['GET'])
+@app.route("/staff/show_orders", methods=['GET'])
 def show_orders():
-    data = request.get_json()
-    token = data.get('token')
-
-    return_data = kitchen_show_orders(DB_PATH, token)
+    return_data = show_all_orders(DB_PATH)
     return jsonify(return_data), 200
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
