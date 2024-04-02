@@ -20,7 +20,9 @@ const KitchenPage = () => {
     }, []);
 
     const handleStatusChange = (order) => { 
-        //later
+        console.log(order)
+
+        axios.get('http://127.0.0.1:5000/staff/update_order_status', order)
     }
 
 
@@ -41,7 +43,7 @@ const KitchenPage = () => {
                 {!(orders.length === 0) ? (orders.map((order, index) => (
                     <tr key={index}>
                         <td>{order.table_number}</td>
-                        <td>{order.item_id}</td>
+                        <td>{order.name}</td>
                         <td>{order.quantity}</td>
                         {order.status == "ordered" ? (
                             <td><button className='start-btn' onClick={handleStatusChange(order)}>Start</button></td>) : 
