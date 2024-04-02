@@ -41,7 +41,6 @@ def staff_authentication():
 
     role = get_role(DB_PATH, username, password)
     token = staff_tablet_authentication(DB_PATH, username, password)
-    print(token)
     
     if token is not None:
         return jsonify({'token': token, 'role': role}), 200

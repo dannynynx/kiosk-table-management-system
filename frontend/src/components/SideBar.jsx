@@ -1,22 +1,13 @@
 import './SideBar.css';
-import cart from '../assets/cart-icon.svg';
-import orderList from '../assets/list-icon.svg';
 import {useState} from "react";
-import Cart from './Cart';
-import PastOrders from './PastOrders';
 import requestBill from '../assets/request-bill-icon.svg';
 import PopUp from "./PopUp";
-import zebra from "../assets/zebra.svg";
 import axios from 'axios';
 import React from "react";
-import { useFilterMenuItems } from "../context/MenuContext";
 import PropTypes from "prop-types";
 
 const SideBar = ({onCategorySelect}) => {
-    const [renderContent, setRenderContent] = useState(null);
-    const [expanded, setExpanded] = useState(false);
     const [categories, setCategories] = React.useState([]);
-    const filter = useFilterMenuItems(); 
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
    
@@ -46,11 +37,6 @@ const SideBar = ({onCategorySelect}) => {
         }; 
         getCategories();
     }, []);
-
-    const toggleExpand = (contentType) => {
-        setRenderContent(expanded ? null : contentType);
-        setExpanded(!expanded);
-    };
 
     return (
         <>

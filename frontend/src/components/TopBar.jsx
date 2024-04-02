@@ -1,23 +1,19 @@
 import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
 import axios from 'axios';
-import React from "react";
-import PropTypes from "prop-types";
+import { useState } from "react";
 import PopUp from "./PopUp";
-
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
-import requestBill from '../assets/request-bill-icon.svg';
-import {useState} from "react";
 import Cart from './Cart';
 import PastOrders from './PastOrders';
-
+import {Link} from "react-router-dom";
 
 const TopBar = () => {
+    const tablenumber = localStorage.getItem('tablenumber');
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
-    const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
@@ -59,7 +55,10 @@ const TopBar = () => {
         <>
             <div className="topbar">
                 <div className="left-topbar">
-                    <img className="logo" src={zebra} alt='Zebra Icon'></img>
+                    <Link to='/menu' className="topbar-logo-link">
+                        <img  src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
+                    </Link>
+
                     <input className="search-bar" type='text' placeholder='Search' onKeyDown={handleKeyDown}></input>
                 </div>
                 <div className="right-topbar">

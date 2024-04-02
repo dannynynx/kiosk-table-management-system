@@ -3,12 +3,17 @@ import add from '../assets/plus-icon.svg';
 import remove from '../assets/minus-icon.svg';
 import trash from '../assets/trash-icon.svg';
 import PropTypes from "prop-types";
-import { useRemoveCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
+import {useCart, useRemoveCartItem, useUpdateCartItem} from "../context/CartContext.jsx";
 
-const CartItem = ({ name, price, qty }) => {
+const CartItem = ({ id }) => {
+    const { name, price, image, qty } = useCart().find(item => item.id === id);
     const updateCartItem = useUpdateCartItem();
     const removeCartItem = useRemoveCartItem();
-    const increaseQuantity = () => updateCartItem(name, qty + 1);
+    const increaseQuantity = () => {
+        if (qty < 10) {
+            updateCartItem(name, qty + 1);
+        }
+    };
     const decreaseQuantity = () => qty > 1 && updateCartItem(name, qty - 1);
 
     // Calculate the total price and format it with two decimal places
@@ -18,7 +23,7 @@ const CartItem = ({ name, price, qty }) => {
         <>
             <div className='cart-item'>
                 <div className='img-qty-container'>
-                    <img src='https://via.placeholder.com/150' className='cart-item-img' alt='Item'/>
+                    {image && <img src={`data:image/png;base64,${image}`} className='cart-item-img' alt={name} />}
                     <div className='cart-item-qty-bar'>
                         <img src={add} className='cart-item-qty-btn' alt='plus icon' onClick={increaseQuantity}/>
                         <span className='cart-item-qty'>{qty}</span>
@@ -37,9 +42,7 @@ const CartItem = ({ name, price, qty }) => {
 }
 
 CartItem.propTypes = {
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    qty: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
 };
 
 export default CartItem;
