@@ -15,6 +15,7 @@ const Cart = ({ toggleExpand }) => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const emptyCart = () => getCart.length === 0;
+    const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
 
     const sendOrder = () => {
         if (getCart.length === 0) {
@@ -45,9 +46,6 @@ const Cart = ({ toggleExpand }) => {
     const closePopUp = () => {
         setPopUpVisible(false);
     };
-
-    const calculateTotal = getCart.reduce((total, item) => total + (item.price * item.qty), 0).toFixed(2);
-
 
     return (
         <>
