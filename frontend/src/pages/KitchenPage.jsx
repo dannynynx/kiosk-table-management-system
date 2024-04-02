@@ -6,7 +6,7 @@ const KitchenPage = () => {
     const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => { 
+    const getOrders = () => {
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
         .then(response => {
             const data = response.data ?? [];
@@ -15,14 +15,19 @@ const KitchenPage = () => {
         })
         .catch(error => {
             console.error('Error fetching orders:', error);
-        });
+        })
+    }
+
+    useEffect(() => { 
+        getOrders();
     }, []);
 
     const handleStatusChange = (order) => { 
         console.log(order)
         axios.put('http://127.0.0.1:5000/staff/update_order_status', order)
         .then(response => { 
-            console.log(response)
+            console.log(response);
+            getOrders();
         }).catch(error => { 
             console.error('Error fetching orders:', error);
         });
