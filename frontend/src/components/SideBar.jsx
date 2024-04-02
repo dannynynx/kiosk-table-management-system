@@ -33,23 +33,19 @@ const SideBar = ({ onCategorySelect }) => {
         setPopUpVisible(false);
         navigate('../kiosk/authentication');
     };
+
     useEffect(() => {
-        const getCategories = async () => {
-            try {
-                const list = [];
-                const response = await axios.get('http://127.0.0.1:5000/customer/get_all_categories');
-                for (const category of response.data) { 
-                    list.push({
-                        id: category.category_id,
-                        name: category.name,
-                    })
-                }
+        axios.get('http://127.0.0.1:5000/customer/get_all_categories')
+            .then(response => {
+                const list = response.data.map(category => ({
+                    id: category.category_id,
+                    name: category.name,
+                }));
                 setCategories(list);
-            } catch (error) {
+            })
+            .catch(error => {
                 console.error('Error submitting data:', error);
-            }
-        }; 
-        getCategories();
+            });
     }, []);
 
     return (

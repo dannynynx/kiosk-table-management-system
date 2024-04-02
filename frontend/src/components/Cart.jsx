@@ -16,30 +16,30 @@ const Cart = ({ toggleExpand }) => {
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const emptyCart = () => getCart.length === 0;
 
-    const sendOrder = async () => {
+    const sendOrder = () => {
         if (getCart.length === 0) {
             return;
         }
 
-        try { 
-            const order = {
-                "order_items": getCart.map((item) => { 
-                    return {"item_id": parseInt(item.id),
-                            "quantity": item.qty}
-                }),
-                "table_id": localStorage.getItem('tablenumber')
-            }
-
-            await axios.post('http://127.0.0.1:5000/customer/send_order', order)
-            getCart.forEach(item => {
-                removeCartItem(item.name);
-            })
-            setPopupMessage("Your order has been sent");
-            setPopUpVisible(true);
-        } catch (error) { 
-            console.error(error.message);
+        const order = {
+            "order_items": getCart.map((item) => {
+                return {"item_id": parseInt(item.id),
+                    "quantity": item.qty}
+            }),
+            "table_id": localStorage.getItem('tablenumber')
         }
-       
+
+        axios.post('http://127.0.0.1:5000/customer/send_order', order)
+            .then(() => {
+                getCart.forEach(item => {
+                    removeCartItem(item.name);
+                })
+                setPopupMessage("Your order has been sent");
+                setPopUpVisible(true);
+            })
+            .catch((error) => {
+                console.error(error.message);
+            });
     }
 
     const closePopUp = () => {
