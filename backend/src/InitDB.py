@@ -32,8 +32,8 @@ def initialise_db():
                     ('Fish',),('Potato',),('Matcha',),('Spaghetti',), ('Beef Mince',),('Chicken',),('Pork',),
                     ('Rice', ),('Salmon',),('Tuna',),('Scallop',),('Squid',),('Crab',),('Uni',),('Butter',),
                     ('Maple Syrup',),('Acai Puree',),('Kiwi',),('Banana',),('Strawberry',),('Tortilla',),
-                    ('Chorizo',),('Prawns',),('Mussels',),('Saffron',),('Seaweed',),('Pancetta',),('Pepper'),
-                    ('Pastry',),('Mushroom',),('Lamb',),('Rosemary',),('Mushroom',),('Olive Oil'),('Duck',),
+                    ('Chorizo',),('Prawns',),('Mussels',),('Saffron',),('Seaweed',),('Pancetta',),('Pepper',),
+                    ('Pastry',),('Mushroom',),('Lamb',),('Rosemary',),('Mushroom',),('Olive Oil',),('Duck',),
                     ('Turkey',),('Stuffing',),('Lemon',),('Seasoning',),('Lady Fingers',),('Expresso',),
                     ('Mascarpone',),('Cream',),('Vanilla Bean',)]
     cursor.executemany("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (?)", ingredients)
@@ -78,7 +78,7 @@ def initialise_db():
         ('Roast Lamb Leg', 'Slow-roasted lamb leg with rosemary and garlic', 3, 25.99, 'Roast_Lamb_Leg.png'),
         ('Turducken', 'A deboned chicken stuffed into a deboned duck, further stuffed into a deboned turkey', 3, 34.99, 'Turducken.png'),
         ('Snow Crab Legs', 'Steamed snow crab legs served with butter and lemon wedges', 3, 22.99, 'Snow_Crab_Legs.png'),
-        ('Charcoal Chicken', 'Chicken roasted over charcoal for a smoky flavour', 3, 19.99, 'Charcoal_Chicken.png')
+        ('Charcoal Chicken', 'Chicken roasted over charcoal for a smoky flavour', 3, 19.99, 'Charcoal_Chicken.png'),
         ('Tiramisu', 'Coffee-flavoured Italian dessert made of lady fingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, flavoured with cocoa', 4, 7.99, 'Tiramisu.png'),
         ('Creme Brulee', 'Rich custard base topped with a layer of hardened caramelised sugar', 4, 6.99, 'Creme_Brulee.png'),
         ('Japanese Cheese Cake', 'Light and fluffy cheesecake with a smooth, creamy texture', 4, 8.99, 'Japanese_Cheese_Cake.png')
