@@ -11,7 +11,6 @@ const KioskPage = () => {
                     <img className="kiosk-logo" src={zebra} alt='Zebra Icon'></img>
                     <h1 className='kiosk-title'>Blue<br></br>Zebra</h1>
                 </div>
-                {/* <input type='button' className='kiosk-button' value='Select Table'></input> */}
                 <Link className='kiosk-button-container' to="/kiosk/table-selection">
                     <input type='button' className='kiosk-button' value='Select Table'></input>
                 </Link>
