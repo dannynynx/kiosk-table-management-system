@@ -1,1 +1,56 @@
-[]
+[
+    {
+        "notification_id": 1,
+        "table_id": 1,
+        "notification_type": "bill",
+        "status": "closed"
+    },
+    {
+        "notification_id": 2,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "closed"
+    },
+    {
+        "notification_id": 3,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "new"
+    },
+    {
+        "notification_id": 4,
+        "table_id": 1,
+        "notification_type": "bill",
+        "status": "new"
+    },
+    {
+        "notification_id": 5,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "new"
+    },
+    {
+        "notification_id": 6,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "new"
+    },
+    {
+        "notification_id": 7,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "new"
+    },
+    {
+        "notification_id": 8,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "closed"
+    },
+    {
+        "notification_id": 9,
+        "table_id": 1,
+        "notification_type": "assistance",
+        "status": "new"
+    }
+]

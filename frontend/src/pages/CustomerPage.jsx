@@ -7,21 +7,26 @@ import Item from "../components/Item.jsx";
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
 
     useEffect(() => {
+        if (!localStorage.getItem('token')) { 
+            navigate('/login');
+        } 
         axios.get('http://127.0.0.1:5000/customer/showMenu')
-            .then(response => {
-                const data = response.data;
-                initialiseMenuItem(data);
-            })
-            .catch(error => {
-                console.error('Error fetching menu:', error);
-            });
+        .then(response => {
+            const data = response.data;
+            initialiseMenuItem(data);
+        })
+        .catch(error => {
+            console.error('Error fetching menu:', error);
+        });
     }, [initialiseMenuItem]);
 
     const handleCategoryFilter = (category) => {

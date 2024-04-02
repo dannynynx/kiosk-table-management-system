@@ -7,19 +7,28 @@ const LogInPage = () => {
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
-        axios.post('http://127.0.0.1:5000/staff/staff_authentication', formData)
-            .then(response => {
-                console.log(response);
-                const role = response.data.role;
-                const token = response.data.token;
-                localStorage.setItem('tablenumber', role);
-                localStorage.setItem('token', token);
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
+            console.log(response)
+
+            const role = response.data.role;
+            const token = response.data.token;
+            localStorage.setItem('tablenumber', role)
+            localStorage.setItem('token', token)
+
+            if (formData.username == "kitchen") { 
+                navigate('/kitchen');
+            } else if (formData.username == "wait") { 
+                navigate('/waiter');
+            } else { 
                 navigate('/kiosk/authentication');
-            })
-            .catch(error => {
-                console.error('Error submitting data:', error);
-            });
+            }
+
+
+        } catch (error) {
+            console.error('Error submitting data:', error);
+        }
     };
 
     const handleChange = (e) => {

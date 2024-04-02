@@ -9,9 +9,8 @@ import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
 from WaitingStaff import get_notifications, update_notification
-from KitchenStaff import kitchen_show_orders
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -77,7 +76,6 @@ def tablet_logout():
 def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
-
     return_data = confirm_table(DB_PATH, table_id)
     return jsonify(return_data), 200
 
@@ -87,6 +85,7 @@ def table_code():
 
     return_data = get_table_code(DB_PATH, table_id)
     return jsonify(return_data), 200
+
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
@@ -179,13 +178,33 @@ def get_past_orders():
     return_data = get_customer_past_orders(DB_PATH, table_id)
     return jsonify(return_data), 200
 
-@app.route("/kitchen/get_order_status", methods=['GET'])
+@app.route("/staff/show_orders", methods=['GET'])
 def show_orders():
-    data = request.get_json()
-    token = data.get('token')
-
-    return_data = kitchen_show_orders(DB_PATH, token)
+    return_data = show_all_orders(DB_PATH)
     return jsonify(return_data), 200
+
+@app.route("/staff/get_order_status", methods=['GET'])
+def get_order_status():
+    order_id = request.args.get('order_id')
+    item_id = request.args.get('item_id')
+    quantity = request.args.get('quantity')
+
+    return_data = get_status(DB_PATH, order_id, item_id, quantity)
+    return jsonify(return_data), 200
+
+@app.route("/staff/update_order_status", methods=['PUT'])
+def update_order_status():
+    data = request.get_json()
+    status = data.get('status')
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
+
+    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
+    return jsonify(return_data), 200
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

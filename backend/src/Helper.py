@@ -1,6 +1,5 @@
 import jwt
 import sqlite3
-from jwt.exceptions import DecodeError
 
 SECRET = "BLUEZEBRA"
 

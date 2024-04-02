@@ -36,7 +36,9 @@ const App = () => {
                         </CartProvider>
                     </MenuProvider>
                 } />
-                <Route path='/kitchen' element={<KitchenPage />} />
+                <Route path='/kitchen' element={
+                        <KitchenPage />
+                  } />
                 <Route path='/waiter' element={<WaiterPage />} />
             </Routes>
         </>

@@ -14,7 +14,7 @@ const KioskAuthenticationPage = () => {
     } 
 
     const handleSubmit = async () => {
-        const message = authenticateCode(tableNumber, inputValue)
+        const message = await authenticateCode(tableNumber, inputValue)
         if (message !== null) {
             navigate('/menu');
         }  
