@@ -18,7 +18,6 @@ const CustomerPage = (props) => {
         if (!localStorage.getItem('token')) { 
             navigate('/login');
         } 
-
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {
             const data = response.data;

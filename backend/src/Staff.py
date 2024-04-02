@@ -160,20 +160,3 @@ def change_order_status(db, status, order_id, item_id, quantity, token):
     connection.close()
 
     return {}
-
-
-def kitchen_show_orders(db, token):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
-
-    # Check if the token is valid
-    if not valid_user_specific(token):
-        connection.close()
-        return None
-
-    cursor.execute("SELECT * FROM IN_ORDER")
-    orders = cursor.fetchall()
-
-    connection.close()
-
-    return orders
