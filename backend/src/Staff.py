@@ -91,10 +91,12 @@ def show_all_orders(db):
     cursor = connection.cursor()
     
     sql = """
-    SELECT o.order_id, o.table_id, io.item_id, io.quantity, io.status
+    SELECT o.order_id, o.table_id, io.item_id, i.name, SUM(io.quantity) AS total_quantity, io.status
     FROM ORDERS AS o
-    JOIN IN_ORDER AS io on io.order_id = o.order_id
-    """
+    JOIN IN_ORDER AS io ON io.order_id = o.order_id
+    JOIN ITEMS AS i ON i.item_id = io.item_id
+    GROUP BY o.order_id, o.table_id, io.item_id, i.name, io.status
+"""
 
     cursor.execute(sql)
     order_items = cursor.fetchall()
@@ -105,8 +107,9 @@ def show_all_orders(db):
             "order_id": item[0],
             "table_number": item[1],
             "item_id": item[2],
-            "quantity": item[3],
-            "status": item[4]
+            "name": item[3],
+            "quantity": item[4],
+            "status": item[5]
         }
         order_list.append(item_dict)
     
