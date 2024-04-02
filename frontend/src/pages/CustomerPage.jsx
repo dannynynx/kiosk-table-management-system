@@ -40,13 +40,10 @@ const CustomerPage = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar onCategorySelect={handleCategoryFilter} />
+                <TopBar/>
             </div>
             <div className='sidebar-container'>
-                <SideBar />
-            </div>
-            <div className='bottombar-container'>
-                <BottomBar />
+                <SideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} />}

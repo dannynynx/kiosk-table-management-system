@@ -46,12 +46,16 @@ def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    # Check if the token is valid
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
+
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
     new_session_id = max_session_id + 1 if max_session_id is not None else 1
 
     code = generate_unique_code()
-
     # Store the generated code and seesion_id
     cursor.execute("UPDATE TABLES SET code=?, session_id=?, is_occupied=? WHERE table_id=?", (code, new_session_id, True, table_id))
 
@@ -61,10 +65,15 @@ def confirm_table(db, table_id):
 
     return code
 
-def authenticate_table(db, entered_code):
+def authenticate_table(db, entered_code, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    # Check valid token
+    if not valid_user(token):
+        connection.close()
+        return None
+        
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
     
@@ -77,9 +86,14 @@ def authenticate_table(db, entered_code):
             return True #successfull authentication
     return False 
 
-def send_order_to_database(db, table_id, order_items):
+def send_order_to_database(db, table_id, order_items, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
+
+    # Check valid token
+    if not valid_user(token):
+        connection.close()
+        return None
 
     session_id = get_table_session_id(db, table_id)
 
@@ -109,6 +123,11 @@ def add_item_to_order(db, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    # Check valid token
+    if not valid_user(token):
+        connection.close()
+        return None
+        
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
     VALUES (:o, :i, :q, :s)
@@ -254,17 +273,27 @@ def add_notification(db, table_id, notification_type, token):
     cursor = connection.cursor()
 
     # Check if the token is valid
-    if not valid_user_specific(token):
+    if not valid_user_specific(db, token):
         connection.close()
         return None
         
-    sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
-    try:
-        cursor.execute(sql, (table_id, notification_type, "new"))
-        connection.commit()
-        print("Notification added successfully")
-    except sqlite3.Error as e:
-        print(f"Error adding notification: {e}")
-        connection.rollback()
-    finally:
-        connection.close()
+    cursor.execute("SELECT session_id FROM TABLES WHERE table_id = ?", (table_id,))
+    session_id = cursor.fetchone()[0]
+
+    # Only send notifs through if that table is in session
+    if session_id != 0:
+        try:
+            # Add the notification to the database
+            sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
+            cursor.execute(sql, (table_id, notification_type, "new"))
+            connection.commit()
+            print("Notification added successfully")
+            return True
+        except sqlite3.Error as e:
+            print(f"Error adding notification: {e}")
+            connection.rollback()
+    else:
+        print("Session ID is 0. No notification sent.")
+        
+    connection.close()
+    return False
