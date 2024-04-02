@@ -4,3 +4,44 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+.start-btn { 
+    background: lightblue;
+    border: none;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.start-btn:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease;
+}
+
+.finish-btn { 
+    background-color: darkgray;
+    border: none;
+    width: 50%;
+    border-radius: 5px;
+}
+
+.finish-btn:active {
+    transform: scale(0.8);
+    transition: transform 0.1s ease;
+}
+
+
+.status-ordered { 
+    background-color: lightcoral;
+}
+
+.status-cooking { 
+    background-color: orange;
+}
+
+.status-cooked { 
+    background: lightblue;
+}
+
+.status-served { 
+    background-color: lightgreen;
+}
