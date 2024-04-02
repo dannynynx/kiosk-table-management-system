@@ -132,14 +132,14 @@ def fetch_notifications():
 @app.route('/waitstaff/update_notification_status', methods=['PUT'])
 def update_notifications():
     data = request.get_json()
-    token = data.get('token')
+    # token = data.get('token')
     notification_id = data.get('notification_id')
     new_status = data.get('new_status')
 
     if not token or not notification_id or not new_status:
         return jsonify({'error': 'Missing token, notification_id, or new_status'}), 400
 
-    success, updated_notification = update_notification(DB_PATH, notification_id, new_status, token)
+    success, updated_notification = update_notification(DB_PATH, notification_id, new_status)
 
     if updated_notification:
         return jsonify({'notification': updated_notification}), 200

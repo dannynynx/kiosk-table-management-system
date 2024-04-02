@@ -12,7 +12,7 @@
         "name": "Lasagna",
         "description": "A rich and cheesy pasta stockful of beef mince",
         "category_id": 2,
-        "cost": 16.00,
+        "cost": 16,
         "image": "Lasagna.png"
     },
     {
@@ -20,7 +20,7 @@
         "name": "Margherita Pizza",
         "description": "Authentic italian pizza",
         "category_id": 3,
-        "cost": 24.00,
+        "cost": 24,
         "image": "Margherita_Pizza.png"
     },
     {
@@ -52,7 +52,7 @@
         "name": "Steak and Salad",
         "description": "Wagyu steak with fresh caesar salad",
         "category_id": 3,
-        "cost": 50.00,
+        "cost": 50,
         "image": "Steak_and_Salad.png"
     },
     {
@@ -84,7 +84,7 @@
         "name": "Omakase",
         "description": "For the ballers",
         "category_id": 4,
-        "cost": 200.00,
+        "cost": 200,
         "image": "Omakase.png"
     }
 ]

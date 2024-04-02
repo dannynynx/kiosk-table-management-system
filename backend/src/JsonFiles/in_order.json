@@ -1,8 +1,8 @@
 [
     {
         "order_id": 1,
-        "item_id": 3,
+        "item_id": 2,
         "quantity": 2,
-        "status": "ordered"
+        "status": "served"
     }
 ]

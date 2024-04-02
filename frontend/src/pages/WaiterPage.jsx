@@ -60,6 +60,25 @@ const WaiterPage = () => {
             console.error('Error fetching orders:', error);
         });
     }
+
+    const handleNotifStatusChange = (notif) => { 
+        console.log(notif)
+     
+        const data = { 
+            status: "done",
+            notification_id: notif.notification_id,
+            token
+        }
+
+        console.log(data)
+        axios.put('http://127.0.0.1:5000/waitstaff/update_notification_status', data)
+        .then(response => { 
+            console.log(response);
+            getNotifs();
+        }).catch(error => { 
+            console.error('Error fetching notifications:', error);
+        });
+    }
     
     return (
         <div className='waiter-page'>
@@ -93,7 +112,7 @@ const WaiterPage = () => {
                         <div key={index} className='notif'>
                             <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
                             {notif.status == 'new' ? 
-                            (<button className="done-btn">Done</button>) : null }
+                            (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : null }
                         </div>
                 ))}
             </div>

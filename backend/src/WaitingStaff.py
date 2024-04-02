@@ -25,14 +25,14 @@ def get_notifications(db, token):
 
     connection.close()
 
-def update_notification(db, notification_id, new_status, token):
+def update_notification(db, notification_id, new_status):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return False
+    # # Check if the token is valid
+    # if not valid_user(token):
+    #     connection.close()
+    #     return False
 
     sql = "UPDATE NOTIFICATIONS SET status = ? WHERE notification_id = ?"
     cursor.execute(sql, (new_status, notification_id))
