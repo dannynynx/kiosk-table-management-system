@@ -1,9 +1,10 @@
 .item-preview {
-    padding: 2em;
-    background-color: #F1F1F1;
+    padding: 1em;
     display: flex;
     flex-direction: column;
-    border-radius: 20px;
+    border: 2px solid #f0f0f0;
+    border-radius: 0.8em;
+    background-color: white;
 }
 
 .item-preview:active {
@@ -12,13 +13,15 @@
 }
 
 .item-preview-image {
-    width: 10em;
+    width: 12em;
     height: auto;
     align-self: center;
+    border-radius: 1em;
 }
 
-.item-preview-content {
+.item-preview-contents {
     margin-top: 1em;
+    margin-left: 0.5em;
 }
 
 .item-preview-name {

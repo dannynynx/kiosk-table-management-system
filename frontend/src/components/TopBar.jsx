@@ -8,7 +8,7 @@ import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
 import Cart from './Cart';
 import PastOrders from './PastOrders';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 const TopBar = ({ onHandleSearchFilter }) => {

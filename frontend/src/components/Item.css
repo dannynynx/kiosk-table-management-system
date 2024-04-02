@@ -1,121 +1,76 @@
 .item {
     padding: 4em;
     width: 100%;
-}
-
-.back-arrow {
-    width: 5em;
-    height: auto;
-    position: absolute;
-    top: 1em;
-    left: 2em;
-}
-
-.back-arrow:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease;
-}
-
-.add-to-cart {
-    width: 6em;
-    height: auto;
-    top: 1em;
-    right: 2em;
-}
-
-.add-to-cart:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease;
-}
-
-.item-cart-quantity-row {
     display: flex;
-    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.item-image-container {
-    width: 20em;
-    height: auto;
+.item-image {
+    padding: 1em;
+    width: 30em;
+    height: 30em;
+}
+
+.item-details-container {
+    padding: 1em 1em 1em 3em;
+    width: 50em;
+    height: 30em;
+    border: 1px solid #f0f0f0;
 }
 
 .item-name {
-    text-align: center;
-    font-size: 3em;
+    font-size: 2em;
+    font-weight: 600;
 }
 
-.item-quantity-bar {
-    margin-top: 2em;
-    background-color: #9DD0FF;
+.item-price {
+    font-size: 1.1em;
+}
+
+.item-add-line {
     display: flex;
-    justify-content: space-between;
+    margin-top: 1em;
+    margin-bottom: 5em;
+}
+
+.item-quantity-container {
+    display: flex;
+}
+
+.item-quantity-container button {
+    cursor: pointer;
+    font-size: 1.2em;
+    border: 1px solid #cbcbcb;
+    box-sizing: border-box;
+    width: 1.5em;
+}
+
+.item-quantity-container span {
+    display: flex;
     align-items: center;
-    padding: 0.5em 2em;
-    border: #2754A5 solid 0.2em;
-    border-radius: 1em;
+    justify-content: center;
+    width: 3em;
+    border-top: 1px solid #cbcbcb;
+    border-bottom: 1px solid #cbcbcb;
 }
 
-.quantity-bar-icon {
-    width: 2em;
-    height: auto;
-}
-
-.quantity-bar-icon:active {
-    transform: scale(0.9);
-    transition: transform 0.1s ease;
-}
-
-.quantity-text {
-    font-size: 3em;
-    font-weight: 600;
-}
-
-.item-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25em;
-    justify-items: center;
-}
-
-.description-container {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr;
-    justify-items: center;
-}
-
-.divider {
-    width: 100%;
-    height: 0.2em;
-    background-color: #2754A5;
-    margin-top: 2em;
-}
-
-.price {
-    font-size: 3em;
-    font-weight: 600;
-}
-
-.description-header {
+.item-add-to-cart {
+    margin-left: 5em;
+    color: white;
+    background-color: #439CEF;
+    padding: 0.5em 1em;
+    cursor: pointer;
     font-size: 1em;
     font-weight: 600;
 }
 
-.description-content {
-    font-size: 1em;
-    margin-top: 0.5em;
-    text-align: center;
-}
-
-.ingredients-header {
-    font-size: 1em;
+.item-detail-heading {
+    margin-top: 1.5em;
+    font-size: 1.5em;
     font-weight: 600;
 }
 
-.ingredients {
-    list-style-type: circle;
-    padding-left: 2em;
-}
-
-.ingredients li {
-    margin-bottom: 1em;
+.item-detail-text {
+    font-size: 1.2em;
 }
