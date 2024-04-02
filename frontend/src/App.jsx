@@ -8,7 +8,6 @@ import KitchenPage from "./pages/KitchenPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
-import KitchenOrdersProvider from './context/KitchenContext.jsx';
 import WaiterPage from "./pages/WaiterPage.jsx";
 import axios from 'axios';
 
@@ -38,9 +37,7 @@ const App = () => {
                     </MenuProvider>
                 } />
                 <Route path='/kitchen' element={
-                    <KitchenOrdersProvider>
                         <KitchenPage />
-                    </KitchenOrdersProvider>
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
             </Routes>

@@ -1,32 +1,23 @@
 import './KitchenPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useIntialiseKitchenOrders, useKitchenOrders } from '../context/KitchenContext.jsx';
-
 
 const KitchenPage = () => {
-
-    // const intialiseKitchenOrders = useIntialiseKitchenOrders();
     const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
 
     useEffect(() => { 
-        const fetchData = async () => { 
-            try { 
-                const response = await axios.get('http://127.0.0.1:5000/staff/show_orders', token);
-                const data = response.data;
-                console.log(data);
-                setOrders(data);
-            } catch (error) { 
-                console.error('Error fetching orders:', error);
-            }
-        };
 
-        fetchData().then(() => console.log(orders));
-        return () => {
-            // Cleanup logic here
-        };
-    },[]);
+        axios.get('http://127.0.0.1:5000/staff/show_orders', token)
+        .then(response => {
+            const data = response.data ?? [];
+            console.log(data);
+            setOrders(data);
+        })
+        .catch(error => {
+            console.error('Error fetching orders:', error);
+        });
+    }, []);
 
     const handleStatusChange = (order) => { 
         //later
@@ -46,7 +37,7 @@ const KitchenPage = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {orders.map((order, index) => (
+                {!(orders.length === 0) ? (orders.map((order, index) => (
                     <tr key={index}>
                         <td>{order.tableNumber}</td>
                         <td>{order.item}</td>
@@ -55,7 +46,7 @@ const KitchenPage = () => {
                             order.status == "preparing" ? 
                          (<td style={{color: 'orange'}}>Preparing <button className='finish-btn'>Finish</button></td>) : ""}
                     </tr>
-                ))}
+                ))) : <h4>There are no orders currently.</h4>}
                 </tbody>
             </table>
         </div>
