@@ -34,3 +34,19 @@ Week 5:
 - Added a get all categories function and server route to help the frontend
 - Fixed show menu output format to the format set out by frontend
 - Added menu item pictures to the backend to be used by the frontend
+- Worked and discussed the retrospective where we assigned roles
+
+Week 6:
+- Flexi-Week
+- Thought about my sprint 2 functions/server routes
+
+Week 7:
+- Discussed the implementation of the backend implementation and how to connect it with the frontend + server routes methods
+- Implemented functions and server routes for the customer's past orders and worked with Ashley on the frontend connection
+- Implemented the menu item/order status for the kitchen and waiting staff + the server routes
+- Worked on fixing bugs with Ashely who was doing the frontend implementation
+
+Week 8
+- Worked through and discussed how the demo will be shown and done.
+- Lightly discussed how the sprint 3 functions will pan out and what is needed.
+- Discussed how request bill will go in the backend with Sree.
