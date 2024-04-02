@@ -1,5 +1,4 @@
 import "./PopUp.css";
-import zebra from "../assets/zebra.svg";
 import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 
@@ -11,9 +10,10 @@ const PopUp = (props) => {
         <>
         <div className={popupClassName} >
             <div className="msg">
-                <button onClick={props.onClose} className="close-button"><img src={backArrow} alt='Back Arrow Icon'></img></button>
-                <img className="logo" src={zebra} alt='Zebra Icon'></img>
-                <h4>{props.message}</h4>
+                <button onClick={props.onClose} className="close-button">
+                    <img src={backArrow} alt='Back Arrow Icon'></img>
+                </button>
+                <h4 className="order-sent-message">{props.message}</h4>
             </div>
         </div>
     </>)

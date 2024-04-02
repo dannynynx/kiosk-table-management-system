@@ -1,51 +1,54 @@
 import SideBar from '../components/SideBar.jsx';
 import TopBar from '../components/TopBar.jsx';
-import BottomBar from '../components/BottomBar.jsx';
 import './CustomerPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
-import { useInitialiseMenu, useMenu } from "../context/MenuContext.jsx";
-import { useEffect } from "react";
+import { useInitialiseMenu } from "../context/MenuContext.jsx";
+import { useEffect, useState } from "react";
 import axios from "axios";
-// import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
-    // const location = useLocation();
     const initialiseMenuItem = useInitialiseMenu();
-    const getMenu = useMenu();
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const navigate = useNavigate();
+    const [searchValue, setSearchValue] = useState('');
+
     useEffect(() => {
+        if (!localStorage.getItem('token')) { 
+            navigate('/login');
+        } 
+        axios.get('http://127.0.0.1:5000/customer/showMenu')
+        .then(response => {
+            const data = response.data;
+            initialiseMenuItem(data);
+        })
+        .catch(error => {
+            console.error('Error fetching menu:', error);
+        });
+    }, [initialiseMenuItem]);
 
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://127.0.0.1:5000/customer/showMenu');
-                const data = response.data;
-                    initialiseMenuItem(data);
-            } catch (error) {
-                console.error('Error fetching menu:', error);
-            }
-        };
+    const handleCategoryFilter = (category) => {
+        setSelectedCategory(category);
+    };
 
-        fetchData().then(() => console.log(getMenu));
-        return () => {
-            // Cleanup logic here
-        };
-    }, []);
+    const handleSearchFilter = (searchValue) => {
+        setSearchValue(searchValue);
+    }
+
     const { display } = props;
     return (
         <>
             <div className='topbar-container'>
-                <TopBar tablenumber={1}/>
+                <TopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
             <div className='sidebar-container'>
-                <SideBar/>
-            </div>
-            <div className='bottombar-container'>
-                <BottomBar/>
+                <SideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && <Menu/>}
-                {display === 'item' && <Item/>}
+                {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
+                {display === 'item' && <Item />}
             </div>
         </>
     );

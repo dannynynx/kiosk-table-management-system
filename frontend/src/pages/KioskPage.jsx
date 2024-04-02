@@ -1,5 +1,5 @@
 import './KioskPage.css';
-import zebra from "../assets/zebra.svg";
+import zebra from "../assets/zebra-blue.svg";
 import { Link } from "react-router-dom";
 import TableSelection from "../pages/TableSelectionPage.jsx";
 

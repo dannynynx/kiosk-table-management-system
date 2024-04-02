@@ -21,13 +21,13 @@
 
 .authentication-title {
     color: #e7eaf9;
-    font-family: 'Bukhari Script', sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 6em;
     font-weight: 200;
     text-align: center;
     padding-top: 5%;
     padding-bottom: 5%;
-    margin: 0px;
+    margin: 0;
 }
 
 .text-description {
@@ -43,7 +43,7 @@
     text-align: center;
     width: 80%;
     height: 20%;
-    border: 0px;
+    border: 0;
     font-size: 4em;
     margin-bottom: 2%;
 }
@@ -56,7 +56,7 @@
     border-radius: 20px;
     width: 80%;
     height: 20%;
-    border: 0px;
+    border: 0;
     font-size: 4em;
 }
 

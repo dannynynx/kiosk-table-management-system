@@ -1,33 +1,87 @@
 import './SideBar.css';
-import cart from '../assets/cart-icon.svg';
-import orderList from '../assets/list-icon.svg';
-import {useState} from "react";
-import Cart from './Cart';
-import PastOrders from './PastOrders';
+import requestBill from '../assets/request-bill-icon.svg';
+import PopUp from "./PopUp";
+import axios from 'axios';
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
 
-const SideBar = () => {
-    const [renderContent, setRenderContent] = useState(null);
-    const [expanded, setExpanded] = useState(false);
-
-    const toggleExpand = (contentType) => {
-        setRenderContent(expanded ? null : contentType);
-        setExpanded(!expanded);
+const SideBar = ({ onCategorySelect }) => {
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isPopUpVisible, setPopUpVisible] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
+    const navigate = useNavigate();
+    
+   
+    const handleRequestBill = async () => {
+        try {
+            const data = {
+                "table_id": localStorage.getItem('tablenumber'),
+                "token": localStorage.getItem('token'),
+                "notification_type": 'bill',
+            }
+            await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
+        } catch (error) {
+            console.log(error)
+        }
+        setPopupMessage("Please make your way to the counter");
+        setPopUpVisible(true);
     };
+
+    const closePopUp = () => {
+        setPopUpVisible(false);
+        navigate('../kiosk/authentication');
+    };
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/customer/get_all_categories')
+            .then(response => {
+                const list = response.data.map(category => ({
+                    id: category.category_id,
+                    name: category.name,
+                }));
+                setCategories(list);
+            })
+            .catch(error => {
+                console.error('Error submitting data:', error);
+            });
+    }, []);
 
     return (
         <>
-            <div className='sidebar-icon-container' onClick={() => toggleExpand('cart')}>
-                <img src={cart} className='cart' alt='Cart Icon'/>
+            <div className="categories">
+                <button onClick={() => {
+                    onCategorySelect("");
+                    setSelectedCategory(null);
+                }} className={!selectedCategory ? 'selected' : ''}>
+                    <h2 className="category">All</h2>
+                </button>
+                {categories.map((category) => (
+                    <button
+                        key={category.id}
+                        onClick={() => {
+                            onCategorySelect(category.name);
+                            setSelectedCategory(category.id);
+                        }}
+                        className={selectedCategory === category.id ? 'selected' : ''}
+                    >
+                        <h2 className="category" id={category.id}>{category.name}</h2>
+                    </button>
+                ))}
             </div>
-            <div className='sidebar-icon-container' onClick={() => toggleExpand('pastOrders')}>
-                <img src={orderList} className='order-list' alt='Order List Icon'/>
+            <div className="sidebar-icon-container" onClick={handleRequestBill}>
+                <img src={requestBill} className='bill' alt='Request Bill Icon'/>
             </div>
-            <div className={`sidebar ${expanded ? 'expanded' : ''}`}>
-                {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
-                {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
-            </div>
+            {isPopUpVisible && (
+                <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
+            )}
         </>
     );
+};
+
+SideBar.propTypes = {
+    onCategorySelect: PropTypes.func.isRequired,
 };
 
 export default SideBar;

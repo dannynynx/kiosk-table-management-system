@@ -1,18 +1,18 @@
 [
     {
         "category_id": 1,
-        "name": "BREKKIE"
+        "name": "Brekkie"
     },
     {
         "category_id": 2,
-        "name": "LUNCH"
+        "name": "Lunch"
     },
     {
         "category_id": 3,
-        "name": "DINNER"
+        "name": "Dinner"
     },
     {
         "category_id": 4,
-        "name": "DESSERT"
+        "name": "Dessert"
     }
 ]

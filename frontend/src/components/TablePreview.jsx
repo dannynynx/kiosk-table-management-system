@@ -1,5 +1,6 @@
-import React from 'react';
 import './TablePreview.css';
+import tableIcon from '../assets/table-icon.svg';
+import PropTypes from "prop-types";
 
 const TablePreview = ({ tableNumber, onClick, colour, tablePicture }) => {
     return (
@@ -9,5 +10,11 @@ const TablePreview = ({ tableNumber, onClick, colour, tablePicture }) => {
         </button>
     );
 };
+
+TablePreview.propTypes = {
+    tableNumber: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired,
+    colour: PropTypes.string.isRequired,
+}
 
 export default TablePreview;

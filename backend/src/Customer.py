@@ -1,6 +1,8 @@
+import base64
 import sqlite3
 import random
 import time
+from Helper import valid_user, valid_user_specific
 
 def staff_tablet_authentication(db, username, password):
     connection = sqlite3.connect(db)
@@ -45,12 +47,16 @@ def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    # Check if the token is valid
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
+
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
     new_session_id = max_session_id + 1 if max_session_id is not None else 1
 
     code = generate_unique_code()
-
     # Store the generated code and seesion_id
     cursor.execute("UPDATE TABLES SET code=?, session_id=?, is_occupied=? WHERE table_id=?", (code, new_session_id, True, table_id))
 
@@ -58,32 +64,33 @@ def confirm_table(db, table_id):
 
     connection.close()
 
-    return code
+    return {}
 
-# def get_table_id(username, password):
-#     connection = sqlite3.connect("BlueZebra.db")
-#     cursor = connection.cursor()
-
-#     # Query the STAFF table to retrieve the table ID associated with the provided username and password
-#     cursor.execute("SELECT role FROM STAFF WHERE username=? AND password=?", (username, password))
-#     result = cursor.fetchone()
-
-#     connection.close()
-
-#     if result:
-#         # If a matching staff member is found, return the associated table ID
-#         return result[0]
-#     else:
-#         # If no matching staff member is found, return None
-#         return None
-
-# NEED TO WORK ON THIS!!
-def authenticate_table(db, entered_code):
+def get_table_code(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    cursor.execute("SELECT code FROM TABLES WHERE table_id=?", [table_id])
+
+    code = cursor.fetchone()[0]
+
+    connection.commit()
+
+    connection.close()
+
+    return code
+
+def authenticate_table(db, table_id, entered_code, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check valid token
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
+        
     # Retrieve stored code for the table
-    cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
+    cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1 AND table_id=?", [table_id])
     
     stored_codes = cursor.fetchall()
 
@@ -94,41 +101,62 @@ def authenticate_table(db, entered_code):
             return True #successfull authentication
     return False 
 
-def send_order_to_database(db, order_id, table_id, session_id, order_items):
+def send_order_to_database(db, table_id, order_items, token):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    sql = """
-    INSERT OR IGNORE INTO ORDERS (order_id, table_id, session_id)
-    VALUES (:o, :t, :s)
+    # Check valid token
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
+
+    session_id = get_table_session_id(db, table_id)
+
+    sql1 = """
+    INSERT OR IGNORE INTO ORDERS (table_id, session_id)
+    VALUES (:t, :s)
     """
+
+    cursor.execute(sql1, {"t": table_id, "s": session_id})
+    connection.commit()
+
+    sql2 = """
+    SELECT MAX(order_id) FROM ORDERS
+    WHERE table_id = :t AND session_id = :s
+    """
+
+    cursor.execute(sql2, {"t": table_id, "s": session_id})
+    order_id = cursor.fetchone()[0]
 
     for i in order_items:
         add_item_to_order(db, order_id, i['item_id'], i['quantity'])
 
-    cursor.execute(sql, {"o": order_id, "t": table_id, "s": session_id})
-
-    connection.commit()
     connection.close()
     return {}
 
 def add_item_to_order(db, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
+    # Check valid token
+    # if not valid_user(token):
+    #     connection.close()
+    #
+    #     return None
 
+
+        
     sql = """
-    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity)
-    VALUES (:o, :i, :q)
+    INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
+    VALUES (:o, :i, :q, :s)
     """
 
-    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity, "s": "ordered"})
     connection.commit()
     connection.close()
 
 def show_table(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
     showTable = '''
     select
         table_id, is_occupied, size
@@ -151,46 +179,18 @@ def show_table(db):
 
     return table_list
 
-# def select_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     selectTable = '''
-#     UPDATE tables 
-#     SET is_occupied =  
-#     WHERE table_id = :o and
-#     is_occupied = 0
-#     '''
-
-#     cursor.execute(selectTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
-
-# def go_back_table(db, table_id):
-#     connection = sqlite3.connect(db)
-#     cursor = connection.cursor()
-    
-#     goBackTable = '''
-#     UPDATE tables 
-#     SET is_occupied = 0 
-#     WHERE table_id = :o and
-#     is_occupied = 1
-#     '''
-
-#     cursor.execute(goBackTable, {"o": table_id})
-#     connection.commit()
-#     connection.close()
 
 def show_menu(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
+
     showMenu = '''
-    SELECT DISTINCT i.name, i.description, c.name, i.cost, (SELECT group_concat(C.ingredient_name, ', ') 
-                                                            FROM ITEMS AS A 
-                                                            JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
-                                                            JOIN INGREDIENTS as C on C.ingredient_id = B.ingredient_id 
-                                                            WHERE A.item_id = i.item_id)
+    SELECT DISTINCT i.item_id, i.name, i.description, c.name, i.cost, i.image, 
+        (SELECT group_concat(C.ingredient_name, ', ') 
+         FROM ITEMS AS A 
+         JOIN ITEM_INGREDIENTS as B on B.item_id = A.item_id 
+         JOIN INGREDIENTS as C on C.ingredient_id = B.ingredient_id 
+         WHERE A.item_id = i.item_id)
     FROM ITEMS AS i
     JOIN CATEGORIES AS c ON i.category_id = c.category_id 
     JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
@@ -201,17 +201,21 @@ def show_menu(db):
     items_list = []
 
     for item in items:
+        with open(f'ItemImages/{item[5]}', "rb") as image_file:
+            # Encode the image as base64 string
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
-           "name": item[0],
-           "price": item[3],
-           "description": item[1],
-           "category": item[2],
-           "ingredients": item[4].split(', ')
+            "id": item[0],
+            "name": item[1],
+            "price": item[4],
+            "description": item[2],
+            "category": item[3],
+            "image": encoded_image,
+            "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
 
     connection.close()
-
     return items_list
 
 def get_all_categories(db):
@@ -238,3 +242,82 @@ def get_all_categories(db):
     connection.close()
     
     return category_list
+
+def get_customer_past_orders(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    session_id = get_table_session_id(db, table_id)
+
+    sql = """
+    SELECT i.item_id, SUM(io.quantity), i.name, i.cost
+    FROM ORDERS AS o
+    JOIN IN_ORDER AS io on io.order_id = o.order_id
+    JOIN ITEMS AS i on i.item_id = io.item_id
+    WHERE o.session_id = :a AND o.table_id = :b
+    GROUP BY i.item_id
+    """
+
+    cursor.execute(sql, {"a": session_id, "b": table_id})
+    past_items = cursor.fetchall()
+    past_list = []
+
+    for items in past_items:
+        items_dict = {
+            'id': items[0],
+            'quantity': items[1],
+            'name': items[2],
+            'price': items[3]
+        }
+        past_list.append(items_dict)
+
+    connection.close()
+
+    return past_list
+
+def get_table_session_id(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT session_id
+    FROM TABLES
+    WHERE table_id = :t
+    """
+
+    cursor.execute(sql, {"t": table_id})
+    session_id = cursor.fetchone()[0]
+
+    connection.close()
+
+    return session_id
+
+def add_notification(db, table_id, notification_type, token):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check if the token is valid
+    # if not valid_user_specific(db, token):
+    #     connection.close()
+    #     return None
+        
+    cursor.execute("SELECT session_id FROM TABLES WHERE table_id = ?", (table_id,))
+    session_id = cursor.fetchone()[0]
+
+    # Only send notifs through if that table is in session
+    if session_id != 0:
+        try:
+            # Add the notification to the database
+            sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
+            cursor.execute(sql, (table_id, notification_type, "new"))
+            connection.commit()
+            print("Notification added successfully")
+            return True
+        except sqlite3.Error as e:
+            print(f"Error adding notification: {e}")
+            connection.rollback()
+    else:
+        print("Session ID is 0. No notification sent.")
+        
+    connection.close()
+    return False

@@ -1,0 +1,65 @@
+.waiter-page {
+    margin-top: 6em;
+    padding: 0 4em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.waiter-table-container {
+    width: 60%;
+    margin: 0 2em;
+    height: 80vh;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.waiter-table {
+    width: 100%;
+}
+
+.status-ordered { 
+    background-color: lightcoral;
+}
+
+.status-cooking { 
+    background-color: orange;
+}
+
+.status-cooked { 
+    background: lightblue;
+}
+
+.status-served { 
+    background-color: lightgreen;
+}
+
+.serve-btn { 
+    background-color: lightblue;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.notif { 
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+    padding: 5px 5px;
+    background-color: lavender;
+    border-bottom: 2px solid lightgray;
+    border-radius: 5px;
+}
+
+.done-btn { 
+    margin-left: 30px;
+    background-color: darkgray;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.notifications-container {
+    padding: 0 2em;
+}

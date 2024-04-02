@@ -14,8 +14,9 @@
     margin-right: 3%;
 }
 .kiosk-logo {
-    max-width: 20%;
+    max-width: 15%;
     object-fit: fill;
+    padding-right: 2%;
 }
 .kiosk-title {
     font-size: 50pt;
