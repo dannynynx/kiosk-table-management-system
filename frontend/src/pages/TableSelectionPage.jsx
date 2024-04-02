@@ -93,9 +93,6 @@ const TableSelectionPage = () => {
             return null;
         }
     }
-
-
-
     return (
         <>
             <section className='table-selection-page'>
