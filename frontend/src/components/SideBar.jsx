@@ -5,19 +5,33 @@ import PopUp from "./PopUp";
 import axios from 'axios';
 import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = ({onCategorySelect}) => {
     const [categories, setCategories] = React.useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
+    const navigate = useNavigate();
+    
    
-    const handleRequestBill = () => {
+    const handleRequestBill = async () => {
+        try {
+            const data = {
+                "table_id": localStorage.getItem('tablenumber'),
+                "token": localStorage.getItem('token'),
+                "notification_type": 'bill',
+            }
+            await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
+        } catch (error) {
+            console.log(error)
+        }
         setPopupMessage("Please make your way to the counter");
         setPopUpVisible(true);
     };
 
     const closePopUp = () => {
         setPopUpVisible(false);
+        navigate('../kiosk/authentication');
     };
     React.useEffect(() => {
         const getCategories = async () => {
