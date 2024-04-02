@@ -7,8 +7,7 @@ const WaiterPage = () => {
     const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
 
-
-    useEffect(() => { 
+    const getOrders = () => {
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
         .then(response => {
             const data = response.data ?? [];
@@ -17,8 +16,11 @@ const WaiterPage = () => {
         })
         .catch(error => {
             console.error('Error fetching orders:', error);
-        });
+        })
+    }
 
+
+    const getNotifs = () => {
         axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status', token)
         .then(response => {
             const data = response.data ?? [];
@@ -27,8 +29,37 @@ const WaiterPage = () => {
         }).catch(error => { 
             console.error('Error fetching notifications:', error);
         });
-        
+    }
+
+    useEffect(() => { 
+        getOrders();
+        getNotifs();
     }, []);
+
+    const handleStatusChange = (order) => { 
+        console.log(order)
+        let status = null;
+
+        if (order.status == "cooked") { 
+            status = "served";
+        } 
+        const data = { 
+            status,
+            item_id: order.item_id,
+            order_id: order.order_id,
+            quantity: order.quantity,
+        }
+
+        console.log(data)
+
+        axios.put('http://127.0.0.1:5000/staff/update_order_status', data)
+        .then(response => { 
+            console.log(response);
+            getOrders();
+        }).catch(error => { 
+            console.error('Error fetching orders:', error);
+        });
+    }
     
     return (
         <div className='waiter-page'>
@@ -46,10 +77,10 @@ const WaiterPage = () => {
                     <tbody>
                     {orders.map((order, index) => (
                         <tr key={index}>
-                            <td>{order.tableNumber}</td>
-                            <td>{order.item}</td>
+                            <td>{order.table_number}</td>
+                            <td>{order.name}</td>
                             {order.status == 'cooked' ? 
-                            (<button className='serve-btn'>Ready to serve</button>) :  (<td className={`status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</td>)}
+                            (<button className='serve-btn' onClick={() => handleStatusChange(order)}>Ready to serve</button>) :  (<td className={`status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</td>)}
                         </tr>
                     ))}
                     </tbody>
@@ -60,8 +91,8 @@ const WaiterPage = () => {
                 <h2>Notifications</h2>
                 {notifs.map((notif, index) => (
                         <div key={index} className='notif'>
-                            <h4>{notif.msg}</h4>
-                            {notif.status == 'unfulfilled' ? 
+                            <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
+                            {notif.status == 'new' ? 
                             (<button className="done-btn">Done</button>) : null }
                         </div>
                 ))}
