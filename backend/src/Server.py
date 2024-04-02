@@ -7,7 +7,7 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
+from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout
 from WaitingStaff import get_notifications, update_notification
@@ -78,16 +78,24 @@ def table_confirmation():
     data = request.get_json()
     table_id = data.get('table_id')
 
-    code = confirm_table(DB_PATH, table_id)
-    return jsonify({'code': code}), 200
+    return_data = confirm_table(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route('/customer/table_code', methods=['GET'])
+def table_code():
+    table_id = request.args.get('table_id')
+
+    return_data = get_table_code(DB_PATH, table_id)
+    return jsonify(return_data), 200
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
     data = request.get_json()
+    table_id = data.get('table_id')
     entered_code = data.get('code')
     token = data.get('token')
 
-    if authenticate_table(DB_PATH, entered_code, token):
+    if authenticate_table(DB_PATH, table_id, entered_code, token):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
