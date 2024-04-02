@@ -1,14 +1,14 @@
 [
     {
         "table_id": 1,
-        "code": "3538",
-        "session_id": 1,
+        "code": "6587",
+        "session_id": 4,
         "is_occupied": 1
     },
     {
         "table_id": 2,
-        "code": "3566",
-        "session_id": 2,
+        "code": "5895",
+        "session_id": 3,
         "is_occupied": 1
     },
     {
