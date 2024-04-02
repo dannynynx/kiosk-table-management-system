@@ -18,3 +18,17 @@ Week 4
 Discussed with backend developers to fully flesh out the languages and structure of how to conduct our work. 
 Installed SQLite, Flask and Postman to write and test my backend code. 
 Wrote the functionality of some customer based stories. 
+
+Week 5
+Presented work in Sprint 1 Demo. 
+Delegated tasks in Retrospective, converted to frontend.
+Took inspiration from Ubereats web design to model the frontend over.
+
+Week 6
+Took a week off on vacation.
+Took some very brief moments to try to implement the new design.
+
+Week 7
+Redesigned most of the menu and item pages.
+Removed and shifted components to fit a more modernised concept.
+Fixed numerous bugs that were from sprint 1.
