@@ -5,8 +5,7 @@ import CartItem from './CartItem.jsx';
 import { useCart, useRemoveCartItem } from '../context/CartContext';
 import PopUp from "./PopUp";
 import axios from 'axios';
-import { useState } from 'react';
-import React from "react";
+import { useState, useEffect } from 'react';
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
@@ -15,7 +14,11 @@ const Cart = ({ toggleExpand }) => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
 
-    const sendOrder = async () => { 
+    const sendOrder = async () => {
+        if (getCart.length === 0) {
+            return;
+        }
+
         try { 
             const order = {
                 "order_items": getCart.map((item) => { 
@@ -42,7 +45,7 @@ const Cart = ({ toggleExpand }) => {
         setPopUpVisible(false);
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         const cartEmpty = () => {
             if (getCart.length === 0) {
                 setCartEmpty(true);
@@ -67,7 +70,7 @@ const Cart = ({ toggleExpand }) => {
                     {isCartEmpty ? (
                         <h7>Cart is empty</h7>
                     ) : (
-                        getCart.map(item => <CartItem key={item.name} name={item.name} price={item.price} qty={item.qty}/>)
+                        getCart.map(item => <CartItem key={item.id} id={item.id}/>)
                     )
                     }
                 </div>

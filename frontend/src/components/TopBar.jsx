@@ -8,6 +8,7 @@ import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
 import Cart from './Cart';
 import PastOrders from './PastOrders';
+import {Link} from "react-router-dom";
 
 const TopBar = () => {
     const tablenumber = localStorage.getItem('tablenumber');
@@ -54,7 +55,10 @@ const TopBar = () => {
         <>
             <div className="topbar">
                 <div className="left-topbar">
-                    <img className="logo" src={zebra} alt='Zebra Icon'></img>
+                    <Link to='/menu' className="topbar-logo-link">
+                        <img  src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
+                    </Link>
+
                     <input className="search-bar" type='text' placeholder='Search' onKeyDown={handleKeyDown}></input>
                 </div>
                 <div className="right-topbar">

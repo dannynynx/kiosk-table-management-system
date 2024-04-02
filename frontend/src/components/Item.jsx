@@ -31,7 +31,7 @@ const Item = () => {
             addToCartContext(itemWithQty);
         } else {
             const existingItem = getCart.find(cartItem => cartItem.name === name);
-            const newQty = existingItem.qty + quantity;
+            const newQty = Math.min(existingItem.qty + quantity, 10);
             updateCartItemContext(name, newQty);
         }
         setQuantity(1)
