@@ -12,7 +12,7 @@ const KioskCodePopUp = (props) => {
             <div className="msg">
                 <div className="kiosk-popup-message">
                     <h2>Your Table Code Is:</h2>
-                    <h2 className="kiosk-code-text">0000</h2>
+                    <h2 className="kiosk-code-text" value={props.tableCode}></h2>
                 </div>
                 <Link className="kiosk-popup-button-container" to="/kiosk">
                     <input type="button" onClick={props.onClose} className="kiosk-popup-button" value='Exit'></input>
@@ -24,9 +24,8 @@ const KioskCodePopUp = (props) => {
 
 KioskCodePopUp.propTypes = {
     isPopUpVisible: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    tableCode: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
-    nextStep: PropTypes.func.isRequired,
 };
 
 export default KioskCodePopUp;

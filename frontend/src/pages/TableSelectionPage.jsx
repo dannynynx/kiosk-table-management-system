@@ -18,7 +18,6 @@ const TableSelectionPage = () => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const [isCodeVisible, setCodeVisible] = useState(false);
-    const [codeMessage, setCodeMessage] = useState("");
 
     useEffect(() => {
         const selectTable = async ()=> {
@@ -32,18 +31,6 @@ const TableSelectionPage = () => {
         }
         selectTable().then(() => console.log(tables));
     }, []);
-
-    const generateCode = async (tableNumber)=> {
-        try {
-            const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', tableNumber);
-            const rawCode = response.data.code;
-            setCode(rawCode);
-            console.log(response.data.code);
-        } catch (error) {
-            console.error('Error submitting data:', error);
-            return null;
-        }
-    }
 
     const getTablePicture = (size, avail) => {
         if (avail == 0) {
@@ -78,21 +65,24 @@ const TableSelectionPage = () => {
 
     const handleConfirmSelection = (tableNumber) => {
         setPopUpVisible(false);
-        generateCode(tableNumber);
-        setCodeMessage(code);
+        getTableCode(tableNumber);
         setCodeVisible(true);
-        confirmTableSelection(tableNumber);
     };
 
-    const confirmTableSelection = async (tableNumber)=> {
+    const getTableCode = async (tableNumber) => {
         try {
-            const response = await axios.post( 'http://127.0.0.1:5000/customer/confirmTable', tableNumber);
-            console.log(response.data);
+            const data = {'table_id': tableNumber}
+            console.log(data)
+            const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
+            const rawCode = response.data;
+            console.log(rawCode)
+            setCode(rawCode)
         } catch (error) {
             console.error('Error submitting data:', error);
             return null;
         }
     }
+
     return (
         <>
             <section className='table-selection-page'>
@@ -111,7 +101,7 @@ const TableSelectionPage = () => {
                             <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} nextStep={handleConfirmSelection}/>
                         )}
                         {isCodeVisible && (
-                            <CodePopUp message={codeMessage} onClose={closeCodePopUp} isPopUpVisible={isCodeVisible} nextStep={handleConfirmSelection}/>
+                            <CodePopUp tableCode={code} onClose={closeCodePopUp} isPopUpVisible={isCodeVisible}/>
                         )}
                 </div>
             </section>
