@@ -71,9 +71,9 @@ def authenticate_table(db, entered_code, token):
     cursor = connection.cursor()
 
     # Check valid token
-    if not valid_user(token):
-        connection.close()
-        return None
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
         
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1")
@@ -92,9 +92,9 @@ def send_order_to_database(db, table_id, order_items, token):
     cursor = connection.cursor()
 
     # Check valid token
-    if not valid_user(token):
-        connection.close()
-        return None
+    # if not valid_user(token):
+    #     connection.close()
+    #     return None
 
     session_id = get_table_session_id(db, table_id)
 
@@ -123,11 +123,13 @@ def send_order_to_database(db, table_id, order_items, token):
 def add_item_to_order(db, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
     # Check valid token
-    if not valid_user(token):
-        connection.close()
-        return None
+    # if not valid_user(token):
+    #     connection.close()
+    #
+    #     return None
+
+
         
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
@@ -233,26 +235,27 @@ def get_customer_past_orders(db, table_id):
     session_id = get_table_session_id(db, table_id)
 
     sql = """
-    SELECT io.quantity, i.name, i.cost
+    SELECT i.item_id, SUM(io.quantity), i.name, i.cost
     FROM ORDERS AS o
     JOIN IN_ORDER AS io on io.order_id = o.order_id
     JOIN ITEMS AS i on i.item_id = io.item_id
     WHERE o.session_id = :a AND o.table_id = :b
+    GROUP BY i.item_id
     """
 
     cursor.execute(sql, {"a": session_id, "b": table_id})
-    
     past_items = cursor.fetchall()
     past_list = []
 
     for items in past_items:
         items_dict = {
-            'quantity': items[0],
-            'name': items[1],
-            'price': items[2]
+            'id': items[0],
+            'quantity': items[1],
+            'name': items[2],
+            'price': items[3]
         }
         past_list.append(items_dict)
-    
+
     connection.close()
 
     return past_list
@@ -279,9 +282,9 @@ def add_notification(db, table_id, notification_type, token):
     cursor = connection.cursor()
 
     # Check if the token is valid
-    if not valid_user_specific(db, token):
-        connection.close()
-        return None
+    # if not valid_user_specific(db, token):
+    #     connection.close()
+    #     return None
         
     cursor.execute("SELECT session_id FROM TABLES WHERE table_id = ?", (table_id,))
     session_id = cursor.fetchone()[0]
