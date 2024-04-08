@@ -11,6 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
 from WaitingStaff import get_notifications, update_notification
+from Manager import create_account, edit_account, delete_account
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -203,8 +204,34 @@ def update_order_status():
     return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
+@app.route("/manager/create_account", methods=['POST'])
+def manager_create_account():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role')
 
+    return_data = create_account(DB_PATH, username, password, role)
+    return jsonify(return_data), 200
 
+@app.route("/manager/edit_account", methods=['PUT'])
+def manager_edit_account():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role')
+    id = data.get('staff_id')
+
+    return_data = edit_account(DB_PATH, id, username, password, role)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_account", methods=['DELETE'])
+def manager_delete_account():
+    data = request.get_json()
+    id = data.get('staff_id')
+
+    return_data = delete_account(DB_PATH, id)
+    return jsonify(return_data), 200
 
 if __name__ == '__main__':
     app.run(debug=True)
