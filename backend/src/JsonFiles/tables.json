@@ -1,9 +1,9 @@
 [
     {
         "table_id": 1,
-        "code": "8430",
-        "session_id": 2,
-        "is_occupied": 1
+        "code": "0000",
+        "session_id": 0,
+        "is_occupied": 0
     },
     {
         "table_id": 2,

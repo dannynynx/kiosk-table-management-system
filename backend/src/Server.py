@@ -210,8 +210,9 @@ def manager_create_account():
     username = data.get('username')
     password = data.get('password')
     role = data.get('role')
+    logout_code = data.get('logout_code')
 
-    return_data = create_account(DB_PATH, username, password, role)
+    return_data = create_account(DB_PATH, username, password, role, logout_code)
     return jsonify(return_data), 200
 
 @app.route("/manager/edit_account", methods=['PUT'])
@@ -221,8 +222,9 @@ def manager_edit_account():
     password = data.get('password')
     role = data.get('role')
     id = data.get('staff_id')
+    logout_code = data.get('logout_code')
 
-    return_data = edit_account(DB_PATH, id, username, password, role)
+    return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
     return jsonify(return_data), 200
 
 @app.route("/manager/delete_account", methods=['DELETE'])

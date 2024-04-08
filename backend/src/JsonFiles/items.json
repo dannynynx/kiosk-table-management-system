@@ -67,7 +67,7 @@
         "item_id": 9,
         "name": "Spaghetti Bolognese",
         "description": "One of the most popular Italian dishes",
-        "category_id": 4,
+        "category_id": 3,
         "cost": 17.99,
         "image": "Spaghetti_Bolognese.png"
     },
@@ -75,7 +75,7 @@
         "item_id": 10,
         "name": "Korean BBQ",
         "description": "Why Not?",
-        "category_id": 4,
+        "category_id": 3,
         "cost": 60.99,
         "image": "Korean_BBQ.png"
     },
@@ -83,8 +83,160 @@
         "item_id": 11,
         "name": "Omakase",
         "description": "For the ballers",
-        "category_id": 4,
+        "category_id": 3,
         "cost": 200,
         "image": "Omakase.png"
+    },
+    {
+        "item_id": 12,
+        "name": "Belgium Waffles",
+        "description": "Waffles from Belgium topped with maple syrup and butter",
+        "category_id": 1,
+        "cost": 10.99,
+        "image": "Belgium_Waffles.png"
+    },
+    {
+        "item_id": 13,
+        "name": "Pancakes",
+        "description": "Pancakes topped with butter and maple syrup",
+        "category_id": 1,
+        "cost": 8.99,
+        "image": "Pancakes.png"
+    },
+    {
+        "item_id": 14,
+        "name": "French Toast",
+        "description": "Fried sliced bread soaked in beaten eggs and milk",
+        "category_id": 1,
+        "cost": 9.99,
+        "image": "French_Toast.png"
+    },
+    {
+        "item_id": 15,
+        "name": "Acai Bowl",
+        "description": "Acai with kiwi, banana, strawberry",
+        "category_id": 1,
+        "cost": 12.99,
+        "image": "Acai_Bowl.png"
+    },
+    {
+        "item_id": 16,
+        "name": "Chicken Tacos",
+        "description": "Small hand-sized corn-based tortilla topped with chicken, avocado, onion, and tomato",
+        "category_id": 2,
+        "cost": 13.99,
+        "image": "Chicken_Tacos.png"
+    },
+    {
+        "item_id": 17,
+        "name": "Spanish Paella",
+        "description": "Saffron infused rice with chicken, chorizo, prawns, and mussels",
+        "category_id": 2,
+        "cost": 14.99,
+        "image": "Spanish_Paella.png"
+    },
+    {
+        "item_id": 18,
+        "name": "Korean Fried Chicken",
+        "description": "Not Kentucky Fried Chicken",
+        "category_id": 2,
+        "cost": 24.99,
+        "image": "Korean_Fried_Chicken.png"
+    },
+    {
+        "item_id": 19,
+        "name": "Cheese Toastie",
+        "description": "Hot cheese sandwich with mozzarella and cheddar chees",
+        "category_id": 2,
+        "cost": 6.99,
+        "image": "Cheese_Toastie.png"
+    },
+    {
+        "item_id": 20,
+        "name": "Chicken Caesar Salad",
+        "description": "Romaine lettuce and croutons dressed with parmesan cheese, chicken, and Caesar dressing",
+        "category_id": 2,
+        "cost": 12.99,
+        "image": "Chicken_Caesar_Salad.png"
+    },
+    {
+        "item_id": 21,
+        "name": "Salmon Avocado Sushi Roll",
+        "description": "Sushi roll with salmon, avocado, and cucumber",
+        "category_id": 2,
+        "cost": 13.99,
+        "image": "Salmon_Avocado_Sushi_Roll.png"
+    },
+    {
+        "item_id": 22,
+        "name": "Carbonara",
+        "description": "Classic Italian pasta dish with eggs, hard cheese, pancetta, and pepper",
+        "category_id": 3,
+        "cost": 15.99,
+        "image": "Carbonara.png"
+    },
+    {
+        "item_id": 23,
+        "name": "Beef Wellington",
+        "description": "Tender beef fillet wrapped in puff pastry with mushroom duxelle",
+        "category_id": 3,
+        "cost": 29.99,
+        "image": "Beef_Wellington.png"
+    },
+    {
+        "item_id": 24,
+        "name": "Roast Lamb Leg",
+        "description": "Slow-roasted lamb leg with rosemary and garlic",
+        "category_id": 3,
+        "cost": 25.99,
+        "image": "Roast_Lamb_Leg.png"
+    },
+    {
+        "item_id": 25,
+        "name": "Turducken",
+        "description": "A deboned chicken stuffed into a deboned duck, further stuffed into a deboned turkey",
+        "category_id": 3,
+        "cost": 34.99,
+        "image": "Turducken.png"
+    },
+    {
+        "item_id": 26,
+        "name": "Snow Crab Legs",
+        "description": "Steamed snow crab legs served with butter and lemon wedges",
+        "category_id": 3,
+        "cost": 22.99,
+        "image": "Snow_Crab_Legs.png"
+    },
+    {
+        "item_id": 27,
+        "name": "Charcoal Chicken",
+        "description": "Chicken roasted over charcoal for a smoky flavour",
+        "category_id": 3,
+        "cost": 19.99,
+        "image": "Charcoal_Chicken.png"
+    },
+    {
+        "item_id": 28,
+        "name": "Tiramisu",
+        "description": "Coffee-flavoured Italian dessert made of lady fingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, flavoured with cocoa",
+        "category_id": 4,
+        "cost": 7.99,
+        "image": "Tiramisu.png"
+    },
+    {
+        "item_id": 29,
+        "name": "Creme Brulee",
+        "description": "Rich custard base topped with a layer of hardened caramelised sugar",
+        "category_id": 4,
+        "cost": 6.99,
+        "image": "Creme_Brulee.png"
+    },
+    {
+        "item_id": 30,
+        "name": "Japanese Cheese Cake",
+        "description": "Light and fluffy cheesecake with a smooth, creamy texture",
+        "category_id": 4,
+        "cost": 8.99,
+        "image": "Japanese_Cheese_Cake.png"
     }
 ]
