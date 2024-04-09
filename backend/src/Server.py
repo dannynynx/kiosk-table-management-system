@@ -8,13 +8,14 @@ import sqlite3
 import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
-from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
 from WaitingStaff import get_notifications, update_notification
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 app.json.sort_keys = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -203,8 +204,22 @@ def update_order_status():
     return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    
+@socketio.on('update_order_status')
+def handle_update_order_status(data):
+    status = data['status']
+    order_id = data['order_id']
+    item_id = data['item_id']
+    quantity = data['quantity']
+    
+    change_order_status(DB_PATH, status, order_id, item_id, quantity)
+    return_data = show_all_orders(DB_PATH)
+    emit('updated_order_status', return_data, broadcast=True)
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
