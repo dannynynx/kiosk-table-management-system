@@ -1,0 +1,29 @@
+.manager-page { 
+    display: flex;
+    flex-direction: column; /* Change to column to stack elements vertically */
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    height: 100vh; /* Set height to viewport height for full page height */
+}
+
+.manager-buttons { 
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.manager-buttons button {
+    background-color: lightblue;
+    color: #ffffff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    height: 60%;
+  }
+  
+.manager-buttons button:hover {
+/* Styles for button on hover */
+background-color: lightseagreen;
+}
