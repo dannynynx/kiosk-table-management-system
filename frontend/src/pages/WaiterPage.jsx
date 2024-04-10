@@ -1,11 +1,16 @@
 import './WaiterPage.css';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
+import socket from '../socket'
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
+    socket.on('updated_order_status', (data) => {
+        setOrders(data);
+    });
+
 
     const getOrders = () => {
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
@@ -50,15 +55,7 @@ const WaiterPage = () => {
             quantity: order.quantity,
         }
 
-        console.log(data)
-
-        axios.put('http://127.0.0.1:5000/staff/update_order_status', data)
-        .then(response => { 
-            console.log(response);
-            getOrders();
-        }).catch(error => { 
-            console.error('Error fetching orders:', error);
-        });
+        socket.emit('update_order_status', data);
     }
 
     const handleNotifStatusChange = (notif) => { 

@@ -8,7 +8,7 @@ import sqlite3
 import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
@@ -147,15 +147,15 @@ def update_notifications():
     else:
         return jsonify({'error': 'Failed to update notification'}), 500
 
-@app.route('/customer/send_order', methods=['POST'])
-def send_order():
-    data = request.get_json()
+@socketio.on('send_order')
+def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
     token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, table_id, order_items, token)
-    return jsonify(return_data), 200
+    send_order_to_database(DB_PATH, table_id, order_items, token)
+    return_data = show_all_orders(DB_PATH)
+    emit('updated_order_status', return_data, broadcast=True)
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
