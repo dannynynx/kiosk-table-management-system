@@ -55,6 +55,8 @@ const WaiterPage = () => {
             quantity: order.quantity,
         }
 
+
+        // TODO: error handling of socket.emit
         socket.emit('update_order_status', data);
     }
 
