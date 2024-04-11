@@ -17,12 +17,6 @@ const ManagerPage = () => {
         navigate('/manager/menu');
     }
 
-    // const handleEndOfDay = () => { 
-    //     //add routing for end of day clearance
-    //     setPopupMessage(<>Current day has ended. <br/> Started new day</>);
-    //     setPopUpVisible(true);
-    // }
-
     const closePopUp = () => {
         setPopUpVisible(false);
     };
