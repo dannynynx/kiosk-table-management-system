@@ -43,3 +43,37 @@ button {
     color: #439CEF;
     text-decoration: underline;
 }
+
+.category-edit { 
+    display: flex;
+    flex-direction: column;
+}
+
+.reorder-items { 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.reorder-items div {
+    cursor: pointer;
+}
+
+.reorder-items div:hover {
+    background-color: #f0f0f0;
+}
+
+.reorder-items button {
+    border: none;
+    background: transparent;
+    padding: 0;
+}
+
+.reorder-items button h2 {
+    margin: 0;
+}
+
+.reorder-items div.dragging {
+    opacity: 0.5; /* Dim the dragging item */
+}

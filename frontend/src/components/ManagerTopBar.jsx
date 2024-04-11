@@ -6,8 +6,6 @@ import PopUp from "./PopUp";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
-import Cart from './Cart';
-import PastOrders from './PastOrders';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import edit from "../assets/edit.svg"
