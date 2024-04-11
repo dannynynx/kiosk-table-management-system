@@ -1,4 +1,4 @@
-import SideBar from '../components/SideBar.jsx';
+import ManagerSideBar from '../components/ManagerSideBar.jsx';
 import ManagerTopBar from '../components/ManagerTopBar.jsx';
 import './ManagerMenu.css';
 import PropTypes from "prop-types";
@@ -44,7 +44,7 @@ const ManagerMenu = (props) => {
                 <ManagerTopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
             <div className='sidebar-container'>
-                <SideBar onCategorySelect={handleCategoryFilter}/>
+                <ManagerSideBar onCategorySelect={handleCategoryFilter}/>
             </div>
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}

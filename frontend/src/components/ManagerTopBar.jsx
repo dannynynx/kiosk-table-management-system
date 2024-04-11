@@ -1,6 +1,5 @@
 import zebra from "../assets/zebra.svg";
 import "./ManagerTopBar.css"
-import axios from 'axios';
 import { useState } from "react";
 import PopUp from "./PopUp";
 import cart from '../assets/cart-icon.svg';

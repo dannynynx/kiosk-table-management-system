@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useInitialiseMenu, useMenu } from '../context/MenuContext';
 
-const ManagerManagerSideBar = ({ onCategorySelect }) => {
+const ManagerSideBar = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -140,8 +140,8 @@ const ManagerManagerSideBar = ({ onCategorySelect }) => {
     );
 };
 
-ManagerManagerSideBar.propTypes = {
+ManagerSideBar.propTypes = {
     onCategorySelect: PropTypes.func.isRequired,
 };
 
-export default ManagerManagerSideBar;
+export default ManagerSideBar;
