@@ -1,5 +1,5 @@
 import SideBar from '../components/SideBar.jsx';
-import TopBar from '../components/TopBar.jsx';
+import ManagerTopBar from '../components/ManagerTopBar.jsx';
 import './ManagerMenu.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
@@ -41,7 +41,7 @@ const ManagerMenu = (props) => {
     return (
         <>
             <div className='topbar-container'>
-                <TopBar onHandleSearchFilter={handleSearchFilter}/>
+                <ManagerTopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
             <div className='sidebar-container'>
                 <SideBar onCategorySelect={handleCategoryFilter}/>
