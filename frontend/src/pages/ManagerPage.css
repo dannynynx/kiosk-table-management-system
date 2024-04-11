@@ -12,6 +12,17 @@
     width: 80%;
 }
 
+.end-btn {
+    background-color: black;
+    color: white;
+    padding: 1em;
+    position: absolute;
+    top:1em;
+    right:8em;
+    border-radius: 2em;
+    font-weight: 600;
+}
+
 .manager-buttons button {
     background-color: lightblue;
     color: #ffffff;
@@ -24,6 +35,5 @@
   }
   
 .manager-buttons button:hover {
-/* Styles for button on hover */
 background-color: lightseagreen;
 }

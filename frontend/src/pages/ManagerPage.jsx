@@ -2,7 +2,6 @@ import './ManagerPage.css';
 import { useNavigate } from 'react-router-dom';
 
 const ManagerPage = () => {
-    const token = { 'token': localStorage.getItem('token')};
     const navigate = useNavigate();
 
 
@@ -18,6 +17,7 @@ const ManagerPage = () => {
         <div className='manager-page'>
             <h1>Manager</h1>
             <div className='logout-btn'>Log Out</div>
+            <div className='end-btn'>End of Day</div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
