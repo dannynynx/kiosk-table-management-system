@@ -17,11 +17,11 @@ const ManagerPage = () => {
         navigate('/manager/menu');
     }
 
-    const handleEndOfDay = () => { 
-        //add routing for end of day clearance
-        setPopupMessage(<>Current day has ended. <br/> Started new day</>);
-        setPopUpVisible(true);
-    }
+    // const handleEndOfDay = () => { 
+    //     //add routing for end of day clearance
+    //     setPopupMessage(<>Current day has ended. <br/> Started new day</>);
+    //     setPopUpVisible(true);
+    // }
 
     const closePopUp = () => {
         setPopUpVisible(false);
@@ -32,7 +32,6 @@ const ManagerPage = () => {
         <div className='manager-page'>
             <h1>Manager</h1>
             <div className='logout-btn'>Log Out</div>
-            <div className='end-btn' onClick={handleEndOfDay}>End of Day</div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
