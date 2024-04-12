@@ -1,18 +1,1 @@
-[
-    {
-        "category_id": 1,
-        "name": "Brekkie"
-    },
-    {
-        "category_id": 2,
-        "name": "Lunch"
-    },
-    {
-        "category_id": 3,
-        "name": "Dinner"
-    },
-    {
-        "category_id": 4,
-        "name": "Dessert"
-    }
-]
+[]

@@ -7,11 +7,11 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
+from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification, clear_order
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status, staff_logout
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -233,6 +233,46 @@ def manager_delete_account():
     id = data.get('staff_id')
 
     return_data = delete_account(DB_PATH, id)
+    return jsonify(return_data), 200
+
+@app.route("/staff/logout", methods=['PUT'])
+def staff_logout():
+    data = request.get_json()
+    id = data.get('staff_id')
+
+    return_data = staff_logout(DB_PATH, id)
+    return jsonify(return_data), 200
+
+
+@app.route("/manager/edit_logo", methods=['PUT'])
+def edit_logo():
+    data = request.get_json()
+    logo = data.get('image')
+
+    return_data = edit_logo(DB_PATH, logo)
+    return jsonify(return_data), 200
+
+@app.route("/customer/clear_order", methods=['DELETE'])
+def clear_order():
+    data = request.get_json()
+    table_id = data.get('table_id')
+
+    return_data = clear_order(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/get_stats", methods=['GET'])
+def get_stats():
+    data = request.get_json()
+    start_date = data.get('start_date')
+    end_date = data.get('end_date')
+
+    return_data = get_stats(DB_PATH, start_date, end_date)
+    return jsonify(return_data), 200
+
+@app.route("/manager/get_customisations", methods=['GET'])
+def get_customisations():
+
+    return_data = get_customisations(DB_PATH)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':

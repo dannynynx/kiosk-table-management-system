@@ -152,3 +152,17 @@ def change_order_status(db, status, order_id, item_id, quantity):
     connection.close()
 
     return {}
+
+def staff_logout(db, staff_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    UPDATE STAFF
+    SET in_use=0
+    WHERE staff_id= :s
+    """
+
+    cursor.execute(sql, {"s": staff_id})
+    connection.commit()
+    connection.close()

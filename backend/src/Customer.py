@@ -320,3 +320,36 @@ def add_notification(db, table_id, notification_type, token):
         
     connection.close()
     return False
+
+# add to stats 
+# clear order from table
+def clear_order(db, table_id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    session_id = get_table_session_id(db, table_id)
+
+    orders = get_customer_past_orders(db, table_id)
+    sql = """
+    INSERT OR IGNORE INTO STATS (session_id, stats)
+    VALUES (:se, :st)
+    """
+
+    cursor.execute(sql, {"se": session_id , "st": str(orders)})
+    
+    sql = """
+    DELETE FROM IN_ORDER 
+    JOIN ORDER on ORDER.order_id = IN_ORDER.order.id
+    WHERE session_id=? 
+    """
+
+    cursor.execute(sql, (session_id,))
+
+    sql = """
+    DELETE FROM ORDERS WHERE session_id=?
+    """
+
+    cursor.execute(sql, (session_id,))
+
+    connection.commit()
+    connection.close()
