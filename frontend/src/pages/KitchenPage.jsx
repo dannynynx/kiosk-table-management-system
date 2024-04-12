@@ -67,7 +67,7 @@ const KitchenPage = () => {
                 <tbody>
                 {!(orders.length === 0) ? (
     orders.map((order, index) => {
-        if (order.status !== "cooked") {
+        if ((order.status !== "cooked") && (order.status !== "served")) {
             return (
                 <tr key={index}>
                     <td>{order.table_number}</td>

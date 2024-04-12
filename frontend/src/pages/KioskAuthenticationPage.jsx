@@ -8,6 +8,8 @@ const KioskAuthenticationPage = () => {
     const [code, setCode] = useState(null);
     const navigate = useNavigate();
     const tableNumber = localStorage.getItem('tablenumber');
+    const [textColor, setTextColor] = useState('#e7eaf9');
+    const [textContent, setTextContent] = useState('Please Type the four-digit code here:');
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -47,6 +49,8 @@ const KioskAuthenticationPage = () => {
             return rawCode;
         } catch(error) {
             console.error('Error submitting data:', error);
+            setTextColor('#d33d3d');
+            setTextContent('Try Again. Type the four-digit code here:');
             return null;
         }
     }
@@ -56,7 +60,7 @@ const KioskAuthenticationPage = () => {
             <div className='container'>
                 <div className='box-container'>
                     <p className='authentication-title'>Blue Zebra</p>
-                    <p className='text-description'>Please Type the four-digit code here:</p>
+                    <p className='text-description' style={{ color: textColor }}>{textContent}</p>
                     <input type="text" className='code-input' onChange={handleChange}/>
                     <input type="button" className='code-confirmation' value='Confirm' onClick={handleSubmit}/>
                 </div>

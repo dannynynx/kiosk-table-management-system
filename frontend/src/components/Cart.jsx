@@ -30,7 +30,7 @@ const Cart = ({ toggleExpand }) => {
         const order = {
             "order_items": getCart.map((item) => {
                 return {"item_id": parseInt(item.id),
-                    "quantity": item.id}
+                    "quantity": item.qty}
             }),
             "table_id": localStorage.getItem('tablenumber')
         };

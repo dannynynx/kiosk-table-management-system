@@ -10,6 +10,7 @@ import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
+import ManagerPage from './pages/ManagerPage.jsx';
 import axios from 'axios';
 
 
@@ -42,6 +43,7 @@ const App = () => {
                         <KitchenPage />
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
+                <Route path='/manager' element={<ManagerPage />} />
             </Routes>
         </>
     );
