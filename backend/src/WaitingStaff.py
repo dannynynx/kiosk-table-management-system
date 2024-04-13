@@ -32,7 +32,7 @@ def update_notification(db, notification_id, new_status, token):
     # Check if the token is valid
     if not valid_user(token):
         connection.close()
-        return False
+        return None
 
     sql = "UPDATE NOTIFICATIONS SET status = ? WHERE notification_id = ?"
     cursor.execute(sql, (new_status, notification_id))
@@ -47,8 +47,8 @@ def update_notification(db, notification_id, new_status, token):
         table_id, notification_type, status = updated_notification
         updated_entry = {'notification_type': notification_type, 'table_id': table_id, 'status': status}
         connection.close()
-        return True, updated_entry
+        return updated_entry
     else:
         print("Failed to retrieve updated notification")
         connection.close()
-        return False, None
+        return None

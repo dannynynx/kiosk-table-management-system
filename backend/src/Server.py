@@ -8,13 +8,14 @@ import sqlite3
 import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
-from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status;
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 app.json.sort_keys = False
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -124,10 +125,7 @@ def fetch_notifications():
     token = request.headers.get('Authorization')
     notifications = get_notifications(DB_PATH, token)
     
-    if notifications:
-        return jsonify(notifications), 200
-    else:
-        return jsonify({'error': 'Failed to retrieve notifications'}), 500
+    return jsonify(notifications), 200
 
 @app.route('/waitstaff/update_notification_status', methods=['PUT'])
 def update_notifications():
@@ -146,15 +144,15 @@ def update_notifications():
     else:
         return jsonify({'error': 'Failed to update notification'}), 500
 
-@app.route('/customer/send_order', methods=['POST'])
-def send_order():
-    data = request.get_json()
+@socketio.on('send_order')
+def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
     token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, table_id, order_items, token)
-    return jsonify(return_data), 200
+    send_order_to_database(DB_PATH, table_id, order_items, token)
+    return_data = show_all_orders(DB_PATH)
+    emit('updated_order_status', return_data, broadcast=True)
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
@@ -192,19 +190,40 @@ def get_order_status():
     return_data = get_status(DB_PATH, order_id, item_id, quantity)
     return jsonify(return_data), 200
 
-@app.route("/staff/update_order_status", methods=['PUT'])
-def update_order_status():
-    data = request.get_json()
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    
+@socketio.on('update_order_status')
+def handle_update_order_status(data):
     status = data.get('status')
     order_id = data.get('order_id')
     item_id = data.get('item_id')
     quantity = data.get('quantity')
+    
+    change_order_status(DB_PATH, status, order_id, item_id, quantity)
+    return_data = show_all_orders(DB_PATH)
+    emit('updated_order_status', return_data, broadcast=True)
 
-    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
-    return jsonify(return_data), 200
+@socketio.on('update_notification_status')
+def handle_update_notification_status(data):
+    notification_id = data.get('notification_id')
+    new_status = data.get('new_status')
+    token = data.get('token')
 
-
+    update_notification(DB_PATH, notification_id, new_status, token)
+    return_data = get_notifications(DB_PATH, token)
+    emit('updated_notification_status', return_data, broadcast=True)
+    
+@socketio.on('add_notification')
+def handle_add_notification(data):
+    table_id = data.get('table_id')
+    notification_type = data.get('notification_type')
+    token = data.get('token')
+    add_notification(DB_PATH, table_id, notification_type, token)
+    return_data = get_notifications(DB_PATH, token)
+    emit('updated_notification_status', return_data, broadcast=True)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)

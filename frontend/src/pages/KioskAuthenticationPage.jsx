@@ -23,14 +23,12 @@ const KioskAuthenticationPage = () => {
     };
 
     useEffect(() => {
-        console.log(tableNumber)
         getTableCode(tableNumber)
     }, [])
 
     const getTableCode = async (tableNumber)=> {
         try {
             const data = {'table_id': tableNumber}
-            console.log(data)
             const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
             const rawCode = response.data;
             setCode(rawCode)
@@ -43,7 +41,6 @@ const KioskAuthenticationPage = () => {
     const authenticateCode = async (tableNumber, code) => {
         try {
             const data = {'table_id': tableNumber, 'code': code}
-            console.log(data)
             const response = await axios.post( 'http://127.0.0.1:5000/customer/table_authentication', data)
             const rawCode = response.data;
             return rawCode;
