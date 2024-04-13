@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const TablePreview = ({ tableNumber, onClick, colour, tablePicture }) => {
     return (
-        <button className='table-preview' onClick={onClick} style={{'background-color': colour}}>
+        <button className='table-preview' onClick={onClick} style={{'backgroundColor': colour}}>
             <img src={tablePicture} className='table-image' alt='Table Icon'></img>
             <h2 className='table-text-style'>Table #{tableNumber}</h2>
         </button>

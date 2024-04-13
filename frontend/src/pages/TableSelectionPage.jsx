@@ -32,6 +32,12 @@ const TableSelectionPage = () => {
         selectTable().then(() => console.log(tables));
     }, []);
 
+    useEffect(() => {
+        if (code !== null) {
+            setCodeVisible(true)
+        }
+    }, [code]);
+
     const getTablePicture = (size, avail) => {
         if (avail == 0) {
             switch (size) {
@@ -66,29 +72,24 @@ const TableSelectionPage = () => {
     const handleConfirmSelection = async (tableNumber) => {
         setPopUpVisible(false);
         await confirmTableSelection(tableNumber);
-        await getTableCode(tableNumber);
-        setCodeVisible(true);
+        const rawCode = await getTableCode(tableNumber);
+        setCode(rawCode);
     };
-
+    
     const getTableCode = async (tableNumber) => {
         try {
-            const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
+            const response = await axios.get(`http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
             const rawCode = response.data;
-            setCode(rawCode);
-            console.log("the table code is:")
-            console.log(rawCode)
-            console.log(code)
             return rawCode;
         } catch (error) {
-            console.error('Error submitting data:', error);
+            console.error('Error fetching table code:', error);
             return null;
         }
-    }
+    };
 
     const confirmTableSelection = async (tableNumber)=> {
         try {
             const data = {"table_id": tableNumber}
-            console.log(data)
             const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', data);
         } catch (error) {
             console.error('Error submitting data:', error);
@@ -108,8 +109,8 @@ const TableSelectionPage = () => {
                     </div>
                 </div>
                 <div className='table-selection-container'>
-                    {tables.map((table, key) => (
-                        <TablePreview tableNumber={table.id} colour={table.avail == 0 ? '#DBDCDE' : '#767A7B' } tablePicture={getTablePicture(table.size, table.avail)} onClick={() => handleConfirmTable(table.id.toString(), table.avail)}></TablePreview>))}
+                    {tables.map((table) => (
+                        <TablePreview key={table.id} tableNumber={table.id} colour={table.avail == 0 ? '#DBDCDE' : '#767A7B' } tablePicture={getTablePicture(table.size, table.avail)} onClick={() => handleConfirmTable(table.id.toString(), table.avail)}></TablePreview>))}
                     {isPopUpVisible && (
                         <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} nextStep={handleConfirmSelection}/>
                     )}
