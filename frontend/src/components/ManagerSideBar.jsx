@@ -5,15 +5,14 @@ import axios from 'axios';
 import PropTypes from "prop-types";
 import {Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
-import CategoryOrderPopup from '../components/CategoryOrderPopUp.jsx';
+import CategoryOrderPopup from './CategoryOrderPopUp.jsx';
 
-const ManagerSideBar = ({ onCategorySelect }) => {
+const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
-    const [editMode, setEditMode] = useState(localStorage.getItem('edit'));
     const [isOrderPopupVisible, setOrderPopupVisible] = useState(false);
     const [menuItemsOrder, setMenuItemsOrder] = useState([]);
     
@@ -40,6 +39,10 @@ const ManagerSideBar = ({ onCategorySelect }) => {
     const closePopUp = () => {
         setPopUpVisible(false);
         navigate('../kiosk/authentication');
+    };
+    
+    const closeOrderPopup = () => {
+        setOrderPopupVisible(false); // Close the order pop-up screen
     };
 
     useEffect(() => {
@@ -68,7 +71,7 @@ const ManagerSideBar = ({ onCategorySelect }) => {
                         <h2 className="category">All</h2>
                     </button>
                 </Link>
-                {editMode ? (<button onClick={handleOrderButtonClick}>Reorder Categories</button>) : ''}
+                {editMode == true ? (<button onClick={handleOrderButtonClick}>Reorder Categories</button>) : ''}
                 {categories.map((category) => (
                     <Link to="/menu" key={category.id}>
                         <button
@@ -82,7 +85,7 @@ const ManagerSideBar = ({ onCategorySelect }) => {
                         </button>
                     </Link>
                 ))}
-                {editMode ? <button>add categories</button> : ''}
+                {editMode == true ? <button>add categories</button> : ''}
             </div>
             <div className="ManagerSideBar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>

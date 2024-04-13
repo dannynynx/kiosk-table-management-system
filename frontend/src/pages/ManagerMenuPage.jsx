@@ -14,6 +14,7 @@ const ManagerMenuPage = (props) => {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
+    const [editMode, setEditMode] = useState(localStorage.getItem('edit') === true);
 
     useEffect(() => {
         if (!localStorage.getItem('token')) { 
@@ -36,15 +37,22 @@ const ManagerMenuPage = (props) => {
     const handleSearchFilter = (searchValue) => {
         setSearchValue(searchValue);
     }
+    
+    const handleEditModeToggle = () => {
+        const newEditMode = !editMode;
+        setEditMode(newEditMode);
+        localStorage.setItem('edit', newEditMode);
+    };
+    
 
     const { display } = props;
     return (
         <>
             <div className='topbar-container'>
-                <ManagerTopBar onHandleSearchFilter={handleSearchFilter}/>
+                <ManagerTopBar onHandleSearchFilter={handleSearchFilter}  editMode={editMode} onEditModeToggle={handleEditModeToggle}/>
             </div>
             <div className='sidebar-container'>
-                <ManagerSideBar onCategorySelect={handleCategoryFilter}/>
+                <ManagerSideBar onCategorySelect={handleCategoryFilter} editMode={editMode} />
             </div>
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}

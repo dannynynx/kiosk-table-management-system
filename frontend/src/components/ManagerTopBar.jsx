@@ -10,20 +10,24 @@ import PropTypes from "prop-types";
 import edit from "../assets/edit.svg"
 import editRed from "../assets/edit-red.svg"
 
-const ManagerTopBar = ({ onHandleSearchFilter }) => {
+const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
     const token = localStorage.getItem('token');
     const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
-    const [editMode, setEditMode] = useState(edit);
+    const [editbtn, setEditbtn] = useState(edit);
 
     const closePopUp = () => {
         setPopUpVisible(false);
     };
     
-    const handleEditMode = () => { 
-        setEditMode(editRed);
-        localStorage.setItem('edit', true);
+    const handleEditMode = () => {    
+        if(editMode) { 
+            setEditbtn(edit);
+        } else { 
+            setEditbtn(editRed);
+        }
+        onEditModeToggle();
     }
 
     return (
@@ -44,7 +48,7 @@ const ManagerTopBar = ({ onHandleSearchFilter }) => {
                 </div>
                 <div className="topbar-right">
                     <div className='topbar-icon-container' onClick={handleEditMode}>
-                        <img src={editMode} className='cart' alt='Edit icon'/>
+                        <img src={editbtn} className='cart' alt='Edit icon'/>
                     </div>
                     <div className='topbar-icon-container'>
                         <img src={cart} className='cart' alt='Cart Icon'/>

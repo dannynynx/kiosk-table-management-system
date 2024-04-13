@@ -1,4 +1,4 @@
-import './CategoryOrderPopup.css'; // Apply appropriate CSS styles for the pop-up screen
+import './CategoryOrderPopUp.css';
 import PropTypes from "prop-types";
 import { useState } from 'react';
 
@@ -20,30 +20,32 @@ const CategoryOrderPopup = ({ categories, menuItemsOrder, onClose }) => {
     };
 
     const handleSaveOrder = () => {
-        // You can save the updated order here
+        //go to the backend
         onClose(); // Close the pop-up screen
     };
 
     return (
         <div className="category-order-popup">
-            <h2>Order Categories</h2>
-            <div className="category-list">
-                {orderedCategories.map((id) => {
-                    const category = categories.find(item => item.id === id);
-                    return (
-                        <div
-                            key={category.id}
-                            className="category-item"
-                            draggable
-                            onDragOver={handleDragOver}
-                            onDrop={(e) => handleDrop(e, category.id)}
-                        >
-                            {category.name}
-                        </div>
-                    );
-                })}
+            <div className="msg">
+                <h2>Order Categories</h2>
+                <div className="category-list">
+                    {orderedCategories.map((id) => {
+                        const category = categories.find(item => item.id === id);
+                        return (
+                            <div
+                                key={category.id}
+                                className="category-item"
+                                draggable
+                                onDragOver={handleDragOver}
+                                onDrop={(e) => handleDrop(e, category.id)}
+                            >
+                                {category.name}
+                            </div>
+                        );
+                    })}
+                </div>
+                <button className="save-btn" onClick={handleSaveOrder}>Save Order</button>
             </div>
-            <button onClick={handleSaveOrder}>Save Order</button>
         </div>
     );
 };

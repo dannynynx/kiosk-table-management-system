@@ -1,0 +1,44 @@
+.category-order-popup {
+    position: fixed;
+    top: 35%;
+    left: 30%;
+    width: 40%;
+    height: 10em;
+    background: rgba(169, 169, 169, 0.9);
+    z-index: 9999;
+    box-sizing: border-box;
+    -webkit-box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  }
+
+  .category-order-popup.visible { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .category-item { 
+    background-color: lightgray;
+    border-radius: 2px;
+    margin-bottom: 5px;
+  }
+
+  .msg {
+    background-color: aliceblue;
+    padding: 3em;
+    text-align: center; 
+}
+
+.msg .close-button {
+    width: 50px;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .save-btn { 
+    border-radius: 3px;
+    background-color: lightblue;
+  }
