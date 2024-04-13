@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
 import { useCart, useInitialiseCart } from '../context/CartContext';
 import PopUp from "./PopUp";
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useMenu } from "../context/MenuContext.jsx";
+import socket from '../socket.jsx';
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
@@ -35,15 +35,10 @@ const Cart = ({ toggleExpand }) => {
             "table_id": localStorage.getItem('tablenumber')
         };
 
-        axios.post('http://127.0.0.1:5000/customer/send_order', order)
-            .then(() => {
-                setCart([]);
-                setPopupMessage("Your order has been sent");
-                setPopUpVisible(true);
-            })
-            .catch((error) => {
-                console.error(error.message);
-            });
+        socket.emit('send_order', order);
+        setCart([]);
+        setPopupMessage("Your order has been sent");
+        setPopUpVisible(true);
     }
 
     const closePopUp = () => {

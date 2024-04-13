@@ -3,8 +3,9 @@ import requestBill from '../assets/request-bill-icon.svg';
 import PopUp from "./PopUp";
 import axios from 'axios';
 import PropTypes from "prop-types";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
+import socket from '../socket';
 
 const SideBar = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
@@ -21,7 +22,7 @@ const SideBar = ({ onCategorySelect }) => {
                 "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
-            await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)
+            socket.emit('add_notification', data);
         } catch (error) {
             console.log(error)
         }
