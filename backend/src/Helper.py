@@ -54,7 +54,6 @@ def valid_user_specific(db, token):
 
     result = cursor.fetchone()
     connection.close()
-    print(result)
     
     if result:
         return result[0]  # Return the role

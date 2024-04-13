@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import CartItem from './CartItem.jsx';
 import { useCart, useInitialiseCart } from '../context/CartContext';
 import PopUp from "./PopUp";
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useMenu } from "../context/MenuContext.jsx";
 import socket from '../socket.jsx';

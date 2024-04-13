@@ -5,47 +5,40 @@ import socket from '../socket'
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
-    const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
-    socket.on('updated_order_status', (data) => {
-        setOrders(data);
-    });
 
-
-    const getOrders = () => {
+    useEffect(() => {
+        const token = { 'token': localStorage.getItem('token')};
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
-        .then(response => {
-            const data = response.data ?? [];
-            console.log(data);
-            setOrders(data);
-        })
-        .catch(error => {
-            console.error('Error fetching orders:', error);
-        })
-    }
+            .then(response => {
+                const data = response.data ?? [];
+                setOrders(data);
+            })
+            .catch(error => {
+                console.error('Error fetching orders:', error);
+            })
 
-
-    const getNotifs = () => {
         axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status', token)
-        .then(response => {
-            const data = response.data ?? [];
-            console.log(data);
-            setNotifs(data);
-        }).catch(error => { 
+            .then(response => {
+                const data = response.data ?? [];
+                setNotifs(data);
+            }).catch(error => {
             console.error('Error fetching notifications:', error);
         });
-    }
 
-    useEffect(() => { 
-        getOrders();
-        getNotifs();
+        socket.on('updated_order_status', (data) => {
+            setOrders(data);
+        });
+        
+        socket.on('updated_notification_status', (data) => {
+            setNotifs(data);
+        });
     }, []);
 
-    const handleStatusChange = (order) => { 
-        console.log(order)
+    const handleStatusChange = (order) => {
         let status = null;
 
-        if (order.status == "cooked") { 
+        if (order.status === "cooked") {
             status = "served";
         } 
         const data = { 
@@ -60,23 +53,14 @@ const WaiterPage = () => {
         socket.emit('update_order_status', data);
     }
 
-    const handleNotifStatusChange = (notif) => { 
-        console.log(notif)
-     
+    const handleNotifStatusChange = (notif) => {
         const data = { 
             new_status: "closed",
             notification_id: notif.notification_id,
             token: localStorage.getItem('token')
         }
 
-        console.log(data)
-        axios.put('http://127.0.0.1:5000/waitstaff/update_notification_status', data)
-        .then(response => { 
-            console.log(response);
-            getNotifs();
-        }).catch(error => { 
-            console.error('Error fetching notifications:', error);
-        });
+        socket.emit('update_notification_status', data);
     }
     
     return (
@@ -97,7 +81,7 @@ const WaiterPage = () => {
                         <tr key={index}>
                             <td>{order.table_number}</td>
                             <td>{order.name}</td>
-                            {order.status == 'cooked' ? 
+                            {order.status === 'cooked' ?
                             (<button className='serve-btn' onClick={() => handleStatusChange(order)}>Ready to serve</button>) :  (<td className={`status-${order.status.toLowerCase().replace(/\s+/g, '-')}`}>{order.status}</td>)}
                         </tr>
                     ))}
@@ -108,11 +92,11 @@ const WaiterPage = () => {
             <div className='notifications-container'>
                 <h2>Notifications</h2>
                 {notifs.map((notif, index) => {
-                if (notif.status =="new") {
+                if (notif.status ==="new") {
                     return (
                         <div key={index} className='notif'>
                                     <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
-                                    {notif.status == 'new' ? 
+                                    {notif.status === 'new' ?
                                     (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
                                 </div>
                     )} else { 
