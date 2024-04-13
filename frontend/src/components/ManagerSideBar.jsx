@@ -96,7 +96,6 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
             {isOrderPopupVisible && (
                 <CategoryOrderPopup
                     categories={categories}
-                    menuItemsOrder={menuItemsOrder}
                     onClose={closeOrderPopup}
                 />
             )}

@@ -1,11 +1,13 @@
 import './CategoryOrderPopUp.css';
 import PropTypes from "prop-types";
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
-const CategoryOrderPopup = ({ categories, menuItemsOrder, onClose }) => {
-    const [orderedCategories, setOrderedCategories] = useState(menuItemsOrder);
+const CategoryOrderPopup = ({ categories ,onClose }) => {
+    const [orderedCategories, setOrderedCategories] = useState(categories);
+    const dragCategory = useRef<number>(0);
 
     const handleDragOver = (e) => {
+        console.log(categories)
         e.preventDefault();
     };
 
@@ -29,13 +31,13 @@ const CategoryOrderPopup = ({ categories, menuItemsOrder, onClose }) => {
             <div className="msg">
                 <h2>Order Categories</h2>
                 <div className="category-list">
-                    {orderedCategories.map((id) => {
-                        const category = categories.find(item => item.id === id);
+                    {orderedCategories.map((category) => {
                         return (
                             <div
                                 key={category.id}
                                 className="category-item"
                                 draggable
+                                onDragStart={() => dragCategory.current = key}
                                 onDragOver={handleDragOver}
                                 onDrop={(e) => handleDrop(e, category.id)}
                             >
@@ -52,7 +54,6 @@ const CategoryOrderPopup = ({ categories, menuItemsOrder, onClose }) => {
 
 CategoryOrderPopup.propTypes = {
     categories: PropTypes.array.isRequired,
-    menuItemsOrder: PropTypes.array.isRequired,
     onClose: PropTypes.func.isRequired,
 };
 
