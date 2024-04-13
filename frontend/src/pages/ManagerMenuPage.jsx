@@ -1,6 +1,6 @@
 import ManagerSideBar from '../components/ManagerSideBar.jsx';
 import ManagerTopBar from '../components/ManagerTopBar.jsx';
-import './ManagerMenu.css';
+import './ManagerMenuPage.css';
 import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
-const ManagerMenu = (props) => {
+const ManagerMenuPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
@@ -54,8 +54,8 @@ const ManagerMenu = (props) => {
     );
 };
 
-ManagerMenu.propTypes = {
+ManagerMenuPage.propTypes = {
     display: PropTypes.string.isRequired,
 };
 
-export default ManagerMenu;
+export default ManagerMenuPage;

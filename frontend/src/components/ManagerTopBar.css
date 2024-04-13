@@ -1,4 +1,4 @@
-.ManagerTopBar { 
+.topbar { 
     width: 100%;
     height: 100%;
     background-color: #222A5C;
@@ -6,24 +6,24 @@
     flex-direction: row;
 }
 
-.ManagerTopBar-left {
+.topbar-left {
     flex: 3;
     display: flex;
     flex-direction: row;
 }
 
-.ManagerTopBar-right {
+.topbar-right {
     flex: 1;
     display: flex;
     flex-direction: row; 
 }
 
-.ManagerTopBar-logo-link {
+.topbar-logo-link {
     width: 100%;
     flex: 1
 }
 
-.ManagerTopBar-logo {
+.topbar-logo {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -35,14 +35,14 @@
     color: white;
 }
 
-.ManagerTopBar-icon-container {
+.topbar-icon-container {
     margin: 1em;
     padding: 0.5em;
     border-radius: 0.5em;
     overflow: hidden;
 }
 
-.ManagerTopBar-right.expanded {
+.topbar-right.expanded {
     position: absolute;
     top: 7em;
     width: 20em;

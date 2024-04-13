@@ -28,10 +28,10 @@ const ManagerTopBar = ({ onHandleSearchFilter }) => {
 
     return (
         <>
-            <div className="ManagerTopBar">
-                <div className="ManagerTopBar-left">
-                    <Link to='/menu' className="ManagerTopBar-logo-link">
-                        <img src={zebra} alt='Zebra Icon' className="ManagerTopBar-logo"></img>
+            <div className="topbar">
+                <div className="topbar-left">
+                    <Link to='/menu' className="topbar-logo-link">
+                        <img src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
                     </Link>
 
                     <input
@@ -42,17 +42,17 @@ const ManagerTopBar = ({ onHandleSearchFilter }) => {
                     />
 
                 </div>
-                <div className="ManagerTopBar-right">
+                <div className="topbar-right">
                     <div className='topbar-icon-container' onClick={handleEditMode}>
-                            <img src={editMode} className='edit' alt='Edit icon'/>
+                        <img src={editMode} className='cart' alt='Edit icon'/>
                     </div>
-                    <div className='ManagerTopBar-icon-container'>
+                    <div className='topbar-icon-container'>
                         <img src={cart} className='cart' alt='Cart Icon'/>
                     </div>
-                    <div className='ManagerTopBar-icon-container'>
+                    <div className='topbar-icon-container'>
                         <img src={orderList} className='cart' alt='Order List Icon'/>
                     </div>
-                    <div className='ManagerTopBar-icon-container'>
+                    <div className='topbar-icon-container'>
                         <img src={assistance} className={`cart`} alt='Call for Assistance Icon'/>
                     </div>   
                     <h2 className="table-number">#{tablenumber}</h2>
