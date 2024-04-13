@@ -1,5 +1,4 @@
 .popup {
-    /* display: none; */
     position: fixed;
     top: 35%;
     left: 50%;
@@ -13,7 +12,7 @@
 }
 
 .popup.visible {
-    display: flex; /* Use flex to center the .msg content */
+    display: flex; 
     align-items: center;
     justify-content: center;
 }
@@ -22,12 +21,9 @@
     background-color: aliceblue;
     padding: 3em;
     text-align: center; 
-    /* box-sizing: border-box; */
-    /* position: relative; */
 }
 
 .msg .close-button {
-    /* position: relative; */
     width: 50px;
     top: 10px;
     left: 10px;

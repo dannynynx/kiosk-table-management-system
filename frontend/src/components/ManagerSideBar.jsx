@@ -5,7 +5,7 @@ import axios from 'axios';
 import PropTypes from "prop-types";
 import {Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
-import CategoryOrderPopup from './CategoryOrderPopUp.jsx';
+import CategoryOrderPopUp from './CategoryOrderPopUp.jsx';
 
 const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [categories, setCategories] = useState([]);
@@ -33,7 +33,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     };
 
     const handleOrderButtonClick = () => {
-        setOrderPopupVisible(true); // Open the order pop-up screen
+        setOrderPopupVisible(true);
     };
 
     const closePopUp = () => {
@@ -42,7 +42,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     };
     
     const closeOrderPopup = () => {
-        setOrderPopupVisible(false); // Close the order pop-up screen
+        setOrderPopupVisible(false);
     };
 
     useEffect(() => {
@@ -94,7 +94,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                 <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
             )}
             {isOrderPopupVisible && (
-                <CategoryOrderPopup
+                <CategoryOrderPopUp
                     categories={categories}
                     onClose={closeOrderPopup}
                 />
