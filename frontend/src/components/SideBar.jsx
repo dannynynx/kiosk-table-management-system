@@ -22,7 +22,6 @@ const SideBar = ({ onCategorySelect }) => {
                 "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
-            console.log("whaddup world")
             socket.emit('add_notification', data);
         } catch (error) {
             console.log(error)
