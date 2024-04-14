@@ -300,11 +300,11 @@ def add_notification(db, table_id, notification_type, token):
     #     connection.close()
     #     return None
         
-    cursor.execute("SELECT session_id FROM TABLES WHERE table_id = ?", (table_id,))
-    session_id = cursor.fetchone()[0]
+    cursor.execute("SELECT is_occupied FROM TABLES WHERE table_id = ?", (table_id,))
+    is_occupied = cursor.fetchone()[0]
 
     # Only send notifs through if that table is in session
-    if session_id != 0:
+    if is_occupied != 0:
         try:
             # Add the notification to the database
             sql = "INSERT INTO NOTIFICATIONS (table_id, notification_type, status) VALUES (?, ?, ?)"
@@ -316,7 +316,7 @@ def add_notification(db, table_id, notification_type, token):
             print(f"Error adding notification: {e}")
             connection.rollback()
     else:
-        print("Session ID is 0. No notification sent.")
+        print("Table is not occupied. No notification sent.")
         
     connection.close()
     return False
@@ -339,8 +339,10 @@ def clear_order(db, table_id):
     
     sql = """
     DELETE FROM IN_ORDER 
-    JOIN ORDER on ORDER.order_id = IN_ORDER.order.id
-    WHERE session_id=? 
+    WHERE order_id IN (SELECT IN_ORDER.order_id
+                   FROM IN_ORDER 
+                   JOIN ORDERS ON ORDERS.order_id = IN_ORDER.order_id
+                   WHERE session_id=?)
     """
 
     cursor.execute(sql, (session_id,))
@@ -350,6 +352,12 @@ def clear_order(db, table_id):
     """
 
     cursor.execute(sql, (session_id,))
+
+    sql = """
+    UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?
+    """
+
+    cursor.execute(sql, ("NULL", False, table_id))
 
     connection.commit()
     connection.close()

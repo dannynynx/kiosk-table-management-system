@@ -7,8 +7,6 @@ def initialise_db():
     connection = sqlite3.connect("BlueZebra.db")
     cursor = connection.cursor()
 
-    print("curmbnle")
-
     # CATEGORIES
     sql1 = """
     CREATE TABLE IF NOT EXISTS CATEGORIES (
@@ -16,8 +14,6 @@ def initialise_db():
         name TEXT NOT NULL UNIQUE
     )"""
     cursor.execute(sql1)
-
-    print("exucodus")
 
     categories = [('Brekkie',), ('Lunch',), ('Dinner',), ('Dessert',)]
     cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (?)", categories)
@@ -247,20 +243,20 @@ def initialise_db():
     cursor.execute(sql6)
 
     tables = [
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
+        ('NULL', 0, False),  
+        ('NULL', 0, False),
     ]
     cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied) VALUES (?, ?, ?)", tables)
 
@@ -317,28 +313,33 @@ def initialise_db():
     )"""
     cursor.execute(sql10)
 
-    # # CUSTOMISATION
-    # sql11 = """
-    # CREATE TABLE IF NOT EXISTS CUSTOMISATION (
-    #     customisation_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    #     logo_image TEXT NOT NULL,
-    #     primary_hex_code TEXT NOT NULL,
-    #     secondary_hex_code TEXT NOT NULL
-    # )"""
+    # CUSTOMISATION
+    sql11 = """
+    CREATE TABLE IF NOT EXISTS CUSTOMISATION (
+        customisation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        logo_image TEXT NOT NULL,
+        primary_hex_code TEXT NOT NULL,
+        secondary_hex_code TEXT NOT NULL
+    )"""
 
-    # cursor.execute(sql11)
-    # customisation_settings = [
-    #     ('zebra.svg', '#222A5C', '11/04/2024')
-    # ]
+    cursor.execute(sql11)
+    customisation_settings = [
+        ('zebra.svg', '#222A5C', '#222A4C')
+    ]
 
-    # # STATS
-    # # stats = '[{"item_id":?, "quantity":?, "name":?, "price":?}]'
-    # sql12 = """
-    # CREATE TABLE IF NOT EXISTS STATS (
-    #     stats_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    #     session_id INTEGER,
-    #     date DATE,
-    #     stats TEXT
-    # )"""
+    cursor.executemany("INSERT INTO CUSTOMISATION (logo_image, primary_hex_code, secondary_hex_code) VALUES (?, ?, ?)", customisation_settings)
 
-    # cursor.execute(sql12)
+    # STATS
+    # stats = '[{"item_id":?, "quantity":?, "name":?, "price":?}]'
+    sql12 = """
+    CREATE TABLE IF NOT EXISTS STATS (
+        stats_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id INTEGER,
+        date DATE,
+        stats TEXT
+    )"""
+
+    cursor.execute(sql12)
+
+    connection.commit()
+    connection.close()

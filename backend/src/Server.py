@@ -9,7 +9,7 @@ import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification, clear_order
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status, staff_logout
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation
 from flask_cors import CORS
@@ -235,17 +235,8 @@ def manager_delete_account():
     return_data = delete_account(DB_PATH, id)
     return jsonify(return_data), 200
 
-@app.route("/staff/logout", methods=['PUT'])
-def staff_logout():
-    data = request.get_json()
-    id = data.get('staff_id')
-
-    return_data = staff_logout(DB_PATH, id)
-    return jsonify(return_data), 200
-
-
 @app.route("/manager/edit_logo", methods=['PUT'])
-def edit_logo():
+def manager_edit_logo():
     data = request.get_json()
     logo = data.get('image')
 
@@ -253,7 +244,7 @@ def edit_logo():
     return jsonify(return_data), 200
 
 @app.route("/customer/clear_order", methods=['DELETE'])
-def clear_order():
+def customer_clear_order():
     data = request.get_json()
     table_id = data.get('table_id')
 
@@ -261,7 +252,7 @@ def clear_order():
     return jsonify(return_data), 200
 
 @app.route("/manager/get_stats", methods=['GET'])
-def get_stats():
+def manager_get_stats():
     data = request.get_json()
     start_date = data.get('start_date')
     end_date = data.get('end_date')
@@ -272,7 +263,7 @@ def get_stats():
 @app.route("/manager/get_customisations", methods=['GET'])
 def get_customisations():
 
-    return_data = get_customisations(DB_PATH)
+    return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
 if __name__ == '__main__':

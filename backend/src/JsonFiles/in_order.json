@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "order_id": 1,
+        "item_id": 5,
+        "quantity": 1,
+        "status": "ordered"
+    }
+]
