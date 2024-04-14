@@ -60,7 +60,6 @@
     background-color: lightblue;
     border-radius: 3px;
     width: 20%;
-    align-self:last baseline;
 }
 
 .order-sent-message {
