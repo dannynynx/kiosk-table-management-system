@@ -13,10 +13,13 @@ from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_ord
 from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation
 from flask_cors import CORS
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
-cors = CORS(app)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 app.json.sort_keys = False
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
@@ -266,5 +269,40 @@ def get_customisations():
     return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
+@socketio.on('connect')
+def handle_connect():
+    print('Client connected')
+    
+@socketio.on('update_order_status')
+def handle_update_order_status(data):
+    status = data.get('status')
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
+    
+    change_order_status(DB_PATH, status, order_id, item_id, quantity)
+    return_data = show_all_orders(DB_PATH)
+    emit('updated_order_status', return_data, broadcast=True)
+
+@socketio.on('update_notification_status')
+def handle_update_notification_status(data):
+    notification_id = data.get('notification_id')
+    new_status = data.get('new_status')
+    token = data.get('token')
+
+    update_notification(DB_PATH, notification_id, new_status, token)
+    return_data = get_notifications(DB_PATH, token)
+    emit('updated_notification_status', return_data, broadcast=True)
+    
+@socketio.on('add_notification')
+def handle_add_notification(data):
+    table_id = data.get('table_id')
+    notification_type = data.get('notification_type')
+    token = data.get('token')
+    add_notification(DB_PATH, table_id, notification_type, token)
+    return_data = get_notifications(DB_PATH, token)
+    emit('updated_notification_status', return_data, broadcast=True)
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    socketio.run(app, debug=True)
