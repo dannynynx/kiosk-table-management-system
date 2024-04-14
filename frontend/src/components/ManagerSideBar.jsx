@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import {Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import CategoryOrderPopUp from './CategoryOrderPopUp.jsx';
+import AddCategoryPopUp from "./AddCategoryPopUp.jsx";
 
 const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [categories, setCategories] = useState([]);
@@ -15,6 +16,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const navigate = useNavigate();
     const [isOrderPopupVisible, setOrderPopupVisible] = useState(false);
     const [menuItemsOrder, setMenuItemsOrder] = useState([]);
+    const [isAddPopUpVisible, setAddPopUpVisible] = useState(false);
     
    
     const handleRequestBill = async () => {
@@ -44,6 +46,15 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const closeOrderPopup = () => {
         setOrderPopupVisible(false);
     };
+
+    const handleAddCategory = () => { 
+        setAddPopUpVisible(true);
+    }
+
+    const closeAddPopUp = () => { 
+        setAddPopUpVisible(false);
+    }
+
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
@@ -85,7 +96,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                         </button>
                     </Link>
                 ))}
-                {editMode == true ? <button>add categories</button> : ''}
+                {editMode == true ? <button onClick={handleAddCategory}>add categories</button> : ''}
             </div>
             <div className="ManagerSideBar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
@@ -98,6 +109,9 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                     categories={categories}
                     onClose={closeOrderPopup}
                 />
+            )}
+             {isAddPopUpVisible && (
+                <AddCategoryPopUp onClose={closeAddPopUp} isAddPopUpVisible={isAddPopUpVisible}/>
             )}
         </>
     );
