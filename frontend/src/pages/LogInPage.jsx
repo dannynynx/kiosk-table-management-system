@@ -45,11 +45,11 @@ const LogInPage = () => {
 
     return (
         <>
-            <div className='container'>
-                <form className='login-form'>
+            <div className='login-page-container'>
+                <form className='login-page-login-form'>
                     <h2 className='login-main-text'><b>Blue Zebra</b></h2>
                     <p className='login-main-text'>Staff Login</p>
-                    <p className='input-label' style={{ color: usernameTextColor }}>{usernameText}</p>
+                    <p className='login-page-input-label' style={{ color: usernameTextColor }}>{usernameText}</p>
                     <input type='text' className='login-text-inputs' id='username' name='username' onChange={handleChange} />
                     <p className='input-label' style={{ color: passwordTextColor }}>{passwordText}</p>
                     <input type='password' className='login-text-inputs' id='password' name='password' onChange={handleChange} />
