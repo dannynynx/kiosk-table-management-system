@@ -13,7 +13,7 @@ const KioskPopUp = (props) => {
     return (
         <>
         <div className={popupClassName} >
-            <div className="kiosk-msg">
+            <div className="kiosk-popup-msg">
                 <h2 className="kiosk-popup-message">{props.message}</h2>
                 <div className="kiosk-popup-button-container">
                     <input type="button" onClick={handleConfirm} className="kiosk-popup-button" value='Confirm'></input>

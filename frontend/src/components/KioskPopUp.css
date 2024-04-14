@@ -14,7 +14,7 @@
     justify-content: center;
 }
 
-.kiosk-msg {
+.kiosk-popup-msg {
     display: flex;
     background-color: #ffffff;
     border-radius: 20px;
@@ -27,7 +27,7 @@
     flex-direction: column;
 }
 
-.kiosk-msg .close-button {
+.kiosk-popup-msg .close-button {
     position: absolute;
     width: 50px;
     top: 10px;
@@ -43,6 +43,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0px;
+    font-size: 250%;
 }
 
 .kiosk-popup-button {
