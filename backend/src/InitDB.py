@@ -244,20 +244,20 @@ def initialise_db():
     cursor.execute(sql6)
 
     tables = [
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 2),  
-        ('0000', 0, False, 3),
-        ('0000', 0, False, 3),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 3),  
-        ('0000', 0, False, 2),
-        ('0000', 0, False, 2),  
-        ('0000', 0, False, 2),
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 3),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
     ]
     cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied, size) VALUES (?, ?, ?, ?)", tables)
 
