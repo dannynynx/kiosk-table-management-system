@@ -2,12 +2,13 @@ import ManagerSideBar from '../components/ManagerSideBar.jsx';
 import ManagerTopBar from '../components/ManagerTopBar.jsx';
 import './ManagerMenuPage.css';
 import PropTypes from "prop-types";
-import Menu from "../components/Menu.jsx";
-import Item from "../components/Item.jsx";
+import ManagerMenu from "../components/ManagerMenu.jsx";
+import ItemEdit from "../components/ItemEdit.jsx";
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import Menu from "../components/Menu.jsx"
 
 const ManagerMenuPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
@@ -55,8 +56,9 @@ const ManagerMenuPage = (props) => {
                 <ManagerSideBar onCategorySelect={handleCategoryFilter} editMode={editMode} />
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
-                {display === 'item' && <Item />}
+                {display === 'menu' && editMode && <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/>}
+                {display === 'menu' && !editMode && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
+                {display === 'item' && <ItemEdit />}
             </div>
         </>
     );
