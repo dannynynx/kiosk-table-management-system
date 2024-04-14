@@ -1,4 +1,4 @@
-.popup {
+.kiosk-popup {
     display: none;
     position: fixed;
     top: 0;
@@ -8,13 +8,13 @@
     background: rgba(34, 42, 92, 0.27);
 }
 
-.popup.visible {
+.kiosk-popup.visible {
     display: flex; /* Use flex to center the .msg content */
     align-items: center;
     justify-content: center;
 }
 
-.msg {
+.kiosk-msg {
     display: flex;
     background-color: #ffffff;
     border-radius: 20px;
@@ -27,7 +27,7 @@
     flex-direction: column;
 }
 
-.msg .close-button {
+.kiosk-msg .close-button {
     position: absolute;
     width: 50px;
     top: 10px;

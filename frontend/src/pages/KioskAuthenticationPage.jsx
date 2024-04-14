@@ -54,12 +54,12 @@ const KioskAuthenticationPage = () => {
 
     return (
         <>
-            <div className='container'>
-                <div className='box-container'>
-                    <p className='authentication-title'>Blue Zebra</p>
-                    <p className='text-description' style={{ color: textColor }}>{textContent}</p>
-                    <input type="text" className='code-input' onChange={handleChange}/>
-                    <input type="button" className='code-confirmation' value='Confirm' onClick={handleSubmit}/>
+            <div className='kiosk-authentication-container'>
+                <div className='kiosk-authentication-box-container'>
+                    <p className='kiosk-authentication-title'>Blue Zebra</p>
+                    <p className='kiosk-authentication-text-description' style={{ color: textColor }}>{textContent}</p>
+                    <input type="text" className='kiosk-authentication-code-input' onChange={handleChange}/>
+                    <input type="button" className='kiosk-authentication-code-confirmation' value='Confirm' onClick={handleSubmit}/>
                 </div>
             </div>
         </>
