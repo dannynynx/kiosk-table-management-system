@@ -20,7 +20,7 @@
         "username": "wait",
         "password": "wait_password",
         "role": "wait",
-        "in_use": "1",
+        "in_use": "0",
         "logout_code": "1234"
     },
     {

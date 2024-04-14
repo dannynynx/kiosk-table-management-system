@@ -1,85 +1,85 @@
 [
     {
         "table_id": 1,
-        "code": "8430",
+        "code": "9207",
         "session_id": 2,
         "is_occupied": 1
     },
     {
         "table_id": 2,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 3,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 4,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 5,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 6,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 7,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 8,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 9,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 10,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 11,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 12,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 13,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     },
     {
         "table_id": 14,
-        "code": "0000",
+        "code": "NULL",
         "session_id": 0,
         "is_occupied": 0
     }

@@ -7,9 +7,11 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification
+from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification, clear_order
+from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -17,6 +19,7 @@ app = Flask(__name__)
 CORS(app)
 socketio = SocketIO(app, cors_allowed_origins="*")
 app.json.sort_keys = False
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
@@ -125,7 +128,10 @@ def fetch_notifications():
     token = request.headers.get('Authorization')
     notifications = get_notifications(DB_PATH, token)
     
-    return jsonify(notifications), 200
+    if notifications:
+        return jsonify(notifications), 200
+    else:
+        return jsonify({'error': 'Failed to retrieve notifications'}), 500
 
 @app.route('/waitstaff/update_notification_status', methods=['PUT'])
 def update_notifications():
@@ -144,15 +150,15 @@ def update_notifications():
     else:
         return jsonify({'error': 'Failed to update notification'}), 500
 
-@socketio.on('send_order')
-def handle_send_order(data):
+@app.route('/customer/send_order', methods=['POST'])
+def send_order():
+    data = request.get_json()
     table_id = data.get('table_id')
     order_items = data.get('order_items')
     token = data.get('token')
 
-    send_order_to_database(DB_PATH, table_id, order_items, token)
-    return_data = show_all_orders(DB_PATH)
-    emit('updated_order_status', return_data, broadcast=True)
+    return_data = send_order_to_database(DB_PATH, table_id, order_items, token)
+    return jsonify(return_data), 200
 
 @app.route("/customer/showTable", methods=['GET'])
 def showTable():
@@ -188,6 +194,79 @@ def get_order_status():
     quantity = request.args.get('quantity')
 
     return_data = get_status(DB_PATH, order_id, item_id, quantity)
+    return jsonify(return_data), 200
+
+@app.route("/staff/update_order_status", methods=['PUT'])
+def update_order_status():
+    data = request.get_json()
+    status = data.get('status')
+    order_id = data.get('order_id')
+    item_id = data.get('item_id')
+    quantity = data.get('quantity')
+
+    return_data = change_order_status(DB_PATH, status, order_id, item_id, quantity)
+    return jsonify(return_data), 200
+
+@app.route("/manager/create_account", methods=['POST'])
+def manager_create_account():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role')
+    logout_code = data.get('logout_code')
+
+    return_data = create_account(DB_PATH, username, password, role, logout_code)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_account", methods=['PUT'])
+def manager_edit_account():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    role = data.get('role')
+    id = data.get('staff_id')
+    logout_code = data.get('logout_code')
+
+    return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_account", methods=['DELETE'])
+def manager_delete_account():
+    data = request.get_json()
+    id = data.get('staff_id')
+
+    return_data = delete_account(DB_PATH, id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_logo", methods=['PUT'])
+def manager_edit_logo():
+    data = request.get_json()
+    logo = data.get('image')
+
+    return_data = edit_logo(DB_PATH, logo)
+    return jsonify(return_data), 200
+
+@app.route("/customer/clear_order", methods=['DELETE'])
+def customer_clear_order():
+    data = request.get_json()
+    table_id = data.get('table_id')
+
+    return_data = clear_order(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/get_stats", methods=['GET'])
+def manager_get_stats():
+    data = request.get_json()
+    start_date = data.get('start_date')
+    end_date = data.get('end_date')
+
+    return_data = get_stats(DB_PATH, start_date, end_date)
+    return jsonify(return_data), 200
+
+@app.route("/manager/get_customisations", methods=['GET'])
+def get_customisations():
+
+    return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
 @socketio.on('connect')
