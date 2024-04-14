@@ -1,26 +1,39 @@
 import './CategoryOrderPopUp.css';
 import PropTypes from "prop-types";
 import { useState } from 'react';
-import backArrow from '../assets/back-arrow-icon.svg'
+import backArrow from '../assets/back-arrow-icon.svg';
 
 const CategoryOrderPopup = ({ categories, onClose }) => {
-    const [orderedCategories, setOrderedCategories] = useState(categories);
+    const initialOrderedCategories = categories.map((category, index) => ({
+        ...category,
+        order: index,
+    }));
+    const [orderedCategories, setOrderedCategories] = useState(initialOrderedCategories);
+    const [draggedCategoryId, setDraggedCategoryId] = useState(null);
+
+    const handleDragStart = (e, categoryId) => {
+        setDraggedCategoryId(categoryId);
+    };
 
     const handleDragOver = (e) => {
         e.preventDefault();
     };
 
     const handleDrop = (e, targetIndex) => {
-        const draggedCategoryId = e.dataTransfer.getData("text/plain");
         const updatedOrder = [...orderedCategories];
         const draggedIndex = updatedOrder.findIndex(cat => cat.id === draggedCategoryId);
         const [draggedCategory] = updatedOrder.splice(draggedIndex, 1);
         updatedOrder.splice(targetIndex, 0, draggedCategory);
+        updatedOrder.forEach((category, index) => {
+            category.order = index;
+        });
+    
         setOrderedCategories(updatedOrder);
     };
 
     const handleSaveOrder = () => {
         //save to backend
+        console.log(orderedCategories);
         onClose();
     };
 
@@ -28,7 +41,7 @@ const CategoryOrderPopup = ({ categories, onClose }) => {
         <div className="category-order-popup">
             <div className='msg'>
                 <button onClick={onClose} className="close-button">
-                    <img src={backArrow} alt='Back Arrow Icon'></img>
+                    <img src={backArrow} alt='Back Arrow Icon' />
                 </button>
                 <h2>Order Categories</h2>
                 <div className="category-list">
@@ -37,6 +50,7 @@ const CategoryOrderPopup = ({ categories, onClose }) => {
                             key={category.id}
                             className="category-item"
                             draggable
+                            onDragStart={(e) => handleDragStart(e, category.id)}
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDrop(e, index)}
                         >
