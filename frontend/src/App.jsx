@@ -53,6 +53,12 @@ const App = () => {
                         <ManagerMenuPage display={'item'}/>
                     </MenuProvider>
                 } />
+
+                <Route path='/manager/menu/add' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'add'}/>
+                    </MenuProvider>
+                }/>
                 <Route path='/manager/stats' element={<ManagerPage />} />
             </Routes>
         </>

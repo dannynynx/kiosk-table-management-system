@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import Menu from "../components/Menu.jsx"
+import ItemAdd from '../components/ItemAdd.jsx';
+
 
 const ManagerMenuPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
@@ -60,6 +62,7 @@ const ManagerMenuPage = (props) => {
                 {display === 'menu' && (editMode ? <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/> : <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>)}
                 {display === 'item' && editMode && <ItemEdit />}
                 {display === 'item' && !editMode && <Item />}
+                {display === 'add' && editMode && <ItemAdd />}
             </div>
         </>
     );

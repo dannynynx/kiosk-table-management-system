@@ -22,9 +22,19 @@
     font-size: 10pt;
 }
 
-button { 
+.categories button { 
     background: none;
     border: none;
+}
+
+.edit-options { 
+    display: flex;
+    flex-direction: row;
+}
+
+.edit-icon { 
+    width: 25px;
+    height: 25px;
 }
 
 .category {
@@ -48,6 +58,8 @@ button {
     display: flex;
     flex-direction: column;
 }
+
+
 
 .reorder-items { 
     display: flex;

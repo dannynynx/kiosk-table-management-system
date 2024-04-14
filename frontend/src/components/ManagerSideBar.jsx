@@ -7,6 +7,8 @@ import {Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import CategoryOrderPopUp from './CategoryOrderPopUp.jsx';
 import AddCategoryPopUp from "./AddCategoryPopUp.jsx";
+import Reorder from "../assets/reorder.svg";
+import add from '../assets/plus-icon.svg';
 
 const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [categories, setCategories] = useState([]);
@@ -15,10 +17,9 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
     const [isOrderPopupVisible, setOrderPopupVisible] = useState(false);
-    const [menuItemsOrder, setMenuItemsOrder] = useState([]);
     const [isAddPopUpVisible, setAddPopUpVisible] = useState(false);
+
     
-   
     const handleRequestBill = async () => {
         try {
             const data = {
@@ -37,6 +38,8 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const handleOrderButtonClick = () => {
         setOrderPopupVisible(true);
     };
+
+    
 
     const closePopUp = () => {
         setPopUpVisible(false);
@@ -64,7 +67,6 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                     name: category.name,
                 }));
                 setCategories(list);
-                setMenuItemsOrder(list.map(item => item.id));
             })
             .catch(error => {
                 console.error('Error submitting data:', error);
@@ -82,7 +84,12 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                         <h2 className="category">All</h2>
                     </button>
                 </Link>
-                {editMode == true ? (<button onClick={handleOrderButtonClick}>Reorder Categories</button>) : ''}
+                {editMode == true ? (
+                    <div className="edit-options">
+                        <button onClick={handleOrderButtonClick}><img className="edit-icon" src={Reorder} alt='Reorder Icon'/></button>
+                        <button onClick={handleAddCategory}><img className="edit-icon" src={add} alt='add category Icon'/></button>
+                    </div> ) 
+                    : ''}
                 {categories.map((category) => (
                     <Link to="/menu" key={category.id}>
                         <button
@@ -96,7 +103,6 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                         </button>
                     </Link>
                 ))}
-                {editMode == true ? <button onClick={handleAddCategory}>add categories</button> : ''}
             </div>
             <div className="ManagerSideBar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
@@ -119,6 +125,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
 
 ManagerSideBar.propTypes = {
     onCategorySelect: PropTypes.func.isRequired,
+    editMode: PropTypes.bool.isRequired,
 };
 
 export default ManagerSideBar;

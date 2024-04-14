@@ -1,24 +1,15 @@
 import './ItemEdit.css';
-import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useMenu } from "../context/MenuContext.jsx";
 import axios from 'axios';
 
 
-const ItemEdit = () => {
-    const queryParams = new URLSearchParams(useLocation().search);
-    const id = parseInt(queryParams.get('param'),10);
-    const getMenu = useMenu();
+const ItemAdd = () => {
     const [categories, setCategories] = useState([]);
-    const item = getMenu.find(item => item.id === id);
-    const { name, description, price, ingredients, image, category } = item;
-    const formattedPrice = price.toFixed(2);
-    const [ingredientsTags, setIngredientsTags] = useState([...ingredients]);
-    const [currImage, setCurrImage] = useState(image);
+    const [ingredientsTags, setIngredientsTags] = useState([]);
+    const [currImage, setCurrImage] = useState();
 
 
     useEffect(() => {
-        console.log(item);
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
             .then(response => {
                 const list = response.data.map(category => ({
@@ -36,7 +27,7 @@ const ItemEdit = () => {
 
 
 
-    const handleEditItem = () => { 
+    const handleAddItem = () => { 
         //send to backend
     }
 
@@ -64,26 +55,26 @@ const ItemEdit = () => {
     }
 
     return (
-        <form className='item' onSubmit={handleEditItem}>
+        <form className='item' onSubmit={handleAddItem}>
             <div className="image">
-                {image && <img src={currImage == image ? `data:image/png;base64,${image}` : currImage} className='item-image' alt={name} />}
+                {currImage && <img src={currImage} className='item-image' alt="food image" />}
                 <input type='file' onChange={handleItemImage} accept='image/jpeg, image/png'/>
             </div>
             <div className='item-details-container'>
                 <label>Item name</label>
-                <input type="text" className='item-name' defaultValue={name}/>
+                <input type="text" className='item-name'/>
                 <label>Item Category</label>
                 <select>
                     {
-                        categories.map((cate, index) => { 
-                            return <option key={index} value={cate.id} selected={category === cate.name ? 'selected' : ''}>{cate.name}</option>;
+                        categories.map((category, index) => { 
+                            return <option key={index} value={category.id}>{category.name}</option>;
                         })
                     }
                 </select>
                 <label>Item price</label>
-                <input type="number" min="0" step="0.01" className='item-price' defaultValue={formattedPrice}/>
+                <input type="number" min="0" step="0.01" className='item-price'/>
                 <label>DESCRIPTION</label>
-                <input type="text" defaultValue={description}/>
+                <input type="text" />
                 <label>INGREDIENTS</label>
                 <div className='ingredients-tags'>
                     {ingredientsTags.map((tag,index) => (
@@ -94,10 +85,10 @@ const ItemEdit = () => {
                     ))}
                     <input type='text' className='tags-input' placeholder='add ingredient by typing and entering' onKeyDown={handleKeyDown}/>
                 </div>
-                <button type="submit" className='edit-btn'>Save details</button>
+                <button type="submit" className='edit-btn'>Add item</button>
             </div>  
         </form>
     )
 }
 
-export default ItemEdit;
+export default ItemAdd;
