@@ -73,20 +73,17 @@ def tablet_logout():
     else:
         return jsonify({'error': 'Unknown error occurred'}), 500
 
-@app.route('/customer/table_confirmation', methods=['POST'])
-def table_confirmation():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = confirm_table(DB_PATH, table_id)
+@app.route("/customer/show_table", methods=['GET'])
+def showTable():
+    return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route('/customer/table_code', methods=['GET'])
-def table_code():
-    table_id = request.args.get('table_id')
 
-    return_data = get_table_code(DB_PATH, table_id)
-    return jsonify(return_data), 200
-
+@socketio.on('table_confirmation')
+def handle_table_confirmation(table_id):
+    confirm_table(DB_PATH, table_id)
+    emit('table_code', get_table_code(DB_PATH, table_id))
+    emit('updated_table_status', show_table(DB_PATH), broadcast=True)
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
@@ -153,11 +150,6 @@ def handle_send_order(data):
     send_order_to_database(DB_PATH, table_id, order_items, token)
     return_data = show_all_orders(DB_PATH)
     emit('updated_order_status', return_data, broadcast=True)
-
-@app.route("/customer/showTable", methods=['GET'])
-def showTable():
-    return_data = show_table(DB_PATH)
-    return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
 def showMenu():
