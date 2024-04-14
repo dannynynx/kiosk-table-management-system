@@ -75,7 +75,7 @@ const ItemEdit = () => {
                 <select>
                     {
                         categories.map((category, index) => { 
-                            <option key={index} value={category.id}>{category.name}</option>
+                            return <option key={index} value={category.id}>{category.name}</option>;
                         })
                     }
                 </select>

@@ -4,6 +4,7 @@ import './ManagerMenuPage.css';
 import PropTypes from "prop-types";
 import ManagerMenu from "../components/ManagerMenu.jsx";
 import ItemEdit from "../components/ItemEdit.jsx";
+import Item from "../components/Item.jsx"
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -56,9 +57,9 @@ const ManagerMenuPage = (props) => {
                 <ManagerSideBar onCategorySelect={handleCategoryFilter} editMode={editMode} />
             </div>
             <div className='main-content-container'>
-                {display === 'menu' && editMode && <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/>}
-                {display === 'menu' && !editMode && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
-                {display === 'item' && <ItemEdit />}
+                {display === 'menu' && (editMode ? <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/> : <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>)}
+                {display === 'item' && editMode && <ItemEdit />}
+                {display === 'item' && !editMode && <Item />}
             </div>
         </>
     );
