@@ -1,34 +1,34 @@
 import './KitchenPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
+import socket from '../socket';
 
 const KitchenPage = () => {
-    const token = { 'token': localStorage.getItem('token')};
     const [orders, setOrders] = useState([]);
 
-    const getOrders = () => {
+    useEffect(() => {
+        const token = { 'token': localStorage.getItem('token')};
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
         .then(response => {
             const data = response.data ?? [];
-            console.log(data);
             setOrders(data);
         })
         .catch(error => {
             console.error('Error fetching orders:', error);
         })
-    }
 
-    useEffect(() => { 
-        getOrders();
+        socket.on('updated_order_status', (data) => {
+            setOrders(data);
+        });
     }, []);
 
     const handleStatusChange = (order) => { 
         console.log(order)
         let status = null;
 
-        if (order.status == "ordered") { 
+        if (order.status === "ordered") {
             status = "cooking";
-        } else if (order.status == "cooking") { 
+        } else if (order.status === "cooking") {
             status = "cooked";
         }
 
@@ -39,15 +39,7 @@ const KitchenPage = () => {
             quantity: order.quantity,
         }
 
-        console.log(data)
-
-        axios.put('http://127.0.0.1:5000/staff/update_order_status', data)
-        .then(response => { 
-            console.log(response);
-            getOrders();
-        }).catch(error => { 
-            console.error('Error fetching orders:', error);
-        });
+        socket.emit('update_order_status', data);
     }
 
 

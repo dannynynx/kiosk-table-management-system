@@ -238,27 +238,28 @@ def initialise_db():
         table_id INTEGER PRIMARY KEY AUTOINCREMENT,
         code TEXT NOT NULL,
         session_id INTEGER NOT NULL DEFAULT 0,
-        is_occupied BOOLEAN NOT NULL DEFAULT FALSE
+        is_occupied BOOLEAN NOT NULL DEFAULT FALSE,
+        size INTEGER NOT NULL DEFAULT 1
     )"""
     cursor.execute(sql6)
 
     tables = [
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
-        ('NULL', 0, False),  
-        ('NULL', 0, False),
+        ('0000', 0, False, 1),  
+        ('0000', 0, False, 1),
+        ('0000', 0, False, 2),  
+        ('0000', 0, False, 3),
+        ('0000', 0, False, 3),  
+        ('0000', 0, False, 1),
+        ('0000', 0, False, 1),  
+        ('0000', 0, False, 1),
+        ('0000', 0, False, 3),  
+        ('0000', 0, False, 2),
+        ('0000', 0, False, 2),  
+        ('0000', 0, False, 2),
+        ('0000', 0, False, 1),  
+        ('0000', 0, False, 1),
     ]
-    cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied) VALUES (?, ?, ?)", tables)
+    cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied, size) VALUES (?, ?, ?, ?)", tables)
 
     # ORDERS
     sql7 = """

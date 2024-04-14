@@ -4,11 +4,13 @@ import LogInPage from "./pages/LogInPage.jsx";
 import KioskPage from "./pages/KioskPage.jsx";
 import KioskAuthenticationPage from "./pages/KioskAuthenticationPage.jsx";
 import KitchenPage from "./pages/KitchenPage.jsx";
+import TableSelection from "./pages/TableSelectionPage.jsx";
 
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
+import ManagerPage from './pages/ManagerPage.jsx';
 import axios from 'axios';
 
 
@@ -19,6 +21,7 @@ const App = () => {
         <>
             <Routes>
                 <Route path='/kiosk' element={<KioskPage />} />
+                <Route path='/kiosk/table-selection' element={<TableSelection/>} />
                 <Route path='/login' element={<LogInPage />} />
                 <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
                 <Route path='/menu' element={
@@ -40,6 +43,7 @@ const App = () => {
                         <KitchenPage />
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
+                <Route path='/manager' element={<ManagerPage />} />
             </Routes>
         </>
     );

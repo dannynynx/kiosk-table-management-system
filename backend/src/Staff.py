@@ -61,7 +61,7 @@ def staff_tablet_logout(db, logout_code, token):
     if session_id == 0:
         connection.close()
         return "Session ID is 0. Cannot logout."
-    print(staff_id)
+
     cursor.execute("UPDATE STAFF SET in_use = ? WHERE staff_id = ?", (0, staff_id))
     connection.commit()
 
