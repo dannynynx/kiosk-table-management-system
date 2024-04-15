@@ -140,11 +140,9 @@ def delete_category(db, id):
     connection.commit()
     connection.close()
 
-def add_menu_item(db, name, description, ingredients, category, cost):
+def add_menu_item(db, name, description, ingredients, category, cost, image):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    image = "image"
 
     sql1 = """
     INSERT INTO ITEMS (name, description, category_id, cost, image)
@@ -170,17 +168,18 @@ def add_menu_item(db, name, description, ingredients, category, cost):
     connection.commit()
     connection.close()
 
-def edit_menu_item(db, id, name, description, ingredients, category, cost):
+def edit_menu_item(db, id, name, description, ingredients, category, cost, image):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
     sql = """
     UPDATE ITEMS
-    SET name = :n, description = :d, category_id = :ci, cost = :c
+    SET name = :n, description = :d, category_id = :ci, cost = :c, image = :im
     WHERE item_id = :i
     """
 
-    cursor.execute(sql, {"n": name, "d": description, "ci": category, "c": cost, "i": id})
+    cursor.execute(sql, {"n": name, "d": description, "ci": category, "c": cost,
+                         "im": image, "i": id})
     connection.commit()
 
     change_item_ingredients(db, id, ingredients)
