@@ -11,7 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -308,8 +308,9 @@ def manager_edit_menu_item():
     ingredients = data.get('ingredients')
     category = data.get('category')
     cost = data.get('cost')
+    image = data.get('image')
 
-    return_data = edit_menu_item(DB_PATH, id, name, description, ingredients, category, cost)
+    return_data = edit_menu_item(DB_PATH, id, name, description, ingredients, category, cost, image)
     return jsonify(return_data), 200
 
 @app.route("/manager/delete_menu_item", methods=['DELETE'])
@@ -318,6 +319,14 @@ def manager_delete_menu_item():
     id = data.get('id')
 
     return_data = delete_menu_item(DB_PATH, id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/reorder_categories", methods=['PUT'])
+def manager_reorder_categories():
+    data = request.get_json()
+    categories = data.get('categories')
+
+    return_data = reorder_categories(DB_PATH, categories)
     return jsonify(return_data), 200
 
 @socketio.on('connect')

@@ -22,7 +22,7 @@ def initialise_db():
     # INGREDIENTS
     sql2 = """
     CREATE TABLE IF NOT EXISTS INGREDIENTS (
-        ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ingredient_id INTEGER PRIMARY KEY,
         ingredient_name TEXT NOT NULL UNIQUE
     )"""
     cursor.execute(sql2)
