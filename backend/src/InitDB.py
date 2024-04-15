@@ -244,20 +244,20 @@ def initialise_db():
     cursor.execute(sql6)
 
     tables = [
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 2),  
-        ('0000', 0, False, 3),
-        ('0000', 0, False, 3),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
-        ('0000', 0, False, 3),  
-        ('0000', 0, False, 2),
-        ('0000', 0, False, 2),  
-        ('0000', 0, False, 2),
-        ('0000', 0, False, 1),  
-        ('0000', 0, False, 1),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 3),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
     ]
     cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied, size) VALUES (?, ?, ?, ?)", tables)
 
@@ -313,6 +313,34 @@ def initialise_db():
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
     cursor.execute(sql10)
+
+    # CUSTOMISATION
+    sql11 = """
+    CREATE TABLE IF NOT EXISTS CUSTOMISATION (
+        customisation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        logo_image TEXT NOT NULL,
+        primary_hex_code TEXT NOT NULL,
+        secondary_hex_code TEXT NOT NULL
+    )"""
+
+    cursor.execute(sql11)
+    customisation_settings = [
+        ('zebra.svg', '#222A5C', '#222A4C')
+    ]
+
+    cursor.executemany("INSERT INTO CUSTOMISATION (logo_image, primary_hex_code, secondary_hex_code) VALUES (?, ?, ?)", customisation_settings)
+
+    # STATS
+    # stats = '[{"item_id":?, "quantity":?, "name":?, "price":?}]'
+    sql12 = """
+    CREATE TABLE IF NOT EXISTS STATS (
+        stats_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id INTEGER,
+        date DATE,
+        stats TEXT
+    )"""
+
+    cursor.execute(sql12)
 
     connection.commit()
     connection.close()
