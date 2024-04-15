@@ -294,8 +294,9 @@ def manager_add_menu_item():
     ingredients = data.get('ingredients')
     category = data.get('category')
     cost = data.get('cost')
+    image = data.get('image')
 
-    return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost)
+    return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost, image)
     return jsonify(return_data), 200
 
 @app.route("/manager/edit_menu_item", methods=['PUT'])

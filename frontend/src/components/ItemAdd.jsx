@@ -1,12 +1,14 @@
 import './ItemEdit.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 
 const ItemAdd = () => {
     const [categories, setCategories] = useState([]);
     const [ingredientsTags, setIngredientsTags] = useState([]);
     const [currImage, setCurrImage] = useState();
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -24,20 +26,69 @@ const ItemAdd = () => {
             });
     }, []);
 
+    const handleAddItem = async (event) => { 
+        event.preventDefault();
+        const formData = new FormData(event.target); 
 
 
-
-    const handleAddItem = () => { 
-        //send to backend
+        const item = { 
+            name: formData.get('name'),
+            image: await fileToDataUrl(formData.get('image')),
+            cost: formData.get('cost'),
+            ingredients: ingredientsTags,
+            description: formData.get('description'),
+            category: formData.get('category'),
+            // Add other form fields as needed
+        }
+    
+        console.log(item);
+    
+        axios.post('http://127.0.0.1:5000/manager/add_menu_item', item)
+            .then(response => {
+                console.log(response);
+                navigate('/manager/menu');
+            })
+            .catch(error => { 
+                console.error('Error submitting data:', error);
+            });
     }
 
-    const handleItemImage = (event) => { 
-        setCurrImage(URL.createObjectURL(event.target.files[0]))
-        //send 
-    }
+
+        const fileToDataUrl = async (file) => {
+            const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const valid = validFileTypes.find((type) => type === file.type);
+            // Bad data, let's walk away.
+            if (!valid) {
+              throw Error('provided file is not a png, jpg, or jpeg image.');
+            }
+        
+            const reader = new FileReader();
+            const dataUrlPromise = new Promise((resolve, reject) => {
+              reader.onerror = reject;
+              reader.onload = () => resolve(reader.result);
+            });
+            reader.readAsDataURL(file);
+            return dataUrlPromise;
+          };
+
+
+        const handleItemImage = async (event) => {
+            const inputElement = event.target;
+            const file = inputElement.files[0];
+        
+            if (file) {
+                try {
+                    const url = await fileToDataUrl(file);
+                    setCurrImage(url);
+                    console.log(url);
+                } catch (error) {
+                    alert(error);
+                }
+            }
+        };
 
     const handleKeyDown = (e) => { 
-        if (e.key !== "Enter") { 
+        if (e.key !== " ") { 
             return;
         }
         const value = e.target.value;
@@ -47,6 +98,7 @@ const ItemAdd = () => {
         setIngredientsTags([
             ...ingredientsTags, value
         ])
+        console.log(ingredientsTags)
         e.target.value = '';
     }
 
@@ -55,16 +107,16 @@ const ItemAdd = () => {
     }
 
     return (
-        <form className='item' onSubmit={handleAddItem}>
+        <form className='item' onSubmit={event => handleAddItem(event)}>
             <div className="image">
                 {currImage && <img src={currImage} className='item-image' alt="food image" />}
-                <input type='file' onChange={handleItemImage} accept='image/jpeg, image/png'/>
+                <input type='file' name="image" onChange={handleItemImage} accept='image/jpeg, image/png'/>
             </div>
             <div className='item-details-container'>
                 <label>Item name</label>
-                <input type="text" className='item-name'/>
+                <input type="text" className='item-name' name="name"/>
                 <label>Item Category</label>
-                <select>
+                <select name="category">
                     {
                         categories.map((category, index) => { 
                             return <option key={index} value={category.id}>{category.name}</option>;
@@ -72,11 +124,11 @@ const ItemAdd = () => {
                     }
                 </select>
                 <label>Item price</label>
-                <input type="number" min="0" step="0.01" className='item-price'/>
+                <input type="number" min="0" step="0.01" name="cost" className='item-price'/>
                 <label>DESCRIPTION</label>
-                <input type="text" />
+                <input type="text" name="description"/>
                 <label>INGREDIENTS</label>
-                <div className='ingredients-tags'>
+                <div className='ingredients-tags' name="ingredients">
                     {ingredientsTags.map((tag,index) => (
                         <div className='tag-item' key={index}>
                             <span className='text'>{tag}</span>
@@ -89,6 +141,6 @@ const ItemAdd = () => {
             </div>  
         </form>
     )
-}
+}       
 
 export default ItemAdd;

@@ -199,16 +199,16 @@ def show_menu(db):
     items_list = []
 
     for item in items:
-        with open(f'ItemImages/{item[5]}', "rb") as image_file:
-            # Encode the image as base64 string
-            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
+        # with open(f'ItemImages/{item[5]}', "rb") as image_file:
+        #     # Encode the image as base64 string
+        #     encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],
             "price": item[4],
             "description": item[2],
             "category": item[3],
-            "image": encoded_image,
+            "image": item[5],
             "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)

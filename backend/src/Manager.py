@@ -140,11 +140,9 @@ def delete_category(db, id):
     connection.commit()
     connection.close()
 
-def add_menu_item(db, name, description, ingredients, category, cost):
+def add_menu_item(db, name, description, ingredients, category, cost, image):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    image = "image"
 
     sql1 = """
     INSERT INTO ITEMS (name, description, category_id, cost, image)
