@@ -17,6 +17,10 @@ const ManagerPage = () => {
         navigate('/manager/menu');
     }
 
+    const handleEditAccounts =() => {
+        navigate('/manager/accounts')
+    }
+
     const closePopUp = () => {
         setPopUpVisible(false);
     };
@@ -29,6 +33,7 @@ const ManagerPage = () => {
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
+                <button onClick={handleEditAccounts}>Manage Accounts</button>
             </div>
         </div>
         {isPopUpVisible && (
