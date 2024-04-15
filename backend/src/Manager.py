@@ -206,6 +206,8 @@ def change_item_ingredients(db, item_id, ingredients):
 
     for ingredient in ingredients:
 
+        ingredient = ingredient.capitalize()
+    
         cursor.execute("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (:in)", 
                        {"in": ingredient})
 
