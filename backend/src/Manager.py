@@ -107,3 +107,58 @@ def get_customisation(db):
     connection.close()
 
     return customisation_dict
+
+def add_category(db, name):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (:n)", {"n": name})
+
+    connection.commit()
+    connection.close()
+
+def edit_category(db, id, name):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("UPDATE CATEGORIES SET name = :n WHERE category_id = :ci", 
+                   {"n": name, "ci": id})
+
+    connection.commit()
+    connection.close()
+
+def delete_category(db, id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM CATEGORIES WHERE category_id=:ci", {"ci": id})
+    connection.commit()
+    connection.close()
+
+def edit_item(db, id, name, description, ingredients, category, cost):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql1 = """
+    UPDATE CATEGORIES
+    SET name = :n, description = :d, category_id = :ci, cost = :c
+    WHERE item_id = :i
+    """
+
+    cursor.execute(sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": id})
+
+    connection.commit()
+    connection.close()
+
+#def add_item(db, name, description, ingredients, category, cost):
+
+def delete_item(db, id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM ITEMS WHERE item_id=?", (id,))
+
+    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id=?", (id,))
+
+    connection.commit()
+    connection.close()

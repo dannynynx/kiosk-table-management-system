@@ -11,7 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -261,6 +261,31 @@ def get_customisations():
     return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
+@app.route("/manager/add_category", methods=['POST'])
+def manager_add_category():
+    data = request.get_json()
+    category_name = data.get('category_name')
+
+    return_data = add_category(DB_PATH, category_name)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_category", methods=['PUT'])
+def manager_edit_category():
+    data = request.get_json()
+    category_id = data.get('category_id')
+    new_name = data.get('new_name')
+
+    return_data = edit_category(DB_PATH, category_id, new_name)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_category", methods=['DELETE'])
+def manager_delete_category():
+    data = request.get_json()
+    category_id = data.get('category_id')
+    
+    return_data = delete_category(DB_PATH, category_id)
+    return jsonify(return_data), 200
+
 @socketio.on('connect')
 def handle_connect():
     print('Client connected')
@@ -294,7 +319,6 @@ def handle_add_notification(data):
     add_notification(DB_PATH, table_id, notification_type, token)
     return_data = get_notifications(DB_PATH, token)
     emit('updated_notification_status', return_data, broadcast=True)
-
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
