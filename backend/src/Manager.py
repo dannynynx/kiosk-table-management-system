@@ -112,7 +112,7 @@ def add_category(db, name):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (:n)", {"n": name})
+    cursor.execute("INSERT INTO CATEGORIES (name) VALUES (:n)", {"n": name})
 
     connection.commit()
     connection.close()
@@ -135,30 +135,89 @@ def delete_category(db, id):
     connection.commit()
     connection.close()
 
-def edit_item(db, id, name, description, ingredients, category, cost):
+def add_menu_item(db, name, description, ingredients, category, cost):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
+    image = "image"
+
     sql1 = """
-    UPDATE CATEGORIES
-    SET name = :n, description = :d, category_id = :ci, cost = :c
-    WHERE item_id = :i
+    INSERT INTO ITEMS (name, description, category_id, cost, image)
+    VALUES (:n, :d, :ci, :c, :i)
     """
 
-    cursor.execute(sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": id})
+    cursor.execute(sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": image})
+    connection.commit()
+
+    sql2 = """
+    SELECT item_id
+    FROM ITEMS
+    WHERE name = :n AND description = :d AND category_id = :ci AND cost = :c
+    """
+
+    cursor.execute(sql2, {"n": name, "d": description, "ci": category, "c": cost})
+    connection.commit()
+
+    item_id = cursor.fetchone()[0]
+
+    change_item_ingredients(db, item_id, ingredients)
 
     connection.commit()
     connection.close()
 
-#def add_item(db, name, description, ingredients, category, cost):
-
-def delete_item(db, id):
+def edit_menu_item(db, id, name, description, ingredients, category, cost):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("DELETE FROM ITEMS WHERE item_id=?", (id,))
+    sql = """
+    UPDATE ITEMS
+    SET name = :n, description = :d, category_id = :ci, cost = :c
+    WHERE item_id = :i
+    """
 
-    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id=?", (id,))
+    cursor.execute(sql, {"n": name, "d": description, "ci": category, "c": cost, "i": id})
+    connection.commit()
 
+    change_item_ingredients(db, id, ingredients)
+
+    connection.close()
+
+def delete_menu_item(db, id):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM ITEMS WHERE item_id = :i", {"i": id})
+
+    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": id})
+
+    connection.commit()
+    connection.close()
+
+# Helper
+def change_item_ingredients(db, item_id, ingredients):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": item_id})
+
+    for ingredient in ingredients:
+        sql1 = """
+        SELECT ingredient_id
+        FROM INGREDIENTS
+        WHERE ingredient_name = :i
+        """
+
+        cursor.execute(sql1, {"i": ingredient})
+
+        ingredient_id = cursor.fetchone()[0]
+
+        sql2 = """
+        INSERT INTO ITEM_INGREDIENTS (item_id, ingredient_id)
+        VALUES (:it, :ig)
+        """
+
+        cursor.execute(sql2, {"it": item_id, "ig": ingredient_id})
+        connection.commit()
+    
     connection.commit()
     connection.close()

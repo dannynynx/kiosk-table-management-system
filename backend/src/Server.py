@@ -11,7 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -284,6 +284,39 @@ def manager_delete_category():
     category_id = data.get('category_id')
     
     return_data = delete_category(DB_PATH, category_id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/add_menu_item", methods=['POST'])
+def manager_add_menu_item():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    ingredients = data.get('ingredients')
+    category = data.get('category')
+    cost = data.get('cost')
+
+    return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_menu_item", methods=['PUT'])
+def manager_edit_menu_item():
+    data = request.get_json()
+    id = data.get('id')
+    name = data.get('name')
+    description = data.get('description')
+    ingredients = data.get('ingredients')
+    category = data.get('category')
+    cost = data.get('cost')
+
+    return_data = edit_menu_item(DB_PATH, id, name, description, ingredients, category, cost)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_menu_item", methods=['DELETE'])
+def manager_delete_menu_item():
+    data = request.get_json()
+    id = data.get('id')
+
+    return_data = delete_menu_item(DB_PATH, id)
     return jsonify(return_data), 200
 
 @socketio.on('connect')
