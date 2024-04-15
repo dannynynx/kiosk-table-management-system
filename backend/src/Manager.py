@@ -205,23 +205,46 @@ def change_item_ingredients(db, item_id, ingredients):
     cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": item_id})
 
     for ingredient in ingredients:
-        sql1 = """
+
+        cursor.execute("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (:in)", 
+                       {"in": ingredient})
+
+        sql2 = """
         SELECT ingredient_id
         FROM INGREDIENTS
         WHERE ingredient_name = :i
         """
 
-        cursor.execute(sql1, {"i": ingredient})
+        cursor.execute(sql2, {"i": ingredient})
 
         ingredient_id = cursor.fetchone()[0]
 
-        sql2 = """
+        sql3 = """
         INSERT INTO ITEM_INGREDIENTS (item_id, ingredient_id)
         VALUES (:it, :ig)
         """
 
-        cursor.execute(sql2, {"it": item_id, "ig": ingredient_id})
+        cursor.execute(sql3, {"it": item_id, "ig": ingredient_id})
         connection.commit()
     
     connection.commit()
+    connection.close()
+
+def reorder_categories(db, categories):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    for category in categories:
+        name = category.get('name')
+        position = category.get('order')
+
+        sql = """
+        UPDATE CATEGORIES
+        SET position = :p
+        WHERE name = :n
+        """
+
+        cursor.execute(sql, {"n": name, "p": position})
+        connection.commit()
+    
     connection.close()
