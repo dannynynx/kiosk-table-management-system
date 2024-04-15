@@ -23,14 +23,12 @@ const KioskAuthenticationPage = () => {
     };
 
     useEffect(() => {
-        console.log(tableNumber)
         getTableCode(tableNumber)
     }, [])
 
     const getTableCode = async (tableNumber)=> {
         try {
             const data = {'table_id': tableNumber}
-            console.log(data)
             const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
             const rawCode = response.data;
             setCode(rawCode)
@@ -43,7 +41,6 @@ const KioskAuthenticationPage = () => {
     const authenticateCode = async (tableNumber, code) => {
         try {
             const data = {'table_id': tableNumber, 'code': code}
-            console.log(data)
             const response = await axios.post( 'http://127.0.0.1:5000/customer/table_authentication', data)
             const rawCode = response.data;
             return rawCode;
@@ -57,12 +54,12 @@ const KioskAuthenticationPage = () => {
 
     return (
         <>
-            <div className='container'>
-                <div className='box-container'>
-                    <p className='authentication-title'>Blue Zebra</p>
-                    <p className='text-description' style={{ color: textColor }}>{textContent}</p>
-                    <input type="text" className='code-input' onChange={handleChange}/>
-                    <input type="button" className='code-confirmation' value='Confirm' onClick={handleSubmit}/>
+            <div className='kiosk-authentication-container'>
+                <div className='kiosk-authentication-box-container'>
+                    <p className='kiosk-authentication-title'>Blue Zebra</p>
+                    <p className='kiosk-authentication-text-description' style={{ color: textColor }}>{textContent}</p>
+                    <input type="text" className='kiosk-authentication-code-input' onChange={handleChange}/>
+                    <input type="button" className='kiosk-authentication-code-confirmation' value='Confirm' onClick={handleSubmit}/>
                 </div>
             </div>
         </>

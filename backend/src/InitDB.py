@@ -11,12 +11,13 @@ def initialise_db():
     sql1 = """
     CREATE TABLE IF NOT EXISTS CATEGORIES (
         category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE
+        name TEXT NOT NULL UNIQUE,
+        position INTEGER 
     )"""
     cursor.execute(sql1)
 
-    categories = [('Brekkie',), ('Lunch',), ('Dinner',), ('Dessert',)]
-    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (?)", categories)
+    categories = [('Brekkie',0), ('Lunch',1), ('Dinner',2), ('Dessert',3)]
+    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name, position) VALUES (?,?)", categories)
 
     # INGREDIENTS
     sql2 = """
@@ -238,27 +239,28 @@ def initialise_db():
         table_id INTEGER PRIMARY KEY AUTOINCREMENT,
         code TEXT NOT NULL,
         session_id INTEGER NOT NULL DEFAULT 0,
-        is_occupied BOOLEAN NOT NULL DEFAULT FALSE
+        is_occupied BOOLEAN NOT NULL DEFAULT FALSE,
+        size INTEGER NOT NULL DEFAULT 1
     )"""
     cursor.execute(sql6)
 
     tables = [
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
-        ('0000', 0, False),  
-        ('0000', 0, False),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 3),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
+        ('NULL', 0, False, 3),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 2),  
+        ('NULL', 0, False, 2),
+        ('NULL', 0, False, 1),  
+        ('NULL', 0, False, 1),
     ]
-    cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied) VALUES (?, ?, ?)", tables)
+    cursor.executemany("INSERT INTO TABLES (code, session_id, is_occupied, size) VALUES (?, ?, ?, ?)", tables)
 
     # ORDERS
     sql7 = """
@@ -312,6 +314,34 @@ def initialise_db():
         FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
     cursor.execute(sql10)
+
+    # CUSTOMISATION
+    sql11 = """
+    CREATE TABLE IF NOT EXISTS CUSTOMISATION (
+        customisation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        logo_image TEXT NOT NULL,
+        primary_hex_code TEXT NOT NULL,
+        secondary_hex_code TEXT NOT NULL
+    )"""
+
+    cursor.execute(sql11)
+    customisation_settings = [
+        ('zebra.svg', '#222A5C', '#222A4C')
+    ]
+
+    cursor.executemany("INSERT INTO CUSTOMISATION (logo_image, primary_hex_code, secondary_hex_code) VALUES (?, ?, ?)", customisation_settings)
+
+    # STATS
+    # stats = '[{"item_id":?, "quantity":?, "name":?, "price":?}]'
+    sql12 = """
+    CREATE TABLE IF NOT EXISTS STATS (
+        stats_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id INTEGER,
+        date DATE,
+        stats TEXT
+    )"""
+
+    cursor.execute(sql12)
 
     connection.commit()
     connection.close()

@@ -2,6 +2,7 @@ import './ManagerPage.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import PopUp from '../components/PopUp';
+import settings from "../assets/settings.svg";
 
 const ManagerPage = () => {
     const navigate = useNavigate();
@@ -17,10 +18,9 @@ const ManagerPage = () => {
         navigate('/manager/menu');
     }
 
-    const handleEndOfDay = () => { 
-        //add routing for end of day clearance
-        setPopupMessage(<>Current day has ended. <br/> Started new day</>);
-        setPopUpVisible(true);
+    const handleOpenSettings = () => { 
+        navigate('/manager/settings');
+        //can change to be popup
     }
 
     const closePopUp = () => {
@@ -32,7 +32,7 @@ const ManagerPage = () => {
         <div className='manager-page'>
             <h1>Manager</h1>
             <div className='logout-btn'>Log Out</div>
-            <div className='end-btn' onClick={handleEndOfDay}>End of Day</div>
+            <div className='settings' onClick={handleOpenSettings}><img src={settings} alt='settings'/></div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>

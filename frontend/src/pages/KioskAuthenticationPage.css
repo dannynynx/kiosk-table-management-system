@@ -1,14 +1,15 @@
-.container {
+.kiosk-authentication-container {
     height: 100vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     background-image: url('../assets/login-background.jpg');
     background-size: cover;
     background-position: center;
     flex-direction: row;
 }
 
-.box-container {
+.kiosk-authentication-box-container {
     background-color: #141e42;
     width: 50%;
     height: 65%;
@@ -19,7 +20,7 @@
     border-radius: 20px;
 }
 
-.authentication-title {
+.kiosk-authentication-title {
     color: #e7eaf9;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 6em;
@@ -30,13 +31,13 @@
     margin: 0;
 }
 
-.text-description {
+.kiosk-authentication-text-description {
     color: #e7eaf9;
     font-size: 2em;
     text-align: center;
 }
 
-.code-input {
+.kiosk-authentication-code-input {
     background-color: #e7eaf9;
     color: #141e42;
     font-weight: bold;
@@ -48,7 +49,7 @@
     margin-bottom: 2%;
 }
 
-.code-confirmation {
+.kiosk-authentication-code-confirmation {
     background-color: #8086b3;
     color: #e7eaf9;
     font-weight: bold;
@@ -60,6 +61,6 @@
     font-size: 4em;
 }
 
-.code-confirmation:hover {
+.kiosk-authentication-code-confirmation:hover {
     background-color: #5c6081;
 }
