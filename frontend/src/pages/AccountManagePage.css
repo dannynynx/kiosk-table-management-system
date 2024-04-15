@@ -44,13 +44,18 @@
 .account-manage-container {
     height: 88%;
     width: 98%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     padding: 1%;
-    overflow: auto;
+    overflow-y: auto;
 }
-.account-manage-container::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
+
+.account-manage-new-account-button {
+    width: 20%;
+    height: 12%;
+    margin-bottom: 1%;
+    border-radius: 20px;
+    background-color: #222a5c;
+    color: white;
+    font-weight: bold;
+    font-size: 200%;
 }

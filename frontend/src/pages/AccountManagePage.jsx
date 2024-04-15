@@ -1,20 +1,22 @@
 import './AccountManagePage.css';
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import AccountPreview from '../components/AccountPreview';
 
 const AccountManagePage = () => {
-    // useEffect(() => {
-    //     const selectTable = async ()=> {
-    //         try {
-    //             const response = await axios.get( 'http://127.0.0.1:5000/customer/showTable');
-    //             setTables(response.data);
-    //         } catch (error) {
-    //             console.error('Error submitting data:', error);
-    //             return null;
-    //         }
-    //     }
-    //     selectTable().then(() => console.log(tables));
-    // }, []);
+    const [accounts, setAccounts] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/manager/show_accounts')
+            .then(response => {
+                setAccounts(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching accounts:', error);
+            }
+        );
+    }, []);
 
     return (
         <>
@@ -28,6 +30,9 @@ const AccountManagePage = () => {
                     </div>
                 </div>
                 <div className='account-manage-container'>
+                    {accounts.map((account) => (
+                        <AccountPreview accountUsername={account.username} accountPassword={account.password} accountRole={account.role} accountLogoutCode={account.logout_code}></AccountPreview>))}
+                    <button className='account-manage-new-account-button'>Create Account</button>
                 </div>
             </section>
         </>
