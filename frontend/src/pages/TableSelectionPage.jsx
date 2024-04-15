@@ -5,7 +5,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import PopUp from '../components/KioskPopUp';
 import CodePopUp  from '../components/KioskCodePopUp';
-
+import socket from '../socket'
 import tableIconSmall from '../assets/table-small-icon.svg';
 import tableIconMedium from '../assets/table-medium-icon.svg';
 import tableIconLarge from '../assets/table-large-icon.svg';
@@ -14,29 +14,29 @@ import tableIconOccupied from '../assets/table-occupied-icon.svg';
 
 const TableSelectionPage = () => {
     const [tables, setTables] = useState([]);
-    const [code, setCode] = useState(null);
+    const [code, setCode] = useState("1234");
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const [isCodeVisible, setCodeVisible] = useState(false);
 
     useEffect(() => {
-        const selectTable = async ()=> {
-            try {
-                const response = await axios.get( 'http://127.0.0.1:5000/customer/showTable');
+        axios.get('http://127.0.0.1:5000/customer/show_table')
+            .then(response => {
                 setTables(response.data);
-            } catch (error) {
-                console.error('Error submitting data:', error);
-                return null;
+            })
+            .catch(error => {
+                console.error('Error fetching tables:', error);
             }
-        }
-        selectTable().then(() => console.log(tables));
-    }, []);
+        );
 
-    useEffect(() => {
-        if (code !== null) {
-            setCodeVisible(true)
-        }
-    }, [code]);
+        socket.on('updated_table_status', (data) => {
+            setTables(data);
+        });
+
+        socket.on('table_code', (data) => {
+            setCode(data);
+        });
+    }, []);
 
     const getTablePicture = (size, avail) => {
         if (avail == 0) {
@@ -70,32 +70,9 @@ const TableSelectionPage = () => {
     };
 
     const handleConfirmSelection = async (tableNumber) => {
-        setPopUpVisible(false);
-        await confirmTableSelection(tableNumber);
-        const rawCode = await getTableCode(tableNumber);
-        setCode(rawCode);
+        socket.emit('table_confirmation', tableNumber);
+        setCodeVisible(true);
     };
-    
-    const getTableCode = async (tableNumber) => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
-            const rawCode = response.data;
-            return rawCode;
-        } catch (error) {
-            console.error('Error fetching table code:', error);
-            return null;
-        }
-    };
-
-    const confirmTableSelection = async (tableNumber)=> {
-        try {
-            const data = {"table_id": tableNumber}
-            const response = await axios.post( 'http://127.0.0.1:5000/customer/table_confirmation', data);
-        } catch (error) {
-            console.error('Error submitting data:', error);
-            return null;
-        }
-    }
 
     return (
         <>
