@@ -40,13 +40,40 @@ const ItemEdit = () => {
         //send to backend
     }
 
-    const handleItemImage = (event) => { 
-        setCurrImage(URL.createObjectURL(event.target.files[0]))
-        //send 
-    }
+    const fileToDataUrl = async (file) => {
+        const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        const valid = validFileTypes.find((type) => type === file.type);
+        if (!valid) {
+          throw Error('provided file is not a png, jpg, or jpeg image.');
+        }
+    
+        const reader = new FileReader();
+        const dataUrlPromise = new Promise((resolve, reject) => {
+          reader.onerror = reject;
+          reader.onload = () => resolve(reader.result);
+        });
+        reader.readAsDataURL(file);
+        return dataUrlPromise;
+      };
+
+
+    const handleItemImage = async (event) => {
+        const inputElement = event.target;
+        const file = inputElement.files[0];
+    
+        if (file) {
+            try {
+                const url = await fileToDataUrl(file);
+                setCurrImage(url);
+                console.log(url);
+            } catch (error) {
+                alert(error);
+            }
+        }
+    };
 
     const handleKeyDown = (e) => { 
-        if (e.key !== "Enter") { 
+        if (e.key !== " ") { 
             return;
         }
         const value = e.target.value;
@@ -56,6 +83,7 @@ const ItemEdit = () => {
         setIngredientsTags([
             ...ingredientsTags, value
         ])
+        console.log(ingredientsTags)
         e.target.value = '';
     }
 
