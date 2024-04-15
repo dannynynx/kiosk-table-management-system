@@ -36,8 +36,20 @@ const ItemEdit = () => {
 
 
 
-    const handleEditItem = () => { 
-        //send to backend
+    const handleEditItem = async (event) => { 
+        event.preventDefault();
+        const formData = new FormData(event.target); 
+
+
+        const item = { 
+            name: formData.get('name'),
+            image: await fileToDataUrl(formData.get('image')),
+            cost: formData.get('cost'),
+            ingredients: ingredientsTags,
+            description: formData.get('description'),
+            category: formData.get('category'),
+            // Add other form fields as needed
+        }
     }
 
     const fileToDataUrl = async (file) => {
