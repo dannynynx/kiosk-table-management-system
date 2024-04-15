@@ -11,12 +11,13 @@ def initialise_db():
     sql1 = """
     CREATE TABLE IF NOT EXISTS CATEGORIES (
         category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE
+        name TEXT NOT NULL UNIQUE,
+        position INTEGER 
     )"""
     cursor.execute(sql1)
 
-    categories = [('Brekkie',), ('Lunch',), ('Dinner',), ('Dessert',)]
-    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (?)", categories)
+    categories = [('Brekkie',0), ('Lunch',1), ('Dinner',2), ('Dessert',3)]
+    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name, position) VALUES (?,?)", categories)
 
     # INGREDIENTS
     sql2 = """

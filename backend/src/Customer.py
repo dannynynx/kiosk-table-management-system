@@ -142,9 +142,7 @@ def add_item_to_order(db, order_id, item_id, quantity):
     #     connection.close()
     #
     #     return None
-
-
-        
+   
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
     VALUES (:o, :i, :q, :s)
@@ -225,6 +223,7 @@ def get_all_categories(db):
     sql = """
     SELECT *
     FROM CATEGORIES
+    ORDER BY position
     """
 
     cursor.execute(sql)

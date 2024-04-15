@@ -112,7 +112,12 @@ def add_category(db, name):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("INSERT INTO CATEGORIES (name) VALUES (:n)", {"n": name})
+    sql = """
+    INSERT INTO CATEGORIES (name, position)
+    VALUES (:n, (SELECT MAX(position) + 1 FROM CATEGORIES))
+    """
+
+    cursor.execute(sql, {"n": name})
 
     connection.commit()
     connection.close()
