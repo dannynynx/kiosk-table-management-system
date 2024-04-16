@@ -19,7 +19,6 @@ const SideBar = ({ onCategorySelect }) => {
         try {
             const data = {
                 "table_id": localStorage.getItem('tablenumber'),
-                "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
             socket.emit('add_notification', data);
