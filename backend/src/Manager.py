@@ -48,7 +48,7 @@ def delete_account(db, id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("DELETE FROM STAFF WHERE staff_id=?", [id])
+    cursor.execute("DELETE FROM STAFF WHERE staff_id=? and in_use=?", (id, 0))
     connection.commit()
     connection.close()
 
@@ -273,3 +273,29 @@ def reorder_menu_items(db, items):
         connection.commit()
     
     connection.close()
+
+def show_accounts(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    SELECT * FROM STAFF
+    """
+
+    cursor.execute(sql)
+
+    staff = cursor.fetchall()
+    staff_dict = []
+
+    for account in staff:
+        account_dict = {
+            "username": account[1],
+            "password": account[2],
+            "role": account[3],
+            "logout_code": account[5]
+        }
+        staff_dict.append(account_dict)
+
+    connection.close()
+
+    return staff_dict

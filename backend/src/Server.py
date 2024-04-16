@@ -11,7 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, reorder_menu_items
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, reorder_menu_items,show_accounts
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -335,6 +335,10 @@ def manager_reorder_menu_items():
     menu_items = data.get('menu_items')
 
     return_data = reorder_menu_items(DB_PATH, menu_items)
+@app.route("/manager/show_accounts", methods=['GET'])
+def get_accounts():
+
+    return_data = show_accounts(DB_PATH)
     return jsonify(return_data), 200
 
 @socketio.on('connect')
