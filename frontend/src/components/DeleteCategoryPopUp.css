@@ -17,10 +17,17 @@
     justify-content: center;
 }
 
+.delete-btn { 
+    background-color: lightblue;
+    border-radius: 2px;
+}
+
 .msg {
     background-color: aliceblue;
     padding: 3em;
     text-align: center; 
+    height: 300px;
+    width: 100%;
 }
 
 .msg .close-button {

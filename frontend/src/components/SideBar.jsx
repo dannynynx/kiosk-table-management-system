@@ -6,12 +6,12 @@ import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import socket from '../socket';
+import RequestBillPopUp from './RequestBillPopUp';
 
 const SideBar = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
-    const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
     
    
@@ -26,7 +26,6 @@ const SideBar = ({ onCategorySelect }) => {
         } catch (error) {
             console.log(error)
         }
-        setPopupMessage("Please make your way to the counter");
         setPopUpVisible(true);
     };
 
@@ -78,7 +77,7 @@ const SideBar = ({ onCategorySelect }) => {
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
             </div>
             {isPopUpVisible && (
-                <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
+                <RequestBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
             )}
         </>
     );

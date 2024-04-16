@@ -39,3 +39,19 @@
 .order-sent-message {
     width: 10em;
 }
+
+.bill-table{ 
+    overflow-y: auto;
+}
+
+.btn-group { 
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.btn-group button{ 
+    background-color: lightblue;
+    border-radius: 2px;
+    width: 100%;
+}

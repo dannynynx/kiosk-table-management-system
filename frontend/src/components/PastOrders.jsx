@@ -20,6 +20,7 @@ const PastOrders = ({ toggleExpand }) => {
         axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
             .then(response => {
                 const data = response.data;
+                console.log(data)
                 setPastOrders(data);
             })
             .catch(error => {
