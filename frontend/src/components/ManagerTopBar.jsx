@@ -1,7 +1,7 @@
 import zebra from "../assets/zebra.svg";
 import "./ManagerTopBar.css"
 import { useState } from "react";
-import PopUp from "./PopUp";
+import ReorderItemsPopUp from "./ReorderItemsPopUp.jsx";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import edit from "../assets/edit.svg"
 import editRed from "../assets/edit-red.svg"
+import reorderItems from "../assets/Item-reorder.svg";
 
 const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
     const token = localStorage.getItem('token');
@@ -30,6 +31,10 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
         onEditModeToggle();
     }
 
+    const handleReorderItems = () => { 
+        setPopUpVisible(true);
+    }
+
     return (
         <>
             <div className="topbar">
@@ -47,6 +52,11 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
 
                 </div>
                 <div className="topbar-right">
+                    {editMode ? (
+                    <div className='topbar-icon-container' onClick={handleReorderItems}>
+                        <img src={reorderItems} className='cart' alt='Reorder Items icon'/>
+                    </div>
+                    ) : '' }
                     <div className='topbar-icon-container' onClick={handleEditMode}>
                         <img src={editbtn} className='cart' alt='Edit icon'/>
                     </div>
@@ -63,7 +73,7 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
                 </div>
             </div>  
             {isPopUpVisible && (
-            <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
+            <ReorderItemsPopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
         )}
         </>
     );

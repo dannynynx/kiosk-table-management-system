@@ -334,7 +334,7 @@ def manager_reorder_menu_items():
     data = request.get_json()
     menu_items = data.get('menu_items')
 
-    return_data = reorder_menu_items(DB_PATH, items)
+    return_data = reorder_menu_items(DB_PATH, menu_items)
     return jsonify(return_data), 200
 
 @socketio.on('connect')

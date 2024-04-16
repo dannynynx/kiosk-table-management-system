@@ -265,7 +265,7 @@ def reorder_menu_items(db, items):
 
         sql = """
         UPDATE ITEMS
-        SET position = :p,
+        SET position = :p
         WHERE name = :n
         """
 
