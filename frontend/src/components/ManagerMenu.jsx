@@ -5,7 +5,7 @@ import { useMenu } from "../context/MenuContext.jsx";
 import PropTypes from "prop-types";
 import add from "../assets/plus-icon.svg"
 
-const ManagerMenu = ({ selectedCategory, searchValue }) => {
+const ManagerMenu = ({ selectedCategory, searchValue, editMode }) => {
     const processLink = (str) => str.toLowerCase().replace(/\s/g, '-');
     const getMenu = useMenu();
     const navigate = useNavigate();
@@ -29,7 +29,7 @@ const ManagerMenu = ({ selectedCategory, searchValue }) => {
             </div>
             {filteredItems.map(item => <Link className='item-link' to= {{
                     pathname: `${processLink(item.name)}`, search: `?param=${item.id}`}}
-                key={item.id}><ItemPreview id={item.id}/></Link> )}
+                key={item.id}><ItemPreview id={item.id} editMode={editMode}/></Link> )}
         </div>
         
     );
@@ -38,6 +38,7 @@ const ManagerMenu = ({ selectedCategory, searchValue }) => {
 ManagerMenu.propTypes = {
     selectedCategory: PropTypes.string,
     searchValue: PropTypes.string,
+    editMode: PropTypes.boolean,
 };
 
 export default ManagerMenu;

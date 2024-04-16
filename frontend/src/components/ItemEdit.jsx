@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import axios from 'axios';
+import trash from "../assets/trash-icon.svg";
+import ItemDelete from './ItemDelete.jsx';
 
 
 const ItemEdit = () => {
@@ -16,6 +18,7 @@ const ItemEdit = () => {
     const [ingredientsTags, setIngredientsTags] = useState([...ingredients]);
     const [currImage, setCurrImage] = useState(image);
     const navigate = useNavigate();
+    const [isDeleteItemPopUpVisible, setDeleteItemPopUpVisible] = useState(false);
 
 
     useEffect(() => {
@@ -57,9 +60,15 @@ const ItemEdit = () => {
         .catch(error => { 
             console.error('Error submitting data:', error);
         });
+    }
 
+    const handleDeleteItem = (e) => { 
+        e.preventDefault();
+        setDeleteItemPopUpVisible(true);
+    }
 
-
+    const closeDeletePopUp = () => { 
+        setDeleteItemPopUpVisible(false);
     }
 
     const fileToDataUrl = async (file) => {
@@ -114,6 +123,9 @@ const ItemEdit = () => {
 
     return (
         <form className='item' onSubmit={handleEditItem}>
+            <div className="delete-btn">
+                <button onClick={handleDeleteItem}><img className='delete-img' src={trash} alt='delete item'/></button>
+            </div>
             <div className="image" name="image">
                 {image && <img src={currImage} className='item-image' alt={name} />}
                 <input type='file' onChange={handleItemImage} accept='image/jpeg, image/png'/>
@@ -146,6 +158,9 @@ const ItemEdit = () => {
                 </div>
                 <button type="submit" className='edit-btn'>Save details</button>
             </div>  
+            {isDeleteItemPopUpVisible && (
+                <ItemDelete onClose={closeDeletePopUp} item_id={id} isDeleteItemPopUpVisible={isDeleteItemPopUpVisible}/>
+            )}
         </form>
     )
 }
