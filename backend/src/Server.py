@@ -393,6 +393,16 @@ def handle_send_order(data):
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 
+@app.route('/manager/edit_customisation', methods=['PUT'])
+def manager_edit_customisation():
+    data = request.get_json()
+    id = data.get('customisation_id')
+    logo = data.get('logo_image')
+    primary_colour = data.get('primary_hex_code')
+    secondary_colour = data.get('secondary_hex_code')
+
+    return_data = edit_customisation(DB_PATH, id, logo, primary_colour, secondary_colour)
+    return jsonify(return_data), 200
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, debug=True)

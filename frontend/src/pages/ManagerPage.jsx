@@ -42,6 +42,10 @@ const ManagerPage = () => {
         navigate('/logout');
     }
 
+    const handleManagerCustomisation = () => {
+        navigate('/manager/customise')
+    }
+
     return (
         <>
         <div className='manager-page'>
@@ -52,6 +56,7 @@ const ManagerPage = () => {
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
                 <button onClick={handleEditAccounts}>Manage Accounts</button>
+                <button onClick={handleManagerCustomisation}>Restaurant Customisation</button>
             </div>
         </div>
         {isPopUpVisible && (

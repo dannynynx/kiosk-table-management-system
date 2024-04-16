@@ -168,6 +168,7 @@ def get_customisation(db):
 
     customisations = cursor.fetchone()
     customisation_dict = {
+        "id": customisations[0],
         "logo": customisations[1],
         "primary_colour": customisations[2],
         "secondary_colour": customisations[3]
@@ -368,3 +369,18 @@ def show_accounts(db):
     connection.close()
 
     return staff_dict
+
+def edit_customisation(db, id, logo, primary_colour, secondary_colour):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    sql = """
+    UPDATE CUSTOMISATION 
+    SET logo_image = :l, primary_hex_code = :p, secondary_hex_code = :s
+    WHERE customisation_id = :i
+    """
+
+    cursor.execute(sql, {"l": logo, "p": primary_colour, "s": secondary_colour, "i": id})
+    connection.commit()
+
+    connection.close()
