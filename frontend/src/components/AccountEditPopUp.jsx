@@ -2,6 +2,7 @@ import "./AccountEditPopUp.css";
 import PropTypes from "prop-types";
 import { useState } from 'react';
 import axios from 'axios';
+import lockIcon from '../assets/black-lock-icon.svg';
 
 const AccountEditPopUp = (props) => {
     const [formData, setFormData] = useState({ id: props.id, username: props.username, password: props.password, logoutCode: props.code, role: props.role});
@@ -50,7 +51,10 @@ const AccountEditPopUp = (props) => {
                 <input type="text" className="account-edit-text-box" id='password' name="password" value={formData.password} onChange={handleChange}/>
                 <h1 style={{ color: textColor }}>{codeText}</h1>
                 <input type="number" className="account-edit-text-box" id='logout-code' name="logoutCode" value={formData.logoutCode} onChange={handleChange}/>
-                <h1 style={{ color: textColor }}>Role:</h1>
+                <h1 style={{ color: textColor }}>
+                    <img src={lockIcon} alt="black lock icon" />
+                    Role:
+                </h1>
                 <div className="account-edit-text-box">{formData.role}</div>
                 <div className="account-edit-button-div">
                     <input type="button" className="account-edit-button" value="Go Back" onClick={props.onClose}/>

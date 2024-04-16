@@ -45,7 +45,7 @@ const AccountManagePage = () => {
                 </div>
                 <div className='account-manage-container'>
                     {accounts.map((account) => (
-                        <AccountPreview accountId={account.id} accountUsername={account.username} accountPassword={account.password} accountRole={account.role} accountLogoutCode={account.logout_code}></AccountPreview>))}
+                        <AccountPreview key={account.id} accountId={account.id} accountUsername={account.username} accountPassword={account.password} accountRole={account.role} accountLogoutCode={account.logout_code}></AccountPreview>))}
                     <button className='account-manage-new-account-button' onClick={handleCreatingAccount}>Create Account</button>
                 </div>
                 {isCreatingAccountVisible && (

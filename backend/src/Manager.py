@@ -32,8 +32,7 @@ def edit_account(db, id, username, password, role, logout_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    print(id)
-    cursor.execute("SELECT * from STAFF WHERE staff_id=?", (id,))
+    cursor.execute("SELECT username from STAFF WHERE NOT staff_id=?", (id,))
     staffs = cursor.fetchall()
     print(staffs)
     for staff in staffs:
