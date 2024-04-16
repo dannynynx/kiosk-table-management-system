@@ -12,12 +12,9 @@ import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
 import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
-import axios from 'axios';
 
 
 const App = () => {
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-    
     return (
         <>
             <Routes>

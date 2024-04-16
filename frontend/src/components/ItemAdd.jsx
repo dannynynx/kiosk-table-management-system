@@ -1,10 +1,12 @@
 import './ItemEdit.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import {useInitialiseMenu} from "../context/MenuContext.jsx";
 
 
 const ItemAdd = () => {
+    const initialiseMenuItem = useInitialiseMenu();
     const [categories, setCategories] = useState([]);
     const [ingredientsTags, setIngredientsTags] = useState([]);
     const [currImage, setCurrImage] = useState();
@@ -29,10 +31,10 @@ const ItemAdd = () => {
     const handleAddItem = async (event) => { 
         event.preventDefault();
         const formData = new FormData(event.target); 
-        handleUpload(event);
+        await handleUpload(event);
         const item = { 
             name: formData.get('name'),
-            image: await fileToDataUrl(formData.get('image')),
+            image: file.name,
             cost: formData.get('cost'),
             ingredients: ingredientsTags,
             description: formData.get('description'),
@@ -48,6 +50,16 @@ const ItemAdd = () => {
             })
             .catch(error => { 
                 console.error('Error submitting data:', error);
+            });
+
+        axios.get('http://127.0.0.1:5000/customer/showMenu')
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                initialiseMenuItem(data);
+            })
+            .catch(error => {
+                console.error('Error fetching menu:', error);
             });
     }
 

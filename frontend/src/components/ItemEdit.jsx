@@ -46,7 +46,7 @@ const ItemEdit = () => {
         const item = { 
             id,
             name: formData.get('name'),
-            image: currImage,
+            image: file.name,
             cost: formData.get('cost'),
             ingredients: ingredientsTags,
             description: formData.get('description'),
