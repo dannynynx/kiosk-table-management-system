@@ -25,8 +25,10 @@ const LogInPage = () => {
                 navigate('/kitchen');
             } else if (formData.username == "wait") { 
                 navigate('/waiter');
-            } else { 
-                navigate('/kiosk/authentication');
+            } else if (formData.username == "manager") { 
+                navigate('/manager');
+            } else {
+                navigate('/kiosk/authentication')
             }
 
 
