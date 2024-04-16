@@ -102,7 +102,6 @@ def create_notification():
     data = request.get_json()
     table_id = data.get('table_id')
     notification_type = data.get('notification_type')
-    token = data.get('token')
     
     if not table_id or not notification_type:
         return jsonify({'error': 'Missing table_id or notification_type'}), 400
@@ -110,7 +109,7 @@ def create_notification():
     if notification_type not in ['assistance', 'bill']:
         return jsonify({'error': 'Invalid notification_type'}), 400
 
-    if add_notification(DB_PATH, table_id, notification_type, token):
+    if add_notification(DB_PATH, table_id, notification_type):
         # Assuming add_notification returns True if successful
         return jsonify({'message': 'Notification added successfully'}), 200
     else:
@@ -213,11 +212,14 @@ def manager_edit_account():
     username = data.get('username')
     password = data.get('password')
     role = data.get('role')
-    id = data.get('staff_id')
+    id = data.get('id')
     logout_code = data.get('logout_code')
 
     return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
-    return jsonify(return_data), 200
+    if return_data == None:
+        return jsonify({'error': 'Username already taken'}), 400
+    else: 
+        return jsonify(return_data), 200
 
 @app.route("/manager/delete_account", methods=['DELETE'])
 def manager_delete_account():
@@ -373,20 +375,8 @@ def handle_add_notification(data):
 def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
-    token = data.get('token')
 
-    send_order_to_database(DB_PATH, table_id, order_items, token)
-    return_data = get_customer_past_orders(DB_PATH, table_id)
-    emit('sent_orders', return_data)
-
-
-@socketio.on('send_order')
-def handle_send_order(data):
-    table_id = data.get('table_id')
-    order_items = data.get('order_items')
-    token = data.get('token')
-
-    send_order_to_database(DB_PATH, table_id, order_items, token)
+    send_order_to_database(DB_PATH, table_id, order_items)
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 

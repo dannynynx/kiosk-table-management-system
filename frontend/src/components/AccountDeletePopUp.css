@@ -1,0 +1,54 @@
+.account-delete-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(34, 42, 92, 0.27);
+}
+
+.account-delete-popup.visible {
+    display: flex; /* Use flex to center the .msg content */
+    align-items: center;
+    justify-content: center;
+}
+
+.account-delete-container {
+    display: flex;
+    background-color: #ffffff;
+    border-radius: 20px;
+    width: 30%;
+    height: 25%;
+    padding: 1%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+}
+
+.account-delete-message {
+    font-weight: bold;
+    font-size: 250%;
+}
+
+.account-delete-button-div {
+    margin-top: 5%;
+    width: 100%;
+    height: 30%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
+
+.account-delete-button {
+    height: 80%;
+    width: 50%;
+    margin-left: 25%;
+    border: 0px;
+    border-radius: 30px;
+    background-color: #616466;
+    color: #ffffff;
+    font-size: 150%;
+    font-weight: bold;
+}
