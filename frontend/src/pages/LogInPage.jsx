@@ -16,6 +16,7 @@ const LogInPage = () => {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
             const role = response.data.role;
             localStorage.setItem('tablenumber', role)
+            localStorage.setItem('logout_code', response.data.logout_code)
         
             if (role == "kitchen") { 
                 navigate('/kitchen');
@@ -38,7 +39,12 @@ const LogInPage = () => {
     };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        if (name === 'username') {
+            const username = value; 
+            localStorage.setItem('username', username);
+        }
     };
 
     return (

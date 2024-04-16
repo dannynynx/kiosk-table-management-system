@@ -38,11 +38,15 @@ const ManagerPage = () => {
         setPopUpVisible(false);
     };
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
     return (
         <>
         <div className='manager-page'>
             <h1>Manager</h1>
-            <div className='logout-btn'>Log Out</div>
+            <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <div className='settings' onClick={handleOpenSettings}><img src={settings} alt='settings'/></div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
