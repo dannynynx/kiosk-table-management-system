@@ -2,7 +2,6 @@ import sqlite3
 import random
 import time
 import ast
-from Helper import valid_user, valid_user_specific
 
 def create_account(db, username, password, role, logout_code):
     connection = sqlite3.connect(db)
@@ -49,7 +48,7 @@ def edit_account(db, id, username, password, role, logout_code):
 def delete_account(db, id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
+
     cursor.execute("DELETE FROM STAFF WHERE staff_id=? and in_use=?", (id, 0))
     connection.commit()
     connection.close()
