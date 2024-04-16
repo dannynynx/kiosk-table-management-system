@@ -1,14 +1,8 @@
 import sqlite3
-from Helper import valid_user, valid_user_specific
 
-def get_notifications(db, token):
+def get_notifications(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
-    # Check if the token is valid
-    if not valid_user_specific(db, token):
-        connection.close()
-        return None
 
     # If u want reversed order change DESC to ASC
     sql = "SELECT notification_id, table_id, notification_type, status FROM NOTIFICATIONS ORDER BY notification_id DESC"
@@ -21,18 +15,14 @@ def get_notifications(db, token):
         notification_id, table_id, notification_type, status = notification
         entry ={'notification_id': notification_id, 'notification_type': notification_type, 'table_id': table_id, 'status': status}
         categorized_notifications.append(entry)
+    
+    connection.close()
+    
     return categorized_notifications
 
-    connection.close()
-
-def update_notification(db, notification_id, new_status, token):
+def update_notification(db, notification_id, new_status):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    if not valid_user(token):
-        connection.close()
-        return None
 
     sql = "UPDATE NOTIFICATIONS SET status = ? WHERE notification_id = ?"
     cursor.execute(sql, (new_status, notification_id))
