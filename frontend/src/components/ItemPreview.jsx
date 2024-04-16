@@ -7,7 +7,7 @@ const ItemPreview = ({ id }) => {
     const formattedPrice = price.toFixed(2);
     return (
         <div className='item-preview'>
-            {image && <img src={image} className='item-preview-image' alt={name} />}
+            {image && <img src={`data:image/png;base64,${image}`} className='item-preview-image' alt={name} />}
             <div className='item-preview-contents'>
                 <div className='item-preview-name'>{name}</div>
                 <div className='item-preview-price'>${formattedPrice}</div>

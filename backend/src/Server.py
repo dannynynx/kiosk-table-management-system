@@ -11,7 +11,7 @@ from Customer import get_table_code, confirm_table, authenticate_table, show_tab
 from flask_cors import CORS
 from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, reorder_menu_items,show_accounts
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, show_accounts
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -261,80 +261,6 @@ def get_customisations():
     return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route("/manager/add_category", methods=['POST'])
-def manager_add_category():
-    data = request.get_json()
-    category_name = data.get('category_name')
-
-    return_data = add_category(DB_PATH, category_name)
-    return jsonify(return_data), 200
-
-@app.route("/manager/edit_category", methods=['PUT'])
-def manager_edit_category():
-    data = request.get_json()
-    category_id = data.get('category_id')
-    new_name = data.get('new_name')
-
-    return_data = edit_category(DB_PATH, category_id, new_name)
-    return jsonify(return_data), 200
-
-@app.route("/manager/delete_category", methods=['DELETE'])
-def manager_delete_category():
-    data = request.get_json()
-    category_id = data.get('category_id')
-    
-    return_data = delete_category(DB_PATH, category_id)
-    return jsonify(return_data), 200
-
-@app.route("/manager/add_menu_item", methods=['POST'])
-def manager_add_menu_item():
-    data = request.get_json()
-    name = data.get('name')
-    description = data.get('description')
-    ingredients = data.get('ingredients')
-    category = data.get('category')
-    cost = data.get('cost')
-    image = data.get('image')
-
-    return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost, image)
-    return jsonify(return_data), 200
-
-@app.route("/manager/edit_menu_item", methods=['PUT'])
-def manager_edit_menu_item():
-    data = request.get_json()
-    id = data.get('id')
-    name = data.get('name')
-    description = data.get('description')
-    ingredients = data.get('ingredients')
-    category = data.get('category')
-    cost = data.get('cost')
-    image = data.get('image')
-
-    return_data = edit_menu_item(DB_PATH, id, name, description, ingredients, category, cost, image)
-    return jsonify(return_data), 200
-
-@app.route("/manager/delete_menu_item", methods=['DELETE'])
-def manager_delete_menu_item():
-    data = request.get_json()
-    id = data.get('id')
-
-    return_data = delete_menu_item(DB_PATH, id)
-    return jsonify(return_data), 200
-
-@app.route("/manager/reorder_categories", methods=['PUT'])
-def manager_reorder_categories():
-    data = request.get_json()
-    categories = data.get('categories')
-
-    return_data = reorder_categories(DB_PATH, categories)
-    return jsonify(return_data), 200
-
-@app.route("/manager/reorder_menu_items", methods=['PUT'])
-def manager_reorder_menu_items():
-    data = request.get_json()
-    menu_items = data.get('menu_items')
-
-    return_data = reorder_menu_items(DB_PATH, menu_items)
 @app.route("/manager/show_accounts", methods=['GET'])
 def get_accounts():
 
@@ -374,6 +300,7 @@ def handle_add_notification(data):
     add_notification(DB_PATH, table_id, notification_type, token)
     return_data = get_notifications(DB_PATH, token)
     emit('updated_notification_status', return_data, broadcast=True)
+
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
