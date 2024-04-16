@@ -1,0 +1,44 @@
+.manager-stats-page {
+  display: flex;
+  flex-direction: column;
+}
+
+.manager-stats-top-bar {
+  text-align: center;
+  justify-content: center;
+}
+
+.manager-go-back-btn {
+  background-color: black;
+  color: white;
+  padding: 1em;
+  position: absolute;
+  left: 1em;
+  top: 1em;
+  border-radius: 2em;
+  font-weight: 600;
+}
+
+.manager-stats-table {
+  margin-top: 2em;
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.manager-stats-table tr:last-child {
+  background-color: grey;
+}
+
+
+.manager-submit-date-btn {
+  background-color: grey;
+  padding: 1em;
+  border-radius: 2em;
+  font-weight: 600;
+}
+
+.manager-stats-date-form {
+  margin: auto;
+}
+
