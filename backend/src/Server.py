@@ -297,6 +297,20 @@ def manager_add_menu_item():
     return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost, image)
     return jsonify(return_data), 200
 
+@app.route('/manager/upload_image', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    if file:
+        filename = file.filename
+        file.save(os.path.join(BASE_DIR, 'itemimages', filename))
+        return jsonify({'success': 'File uploaded successfully'})
+
 @app.route("/manager/edit_menu_item", methods=['PUT'])
 def manager_edit_menu_item():
     data = request.get_json()
