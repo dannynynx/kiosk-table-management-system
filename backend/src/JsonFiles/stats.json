@@ -3,6 +3,6 @@
         "stats_id": 1,
         "session_id": 1,
         "date": null,
-        "stats": "[{'id': 1, 'quantity': 1, 'name': 'Avo Toast', 'price': 6.99}]"
+        "stats": "[]"
     }
 ]

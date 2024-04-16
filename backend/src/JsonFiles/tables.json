@@ -1,86 +1,100 @@
 [
     {
         "table_id": 1,
-        "code": "9207",
-        "session_id": 2,
-        "is_occupied": 1
+        "code": "NULL",
+        "session_id": 1,
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 2,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 3,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 2
     },
     {
         "table_id": 4,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 3
     },
     {
         "table_id": 5,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 3
     },
     {
         "table_id": 6,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 7,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 8,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 9,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 3
     },
     {
         "table_id": 10,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 2
     },
     {
         "table_id": 11,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 2
     },
     {
         "table_id": 12,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 2
     },
     {
         "table_id": 13,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     },
     {
         "table_id": 14,
         "code": "NULL",
         "session_id": 0,
-        "is_occupied": 0
+        "is_occupied": 0,
+        "size": 1
     }
 ]
