@@ -9,7 +9,6 @@ const WaiterPage = () => {
     const [orders, setOrders] = useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [currBill, setCurrBill] = useState(null);
-    const [currNotif, setCurrNotif] = useState(null);
 
     useEffect(() => {
         const token = { 'token': localStorage.getItem('token')};
@@ -65,7 +64,6 @@ const WaiterPage = () => {
         if (notif.notification_type == "bill") { 
             setPopUpVisible(true);
             setCurrBill(notif.table_id)
-            setCurrNotif(notif.notification_id);
         } else { 
             const data = { 
                 new_status: "closed",
@@ -121,7 +119,7 @@ const WaiterPage = () => {
                     }})}
             </div>
             {isPopUpVisible && (
-                <WaitBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible} table={currBill} notif={currNotif}/>
+                <WaitBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible} table={currBill}/>
             )}
         </div>
     );

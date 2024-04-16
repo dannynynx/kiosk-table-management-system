@@ -268,7 +268,8 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS ORDERS ( 
         order_id INTEGER PRIMARY KEY,
         table_id INTEGER,
-        session_id INTEGER
+        session_id INTEGER,
+        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
     cursor.execute(sql7)
 

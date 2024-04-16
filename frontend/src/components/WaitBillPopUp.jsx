@@ -31,13 +31,14 @@ const WaitBillPopUp = (props) => {
     }
 
     const handleUpdateBill = () => { 
-        const data = { 
-            new_status: "closed",
-            notification_id: props.notif,
-            token: localStorage.getItem('token')
-        }
-
-        socket.emit('update_notification_status', data);
+        const table_id = props.table;
+        axios.delete('http://127.0.0.1:5000/customer/clear_order', { data: { table_id } } )
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => {
+            console.error('Error submitting data:', error);
+        });     
         props.onClose();
     }
     
@@ -74,7 +75,6 @@ WaitBillPopUp.propTypes = {
     isPopUpVisible: PropTypes.bool.isRequired,
     table: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired,
-    notif: PropTypes.number.isRequired,
 };
 
 export default WaitBillPopUp;
