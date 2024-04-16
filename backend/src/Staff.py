@@ -73,6 +73,23 @@ def get_role(db, username, password):
 
     return role
 
+def get_logout_code(db, username, password):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    # Check if the username-password combination exists in the database
+    cursor.execute("SELECT logout_code FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        logout_code = result[0]
+    else:
+        logout_code = None
+
+    connection.close()
+
+    return logout_code
+
 def show_all_orders(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
