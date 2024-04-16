@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router';
 
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
-    const role = localStorage.getItem('tablenumber');
+    // const role = localStorage.getItem('tablenumber');
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (role !== "kitchen") { 
-            navigate('/login');
-        }
+        // if (role !== "kitchen") { 
+        //     navigate('/login');
+        // }
 
         axios.get('http://127.0.0.1:5000/staff/show_orders')
         .then(response => {
@@ -23,7 +23,7 @@ const KitchenPage = () => {
             console.error('Error fetching orders:', error);
         })
 
-        socket.on('updated_order_status', (data) => {
+        socket.on('updated_order_status', (data) => {console.log(123456)
             setOrders(data);
         });
     }, []);
