@@ -15,7 +15,9 @@ const RequestBillPopUp = (props) => {
         axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
             .then(response => {
                 const data = response.data;
+                console.log(data);
                 setPastOrders(data);
+                console.log(pastorders);
             })
             .catch(error => {
                 console.error('Error fetching menu:', error);
@@ -31,17 +33,20 @@ const RequestBillPopUp = (props) => {
                 </button>
                 <h2>Receipt</h2>
                 <h4 className="order-sent-message">
-                    <table>
+                    <table className="bill-table">
                         <tbody>
-                            {pastorders.map((item, index) => { 
+                        {pastorders.length > 0 ? (pastorders.map((item, index) => (
                                 <tr key={index}>
                                     <th>{item.name}</th>
                                     <th>{item.price}</th>
                                     <th>{item.quantity}</th>
                                 </tr>
-                            })}
+                            ))) : (<tr>
+                                    <th>There are no orders to be paid.</th>
+                                </tr>)}
                         </tbody>
                     </table>
+                    Please make your way to the counter.
                 </h4>
             </div>
         </div>
