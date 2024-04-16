@@ -9,7 +9,7 @@ import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_customer_past_orders, add_notification, clear_order
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status, get_role
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status, get_role, get_logout_code
 from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, reorder_menu_items,show_accounts
 from flask_cors import CORS
@@ -43,10 +43,11 @@ def staff_authentication():
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
     role = get_role(DB_PATH, username, password)
+    logout_code= get_logout_code(DB_PATH, username, password)
     table_id = staff_tablet_authentication(DB_PATH, username, password)
     
     if table_id is not None:
-        return jsonify({'table_id': table_id, 'role': role}), 200
+        return jsonify({'table_id': table_id, 'role': role, 'logout_code': logout_code}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
@@ -102,7 +103,6 @@ def create_notification():
     data = request.get_json()
     table_id = data.get('table_id')
     notification_type = data.get('notification_type')
-    token = data.get('token')
     
     if not table_id or not notification_type:
         return jsonify({'error': 'Missing table_id or notification_type'}), 400
@@ -110,7 +110,7 @@ def create_notification():
     if notification_type not in ['assistance', 'bill']:
         return jsonify({'error': 'Invalid notification_type'}), 400
 
-    if add_notification(DB_PATH, table_id, notification_type, token):
+    if add_notification(DB_PATH, table_id, notification_type):
         # Assuming add_notification returns True if successful
         return jsonify({'message': 'Notification added successfully'}), 200
     else:
@@ -213,11 +213,14 @@ def manager_edit_account():
     username = data.get('username')
     password = data.get('password')
     role = data.get('role')
-    id = data.get('staff_id')
+    id = data.get('id')
     logout_code = data.get('logout_code')
 
     return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
-    return jsonify(return_data), 200
+    if return_data == None:
+        return jsonify({'error': 'Username already taken'}), 400
+    else: 
+        return jsonify(return_data), 200
 
 @app.route("/manager/delete_account", methods=['DELETE'])
 def manager_delete_account():
@@ -373,21 +376,11 @@ def handle_add_notification(data):
 def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
-    token = data.get('token')
 
     send_order_to_database(DB_PATH, table_id, order_items, token)
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 
-
-@socketio.on('send_order')
-def handle_send_order(data):
-    table_id = data.get('table_id')
-    order_items = data.get('order_items')
-
-    send_order_to_database(DB_PATH, table_id, order_items)
-    return_data = get_customer_past_orders(DB_PATH, table_id)
-    emit('sent_orders', return_data)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

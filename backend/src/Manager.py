@@ -2,7 +2,6 @@ import sqlite3
 import random
 import time
 import ast
-from Helper import valid_user, valid_user_specific
 
 def create_account(db, username, password, role, logout_code):
     connection = sqlite3.connect(db)
@@ -41,8 +40,10 @@ def edit_account(db, id, username, password, role, logout_code):
           return None
 
     cursor.execute("UPDATE STAFF SET username=?, password=?, role=?, logout_code=? WHERE staff_id=?", (username, password, role, logout_code, id))
+    data = cursor.fetchall()
     connection.commit()
     connection.close()
+    return data
 
 def delete_account(db, id):
     connection = sqlite3.connect(db)
@@ -356,6 +357,7 @@ def show_accounts(db):
 
     for account in staff:
         account_dict = {
+            "id": account[0],
             "username": account[1],
             "password": account[2],
             "role": account[3],
