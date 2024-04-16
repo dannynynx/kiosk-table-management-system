@@ -138,7 +138,6 @@ def get_items_table_length(db):
 
     return length
 def show_menu(db):
-    print(get_items_table_length(db))
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -157,7 +156,6 @@ def show_menu(db):
     cursor.execute(showMenu)
     items = cursor.fetchall()
     items_list = []
-    print(len(items))
     for item in items:
         with open(f'ItemImages/{item[5]}', "rb") as image_file:
             # Encode the image as base64 string
