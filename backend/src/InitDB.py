@@ -11,17 +11,18 @@ def initialise_db():
     sql1 = """
     CREATE TABLE IF NOT EXISTS CATEGORIES (
         category_id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL UNIQUE
+        name TEXT NOT NULL UNIQUE,
+        position INTEGER 
     )"""
     cursor.execute(sql1)
 
-    categories = [('Brekkie',), ('Lunch',), ('Dinner',), ('Dessert',)]
-    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name) VALUES (?)", categories)
+    categories = [('Brekkie',0), ('Lunch',1), ('Dinner',2), ('Dessert',3)]
+    cursor.executemany("INSERT OR IGNORE INTO CATEGORIES (name, position) VALUES (?,?)", categories)
 
     # INGREDIENTS
     sql2 = """
     CREATE TABLE IF NOT EXISTS INGREDIENTS (
-        ingredient_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ingredient_id INTEGER PRIMARY KEY,
         ingredient_name TEXT NOT NULL UNIQUE
     )"""
     cursor.execute(sql2)
@@ -47,43 +48,44 @@ def initialise_db():
         category_id INTEGER,
         cost NUMERIC,
         image TEXT NOT NULL,
+        position INTEGER,
         FOREIGN KEY (category_id) REFERENCES CATEGORIES(category_id)
     )"""
     cursor.execute(sql3)
 
     items = [
-        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99, 'Avocado_Toast.png'),
-        ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00, 'Lasagna.png'),
-        ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00, 'Margherita_Pizza.png'),
-        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99, 'Chocolate_Cake.png'),
-        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99, 'Scrambled_Eggs.png'),
-        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99, 'Fish_and_Chips.png'),
-        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00, 'Steak_and_Salad.png'),
-        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99, 'Matcha_Ice_Cream.png'),
-        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 3, 17.99, 'Spaghetti_Bolognese.png'),
-        ('Korean BBQ', 'Why Not?', 3, 60.99, 'Korean_BBQ.png'),
-        ('Omakase', 'For the ballers', 3, 200.00, 'Omakase.png'),
-        ('Belgium Waffles', 'Waffles from Belgium topped with maple syrup and butter', 1, 10.99, 'Belgium_Waffles.png'),
-        ('Pancakes', 'Pancakes topped with butter and maple syrup', 1, 8.99, 'Pancakes.png'),
-        ('French Toast', 'Fried sliced bread soaked in beaten eggs and milk', 1, 9.99, 'French_Toast.png'),
-        ('Acai Bowl', 'Acai with kiwi, banana, strawberry', 1, 12.99, 'Acai_Bowl.png'),
-        ('Chicken Tacos', 'Small hand-sized corn-based tortilla topped with chicken, avocado, onion, and tomato', 2, 13.99, 'Chicken_Tacos.png'),
-        ('Spanish Paella', 'Saffron infused rice with chicken, chorizo, prawns, and mussels', 2, 14.99, 'Spanish_Paella.png'),
-        ('Korean Fried Chicken', 'Not Kentucky Fried Chicken', 2, 24.99, 'Korean_Fried_Chicken.png'),
-        ('Cheese Toastie', 'Hot cheese sandwich with mozzarella and cheddar chees', 2, 6.99, 'Cheese_Toastie.png'),
-        ('Chicken Caesar Salad', 'Romaine lettuce and croutons dressed with parmesan cheese, chicken, and Caesar dressing', 2, 12.99, 'Chicken_Caesar_Salad.png'),
-        ('Salmon Avocado Sushi Roll', 'Sushi roll with salmon, avocado, and cucumber', 2, 13.99, 'Salmon_Avocado_Sushi_Roll.png'),
-        ('Carbonara', 'Classic Italian pasta dish with eggs, hard cheese, pancetta, and pepper', 3, 15.99, 'Carbonara.png'),
-        ('Beef Wellington', 'Tender beef fillet wrapped in puff pastry with mushroom duxelle', 3, 29.99, 'Beef_Wellington.png'),
-        ('Roast Lamb Leg', 'Slow-roasted lamb leg with rosemary and garlic', 3, 25.99, 'Roast_Lamb_Leg.png'),
-        ('Turducken', 'A deboned chicken stuffed into a deboned duck, further stuffed into a deboned turkey', 3, 34.99, 'Turducken.png'),
-        ('Snow Crab Legs', 'Steamed snow crab legs served with butter and lemon wedges', 3, 22.99, 'Snow_Crab_Legs.png'),
-        ('Charcoal Chicken', 'Chicken roasted over charcoal for a smoky flavour', 3, 19.99, 'Charcoal_Chicken.png'),
-        ('Tiramisu', 'Coffee-flavoured Italian dessert made of lady fingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, flavoured with cocoa', 4, 7.99, 'Tiramisu.png'),
-        ('Creme Brulee', 'Rich custard base topped with a layer of hardened caramelised sugar', 4, 6.99, 'Creme_Brulee.png'),
-        ('Japanese Cheese Cake', 'Light and fluffy cheesecake with a smooth, creamy texture', 4, 8.99, 'Japanese_Cheese_Cake.png')
+        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99, 'Avocado_Toast.png', 0),
+        ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00, 'Lasagna.png', 1),
+        ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00, 'Margherita_Pizza.png', 2),
+        ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99, 'Chocolate_Cake.png', 3),
+        ('Scrambled Eggs', 'An eggscellent breakfast', 1, 5.99, 'Scrambled_Eggs.png', 4),
+        ('Fish and Chips', 'Fresh fish with crispy chips', 2, 14.99, 'Fish_and_Chips.png', 5),
+        ('Steak and Salad', 'Wagyu steak with fresh caesar salad', 3, 50.00, 'Steak_and_Salad.png', 6),
+        ('Matcha Ice Cream', 'Refreshing sweet treat for a hot day', 4, 3.99, 'Matcha_Ice_Cream.png', 7),
+        ('Spaghetti Bolognese', 'One of the most popular Italian dishes', 3, 17.99, 'Spaghetti_Bolognese.png', 8),
+        ('Korean BBQ', 'Why Not?', 3, 60.99, 'Korean_BBQ.png', 9),
+        ('Omakase', 'For the ballers', 3, 200.00, 'Omakase.png', 10),
+        ('Belgium Waffles', 'Waffles from Belgium topped with maple syrup and butter', 1, 10.99, 'Belgium_Waffles.png', 11),
+        ('Pancakes', 'Pancakes topped with butter and maple syrup', 1, 8.99, 'Pancakes.png', 12),
+        ('French Toast', 'Fried sliced bread soaked in beaten eggs and milk', 1, 9.99, 'French_Toast.png', 13),
+        ('Acai Bowl', 'Acai with kiwi, banana, strawberry', 1, 12.99, 'Acai_Bowl.png', 14),
+        ('Chicken Tacos', 'Small hand-sized corn-based tortilla topped with chicken, avocado, onion, and tomato', 2, 13.99, 'Chicken_Tacos.png', 15),
+        ('Spanish Paella', 'Saffron infused rice with chicken, chorizo, prawns, and mussels', 2, 14.99, 'Spanish_Paella.png', 16),
+        ('Korean Fried Chicken', 'Not Kentucky Fried Chicken', 2, 24.99, 'Korean_Fried_Chicken.png', 17),
+        ('Cheese Toastie', 'Hot cheese sandwich with mozzarella and cheddar cheese', 2, 6.99, 'Cheese_Toastie.png', 18),
+        ('Chicken Caesar Salad', 'Romaine lettuce and croutons dressed with parmesan cheese, chicken, and Caesar dressing', 2, 12.99, 'Chicken_Caesar_Salad.png', 19),
+        ('Salmon Avocado Sushi Roll', 'Sushi roll with salmon, avocado, and cucumber', 2, 13.99, 'Salmon_Avocado_Sushi_Roll.png', 20),
+        ('Carbonara', 'Classic Italian pasta dish with eggs, hard cheese, pancetta, and pepper', 3, 15.99, 'Carbonara.png', 21),
+        ('Beef Wellington', 'Tender beef fillet wrapped in puff pastry with mushroom duxelle', 3, 29.99, 'Beef_Wellington.png', 22),
+        ('Roast Lamb Leg', 'Slow-roasted lamb leg with rosemary and garlic', 3, 25.99, 'Roast_Lamb_Leg.png', 23),
+        ('Turducken', 'A deboned chicken stuffed into a deboned duck, further stuffed into a deboned turkey', 3, 34.99, 'Turducken.png', 24),
+        ('Snow Crab Legs', 'Steamed snow crab legs served with butter and lemon wedges', 3, 22.99, 'Snow_Crab_Legs.png', 25),
+        ('Charcoal Chicken', 'Chicken roasted over charcoal for a smoky flavour', 3, 19.99, 'Charcoal_Chicken.png', 26),
+        ('Tiramisu', 'Coffee-flavoured Italian dessert made of lady fingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, flavoured with cocoa', 4, 7.99, 'Tiramisu.png', 27),
+        ('Creme Brulee', 'Rich custard base topped with a layer of hardened caramelised sugar', 4, 6.99, 'Creme_Brulee.png', 28),
+        ('Japanese Cheese Cake', 'Light and fluffy cheesecake with a smooth, creamy texture', 4, 8.99, 'Japanese_Cheese_Cake.png', 29)
     ]
-    cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost, image) VALUES (?, ?, ?, ?, ?)", items)
+    cursor.executemany("INSERT OR IGNORE INTO ITEMS (name, description, category_id, cost, image, position) VALUES (?, ?, ?, ?, ?, ?)", items)
 
     # LINKED ITEMS AND INGREDIENTS
     sql4 = """
@@ -266,7 +268,8 @@ def initialise_db():
     CREATE TABLE IF NOT EXISTS ORDERS ( 
         order_id INTEGER PRIMARY KEY,
         table_id INTEGER,
-        session_id INTEGER
+        session_id INTEGER,
+        FOREIGN KEY (table_id) REFERENCES TABLES(table_id)
     )"""
     cursor.execute(sql7)
 

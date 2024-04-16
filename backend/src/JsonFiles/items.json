@@ -5,7 +5,8 @@
         "description": "A delicious and simple breakfast",
         "category_id": 1,
         "cost": 6.99,
-        "image": "Avocado_Toast.png"
+        "image": "Avocado_Toast.png",
+        "position": 0
     },
     {
         "item_id": 2,
@@ -13,7 +14,8 @@
         "description": "A rich and cheesy pasta stockful of beef mince",
         "category_id": 2,
         "cost": 16,
-        "image": "Lasagna.png"
+        "image": "Lasagna.png",
+        "position": 1
     },
     {
         "item_id": 3,
@@ -21,7 +23,8 @@
         "description": "Authentic italian pizza",
         "category_id": 3,
         "cost": 24,
-        "image": "Margherita_Pizza.png"
+        "image": "Margherita_Pizza.png",
+        "position": 2
     },
     {
         "item_id": 4,
@@ -29,7 +32,8 @@
         "description": "A delicious chocolate dessert",
         "category_id": 4,
         "cost": 10.99,
-        "image": "Chocolate_Cake.png"
+        "image": "Chocolate_Cake.png",
+        "position": 3
     },
     {
         "item_id": 5,
@@ -37,7 +41,8 @@
         "description": "An eggscellent breakfast",
         "category_id": 1,
         "cost": 5.99,
-        "image": "Scrambled_Eggs.png"
+        "image": "Scrambled_Eggs.png",
+        "position": 4
     },
     {
         "item_id": 6,
@@ -45,7 +50,8 @@
         "description": "Fresh fish with crispy chips",
         "category_id": 2,
         "cost": 14.99,
-        "image": "Fish_and_Chips.png"
+        "image": "Fish_and_Chips.png",
+        "position": 5
     },
     {
         "item_id": 7,
@@ -53,7 +59,8 @@
         "description": "Wagyu steak with fresh caesar salad",
         "category_id": 3,
         "cost": 50,
-        "image": "Steak_and_Salad.png"
+        "image": "Steak_and_Salad.png",
+        "position": 6
     },
     {
         "item_id": 8,
@@ -61,7 +68,8 @@
         "description": "Refreshing sweet treat for a hot day",
         "category_id": 4,
         "cost": 3.99,
-        "image": "Matcha_Ice_Cream.png"
+        "image": "Matcha_Ice_Cream.png",
+        "position": 7
     },
     {
         "item_id": 9,
@@ -69,7 +77,8 @@
         "description": "One of the most popular Italian dishes",
         "category_id": 3,
         "cost": 17.99,
-        "image": "Spaghetti_Bolognese.png"
+        "image": "Spaghetti_Bolognese.png",
+        "position": 8
     },
     {
         "item_id": 10,
@@ -77,7 +86,8 @@
         "description": "Why Not?",
         "category_id": 3,
         "cost": 60.99,
-        "image": "Korean_BBQ.png"
+        "image": "Korean_BBQ.png",
+        "position": 9
     },
     {
         "item_id": 11,
@@ -85,7 +95,8 @@
         "description": "For the ballers",
         "category_id": 3,
         "cost": 200,
-        "image": "Omakase.png"
+        "image": "Omakase.png",
+        "position": 10
     },
     {
         "item_id": 12,
@@ -93,7 +104,8 @@
         "description": "Waffles from Belgium topped with maple syrup and butter",
         "category_id": 1,
         "cost": 10.99,
-        "image": "Belgium_Waffles.png"
+        "image": "Belgium_Waffles.png",
+        "position": 11
     },
     {
         "item_id": 13,
@@ -101,7 +113,8 @@
         "description": "Pancakes topped with butter and maple syrup",
         "category_id": 1,
         "cost": 8.99,
-        "image": "Pancakes.png"
+        "image": "Pancakes.png",
+        "position": 12
     },
     {
         "item_id": 14,
@@ -109,7 +122,8 @@
         "description": "Fried sliced bread soaked in beaten eggs and milk",
         "category_id": 1,
         "cost": 9.99,
-        "image": "French_Toast.png"
+        "image": "French_Toast.png",
+        "position": 13
     },
     {
         "item_id": 15,
@@ -117,7 +131,8 @@
         "description": "Acai with kiwi, banana, strawberry",
         "category_id": 1,
         "cost": 12.99,
-        "image": "Acai_Bowl.png"
+        "image": "Acai_Bowl.png",
+        "position": 14
     },
     {
         "item_id": 16,
@@ -125,7 +140,8 @@
         "description": "Small hand-sized corn-based tortilla topped with chicken, avocado, onion, and tomato",
         "category_id": 2,
         "cost": 13.99,
-        "image": "Chicken_Tacos.png"
+        "image": "Chicken_Tacos.png",
+        "position": 15
     },
     {
         "item_id": 17,
@@ -133,7 +149,8 @@
         "description": "Saffron infused rice with chicken, chorizo, prawns, and mussels",
         "category_id": 2,
         "cost": 14.99,
-        "image": "Spanish_Paella.png"
+        "image": "Spanish_Paella.png",
+        "position": 16
     },
     {
         "item_id": 18,
@@ -141,15 +158,17 @@
         "description": "Not Kentucky Fried Chicken",
         "category_id": 2,
         "cost": 24.99,
-        "image": "Korean_Fried_Chicken.png"
+        "image": "Korean_Fried_Chicken.png",
+        "position": 17
     },
     {
         "item_id": 19,
         "name": "Cheese Toastie",
-        "description": "Hot cheese sandwich with mozzarella and cheddar chees",
+        "description": "Hot cheese sandwich with mozzarella and cheddar cheese",
         "category_id": 2,
         "cost": 6.99,
-        "image": "Cheese_Toastie.png"
+        "image": "Cheese_Toastie.png",
+        "position": 18
     },
     {
         "item_id": 20,
@@ -157,7 +176,8 @@
         "description": "Romaine lettuce and croutons dressed with parmesan cheese, chicken, and Caesar dressing",
         "category_id": 2,
         "cost": 12.99,
-        "image": "Chicken_Caesar_Salad.png"
+        "image": "Chicken_Caesar_Salad.png",
+        "position": 19
     },
     {
         "item_id": 21,
@@ -165,7 +185,8 @@
         "description": "Sushi roll with salmon, avocado, and cucumber",
         "category_id": 2,
         "cost": 13.99,
-        "image": "Salmon_Avocado_Sushi_Roll.png"
+        "image": "Salmon_Avocado_Sushi_Roll.png",
+        "position": 20
     },
     {
         "item_id": 22,
@@ -173,7 +194,8 @@
         "description": "Classic Italian pasta dish with eggs, hard cheese, pancetta, and pepper",
         "category_id": 3,
         "cost": 15.99,
-        "image": "Carbonara.png"
+        "image": "Carbonara.png",
+        "position": 21
     },
     {
         "item_id": 23,
@@ -181,7 +203,8 @@
         "description": "Tender beef fillet wrapped in puff pastry with mushroom duxelle",
         "category_id": 3,
         "cost": 29.99,
-        "image": "Beef_Wellington.png"
+        "image": "Beef_Wellington.png",
+        "position": 22
     },
     {
         "item_id": 24,
@@ -189,7 +212,8 @@
         "description": "Slow-roasted lamb leg with rosemary and garlic",
         "category_id": 3,
         "cost": 25.99,
-        "image": "Roast_Lamb_Leg.png"
+        "image": "Roast_Lamb_Leg.png",
+        "position": 23
     },
     {
         "item_id": 25,
@@ -197,7 +221,8 @@
         "description": "A deboned chicken stuffed into a deboned duck, further stuffed into a deboned turkey",
         "category_id": 3,
         "cost": 34.99,
-        "image": "Turducken.png"
+        "image": "Turducken.png",
+        "position": 24
     },
     {
         "item_id": 26,
@@ -205,7 +230,8 @@
         "description": "Steamed snow crab legs served with butter and lemon wedges",
         "category_id": 3,
         "cost": 22.99,
-        "image": "Snow_Crab_Legs.png"
+        "image": "Snow_Crab_Legs.png",
+        "position": 25
     },
     {
         "item_id": 27,
@@ -213,7 +239,8 @@
         "description": "Chicken roasted over charcoal for a smoky flavour",
         "category_id": 3,
         "cost": 19.99,
-        "image": "Charcoal_Chicken.png"
+        "image": "Charcoal_Chicken.png",
+        "position": 26
     },
     {
         "item_id": 28,
@@ -221,7 +248,8 @@
         "description": "Coffee-flavoured Italian dessert made of lady fingers dipped in coffee, layered with a whipped mixture of eggs, sugar, and mascarpone cheese, flavoured with cocoa",
         "category_id": 4,
         "cost": 7.99,
-        "image": "Tiramisu.png"
+        "image": "Tiramisu.png",
+        "position": 27
     },
     {
         "item_id": 29,
@@ -229,7 +257,8 @@
         "description": "Rich custard base topped with a layer of hardened caramelised sugar",
         "category_id": 4,
         "cost": 6.99,
-        "image": "Creme_Brulee.png"
+        "image": "Creme_Brulee.png",
+        "position": 28
     },
     {
         "item_id": 30,
@@ -237,6 +266,7 @@
         "description": "Light and fluffy cheesecake with a smooth, creamy texture",
         "category_id": 4,
         "cost": 8.99,
-        "image": "Japanese_Cheese_Cake.png"
+        "image": "Japanese_Cheese_Cake.png",
+        "position": 29
     }
 ]

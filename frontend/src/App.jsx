@@ -12,6 +12,7 @@ import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
 import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
+import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
 import axios from 'axios';
 
 
@@ -45,6 +46,22 @@ const App = () => {
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
                 <Route path='/manager' element={<ManagerPage />} />
+                <Route path='/manager/menu' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'menu'}/>
+                    </MenuProvider>
+                } />
+                <Route path='/manager/menu/:id' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'item'}/>
+                    </MenuProvider>
+                } />
+
+                <Route path='/manager/menu/add' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'add'}/>
+                    </MenuProvider>
+                }/>
                 <Route path='/manager/stats' element={<ManagerStatsPage />} />
             </Routes>
         </>

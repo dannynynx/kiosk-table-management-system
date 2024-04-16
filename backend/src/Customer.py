@@ -1,38 +1,6 @@
-import base64
 import sqlite3
-import random
 import time
 from datetime import datetime
-from Helper import valid_user, valid_user_specific
-
-def staff_tablet_authentication(db, username, password):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
-
-    cursor.execute("SELECT * FROM STAFF WHERE username=? AND password=?", (username, password))
-    table_info = cursor.fetchone()
-
-    connection.close()
-
-    return table_info is not None
-    
-def get_role(db, username, password):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
-
-    # Check if the username-password combination exists in the database
-    cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
-    result = cursor.fetchone()
-
-    if result:
-        role = result[0]
-    else:
-        role = None
-
-    connection.close()
-
-    return role
-
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
 generated_codes = set()
@@ -47,11 +15,6 @@ def generate_unique_code():
 def confirm_table(db, table_id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    # if not valid_user(token):
-    #     connection.close()
-    #     return None
 
     cursor.execute("SELECT MAX(session_id) FROM TABLES")
     max_session_id = cursor.fetchone()[0]
@@ -81,14 +44,9 @@ def get_table_code(db, table_id):
 
     return code
 
-def authenticate_table(db, table_id, entered_code, token):
+def authenticate_table(db, table_id, entered_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check valid token
-    # if not valid_user(token):
-    #     connection.close()
-    #     return None
         
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1 AND table_id=?", [table_id])
@@ -102,14 +60,9 @@ def authenticate_table(db, table_id, entered_code, token):
             return True #successfull authentication
     return False 
 
-def send_order_to_database(db, table_id, order_items, token):
+def send_order_to_database(db, table_id, order_items):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check valid token
-    # if not valid_user(token):
-    #     connection.close()
-    #     return None
 
     session_id = get_table_session_id(db, table_id)
 
@@ -138,14 +91,7 @@ def send_order_to_database(db, table_id, order_items, token):
 def add_item_to_order(db, order_id, item_id, quantity):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    # Check valid token
-    # if not valid_user(token):
-    #     connection.close()
-    #
-    #     return None
-
-
-        
+   
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
     VALUES (:o, :i, :q, :s)
@@ -196,22 +142,20 @@ def show_menu(db):
     JOIN CATEGORIES AS c ON i.category_id = c.category_id 
     JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
     JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
+    ORDER BY i.position
     '''
     cursor.execute(showMenu)
     items = cursor.fetchall()
     items_list = []
 
     for item in items:
-        with open(f'ItemImages/{item[5]}', "rb") as image_file:
-            # Encode the image as base64 string
-            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],
             "price": item[4],
             "description": item[2],
             "category": item[3],
-            "image": encoded_image,
+            "image": item[5],
             "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
@@ -226,6 +170,7 @@ def get_all_categories(db):
     sql = """
     SELECT *
     FROM CATEGORIES
+    ORDER BY position
     """
 
     cursor.execute(sql)
@@ -293,14 +238,9 @@ def get_table_session_id(db, table_id):
 
     return session_id
 
-def add_notification(db, table_id, notification_type, token):
+def add_notification(db, table_id, notification_type):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-
-    # Check if the token is valid
-    # if not valid_user_specific(db, token):
-    #     connection.close()
-    #     return None
         
     cursor.execute("SELECT is_occupied FROM TABLES WHERE table_id = ?", (table_id,))
     is_occupied = cursor.fetchone()[0]

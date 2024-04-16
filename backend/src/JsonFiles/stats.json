@@ -2,7 +2,7 @@
     {
         "stats_id": 1,
         "session_id": 1,
-        "date": "2024-04-17",
-        "stats": "[{'id': 12, 'quantity': 7, 'name': 'Belgium Waffles', 'price': 10.99}, {'id': 18, 'quantity': 1, 'name': 'Korean Fried Chicken', 'price': 24.99}, {'id': 22, 'quantity': 8, 'name': 'Carbonara', 'price': 15.99}]"
+        "date": null,
+        "stats": "[]"
     }
 ]

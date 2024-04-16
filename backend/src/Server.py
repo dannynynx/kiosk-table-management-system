@@ -7,11 +7,11 @@ import os
 import sqlite3
 import shutil
 from InitDB import initialise_db
-from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_role, get_customer_past_orders, add_notification, clear_order
+from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_customer_past_orders, add_notification, clear_order
 from flask_cors import CORS
-from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status
+from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_orders, get_status, change_order_status, get_role
 from WaitingStaff import get_notifications, update_notification
-from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, show_accounts
+from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, reorder_menu_items,show_accounts
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -43,10 +43,10 @@ def staff_authentication():
         return jsonify({'error': 'Ensure both username and password fields have been filled'}), 400
 
     role = get_role(DB_PATH, username, password)
-    token = staff_tablet_authentication(DB_PATH, username, password)
+    table_id = staff_tablet_authentication(DB_PATH, username, password)
     
-    if token is not None:
-        return jsonify({'token': token, 'role': role}), 200
+    if table_id is not None:
+        return jsonify({'table_id': table_id, 'role': role}), 200
     else:
         return jsonify({'authentication': 'Failed - incorrect username and/or password'}), 401
 
@@ -54,15 +54,13 @@ def staff_authentication():
 def tablet_logout():
     data = request.get_json()
     logout_code = data.get('logout_code')
-    token = data.get('token')
+    username = data.get('username')
 
-    if not logout_code or not token:
-        return jsonify({'error': 'Missing logout_code or token'}), 400
-    
-    user_info = staff_tablet_logout(DB_PATH, logout_code, token)
+    if not logout_code or not username:
+        return jsonify({'error': 'Missing logout_code or username'}), 400
 
     # Call staff_tablet_logout function with the provided data
-    result = staff_tablet_logout(DB_PATH, logout_code, token)
+    result = staff_tablet_logout(DB_PATH, logout_code, username)
 
     # Check the result and return appropriate response
     if result == "Logout successful":
@@ -76,29 +74,25 @@ def tablet_logout():
     else:
         return jsonify({'error': 'Unknown error occurred'}), 500
 
-@app.route('/customer/table_confirmation', methods=['POST'])
-def table_confirmation():
-    data = request.get_json()
-    table_id = data.get('table_id')
-    return_data = confirm_table(DB_PATH, table_id)
+@app.route("/customer/show_table", methods=['GET'])
+def showTable():
+    return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
-@app.route('/customer/table_code', methods=['GET'])
-def table_code():
-    table_id = request.args.get('table_id')
 
-    return_data = get_table_code(DB_PATH, table_id)
-    return jsonify(return_data), 200
-
+@socketio.on('table_confirmation')
+def handle_table_confirmation(table_id):
+    confirm_table(DB_PATH, table_id)
+    emit('table_code', get_table_code(DB_PATH, table_id))
+    emit('updated_table_status', show_table(DB_PATH), broadcast=True)
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():
     data = request.get_json()
     table_id = data.get('table_id')
     entered_code = data.get('code')
-    token = data.get('token')
 
-    if authenticate_table(DB_PATH, table_id, entered_code, token):
+    if authenticate_table(DB_PATH, table_id, entered_code):
         return jsonify({'authentication': 'Successful'}), 200
     else:
         return jsonify({'authentication': 'Failed - ensure you are at the correct table and have entered the right code'}), 401
@@ -125,8 +119,7 @@ def create_notification():
 
 @app.route('/waitstaff/get_notification_status', methods=['GET'])
 def fetch_notifications():
-    token = request.headers.get('Authorization')
-    notifications = get_notifications(DB_PATH, token)
+    notifications = get_notifications(DB_PATH)
     
     if notifications:
         return jsonify(notifications), 200
@@ -136,14 +129,13 @@ def fetch_notifications():
 @app.route('/waitstaff/update_notification_status', methods=['PUT'])
 def update_notifications():
     data = request.get_json()
-    token = data.get('token')
     notification_id = data.get('notification_id')
     new_status = data.get('new_status')
 
-    if not token or not notification_id or not new_status:
-        return jsonify({'error': 'Missing token, notification_id, or new_status'}), 400
+    if not notification_id or not new_status:
+        return jsonify({'error': 'Missing notification_id or new_status'}), 400
 
-    success, updated_notification = update_notification(DB_PATH, notification_id, new_status, token)
+    success, updated_notification = update_notification(DB_PATH, notification_id, new_status)
 
     if updated_notification:
         return jsonify({'notification': updated_notification}), 200
@@ -155,14 +147,8 @@ def send_order():
     data = request.get_json()
     table_id = data.get('table_id')
     order_items = data.get('order_items')
-    token = data.get('token')
 
-    return_data = send_order_to_database(DB_PATH, table_id, order_items, token)
-    return jsonify(return_data), 200
-
-@app.route("/customer/showTable", methods=['GET'])
-def showTable():
-    return_data = show_table(DB_PATH)
+    return_data = send_order_to_database(DB_PATH, table_id, order_items)
     return jsonify(return_data), 200
 
 @app.route("/customer/showMenu", methods=['GET'])
@@ -271,6 +257,80 @@ def get_customisations():
     return_data = get_customisation(DB_PATH)
     return jsonify(return_data), 200
 
+@app.route("/manager/add_category", methods=['POST'])
+def manager_add_category():
+    data = request.get_json()
+    category_name = data.get('category_name')
+
+    return_data = add_category(DB_PATH, category_name)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_category", methods=['PUT'])
+def manager_edit_category():
+    data = request.get_json()
+    category_id = data.get('category_id')
+    new_name = data.get('new_name')
+
+    return_data = edit_category(DB_PATH, category_id, new_name)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_category", methods=['DELETE'])
+def manager_delete_category():
+    data = request.get_json()
+    category_id = data.get('category_id')
+    
+    return_data = delete_category(DB_PATH, category_id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/add_menu_item", methods=['POST'])
+def manager_add_menu_item():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    ingredients = data.get('ingredients')
+    category = data.get('category')
+    cost = data.get('cost')
+    image = data.get('image')
+
+    return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost, image)
+    return jsonify(return_data), 200
+
+@app.route("/manager/edit_menu_item", methods=['PUT'])
+def manager_edit_menu_item():
+    data = request.get_json()
+    id = data.get('id')
+    name = data.get('name')
+    description = data.get('description')
+    ingredients = data.get('ingredients')
+    category = data.get('category')
+    cost = data.get('cost')
+    image = data.get('image')
+
+    return_data = edit_menu_item(DB_PATH, id, name, description, ingredients, category, cost, image)
+    return jsonify(return_data), 200
+
+@app.route("/manager/delete_menu_item", methods=['DELETE'])
+def manager_delete_menu_item():
+    data = request.get_json()
+    id = data.get('id')
+
+    return_data = delete_menu_item(DB_PATH, id)
+    return jsonify(return_data), 200
+
+@app.route("/manager/reorder_categories", methods=['PUT'])
+def manager_reorder_categories():
+    data = request.get_json()
+    categories = data.get('categories')
+
+    return_data = reorder_categories(DB_PATH, categories)
+    return jsonify(return_data), 200
+
+@app.route("/manager/reorder_menu_items", methods=['PUT'])
+def manager_reorder_menu_items():
+    data = request.get_json()
+    menu_items = data.get('menu_items')
+
+    return_data = reorder_menu_items(DB_PATH, menu_items)
 @app.route("/manager/show_accounts", methods=['GET'])
 def get_accounts():
 
@@ -296,19 +356,17 @@ def handle_update_order_status(data):
 def handle_update_notification_status(data):
     notification_id = data.get('notification_id')
     new_status = data.get('new_status')
-    token = data.get('token')
 
-    update_notification(DB_PATH, notification_id, new_status, token)
-    return_data = get_notifications(DB_PATH, token)
+    update_notification(DB_PATH, notification_id, new_status)
+    return_data = get_notifications(DB_PATH)
     emit('updated_notification_status', return_data, broadcast=True)
     
 @socketio.on('add_notification')
 def handle_add_notification(data):
     table_id = data.get('table_id')
     notification_type = data.get('notification_type')
-    token = data.get('token')
-    add_notification(DB_PATH, table_id, notification_type, token)
-    return_data = get_notifications(DB_PATH, token)
+    add_notification(DB_PATH, table_id, notification_type)
+    return_data = get_notifications(DB_PATH)
     emit('updated_notification_status', return_data, broadcast=True)
 
 @socketio.on('send_order')
@@ -321,6 +379,16 @@ def handle_send_order(data):
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 
+
+@socketio.on('send_order')
+def handle_send_order(data):
+    table_id = data.get('table_id')
+    order_items = data.get('order_items')
+    token = data.get('token')
+
+    send_order_to_database(DB_PATH, table_id, order_items, token)
+    return_data = get_customer_past_orders(DB_PATH, table_id)
+    emit('sent_orders', return_data)
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)

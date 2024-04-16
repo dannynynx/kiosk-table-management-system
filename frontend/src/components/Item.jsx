@@ -36,7 +36,7 @@ const Item = () => {
 
     return (
         <div className='item'>
-            {image && <img src={`data:image/png;base64,${image}`} className='item-image' alt={name} />}
+            {image && <img src={image} className='item-image' alt={name} />}
             <div className='item-details-container'>
                 <h1 className='item-name'>{name}</h1>
                 <div className='item-price'>${formattedPrice}</div>
