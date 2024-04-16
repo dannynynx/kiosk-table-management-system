@@ -12,10 +12,16 @@ import { useNavigate } from 'react-router-dom';
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
+    const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (role == "wait" || role == "manager" || role == "kitchen") { 
+            navigate('/login');
+        }
+
+
         if (!localStorage.getItem('token')) { 
             navigate('/login');
         } 

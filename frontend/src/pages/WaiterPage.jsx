@@ -3,14 +3,20 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import socket from '../socket'
 import WaitBillPopUp from "../components/WaitBillPopUp.jsx"
+import { useNavigate } from 'react-router';
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     const [orders, setOrders] = useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [currBill, setCurrBill] = useState(null);
+    const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (role !== "wait") { 
+            navigate('/login');
+        }
         const token = { 'token': localStorage.getItem('token')};
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
             .then(response => {

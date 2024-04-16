@@ -21,10 +21,12 @@ const LogInPage = () => {
             localStorage.setItem('tablenumber', role)
             localStorage.setItem('token', token)
 
-            if (formData.username == "kitchen") { 
+            if (role == "kitchen") { 
                 navigate('/kitchen');
-            } else if (formData.username == "wait") { 
+            } else if (role == "wait") { 
                 navigate('/waiter');
+            } else if (role == 'manager') { 
+                navigate('/manager');
             } else { 
                 navigate('/kiosk/authentication');
             }

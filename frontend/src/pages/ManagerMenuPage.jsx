@@ -21,7 +21,7 @@ const ManagerMenuPage = (props) => {
     const [editMode, setEditMode] = useState(localStorage.getItem('edit') === true);
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) { 
+        if (localStorage.getItem('tablenumber') !== "manager") { 
             navigate('/login');
         } 
         axios.get('http://127.0.0.1:5000/customer/showMenu')

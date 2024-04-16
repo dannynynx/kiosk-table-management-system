@@ -2,11 +2,18 @@ import './KitchenPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import socket from '../socket';
+import { useNavigate } from 'react-router';
 
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
+    const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
+        if (role !== "kitchen") { 
+            navigate('/login');
+        }
+
         const token = { 'token': localStorage.getItem('token')};
         axios.get('http://127.0.0.1:5000/staff/show_orders', token)
         .then(response => {

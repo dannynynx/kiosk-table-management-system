@@ -1,6 +1,6 @@
 import './ManagerPage.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PopUp from '../components/PopUp';
 import settings from "../assets/settings.svg";
 
@@ -8,6 +8,13 @@ const ManagerPage = () => {
     const navigate = useNavigate();
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
+    const role = localStorage.getItem('tablenumber');
+
+    useEffect(() => {
+        if (role !== "manager") { 
+            navigate('/login');
+        }
+    }, [])
 
 
     const handleOpenStats = () => { 
