@@ -66,7 +66,7 @@ def get_stats(db, start_date, end_date):
     cursor = connection.cursor()
 
     sql = """
-    SELECT date
+    SELECT DISTINCT date
     FROM STATS
     WHERE date >= ?
     AND date <= ?
@@ -74,7 +74,7 @@ def get_stats(db, start_date, end_date):
 
     cursor.execute(sql, (str(start_date), str(end_date)))
 
-    numDates = cursor.fetchall()
+    numDates = cursor.fetchall()[0]
     print(numDates)
 
     totalItems = 0
@@ -85,15 +85,17 @@ def get_stats(db, start_date, end_date):
 
     for i in range(len(numDates)):
         print("loop")
+        print(i)
+        print(numDates[i])
         sql = """
         SELECT count(session_id)
         FROM STATS 
         WHERE date=?
         """
 
-        cursor.execute(sql, (str(numDates[i])))
+        cursor.execute(sql, (str(numDates[i]),))
 
-        numCustomerDaily = cursor.fetchone()
+        numCustomerDaily = cursor.fetchone()[0]
         print(numCustomerDaily)
 
         totalCustomers += numCustomerDaily
@@ -104,7 +106,7 @@ def get_stats(db, start_date, end_date):
         WHERE date=?
         """
 
-        cursor.execute(sql, (str(numDates[i])))
+        cursor.execute(sql, (str(numDates[i]),))
 
         statsDaily = cursor.fetchall()
         
@@ -113,29 +115,31 @@ def get_stats(db, start_date, end_date):
 
         daily_dict = {}
         for stat in statsDaily:
-            stats_list = ast.literal_eval(stat)
+            stats_list = ast.literal_eval(stat[0])
+            print(stats_list)
             for order in stats_list:
-                numItemsDaily += int(order.quantity)
-                revenueDaily += int(order.quantity)*round(order.price, 2)
-                if order.name not in daily_dict:
-                    daily_dict[order.name] = numItemsDaily
+                print(order)
+                numItemsDaily += int(order['quantity'])
+                revenueDaily += int(order['quantity'])*round(order['price'], 2)
+                if order['name'] not in daily_dict:
+                    daily_dict[order['name']] = int(order['quantity'])
                 else:
-                    daily_dict[order.name] += numItemsDaily
-                if order.name not in total_dict:
-                    total_dict[order.name] = numItemsDaily
+                    daily_dict[order['name']] += int(order['quantity'])
+                if order['name'] not in total_dict:
+                    total_dict[order['name']] = int(order['quantity'])
                 else:
-                    total_dict[order.name] += numItemsDaily
+                    total_dict[order['name']] += int(order['quantity'])
 
         totalRevenue += revenueDaily
         totalItems += numItemsDaily
-
-        
+        print(daily_dict)
+        print(max(daily_dict, key = daily_dict.get))
         data_dict = {
             "date": str(numDates[i]),
             "number_customers": numCustomerDaily,
             "number_items": numItemsDaily,
             "gross_revenue": revenueDaily,
-            "popular_item": max(daily_dict.items(), key = lambda x: x[1])[0]
+            "popular_item": max(daily_dict, key = daily_dict.get)
         }   
             
         data_set.append(data_dict)
@@ -144,7 +148,7 @@ def get_stats(db, start_date, end_date):
         "number_customers": totalCustomers,
         "number_items": totalItems,
         "gross_revenue": totalRevenue,
-        "popular_item": "3"
+        "popular_item": max(total_dict, key = total_dict.get)
     }
     data_set.append(data_dict)
 
