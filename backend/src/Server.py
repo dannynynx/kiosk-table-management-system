@@ -102,7 +102,6 @@ def create_notification():
     data = request.get_json()
     table_id = data.get('table_id')
     notification_type = data.get('notification_type')
-    token = data.get('token')
     
     if not table_id or not notification_type:
         return jsonify({'error': 'Missing table_id or notification_type'}), 400
@@ -110,7 +109,7 @@ def create_notification():
     if notification_type not in ['assistance', 'bill']:
         return jsonify({'error': 'Invalid notification_type'}), 400
 
-    if add_notification(DB_PATH, table_id, notification_type, token):
+    if add_notification(DB_PATH, table_id, notification_type):
         # Assuming add_notification returns True if successful
         return jsonify({'message': 'Notification added successfully'}), 200
     else:
@@ -248,9 +247,8 @@ def customer_clear_order():
 
 @app.route("/manager/get_stats", methods=['GET'])
 def manager_get_stats():
-    data = request.get_json()
-    start_date = data.get('start_date')
-    end_date = data.get('end_date')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
 
     return_data = get_stats(DB_PATH, start_date, end_date)
     return jsonify(return_data), 200
@@ -373,14 +371,12 @@ def handle_add_notification(data):
     return_data = get_notifications(DB_PATH)
     emit('updated_notification_status', return_data, broadcast=True)
 
-
 @socketio.on('send_order')
 def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
-    token = data.get('token')
 
-    send_order_to_database(DB_PATH, table_id, order_items, token)
+    send_order_to_database(DB_PATH, table_id, order_items)
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 

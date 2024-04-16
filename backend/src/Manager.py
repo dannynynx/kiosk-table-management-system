@@ -1,4 +1,7 @@
 import sqlite3
+import random
+import time
+import ast
 
 def create_account(db, username, password, role, logout_code):
     connection = sqlite3.connect(db)
@@ -63,7 +66,7 @@ def get_stats(db, start_date, end_date):
     cursor = connection.cursor()
 
     sql = """
-    SELECT session_id, date, stats 
+    SELECT DISTINCT date
     FROM STATS
     WHERE date >= ?
     AND date <= ?
@@ -71,16 +74,83 @@ def get_stats(db, start_date, end_date):
 
     cursor.execute(sql, (str(start_date), str(end_date)))
 
-    stats = cursor.fetchall()
+    numDates = cursor.fetchall()[0]
+    print(numDates)
 
+    totalItems = 0
+    totalCustomers = 0
+    totalRevenue = 0
+    total_dict = {}
     data_set = []
-    for stat in stats:
+
+    for i in range(len(numDates)):
+        print("loop")
+        print(i)
+        print(numDates[i])
+        sql = """
+        SELECT count(session_id)
+        FROM STATS 
+        WHERE date=?
+        """
+
+        cursor.execute(sql, (str(numDates[i]),))
+
+        numCustomerDaily = cursor.fetchone()[0]
+        print(numCustomerDaily)
+
+        totalCustomers += numCustomerDaily
+
+        sql = """
+        SELECT stats
+        FROM STATS
+        WHERE date=?
+        """
+
+        cursor.execute(sql, (str(numDates[i]),))
+
+        statsDaily = cursor.fetchall()
+        
+        numItemsDaily = 0
+        revenueDaily = 0
+
+        daily_dict = {}
+        for stat in statsDaily:
+            stats_list = ast.literal_eval(stat[0])
+            print(stats_list)
+            for order in stats_list:
+                print(order)
+                numItemsDaily += int(order['quantity'])
+                revenueDaily += int(order['quantity'])*round(order['price'], 2)
+                if order['name'] not in daily_dict:
+                    daily_dict[order['name']] = int(order['quantity'])
+                else:
+                    daily_dict[order['name']] += int(order['quantity'])
+                if order['name'] not in total_dict:
+                    total_dict[order['name']] = int(order['quantity'])
+                else:
+                    total_dict[order['name']] += int(order['quantity'])
+
+        totalRevenue += revenueDaily
+        totalItems += numItemsDaily
+        print(daily_dict)
+        print(max(daily_dict, key = daily_dict.get))
         data_dict = {
-            "session_id": stat[0],
-            "date": stat[1],
-            "stats": stat[2]
-        }
+            "date": str(numDates[i]),
+            "number_customers": numCustomerDaily,
+            "number_items": numItemsDaily,
+            "gross_revenue": revenueDaily,
+            "popular_item": max(daily_dict, key = daily_dict.get)
+        }   
+            
         data_set.append(data_dict)
+    data_dict = {
+        "date": "Total",
+        "number_customers": totalCustomers,
+        "number_items": totalItems,
+        "gross_revenue": totalRevenue,
+        "popular_item": max(total_dict, key = total_dict.get)
+    }
+    data_set.append(data_dict)
 
     connection.close()
     
