@@ -56,9 +56,9 @@ const ManagerMenuPage = (props) => {
             <div className='topbar-container'>
                 <ManagerTopBar onHandleSearchFilter={handleSearchFilter}  editMode={editMode} onEditModeToggle={handleEditModeToggle}/>
             </div>
-            <div className='sidebar-container'>
+            {display == 'menu' ? (<div className='sidebar-container'>
                 <ManagerSideBar onCategorySelect={handleCategoryFilter} editMode={editMode} />
-            </div>
+            </div>) : ''}
             <div className='main-content-container'>
                 {display === 'menu' && (editMode ? <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/> : <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>)}
                 {display === 'item' && editMode && <ItemEdit />}

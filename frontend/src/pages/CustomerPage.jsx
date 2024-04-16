@@ -43,9 +43,9 @@ const CustomerPage = (props) => {
             <div className='topbar-container'>
                 <TopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
-            <div className='sidebar-container'>
+            {display == 'menu' ? ( <div className='sidebar-container'>
                 <SideBar onCategorySelect={handleCategoryFilter}/>
-            </div>
+            </div>) : ''}
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
                 {display === 'item' && <Item />}
