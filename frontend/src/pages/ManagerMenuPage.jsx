@@ -21,7 +21,7 @@ const ManagerMenuPage = (props) => {
     const [editMode, setEditMode] = useState(localStorage.getItem('edit') === true);
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) { 
+        if (localStorage.getItem('tablenumber') !== "manager") { 
             navigate('/login');
         } 
         axios.get('http://127.0.0.1:5000/customer/showMenu')
@@ -56,9 +56,9 @@ const ManagerMenuPage = (props) => {
             <div className='topbar-container'>
                 <ManagerTopBar onHandleSearchFilter={handleSearchFilter}  editMode={editMode} onEditModeToggle={handleEditModeToggle}/>
             </div>
-            <div className='sidebar-container'>
+            {display == 'menu' ? (<div className='sidebar-container'>
                 <ManagerSideBar onCategorySelect={handleCategoryFilter} editMode={editMode} />
-            </div>
+            </div>) : ''}
             <div className='main-content-container'>
                 {display === 'menu' && (editMode ? <ManagerMenu selectedCategory={selectedCategory} searchValue={searchValue}/> : <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>)}
                 {display === 'item' && editMode && <ItemEdit />}

@@ -1,6 +1,7 @@
 import './App.css'
 import CustomerPage from './pages/CustomerPage.jsx';
 import LogInPage from "./pages/LogInPage.jsx";
+import LogoutPage from './pages/LogoutPage.jsx';
 import KioskPage from "./pages/KioskPage.jsx";
 import KioskAuthenticationPage from "./pages/KioskAuthenticationPage.jsx";
 import KitchenPage from "./pages/KitchenPage.jsx";
@@ -14,11 +15,9 @@ import ManagerPage from './pages/ManagerPage.jsx';
 import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
 import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
 import AccountManagePage from './pages/AccountManagePage.jsx';
-import axios from 'axios';
 
 
 const App = () => {
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
     
     return (
         <>
@@ -26,6 +25,7 @@ const App = () => {
                 <Route path='/kiosk' element={<KioskPage />} />
                 <Route path='/kiosk/table-selection' element={<TableSelection/>} />
                 <Route path='/login' element={<LogInPage />} />
+                <Route path='/logout' element={<LogoutPage />} />
                 <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
                 <Route path='/menu' element={
                     <MenuProvider>

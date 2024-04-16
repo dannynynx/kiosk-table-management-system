@@ -12,13 +12,15 @@ import { useNavigate } from 'react-router-dom';
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
+    const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (!localStorage.getItem('token')) { 
+        if (role == "wait" || role == "manager" || role == "kitchen") { 
             navigate('/login');
-        } 
+        }
+
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {
             const data = response.data;
@@ -27,7 +29,7 @@ const CustomerPage = (props) => {
         .catch(error => {
             console.error('Error fetching menu:', error);
         });
-    }, [initialiseMenuItem]);
+    }, [initialiseMenuItem, navigate, role]);
 
     const handleCategoryFilter = (category) => {
         setSelectedCategory(category);
@@ -43,9 +45,9 @@ const CustomerPage = (props) => {
             <div className='topbar-container'>
                 <TopBar onHandleSearchFilter={handleSearchFilter}/>
             </div>
-            <div className='sidebar-container'>
+            {display == 'menu' ? ( <div className='sidebar-container'>
                 <SideBar onCategorySelect={handleCategoryFilter}/>
-            </div>
+            </div>) : ''}
             <div className='main-content-container'>
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
                 {display === 'item' && <Item />}

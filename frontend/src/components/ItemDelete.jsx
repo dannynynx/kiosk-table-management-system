@@ -21,7 +21,7 @@ const ItemDelete = (props) => {
     return (
         <>
         <div className={popupClassName} >
-            <div className="msg">
+            <div className="delete-msg">
                 <button onClick={props.onClose} className="close-button">
                     <img src={backArrow} alt='Back Arrow Icon'></img>
                 </button>
