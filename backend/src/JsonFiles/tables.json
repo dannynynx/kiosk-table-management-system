@@ -2,7 +2,7 @@
     {
         "table_id": 1,
         "code": "NULL",
-        "session_id": 1,
+        "session_id": 0,
         "is_occupied": 0,
         "size": 1
     },

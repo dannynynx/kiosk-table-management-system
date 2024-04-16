@@ -142,9 +142,7 @@ def add_item_to_order(db, order_id, item_id, quantity):
     #     connection.close()
     #
     #     return None
-
-
-        
+   
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
     VALUES (:o, :i, :q, :s)
@@ -195,22 +193,20 @@ def show_menu(db):
     JOIN CATEGORIES AS c ON i.category_id = c.category_id 
     JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
     JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
+    ORDER BY i.position
     '''
     cursor.execute(showMenu)
     items = cursor.fetchall()
     items_list = []
 
     for item in items:
-        with open(f'ItemImages/{item[5]}', "rb") as image_file:
-            # Encode the image as base64 string
-            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],
             "price": item[4],
             "description": item[2],
             "category": item[3],
-            "image": encoded_image,
+            "image": item[5],
             "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
@@ -225,6 +221,7 @@ def get_all_categories(db):
     sql = """
     SELECT *
     FROM CATEGORIES
+    ORDER BY position
     """
 
     cursor.execute(sql)

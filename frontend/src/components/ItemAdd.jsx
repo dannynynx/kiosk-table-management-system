@@ -1,0 +1,144 @@
+import './ItemEdit.css';
+import { useState, useEffect } from "react";
+import axios from 'axios';
+import { useNavigate } from 'react-router';
+
+
+const ItemAdd = () => {
+    const [categories, setCategories] = useState([]);
+    const [ingredientsTags, setIngredientsTags] = useState([]);
+    const [currImage, setCurrImage] = useState();
+    const navigate = useNavigate();
+
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/customer/get_all_categories')
+            .then(response => {
+                const list = response.data.map(category => ({
+                    id: category.category_id,
+                    name: category.name,
+                }));
+                setCategories(list);
+                console.log(categories)
+            })
+            .catch(error => {
+                console.error('Error submitting data:', error);
+            });
+    }, []);
+
+    const handleAddItem = async (event) => { 
+        event.preventDefault();
+        const formData = new FormData(event.target); 
+
+
+        const item = { 
+            name: formData.get('name'),
+            image: await fileToDataUrl(formData.get('image')),
+            cost: formData.get('cost'),
+            ingredients: ingredientsTags,
+            description: formData.get('description'),
+            category: formData.get('category'),
+        }
+    
+        console.log(item);
+    
+        axios.post('http://127.0.0.1:5000/manager/add_menu_item', item)
+            .then(response => {
+                console.log(response);
+                navigate('/manager/menu');
+            })
+            .catch(error => { 
+                console.error('Error submitting data:', error);
+            });
+    }
+
+
+        const fileToDataUrl = async (file) => {
+            const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            const valid = validFileTypes.find((type) => type === file.type);
+            if (!valid) {
+              throw Error('provided file is not a png, jpg, or jpeg image.');
+            }
+        
+            const reader = new FileReader();
+            const dataUrlPromise = new Promise((resolve, reject) => {
+              reader.onerror = reject;
+              reader.onload = () => resolve(reader.result);
+            });
+            reader.readAsDataURL(file);
+            return dataUrlPromise;
+          };
+
+
+        const handleItemImage = async (event) => {
+            const inputElement = event.target;
+            const file = inputElement.files[0];
+        
+            if (file) {
+                try {
+                    const url = await fileToDataUrl(file);
+                    setCurrImage(url);
+                    console.log(url);
+                } catch (error) {
+                    alert(error);
+                }
+            }
+        };
+
+    const handleKeyDown = (e) => { 
+        if (e.key !== " ") { 
+            return;
+        }
+        const value = e.target.value;
+        if (!value.trim()) { 
+            return; 
+        }
+        setIngredientsTags([
+            ...ingredientsTags, value
+        ])
+        console.log(ingredientsTags)
+        e.target.value = '';
+    }
+
+    const removeIngredient = (index) => { 
+        setIngredientsTags(ingredientsTags.filter((el, i) => i !== index))
+    }
+
+    return (
+        <form className='item' onSubmit={event => handleAddItem(event)}>
+            <div className="image">
+                {currImage && <img src={currImage} className='item-image' alt="food image" />}
+                <input type='file' name="image" onChange={handleItemImage} accept='image/jpeg, image/png'/>
+            </div>
+            <div className='item-details-container'>
+                <label>Item name</label>
+                <input type="text" className='item-name' name="name"/>
+                <label>Item Category</label>
+                <select name="category">
+                    {
+                        categories.map((category, index) => { 
+                            return <option key={index} value={category.id}>{category.name}</option>;
+                        })
+                    }
+                </select>
+                <label>Item price</label>
+                <input type="number" min="0" step="0.01" name="cost" className='item-price'/>
+                <label>DESCRIPTION</label>
+                <input type="text" name="description"/>
+                <label>INGREDIENTS</label>
+                <div className='ingredients-tags' name="ingredients">
+                    {ingredientsTags.map((tag,index) => (
+                        <div className='tag-item' key={index}>
+                            <span className='text'>{tag}</span>
+                            <span className='close' onClick={() => removeIngredient(index)}>x</span>
+                        </div>
+                    ))}
+                    <input type='text' className='tags-input' placeholder='add ingredient by typing and entering' onKeyDown={handleKeyDown}/>
+                </div>
+                <button type="submit" className='edit-btn'>Add item</button>
+            </div>  
+        </form>
+    )
+}       
+
+export default ItemAdd;
