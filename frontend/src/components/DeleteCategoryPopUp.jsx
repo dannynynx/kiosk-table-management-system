@@ -5,14 +5,12 @@ import axios from 'axios';
 
 const DeleteCategoryPopUp = (props) => { 
 
-    const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
+    const popupClassName = "popup" + (props.isDeleteCategoryPopUpVisible ? " visible" : "");
 
 
     const handleDeleteCategory = (category_id) => { 
-        const data = {'category_id': category_id}
 
-        console.log(data)
-        axios.delete('http://127.0.0.1:5000/manager/delete_category', data)
+        axios.delete('http://127.0.0.1:5000/manager/delete_category',  { data: { category_id } })
         .then(response => {
             console.log(response);
         })
@@ -31,7 +29,7 @@ const DeleteCategoryPopUp = (props) => {
                 <h4 className="order-sent-message">
                     <p>Are you sure you want to delete this category?</p>
                     <p>All items in this category will be uncategorised.</p>
-                    <button className="delete-btn" onClick={handleDeleteCategory(props.category_id)}>Delete</button>
+                    <button className="delete-btn" onClick={() => handleDeleteCategory(props.category_id)}>Delete</button>
                 </h4>
             </div>
         </div>
@@ -39,7 +37,7 @@ const DeleteCategoryPopUp = (props) => {
 }
 
 DeleteCategoryPopUp.propTypes = {
-    isPopUpVisible: PropTypes.bool.isRequired,
+    isDeleteCategoryPopUpVisible: PropTypes.number.isRequired,
     message: PropTypes.object,
     onClose: PropTypes.func.isRequired,
     category_id: PropTypes.number.isRequired,
