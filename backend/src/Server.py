@@ -216,7 +216,10 @@ def manager_create_account():
     logout_code = data.get('logout_code')
 
     return_data = create_account(DB_PATH, username, password, role, logout_code)
-    return jsonify(return_data), 200
+    if return_data == None:
+        return jsonify({'error': 'Username already taken'}), 400
+    else: 
+        return jsonify(return_data), 200
 
 @app.route("/manager/edit_account", methods=['PUT'])
 def manager_edit_account():
