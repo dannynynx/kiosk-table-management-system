@@ -46,7 +46,7 @@ const AccountPreview = ({ accountId, accountUsername, accountPassword, accountRo
             <AccountEditPopUp isPopUpVisible={isEditingAccountVisible} onClose={closeEditingAccountPopUp} username={accountUsername} password={accountPassword} role={accountRole} code={accountLogoutCode} id={accountId}/>
             )}
             {isDeletingAccountVisible && (
-            <AccountDeletePopUp isPopUpVisible={isDeletingAccountVisible} onClose={closeDeletingAccountPopUp} role={accountRole} id={accountId}/>
+            <AccountDeletePopUp isPopUpVisible={isDeletingAccountVisible} onClose={closeDeletingAccountPopUp} role={accountRole} staff_id={accountId}/>
             )}
         </div>
     );

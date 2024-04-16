@@ -1,6 +1,7 @@
 import "./AccountDeletePopUp.css";
 import PropTypes from "prop-types";
 import { useState } from "react";
+import axios from 'axios';
 
 const AccountDeletePopUp = (props) => {
 
@@ -11,19 +12,15 @@ const AccountDeletePopUp = (props) => {
     const handleDeletion = async () => {
         if (props.role === "wait" || props.role === "kitchen") {
             try {
-                const data = { "staff_id": props.id }
-                console.log(data)
-                console.log(typeof data)
-                console.log(props.id)
-                console.log(typeof props.id)
-                const response = await axios.delete( 'http://127.0.0.1:5000/manager/delete_account', data);
+                const staff_id = props.staff_id
+                const response = await axios.delete( 'http://127.0.0.1:5000/manager/delete_account', { data: { staff_id } });
                 console.log(response)
                 props.onClose();
             } catch (error) {
+                console.log(error)
                 setTextColor('#d33d3d')
                 setmessage("Error: Failed to delete account.")
             }
-            props.onClose();
         }
         else {
             setmessage("Error: Account cannot be deleted.");
@@ -51,7 +48,7 @@ AccountDeletePopUp.propTypes = {
     isPopUpVisible: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     role: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
+    staff_id: PropTypes.number.isRequired,
 };
 
 export default AccountDeletePopUp;
