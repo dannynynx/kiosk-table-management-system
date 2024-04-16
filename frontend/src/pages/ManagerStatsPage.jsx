@@ -41,29 +41,42 @@ const ManagerStatsPage = () => {
     return (
         <>
         <div className='manager-stats-page'>
-            <h1>Stats</h1>
-            <div className='logout-btn'>Log Out</div>
-            <button onClick={handleGoBack}>Go Back</button>
+            <div className='manager-stats-top-bar'>
+                <button onClick={handleGoBack}>Go Back</button>
+                <h1>Stats</h1>
+                <div className='logout-btn'>Log Out</div>
+            </div>
             <form onSubmit={handleSelectDates}>
                 <input type="date" name="start_date" placeholder='Select Start Date'/>
                 <input type="date" name="end_date" placeholder='Select End Date'/>
                 <button type="submit"> Submit </button>
             </form>
             <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th># Customers</th>
+                    <th># Items</th>
+                    <th>Gross Revenue</th>
+                    <th>Most Popular Item</th>
+                </tr>
+                </thead>
                 <tbody>
                 {!(stats.length === 0) ? (
         stats.map((session, index) => {
                 return (
                     <tr key={index}>
-                        <td>{session.session_id}</td>
                         <td>{session.date}</td>
-                        <td>{session.stats}</td>
+                        <td>{session.number_customers}</td>
+                        <td>{session.number_items}</td>
+                        <td>{session.gross_revenue}</td>
+                        <td>{session.popular_item}</td>
                     </tr>
                 );
         })
     ) : (
         <tr>
-            <td colSpan="4">There are no stats selected currently.</td>
+            <td colSpan="5">There are no stats selected currently.</td>
         </tr>
     )}  
     </tbody>
