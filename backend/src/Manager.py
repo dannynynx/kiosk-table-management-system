@@ -32,17 +32,20 @@ def edit_account(db, id, username, password, role, logout_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT username from STAFF")
+    print(id)
+    cursor.execute("SELECT * from STAFF WHERE staff_id=?", (id,))
     staffs = cursor.fetchall()
-
+    print(staffs)
     for staff in staffs:
        if username in staff[0]:
           connection.close()
           return None
 
     cursor.execute("UPDATE STAFF SET username=?, password=?, role=?, logout_code=? WHERE staff_id=?", (username, password, role, logout_code, id))
+    data = cursor.fetchall()
     connection.commit()
     connection.close()
+    return data
 
 def delete_account(db, id):
     connection = sqlite3.connect(db)

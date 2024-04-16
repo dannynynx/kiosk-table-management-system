@@ -219,11 +219,14 @@ def manager_edit_account():
     username = data.get('username')
     password = data.get('password')
     role = data.get('role')
-    id = data.get('staff_id')
+    id = data.get('id')
     logout_code = data.get('logout_code')
 
     return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
-    return jsonify(return_data), 200
+    if return_data == None:
+        return jsonify({'error': 'Username already taken'}), 400
+    else: 
+        return jsonify(return_data), 200
 
 @app.route("/manager/delete_account", methods=['DELETE'])
 def manager_delete_account():
