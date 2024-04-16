@@ -14,8 +14,7 @@ const KitchenPage = () => {
             navigate('/login');
         }
 
-        const token = { 'token': localStorage.getItem('token')};
-        axios.get('http://127.0.0.1:5000/staff/show_orders', token)
+        axios.get('http://127.0.0.1:5000/staff/show_orders')
         .then(response => {
             const data = response.data ?? [];
             setOrders(data);

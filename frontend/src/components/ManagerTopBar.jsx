@@ -12,7 +12,6 @@ import editRed from "../assets/edit-red.svg"
 import reorderItems from "../assets/Item-reorder.svg";
 
 const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
-    const token = localStorage.getItem('token');
     const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message

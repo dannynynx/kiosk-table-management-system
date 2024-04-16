@@ -17,8 +17,8 @@ const WaiterPage = () => {
         if (role !== "wait") { 
             navigate('/login');
         }
-        const token = { 'token': localStorage.getItem('token')};
-        axios.get('http://127.0.0.1:5000/staff/show_orders', token)
+
+        axios.get('http://127.0.0.1:5000/staff/show_orders')
             .then(response => {
                 const data = response.data ?? [];
                 setOrders(data);
@@ -27,7 +27,7 @@ const WaiterPage = () => {
                 console.error('Error fetching orders:', error);
             })
 
-        axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status', token)
+        axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status')
             .then(response => {
                 const data = response.data ?? [];
                 setNotifs(data);
@@ -74,7 +74,6 @@ const WaiterPage = () => {
             const data = { 
                 new_status: "closed",
                 notification_id: notif.notification_id,
-                token: localStorage.getItem('token')
             }
     
             socket.emit('update_notification_status', data);

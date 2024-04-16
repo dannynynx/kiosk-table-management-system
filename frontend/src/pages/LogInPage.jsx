@@ -14,13 +14,9 @@ const LogInPage = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
-            console.log(response)
-
             const role = response.data.role;
-            const token = response.data.token;
             localStorage.setItem('tablenumber', role)
-            localStorage.setItem('token', token)
-
+        
             if (role == "kitchen") { 
                 navigate('/kitchen');
             } else if (role == "wait") { 
