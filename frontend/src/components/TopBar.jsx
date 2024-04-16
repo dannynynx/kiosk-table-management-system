@@ -32,7 +32,6 @@ const TopBar = ({ onHandleSearchFilter }) => {
             try {
                 const data = {
                     "table_id": localStorage.getItem('tablenumber'),
-                    "token": localStorage.getItem('token'),
                     "notification_type": 'assistance',
                 }
 
@@ -46,7 +45,6 @@ const TopBar = ({ onHandleSearchFilter }) => {
             const data = { 
                 new_status: "closed",
                 notification_id: assistId,
-                token: localStorage.getItem('token')
             }
             setAssistId(null);
             socket.emit('update_notification_status', data);

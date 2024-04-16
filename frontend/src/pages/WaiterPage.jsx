@@ -3,16 +3,22 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import socket from '../socket'
 import WaitBillPopUp from "../components/WaitBillPopUp.jsx"
+import { useNavigate } from 'react-router';
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     const [orders, setOrders] = useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [currBill, setCurrBill] = useState(null);
+    const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const token = { 'token': localStorage.getItem('token')};
-        axios.get('http://127.0.0.1:5000/staff/show_orders', token)
+        if (role !== "wait") { 
+            navigate('/login');
+        }
+
+        axios.get('http://127.0.0.1:5000/staff/show_orders')
             .then(response => {
                 const data = response.data ?? [];
                 setOrders(data);
@@ -21,7 +27,7 @@ const WaiterPage = () => {
                 console.error('Error fetching orders:', error);
             })
 
-        axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status', token)
+        axios.get('http://127.0.0.1:5000/waitstaff/get_notification_status')
             .then(response => {
                 const data = response.data ?? [];
                 setNotifs(data);
@@ -56,6 +62,10 @@ const WaiterPage = () => {
         socket.emit('update_order_status', data);
     }
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
     const closePopUp = () => {
         setPopUpVisible(false);
     };
@@ -68,19 +78,16 @@ const WaiterPage = () => {
             const data = { 
                 new_status: "closed",
                 notification_id: notif.notification_id,
-                token: localStorage.getItem('token')
             }
     
             socket.emit('update_notification_status', data);
         }
-
-
         
     }
     
     return (
         <div className='waiter-page'>
-            <div className='logout-btn'>Log Out</div>
+            <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <div className='waiter-table-container'>
                 <table className='waiter-table'>
                     <caption>Food Ready to Serve</caption>
@@ -103,20 +110,25 @@ const WaiterPage = () => {
                     </tbody>
                 </table>
             </div>
-
             <div className='notifications-container'>
                 <h2>Notifications</h2>
+                <table className='notification-table'>
+                    <tbody>
                 {notifs.map((notif, index) => {
                 if (notif.status ==="new") {
                     return (
-                        <div key={index} className='notif'>
-                                    <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
-                                    {notif.status === 'new' ?
-                                    (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
-                                </div>
+                        <tr  key={index}>
+                            <div className='notif'>
+                                        <h4>Table #{notif.table_id}: {notif.notification_type}</h4>
+                                        {notif.status === 'new' ?
+                                        (<button className="done-btn" onClick={() => handleNotifStatusChange(notif)}>Done</button>) : "closed" }
+                            </div>
+                        </tr>
                     )} else { 
                         null
                     }})}
+                    </tbody>
+                </table>
             </div>
             {isPopUpVisible && (
                 <WaitBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible} table={currBill}/>

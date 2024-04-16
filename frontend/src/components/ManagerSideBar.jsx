@@ -27,7 +27,6 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
         try {
             const data = {
                 "table_id": localStorage.getItem('tablenumber'),
-                "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
             await axios.post('http://127.0.0.1:5000/customer/notifications/add', data)

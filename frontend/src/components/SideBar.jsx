@@ -19,7 +19,6 @@ const SideBar = ({ onCategorySelect }) => {
         try {
             const data = {
                 "table_id": localStorage.getItem('tablenumber'),
-                "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
             socket.emit('add_notification', data);
@@ -33,6 +32,11 @@ const SideBar = ({ onCategorySelect }) => {
         setPopUpVisible(false);
         navigate('../kiosk/authentication');
     };
+
+    
+    const handleLogout = () => {
+        navigate('/logout');
+    }
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
@@ -75,6 +79,7 @@ const SideBar = ({ onCategorySelect }) => {
             </div>
             <div className="sidebar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
+                <div className='menu-logout-btn' onClick={handleLogout}>Log Out</div>
             </div>
             {isPopUpVisible && (
                 <RequestBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>

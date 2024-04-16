@@ -44,7 +44,6 @@ const ManagerStatsPage = () => {
             <div className='manager-stats-top-bar'>
                 <button onClick={handleGoBack} className='manager-go-back-btn'>Go Back</button>
                 <h1>Stats</h1>
-                <div className='logout-btn'>Log Out</div>
             </div>
             <form onSubmit={handleSelectDates} className='manager-stats-date-form'>
                 Starting Date:

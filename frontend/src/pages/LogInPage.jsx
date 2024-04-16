@@ -14,21 +14,18 @@ const LogInPage = () => {
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
-            console.log(response)
-
             const role = response.data.role;
-            const token = response.data.token;
             localStorage.setItem('tablenumber', role)
-            localStorage.setItem('token', token)
-
-            if (formData.username == "kitchen") { 
+            localStorage.setItem('logout_code', response.data.logout_code)
+        
+            if (role == "kitchen") { 
                 navigate('/kitchen');
-            } else if (formData.username == "wait") { 
+            } else if (role == "wait") { 
                 navigate('/waiter');
-            } else if (formData.username == "manager") { 
+            } else if (role == 'manager') { 
                 navigate('/manager');
-            } else {
-                navigate('/kiosk/authentication')
+            } else { 
+                navigate('/kiosk/authentication');
             }
 
 
@@ -42,7 +39,12 @@ const LogInPage = () => {
     };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        if (name === 'username') {
+            const username = value; 
+            localStorage.setItem('username', username);
+        }
     };
 
     return (
