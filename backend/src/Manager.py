@@ -123,6 +123,7 @@ def show_accounts(db):
 
     for account in staff:
         account_dict = {
+            "id": account[0],
             "username": account[1],
             "password": account[2],
             "role": account[3],
