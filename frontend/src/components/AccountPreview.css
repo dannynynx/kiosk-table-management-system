@@ -1,0 +1,43 @@
+.account-preview-container {
+    background-color: #DBDCDE;
+    margin: 1%;
+    margin-bottom: 2%;
+    width: 98%;
+    height: 20%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.account-preview-info-container {
+    height: 100%;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+.account-preview-buttons-container {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.account-preview-information-div {
+    margin-left: 5%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 150%;
+}
+
+.account-preview-edit-icon, .account-preview-delete-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.account-preview-edit-button, .account-preview-delete-button {
+    width: 50%;
+    height: 50%;
+}
