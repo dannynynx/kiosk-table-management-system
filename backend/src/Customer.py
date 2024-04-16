@@ -1,6 +1,6 @@
 import sqlite3
 import time
-
+from datetime import datetime
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
 generated_codes = set()
@@ -272,12 +272,14 @@ def clear_order(db, table_id):
     session_id = get_table_session_id(db, table_id)
 
     orders = get_customer_past_orders(db, table_id)
+
+    date = datetime.today().strftime('%Y-%m-%d')
     sql = """
-    INSERT OR IGNORE INTO STATS (session_id, stats)
-    VALUES (:se, :st)
+    INSERT OR IGNORE INTO STATS (session_id, date, stats)
+    VALUES (:se, :d, :st)
     """
 
-    cursor.execute(sql, {"se": session_id , "st": str(orders)})
+    cursor.execute(sql, {"se": session_id , "d": date, "st": str(orders)})
     
     sql = """
     DELETE FROM IN_ORDER 

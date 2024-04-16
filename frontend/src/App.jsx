@@ -11,6 +11,7 @@ import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
+import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
 import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
 
 
@@ -59,7 +60,7 @@ const App = () => {
                         <ManagerMenuPage display={'add'}/>
                     </MenuProvider>
                 }/>
-                <Route path='/manager/stats' element={<ManagerPage />} />
+                <Route path='/manager/stats' element={<ManagerStatsPage />} />
             </Routes>
         </>
     );
