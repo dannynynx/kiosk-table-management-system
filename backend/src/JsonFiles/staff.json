@@ -38,5 +38,13 @@
         "role": "manager",
         "in_use": "0",
         "logout_code": "1234"
+    },
+    {
+        "staff_id": 6,
+        "username": "wait222",
+        "password": "wait2",
+        "role": "wait",
+        "in_use": "0",
+        "logout_code": "1234"
     }
 ]

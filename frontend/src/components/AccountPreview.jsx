@@ -4,9 +4,11 @@ import editIcon from '../assets/account-edit-icon.svg';
 import deleteIcon from '../assets/account-delete-icon.svg';
 import { useState } from "react";
 import AccountEditPopUp from '../components/AccountEditPopUp';
+import AccountDeletePopUp from '../components/AccountDeletePopUp';
 
 const AccountPreview = ({ accountId, accountUsername, accountPassword, accountRole, accountLogoutCode }) => {
     const [isEditingAccountVisible, setEditingAccountVisible] = useState(false);
+    const [isDeletingAccountVisible, setDeleteAccountVisible] = useState(false);
 
     const handleEditingAccount = () => {
         setEditingAccountVisible(true);
@@ -15,6 +17,14 @@ const AccountPreview = ({ accountId, accountUsername, accountPassword, accountRo
     const closeEditingAccountPopUp = () => {
         setEditingAccountVisible(false);
     };
+
+    const handleDeletingAccount = () => {
+        setDeleteAccountVisible(true);
+    }
+
+    const closeDeletingAccountPopUp = () => {
+        setDeleteAccountVisible(false);
+    }
 
     return (
         <div className='account-preview-container'>
@@ -28,12 +38,15 @@ const AccountPreview = ({ accountId, accountUsername, accountPassword, accountRo
                 <button className='account-preview-edit-button' onClick={handleEditingAccount}>
                     <img src={editIcon} className='account-preview-edit-icon'></img>
                 </button>
-                <button className='account-preview-delete-button'>
+                <button className='account-preview-delete-button' onClick={handleDeletingAccount}>
                     <img src={deleteIcon} className='account-preview-delete-icon'></img>
                 </button>
             </div>
             {isEditingAccountVisible && (
             <AccountEditPopUp isPopUpVisible={isEditingAccountVisible} onClose={closeEditingAccountPopUp} username={accountUsername} password={accountPassword} role={accountRole} code={accountLogoutCode} id={accountId}/>
+            )}
+            {isDeletingAccountVisible && (
+            <AccountDeletePopUp isPopUpVisible={isDeletingAccountVisible} onClose={closeDeletingAccountPopUp} role={accountRole} id={accountId}/>
             )}
         </div>
     );

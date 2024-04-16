@@ -34,7 +34,7 @@ def edit_account(db, id, username, password, role, logout_code):
 
     cursor.execute("SELECT username from STAFF WHERE NOT staff_id=?", (id,))
     staffs = cursor.fetchall()
-    print(staffs)
+
     for staff in staffs:
        if username in staff[0]:
           connection.close()
