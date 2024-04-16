@@ -375,5 +375,16 @@ def handle_add_notification(data):
     return_data = get_notifications(DB_PATH, token)
     emit('updated_notification_status', return_data, broadcast=True)
 
+
+@socketio.on('send_order')
+def handle_send_order(data):
+    table_id = data.get('table_id')
+    order_items = data.get('order_items')
+    token = data.get('token')
+
+    send_order_to_database(DB_PATH, table_id, order_items, token)
+    return_data = get_customer_past_orders(DB_PATH, table_id)
+    emit('sent_orders', return_data)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)
