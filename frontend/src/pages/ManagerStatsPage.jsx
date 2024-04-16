@@ -42,16 +42,18 @@ const ManagerStatsPage = () => {
         <>
         <div className='manager-stats-page'>
             <div className='manager-stats-top-bar'>
-                <button onClick={handleGoBack}>Go Back</button>
+                <button onClick={handleGoBack} className='manager-go-back-btn'>Go Back</button>
                 <h1>Stats</h1>
                 <div className='logout-btn'>Log Out</div>
             </div>
-            <form onSubmit={handleSelectDates}>
-                <input type="date" name="start_date" placeholder='Select Start Date'/>
-                <input type="date" name="end_date" placeholder='Select End Date'/>
-                <button type="submit"> Submit </button>
+            <form onSubmit={handleSelectDates} className='manager-stats-date-form'>
+                Starting Date:
+                <input type="date" name="start_date"/>
+                Ending Date:
+                <input type="date" name="end_date"/>
+                <button type="submit" className='manager-submit-date-btn'> Submit </button>
             </form>
-            <table>
+            <table className='manager-stats-table'>
                 <thead>
                 <tr>
                     <th>Date</th>
