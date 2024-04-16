@@ -1,3 +1,4 @@
+import base64
 import sqlite3
 import time
 from datetime import datetime
@@ -171,7 +172,6 @@ def show_menu(db):
             "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
-        print(item[1])
     connection.close()
     return items_list
 

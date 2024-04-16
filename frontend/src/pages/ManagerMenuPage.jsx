@@ -27,7 +27,6 @@ const ManagerMenuPage = (props) => {
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {
             const data = response.data;
-            console.log(data)
             initialiseMenuItem(data);
         })
         .catch(error => {
