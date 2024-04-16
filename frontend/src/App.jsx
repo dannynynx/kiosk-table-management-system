@@ -18,7 +18,6 @@ import AccountManagePage from './pages/AccountManagePage.jsx';
 
 
 const App = () => {
-    
     return (
         <>
             <Routes>

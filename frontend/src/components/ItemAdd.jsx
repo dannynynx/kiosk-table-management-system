@@ -1,15 +1,17 @@
 import './ItemEdit.css';
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
+import {useInitialiseMenu} from "../context/MenuContext.jsx";
 
 
 const ItemAdd = () => {
+    const initialiseMenuItem = useInitialiseMenu();
     const [categories, setCategories] = useState([]);
     const [ingredientsTags, setIngredientsTags] = useState([]);
     const [currImage, setCurrImage] = useState();
     const navigate = useNavigate();
-
+    const [file, setFile] = useState(null);
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
@@ -29,11 +31,10 @@ const ItemAdd = () => {
     const handleAddItem = async (event) => { 
         event.preventDefault();
         const formData = new FormData(event.target); 
-
-
+        await handleUpload(event);
         const item = { 
             name: formData.get('name'),
-            image: await fileToDataUrl(formData.get('image')),
+            image: file.name,
             cost: formData.get('cost'),
             ingredients: ingredientsTags,
             description: formData.get('description'),
@@ -50,16 +51,37 @@ const ItemAdd = () => {
             .catch(error => { 
                 console.error('Error submitting data:', error);
             });
+
+        axios.get('http://127.0.0.1:5000/customer/showMenu')
+            .then(response => {
+                const data = response.data;
+                console.log(data);
+                initialiseMenuItem(data);
+            })
+            .catch(error => {
+                console.error('Error fetching menu:', error);
+            });
     }
+
+    const handleUpload = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+          const response = await axios.post('http://127.0.0.1:5000/manager/upload_image', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+    };
 
 
         const fileToDataUrl = async (file) => {
-            const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-            const valid = validFileTypes.find((type) => type === file.type);
-            if (!valid) {
-              throw Error('provided file is not a png, jpg, or jpeg image.');
-            }
-        
             const reader = new FileReader();
             const dataUrlPromise = new Promise((resolve, reject) => {
               reader.onerror = reject;
@@ -78,12 +100,16 @@ const ItemAdd = () => {
                 try {
                     const url = await fileToDataUrl(file);
                     setCurrImage(url);
-                    console.log(url);
                 } catch (error) {
                     alert(error);
                 }
             }
         };
+
+    const handleFileChange = (e) => {
+        handleItemImage(e);
+        setFile(e.target.files[0]);
+    };
 
     const handleKeyDown = (e) => { 
         if (e.key !== " ") { 
@@ -108,7 +134,7 @@ const ItemAdd = () => {
         <form className='item' onSubmit={event => handleAddItem(event)}>
             <div className="image">
                 {currImage && <img src={currImage} className='item-image' alt="food image" />}
-                <input type='file' name="image" onChange={handleItemImage} accept='image/jpeg, image/png'/>
+                <input type='file' name="image" onChange={handleFileChange}/>
             </div>
             <div className='item-details-container'>
                 <label>Item name</label>

@@ -1,3 +1,4 @@
+import base64
 import sqlite3
 import time
 from datetime import datetime
@@ -126,8 +127,18 @@ def show_table(db):
 
     return table_list
 
+def get_items_table_length(db):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
 
+    cursor.execute("SELECT COUNT(*) FROM ITEMS")
+    length = cursor.fetchone()[0]
+
+    connection.close()
+
+    return length
 def show_menu(db):
+    print(get_items_table_length(db))
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -142,24 +153,25 @@ def show_menu(db):
     JOIN CATEGORIES AS c ON i.category_id = c.category_id 
     JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
     JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
-    ORDER BY i.position
     '''
     cursor.execute(showMenu)
     items = cursor.fetchall()
     items_list = []
-
+    print(len(items))
     for item in items:
+        with open(f'ItemImages/{item[5]}', "rb") as image_file:
+            # Encode the image as base64 string
+            encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],
             "price": item[4],
             "description": item[2],
             "category": item[3],
-            "image": item[5],
+            "image": encoded_image,
             "ingredients": item[6].split(', ')
         }
         items_list.append(item_dict)
-
     connection.close()
     return items_list
 

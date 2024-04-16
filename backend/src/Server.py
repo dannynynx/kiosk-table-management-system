@@ -4,8 +4,6 @@
 
 from flask import Flask, request, jsonify
 import os
-import sqlite3
-import shutil
 from InitDB import initialise_db
 from Customer import get_table_code, confirm_table, authenticate_table, show_table, show_menu, send_order_to_database, get_all_categories, get_customer_past_orders, add_notification, clear_order
 from flask_cors import CORS
@@ -29,7 +27,7 @@ def remove_existing_database():
         os.remove(DB_PATH)
 
 remove_existing_database()
-initialise_db()
+initialise_db(DB_PATH)
 
 
 @app.route('/staff/staff_authentication', methods=['POST'])
@@ -298,6 +296,20 @@ def manager_add_menu_item():
     return_data = add_menu_item(DB_PATH, name, description, ingredients, category, cost, image)
     return jsonify(return_data), 200
 
+@app.route('/manager/upload_image', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    if file:
+        filename = file.filename
+        file.save(os.path.join(BASE_DIR, 'itemimages', filename))
+        return jsonify({'success': 'File uploaded successfully'})
+
 @app.route("/manager/edit_menu_item", methods=['PUT'])
 def manager_edit_menu_item():
     data = request.get_json()
@@ -383,4 +395,4 @@ def handle_send_order(data):
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, debug=True)

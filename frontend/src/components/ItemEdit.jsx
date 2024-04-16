@@ -19,6 +19,7 @@ const ItemEdit = () => {
     const [currImage, setCurrImage] = useState(image);
     const navigate = useNavigate();
     const [isDeleteItemPopUpVisible, setDeleteItemPopUpVisible] = useState(false);
+    const [file, setFile] = useState(null);
 
 
     useEffect(() => {
@@ -38,14 +39,14 @@ const ItemEdit = () => {
     }, []);
 
 
-    const handleEditItem = async (event) => { 
+    const handleEditItem = async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target); 
-
+        handleUpload(event);
         const item = { 
             id,
             name: formData.get('name'),
-            image: currImage,
+            image: file.name,
             cost: formData.get('cost'),
             ingredients: ingredientsTags,
             description: formData.get('description'),
@@ -62,6 +63,23 @@ const ItemEdit = () => {
         });
     }
 
+    const handleUpload = async (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('file', file);
+    
+        try {
+          const response = await axios.post('http://127.0.0.1:5000/manager/upload_image', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
+          console.log(response.data);
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+    };
+
     const handleDeleteItem = (e) => { 
         e.preventDefault();
         setDeleteItemPopUpVisible(true);
@@ -72,12 +90,6 @@ const ItemEdit = () => {
     }
 
     const fileToDataUrl = async (file) => {
-        const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-        const valid = validFileTypes.find((type) => type === file.type);
-        if (!valid) {
-          throw Error('provided file is not a png, jpg, or jpeg image.');
-        }
-    
         const reader = new FileReader();
         const dataUrlPromise = new Promise((resolve, reject) => {
           reader.onerror = reject;
@@ -101,6 +113,11 @@ const ItemEdit = () => {
             }
         }
     };
+
+    const handleFileChange = (e) => {
+        handleItemImage(e);
+        setFile(e.target.files[0]);
+      };
 
     const handleKeyDown = (e) => { 
         if (e.key !== " ") { 
@@ -128,7 +145,7 @@ const ItemEdit = () => {
             </div>
             <div className="image" name="image">
                 {image && <img src={currImage} className='item-image' alt={name} />}
-                <input type='file' onChange={handleItemImage} accept='image/jpeg, image/png'/>
+                <input type='file' name="image" onChange={handleFileChange}/>
             </div>
             <div className='item-details-container'>
                 <label>Item name</label>
