@@ -377,7 +377,7 @@ def handle_send_order(data):
     table_id = data.get('table_id')
     order_items = data.get('order_items')
 
-    send_order_to_database(DB_PATH, table_id, order_items, token)
+    send_order_to_database(DB_PATH, table_id, order_items)
     return_data = get_customer_past_orders(DB_PATH, table_id)
     emit('sent_orders', return_data)
 
