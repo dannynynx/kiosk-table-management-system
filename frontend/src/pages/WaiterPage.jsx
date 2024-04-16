@@ -62,6 +62,10 @@ const WaiterPage = () => {
         socket.emit('update_order_status', data);
     }
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
     const closePopUp = () => {
         setPopUpVisible(false);
     };
@@ -78,14 +82,12 @@ const WaiterPage = () => {
     
             socket.emit('update_notification_status', data);
         }
-
-
         
     }
     
     return (
         <div className='waiter-page'>
-            <div className='logout-btn'>Log Out</div>
+            <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <div className='waiter-table-container'>
                 <table className='waiter-table'>
                     <caption>Food Ready to Serve</caption>

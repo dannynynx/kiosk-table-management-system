@@ -9,23 +9,22 @@ const LogoutPage = () => {
     const username = localStorage.getItem('username');
     const navigate = useNavigate();
     const [textColor, setTextColor] = useState('#e7eaf9');
-    const [textContent, setTextContent] = useState('Please Type the four-digit code here:');
+    const [textContent, setTextContent] = useState('Please Type the logout code here:');
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
     } 
 
     const handleSubmit = async () => {
-        const message = await authenticateCode(tableNumber, inputValue)
+        const message = await authenticateCode();
         if (message !== null) {
             navigate('/menu');
         }  
     };
 
-
-    const authenticateCode = async (tableNumber, code) => {
+    const authenticateCode = async () => {
         try {
-            const data = {'logout_code': code, 'username': username}
+            const data = {'logout_code': inputValue, 'username': username}
             const response = await axios.post( 'http://127.0.0.1:5000/staff/tablet_logout', data)
             const rawCode = response.data;
             return rawCode;

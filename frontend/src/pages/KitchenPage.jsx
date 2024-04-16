@@ -48,10 +48,14 @@ const KitchenPage = () => {
         socket.emit('update_order_status', data);
     }
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
 
     return (
         <div className='kitchen-page'>
-            <div className='logout-btn'>Log Out</div>
+              <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <table className='kitchen-table'>
                 <caption>Dishes to cook</caption>
                 <thead>
