@@ -2,10 +2,14 @@ import './WaiterPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import socket from '../socket'
+import WaitBillPopUp from "../components/WaitBillPopUp.jsx"
 
 const WaiterPage = () => {
     const [notifs, setNotifs] = useState([])
     const [orders, setOrders] = useState([]);
+    const [isPopUpVisible, setPopUpVisible] = useState(false);
+    const [currBill, setCurrBill] = useState(null);
+    const [currNotif, setCurrNotif] = useState(null);
 
     useEffect(() => {
         const token = { 'token': localStorage.getItem('token')};
@@ -53,14 +57,27 @@ const WaiterPage = () => {
         socket.emit('update_order_status', data);
     }
 
+    const closePopUp = () => {
+        setPopUpVisible(false);
+    };
+
     const handleNotifStatusChange = (notif) => {
-        const data = { 
-            new_status: "closed",
-            notification_id: notif.notification_id,
-            token: localStorage.getItem('token')
+        if (notif.notification_type == "bill") { 
+            setPopUpVisible(true);
+            setCurrBill(notif.table_id)
+            setCurrNotif(notif.notification_id);
+        } else { 
+            const data = { 
+                new_status: "closed",
+                notification_id: notif.notification_id,
+                token: localStorage.getItem('token')
+            }
+    
+            socket.emit('update_notification_status', data);
         }
 
-        socket.emit('update_notification_status', data);
+
+        
     }
     
     return (
@@ -103,6 +120,9 @@ const WaiterPage = () => {
                         null
                     }})}
             </div>
+            {isPopUpVisible && (
+                <WaitBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible} table={currBill} notif={currNotif}/>
+            )}
         </div>
     );
 };

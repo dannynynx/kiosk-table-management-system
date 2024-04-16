@@ -3,15 +3,17 @@ import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import socket from '../socket'
 
-const RequestBillPopUp = (props) => { 
+const WaitBillPopUp = (props) => { 
 
     const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
     const [pastorders, setPastOrders] = useState([]);
+    const [paid, setPaid] = useState(false);
 
 
     useEffect(() => {
-        const table_id = localStorage.getItem('tablenumber');
+        const table_id = props.table;
         axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
             .then(response => {
                 const data = response.data;
@@ -23,14 +25,26 @@ const RequestBillPopUp = (props) => {
                 console.error('Error fetching menu:', error);
             });
     }, []);
+
+    const handlePaid = () => { 
+        setPaid(true);
+    }
+
+    const handleUpdateBill = () => { 
+        const data = { 
+            new_status: "closed",
+            notification_id: props.notif,
+            token: localStorage.getItem('token')
+        }
+
+        socket.emit('update_notification_status', data);
+        props.onClose();
+    }
     
     return (
         <>
         <div className={popupClassName} >
             <div className="msg">
-                <button onClick={props.onClose} className="close-button">
-                    <img src={backArrow} alt='Back Arrow Icon'></img>
-                </button>
                 <h2>Receipt</h2>
                 <h4 className="order-sent-message">
                     <table className="bill-table">
@@ -46,17 +60,21 @@ const RequestBillPopUp = (props) => {
                                 </tr>)}
                         </tbody>
                     </table>
-                    Please make your way to the counter.
+                   <div className="btn-group">
+                        {paid ? (<button onClick={handleUpdateBill}>Paid</button>)
+                        : (<div className="btn-group"><button onClick={handlePaid}>Card</button> | <button onClick={handlePaid}>Cash</button></div>)}
+                   </div>
                 </h4>
             </div>
         </div>
     </>)
 }
 
-RequestBillPopUp.propTypes = {
+WaitBillPopUp.propTypes = {
     isPopUpVisible: PropTypes.bool.isRequired,
-    message: PropTypes.object,
+    table: PropTypes.number.isRequired,
     onClose: PropTypes.func.isRequired,
+    notif: PropTypes.number.isRequired,
 };
 
-export default RequestBillPopUp;
+export default WaitBillPopUp;
