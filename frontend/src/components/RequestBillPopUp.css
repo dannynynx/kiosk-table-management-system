@@ -17,13 +17,13 @@
     justify-content: center;
 }
 
-.msg {
+.request-bill-msg {
     background-color: aliceblue;
     padding: 3em;
     text-align: center; 
 }
 
-.msg .close-button {
+.request-bill-msg .close-button {
     width: 50px;
     top: 10px;
     left: 10px;

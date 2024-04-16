@@ -22,7 +22,7 @@
     border-radius: 2px;
 }
 
-.msg {
+.delete-category-msg {
     background-color: aliceblue;
     padding: 3em;
     text-align: center; 
@@ -30,7 +30,7 @@
     width: 100%;
 }
 
-.msg .close-button {
+.delete-category-msg .close-button {
     width: 50px;
     top: 10px;
     left: 10px;

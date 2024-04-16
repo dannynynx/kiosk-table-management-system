@@ -27,7 +27,7 @@ const RequestBillPopUp = (props) => {
     return (
         <>
         <div className={popupClassName} >
-            <div className="msg">
+            <div className="request-bill-msg">
                 <button onClick={props.onClose} className="close-button">
                     <img src={backArrow} alt='Back Arrow Icon'></img>
                 </button>
