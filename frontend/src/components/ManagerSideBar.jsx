@@ -7,8 +7,10 @@ import {Link, useNavigate} from "react-router-dom";
 import { useState, useEffect } from 'react';
 import CategoryOrderPopUp from './CategoryOrderPopUp.jsx';
 import AddCategoryPopUp from "./AddCategoryPopUp.jsx";
+import DeleteCategoryPopUp from './DeleteCategoryPopUp.jsx';
 import Reorder from "../assets/reorder.svg";
 import add from '../assets/plus-icon.svg';
+import trash from "../assets/trash-icon.svg";
 
 const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const [categories, setCategories] = useState([]);
@@ -18,6 +20,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const navigate = useNavigate();
     const [isOrderPopupVisible, setOrderPopupVisible] = useState(false);
     const [isAddPopUpVisible, setAddPopUpVisible] = useState(false);
+    const [isDeleteCategoryPopUpVisible, setDeleteCategoryPopUpVisible] = useState(0);
 
     
     const handleRequestBill = async () => {
@@ -39,7 +42,23 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
         setOrderPopupVisible(true);
     };
 
-    
+    const handleChangeCategoryName = (category_id, event) => { 
+        const newName = event.target.value; 
+        const data = { 
+            category_id,
+            new_name: newName,
+        };
+
+        console.log(data)
+        axios.put('http://127.0.0.1:5000/manager/edit_category', data)
+        .then(response => {
+            console.log(response);
+        })
+        .catch(error => { 
+            console.error('Error submitting data:', error);
+        });
+    }
+
 
     const closePopUp = () => {
         setPopUpVisible(false);
@@ -56,6 +75,14 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
 
     const closeAddPopUp = () => { 
         setAddPopUpVisible(false);
+    }
+
+    const handleDeleteCategory = (category_id) => { 
+       setDeleteCategoryPopUpVisible(category_id);
+    }
+
+    const closeDeletePopUp =() => { 
+        setDeleteCategoryPopUpVisible(0);
     }
 
 
@@ -76,7 +103,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     return (
         <>
             <div className="categories">
-                <Link to="/menu">
+                <Link to="/manager/menu">
                     <button onClick={() => {
                         onCategorySelect("");
                         setSelectedCategory(null);
@@ -90,19 +117,43 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
                         <button onClick={handleAddCategory}><img className="edit-icon" src={add} alt='add category Icon'/></button>
                     </div> ) 
                     : ''}
-                {categories.map((category) => (
-                    <Link to="/menu" key={category.id}>
-                        <button
-                            onClick={() => {
-                                onCategorySelect(category.name);
-                                setSelectedCategory(category.id);
-                            }}
-                            className={selectedCategory === category.id ? 'selected' : ''}
-                        >
-                            <h2 className="category" id={category.id}>{category.name}</h2>
-                        </button>
-                    </Link>
+                 {categories.map((category) => (
+                    <div key={category.id}>
+                        {editMode ? (
+                            <div key={category.id} className="edit-cate">
+                                <input
+                                    name="new_name"
+                                    type="text"
+                                    defaultValue={category.name}
+                                    onBlur={(event) => handleChangeCategoryName(category.id, event)}
+                                />
+                                <button onClick={() => handleDeleteCategory(category.id)}><img className="delete-cate" src={trash} alt="delete"></img></button>
+                         </div>
+                        ) : (
+                            <Link to="/manager/menu">
+                                <button
+                                    onClick={() => {
+                                        onCategorySelect(category.name);
+                                        setSelectedCategory(category.id);
+                                    }}
+                                    className={selectedCategory === category.id ? 'selected' : ''}
+                                >
+                                    <h2 className="category" id={category.id}>{category.name}</h2>
+                                </button>
+                            </Link>
+                        )}
+                    </div>
                 ))}
+                {editMode ? (<Link to="/manager/menu">
+                                <button
+                                    onClick={() => {
+                                        onCategorySelect("uncategorised");
+                                        setSelectedCategory(0);
+                                    }}
+                                >
+                                    <h2 className="category" id={0}>Uncategorised</h2>
+                                </button>
+                            </Link>) : ''}
             </div>
             <div className="ManagerSideBar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
@@ -118,6 +169,9 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
             )}
              {isAddPopUpVisible && (
                 <AddCategoryPopUp onClose={closeAddPopUp} isAddPopUpVisible={isAddPopUpVisible}/>
+            )}
+            {isDeleteCategoryPopUpVisible && (
+                <DeleteCategoryPopUp onClose={closeDeletePopUp} category_id={isDeleteCategoryPopUpVisible} isDeleteCategoryPopUpVisible={isDeleteCategoryPopUpVisible}/>
             )}
         </>
     );

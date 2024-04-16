@@ -2,15 +2,29 @@ import "./AddCategoryPopUp.css";
 import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 import { useRef } from 'react';
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const AddCategoryPopUp = (props) => { 
 
     const popupClassName = "add-popup" + (props.isPopUpVisible ? " visible" : "");
     const inputRef = useRef();
+    const navigate = useNavigate();
 
     const handleAddCategory= (event) => { 
-        alert('A name was submitted: ' + inputRef.current.value);
         event.preventDefault();
+        const data = {"category_name": inputRef.current.value}
+
+        console.log(data)
+
+        axios.post('http://127.0.0.1:5000/manager/add_category', data)
+        .then(response => {
+            console.log(response);
+            navigate('/manager/menu')
+        })
+        .catch(error => {
+            console.error('Error submitting data:', error);
+        });
     }
     
     return (

@@ -38,7 +38,6 @@ const ItemAdd = () => {
             ingredients: ingredientsTags,
             description: formData.get('description'),
             category: formData.get('category'),
-            // Add other form fields as needed
         }
     
         console.log(item);

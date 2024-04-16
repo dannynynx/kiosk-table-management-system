@@ -1,5 +1,5 @@
 import './ItemEdit.css';
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import axios from 'axios';
@@ -15,6 +15,7 @@ const ItemEdit = () => {
     const formattedPrice = price.toFixed(2);
     const [ingredientsTags, setIngredientsTags] = useState([...ingredients]);
     const [currImage, setCurrImage] = useState(image);
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -34,22 +35,31 @@ const ItemEdit = () => {
     }, []);
 
 
-
-
     const handleEditItem = async (event) => { 
         event.preventDefault();
         const formData = new FormData(event.target); 
 
-
         const item = { 
+            id,
             name: formData.get('name'),
-            image: await fileToDataUrl(formData.get('image')),
+            image: currImage,
             cost: formData.get('cost'),
             ingredients: ingredientsTags,
             description: formData.get('description'),
             category: formData.get('category'),
-            // Add other form fields as needed
         }
+
+        axios.put('http://127.0.0.1:5000/manager/edit_menu_item', item)
+        .then(response => {
+            console.log(response);
+            navigate('/manager/menu');
+        })
+        .catch(error => { 
+            console.error('Error submitting data:', error);
+        });
+
+
+
     }
 
     const fileToDataUrl = async (file) => {
@@ -77,7 +87,6 @@ const ItemEdit = () => {
             try {
                 const url = await fileToDataUrl(file);
                 setCurrImage(url);
-                console.log(url);
             } catch (error) {
                 alert(error);
             }
@@ -105,15 +114,16 @@ const ItemEdit = () => {
 
     return (
         <form className='item' onSubmit={handleEditItem}>
-            <div className="image">
-                {image && <img src={currImage == image ? `data:image/png;base64,${image}` : currImage} className='item-image' alt={name} />}
+            <div className="image" name="image">
+                {image && <img src={currImage} className='item-image' alt={name} />}
                 <input type='file' onChange={handleItemImage} accept='image/jpeg, image/png'/>
             </div>
             <div className='item-details-container'>
                 <label>Item name</label>
-                <input type="text" className='item-name' defaultValue={name}/>
+                <input type="text" className='item-name' name="name" defaultValue={name}/>
                 <label>Item Category</label>
-                <select>
+                <select name="category">
+                    <option key="0" value="0">No category</option>
                     {
                         categories.map((cate, index) => { 
                             return <option key={index} value={cate.id} selected={category === cate.name ? 'selected' : ''}>{cate.name}</option>;
@@ -121,11 +131,11 @@ const ItemEdit = () => {
                     }
                 </select>
                 <label>Item price</label>
-                <input type="number" min="0" step="0.01" className='item-price' defaultValue={formattedPrice}/>
+                <input type="number" min="0" step="0.01" name="cost" className='item-price' defaultValue={formattedPrice}/>
                 <label>DESCRIPTION</label>
-                <input type="text" defaultValue={description}/>
+                <input type="text" name="description" defaultValue={description}/>
                 <label>INGREDIENTS</label>
-                <div className='ingredients-tags'>
+                <div className='ingredients-tags' name="ingredients">
                     {ingredientsTags.map((tag,index) => (
                         <div className='tag-item' key={index}>
                             <span className='text'>{tag}</span>

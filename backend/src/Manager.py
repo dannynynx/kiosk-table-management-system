@@ -138,6 +138,10 @@ def delete_category(db, id):
 
     cursor.execute("DELETE FROM CATEGORIES WHERE category_id=:ci", {"ci": id})
     connection.commit()
+
+    cursor.execute("UPDATE ITEMS SET category_id = 0 WHERE category_id=:ci", {"ci": id})
+    connection.commit()
+
     connection.close()
 
 def add_menu_item(db, name, description, ingredients, category, cost, image):

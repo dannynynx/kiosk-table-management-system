@@ -42,6 +42,16 @@
     font-weight: 600;
 }
 
+.edit-cate { 
+    display: flex;
+    flex-direction: row;
+}
+
+.delete-cate { 
+    width: 20px;
+    height: 20px;
+}
+
 .bill {
     width: 8vw;
     position: fixed;

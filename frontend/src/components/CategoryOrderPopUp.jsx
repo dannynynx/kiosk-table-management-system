@@ -2,6 +2,7 @@ import './CategoryOrderPopUp.css';
 import PropTypes from "prop-types";
 import { useState } from 'react';
 import backArrow from '../assets/back-arrow-icon.svg';
+import axios from 'axios';
 
 const CategoryOrderPopup = ({ categories, onClose }) => {
     const initialOrderedCategories = categories.map((category, index) => ({
@@ -33,8 +34,17 @@ const CategoryOrderPopup = ({ categories, onClose }) => {
 
     const handleSaveOrder = () => {
         //save to backend
-        console.log(orderedCategories);
-        onClose();
+        const data = {"categories": orderedCategories}
+        axios.put('http://127.0.0.1:5000/manager/reorder_categories', data)
+        .then(response => {
+            console.log(data);
+            console.log(response);
+            onClose();
+        })
+        .catch(error => { 
+            console.error('Error submitting data:', error);
+        })
+        // onClose();
     };
 
     return (
