@@ -49,8 +49,7 @@ def edit_account(db, id, username, password, role, logout_code):
 def delete_account(db, id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    print("checking")
-    print(id)
+    
     cursor.execute("DELETE FROM STAFF WHERE staff_id=? and in_use=?", (id, 0))
     connection.commit()
     connection.close()
