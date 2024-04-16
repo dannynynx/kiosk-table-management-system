@@ -13,7 +13,7 @@
 }
 
 .item-preview-image {
-    width: auto;
+    width: 12em;
     height: 12em;
     align-self: center;
     border-radius: 1em;
