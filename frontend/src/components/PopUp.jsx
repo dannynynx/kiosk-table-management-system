@@ -21,7 +21,7 @@ const PopUp = (props) => {
 
 PopUp.propTypes = {
     isPopUpVisible: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
+    message: PropTypes.object,
     onClose: PropTypes.func.isRequired,
 };
 
