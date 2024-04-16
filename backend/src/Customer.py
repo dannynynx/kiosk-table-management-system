@@ -193,15 +193,13 @@ def show_menu(db):
     JOIN CATEGORIES AS c ON i.category_id = c.category_id 
     JOIN ITEM_INGREDIENTS as it on i.item_id = it.item_id 
     JOIN INGREDIENTS as ig on it.ingredient_id = ig.ingredient_id
+    ORDER BY i.position
     '''
     cursor.execute(showMenu)
     items = cursor.fetchall()
     items_list = []
 
     for item in items:
-        # with open(f'ItemImages/{item[5]}', "rb") as image_file:
-        #     # Encode the image as base64 string
-        #     encoded_image = base64.b64encode(image_file.read()).decode('utf-8')
         item_dict = {
             "id": item[0],
             "name": item[1],

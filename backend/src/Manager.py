@@ -145,8 +145,8 @@ def add_menu_item(db, name, description, ingredients, category, cost, image):
     cursor = connection.cursor()
 
     sql1 = """
-    INSERT INTO ITEMS (name, description, category_id, cost, image)
-    VALUES (:n, :d, :ci, :c, :i)
+    INSERT INTO ITEMS (name, description, category_id, cost, image, position)
+    VALUES (:n, :d, :ci, :c, :i, (SELECT MAX(position) + 1 FROM ITEMS))
     """
 
     cursor.execute(sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": image})
@@ -243,6 +243,25 @@ def reorder_categories(db, categories):
         sql = """
         UPDATE CATEGORIES
         SET position = :p
+        WHERE name = :n
+        """
+
+        cursor.execute(sql, {"n": name, "p": position})
+        connection.commit()
+    
+    connection.close()
+
+def reorder_menu_items(db, items):
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    for item in items:
+        name = item.get('name')
+        position = item.get('order')
+
+        sql = """
+        UPDATE ITEMS
+        SET position = :p,
         WHERE name = :n
         """
 
