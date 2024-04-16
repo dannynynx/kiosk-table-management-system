@@ -1,8 +1,4 @@
-import base64
 import sqlite3
-import random
-import time
-from Helper import valid_user, valid_user_specific
 
 def create_account(db, username, password, role, logout_code):
     connection = sqlite3.connect(db)
