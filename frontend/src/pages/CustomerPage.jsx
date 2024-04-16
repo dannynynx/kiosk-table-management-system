@@ -20,7 +20,7 @@ const CustomerPage = (props) => {
         if (role == "wait" || role == "manager" || role == "kitchen") { 
             navigate('/login');
         }
-        
+
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {
             const data = response.data;
@@ -29,7 +29,7 @@ const CustomerPage = (props) => {
         .catch(error => {
             console.error('Error fetching menu:', error);
         });
-    }, [initialiseMenuItem]);
+    }, [initialiseMenuItem, navigate, role]);
 
     const handleCategoryFilter = (category) => {
         setSelectedCategory(category);
