@@ -13,6 +13,7 @@ const ManagerStatsPage = () => {
     }
 
     const handleSelectDates = async (event) => {
+        event.preventDefault();
         const formData = new FormData(event.target); 
 
         const data = { 
@@ -25,8 +26,12 @@ const ManagerStatsPage = () => {
                 "start_date": data.start_date,
                 "end_date": data.end_date
             }
-            const response = await axios.get('http://127.0.0.1:5000/manager/get_stats', dates)
-            setStats(response)
+            console.log(dates)
+            const response = await axios.get( `http://127.0.0.1:5000/manager/get_stats?start_date=${data.start_date}&end_date=${data.end_date}`)
+            
+            await setStats(response.data)
+            
+            console.log(stats)
 
         } catch (error) {
             console.log(error)

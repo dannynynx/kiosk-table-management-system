@@ -259,9 +259,8 @@ def customer_clear_order():
 
 @app.route("/manager/get_stats", methods=['GET'])
 def manager_get_stats():
-    data = request.get_json()
-    start_date = data.get('start_date')
-    end_date = data.get('end_date')
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
 
     return_data = get_stats(DB_PATH, start_date, end_date)
     return jsonify(return_data), 200
@@ -311,6 +310,16 @@ def handle_add_notification(data):
     add_notification(DB_PATH, table_id, notification_type, token)
     return_data = get_notifications(DB_PATH, token)
     emit('updated_notification_status', return_data, broadcast=True)
+
+@socketio.on('send_order')
+def handle_send_order(data):
+    table_id = data.get('table_id')
+    order_items = data.get('order_items')
+    token = data.get('token')
+
+    send_order_to_database(DB_PATH, table_id, order_items, token)
+    return_data = get_customer_past_orders(DB_PATH, table_id)
+    emit('sent_orders', return_data)
 
 
 if __name__ == '__main__':
