@@ -10,18 +10,22 @@ import PastOrders from './PastOrders';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import socket from "../socket";
+import { useTopBar } from "../context/TopBarContext.jsx";
 
 const TopBar = ({ onHandleSearchFilter }) => {
     const tablenumber = localStorage.getItem('tablenumber');
+    const getTopBar = useTopBar();
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [assistId, setAssistId] = useState(null);
+
+
     socket.on('updated_notification_status', (data) => {
         setAssistId(null);
         data.forEach(notif => {
-            if (notif.notification_type === "assistance" && notif.table_id === parseInt(tablenumber) && notif.status === "new") {
+            if (notif.notification_type === "assistance" && notif.table_id === parseInt(getTopBar.tablenumber) && notif.status === "new") {
                 setAssistId(notif.notification_id);
             }
         });
@@ -31,8 +35,8 @@ const TopBar = ({ onHandleSearchFilter }) => {
         if (assistId === null) {
             try {
                 const data = {
-                    "table_id": localStorage.getItem('tablenumber'),
-                    "token": localStorage.getItem('token'),
+                    "table_id": getTopBar.tablenumber,
+                    "token": getTopBar.token,
                     "notification_type": 'assistance',
                 }
 
@@ -46,7 +50,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
             const data = { 
                 new_status: "closed",
                 notification_id: assistId,
-                token: localStorage.getItem('token')
+                token: getTopBar.token
             }
             setAssistId(null);
             socket.emit('update_notification_status', data);
@@ -92,7 +96,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
                         {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
                         {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
                     </div> 
-                    <h2 className="table-number">#{tablenumber}</h2>
+                    <h2 className="table-number">#{getTopBar.tablenumber}</h2>
                 </div>
             </div>  
             {isPopUpVisible && (

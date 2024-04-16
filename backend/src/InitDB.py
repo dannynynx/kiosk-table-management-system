@@ -52,7 +52,7 @@ def initialise_db():
     cursor.execute(sql3)
 
     items = [
-        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99, 'Avocado_Toast.png'),
+        ('Avo Toast', 'A delicious and simple breakfast', 1, 6.99, ''),
         ('Lasagna', 'A rich and cheesy pasta stockful of beef mince', 2, 16.00, 'Lasagna.png'),
         ('Margherita Pizza', 'Authentic italian pizza', 3, 24.00, 'Margherita_Pizza.png'),
         ('Chocolate Cake', 'A delicious chocolate dessert', 4, 10.99, 'Chocolate_Cake.png'),

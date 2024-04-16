@@ -5,7 +5,7 @@
         "description": "A delicious and simple breakfast",
         "category_id": 1,
         "cost": 6.99,
-        "image": "Avocado_Toast.png"
+        "image": ""
     },
     {
         "item_id": 2,
