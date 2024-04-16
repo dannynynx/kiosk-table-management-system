@@ -37,3 +37,11 @@
 .manager-buttons button:hover {
 background-color: lightseagreen;
 }
+
+.settings {
+    position: absolute;
+    top: 1em;
+    right: 9em;
+    border-radius: 2em;
+    font-weight: 600;
+}

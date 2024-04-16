@@ -170,5 +170,325 @@
     {
         "item_id": 11,
         "ingredient_id": 33
+    },
+    {
+        "item_id": 12,
+        "ingredient_id": 9
+    },
+    {
+        "item_id": 12,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 12,
+        "ingredient_id": 10
+    },
+    {
+        "item_id": 12,
+        "ingredient_id": 34
+    },
+    {
+        "item_id": 12,
+        "ingredient_id": 35
+    },
+    {
+        "item_id": 13,
+        "ingredient_id": 9
+    },
+    {
+        "item_id": 13,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 13,
+        "ingredient_id": 10
+    },
+    {
+        "item_id": 13,
+        "ingredient_id": 34
+    },
+    {
+        "item_id": 13,
+        "ingredient_id": 35
+    },
+    {
+        "item_id": 14,
+        "ingredient_id": 1
+    },
+    {
+        "item_id": 14,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 14,
+        "ingredient_id": 10
+    },
+    {
+        "item_id": 14,
+        "ingredient_id": 35
+    },
+    {
+        "item_id": 15,
+        "ingredient_id": 36
+    },
+    {
+        "item_id": 15,
+        "ingredient_id": 37
+    },
+    {
+        "item_id": 15,
+        "ingredient_id": 38
+    },
+    {
+        "item_id": 15,
+        "ingredient_id": 39
+    },
+    {
+        "item_id": 16,
+        "ingredient_id": 40
+    },
+    {
+        "item_id": 16,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 16,
+        "ingredient_id": 2
+    },
+    {
+        "item_id": 16,
+        "ingredient_id": 4
+    },
+    {
+        "item_id": 16,
+        "ingredient_id": 7
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 27
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 41
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 42
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 43
+    },
+    {
+        "item_id": 17,
+        "ingredient_id": 44
+    },
+    {
+        "item_id": 18,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 18,
+        "ingredient_id": 9
+    },
+    {
+        "item_id": 18,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 19,
+        "ingredient_id": 1
+    },
+    {
+        "item_id": 19,
+        "ingredient_id": 11
+    },
+    {
+        "item_id": 19,
+        "ingredient_id": 35
+    },
+    {
+        "item_id": 20,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 20,
+        "ingredient_id": 7
+    },
+    {
+        "item_id": 20,
+        "ingredient_id": 19
+    },
+    {
+        "item_id": 20,
+        "ingredient_id": 11
+    },
+    {
+        "item_id": 21,
+        "ingredient_id": 27
+    },
+    {
+        "item_id": 21,
+        "ingredient_id": 45
+    },
+    {
+        "item_id": 21,
+        "ingredient_id": 2
+    },
+    {
+        "item_id": 21,
+        "ingredient_id": 28
+    },
+    {
+        "item_id": 22,
+        "ingredient_id": 23
+    },
+    {
+        "item_id": 22,
+        "ingredient_id": 11
+    },
+    {
+        "item_id": 22,
+        "ingredient_id": 46
+    },
+    {
+        "item_id": 22,
+        "ingredient_id": 47
+    },
+    {
+        "item_id": 23,
+        "ingredient_id": 6
+    },
+    {
+        "item_id": 23,
+        "ingredient_id": 48
+    },
+    {
+        "item_id": 23,
+        "ingredient_id": 49
+    },
+    {
+        "item_id": 23,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 24,
+        "ingredient_id": 50
+    },
+    {
+        "item_id": 24,
+        "ingredient_id": 51
+    },
+    {
+        "item_id": 24,
+        "ingredient_id": 52
+    },
+    {
+        "item_id": 24,
+        "ingredient_id": 53
+    },
+    {
+        "item_id": 25,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 25,
+        "ingredient_id": 54
+    },
+    {
+        "item_id": 25,
+        "ingredient_id": 55
+    },
+    {
+        "item_id": 25,
+        "ingredient_id": 56
+    },
+    {
+        "item_id": 26,
+        "ingredient_id": 32
+    },
+    {
+        "item_id": 26,
+        "ingredient_id": 35
+    },
+    {
+        "item_id": 26,
+        "ingredient_id": 57
+    },
+    {
+        "item_id": 27,
+        "ingredient_id": 25
+    },
+    {
+        "item_id": 27,
+        "ingredient_id": 53
+    },
+    {
+        "item_id": 27,
+        "ingredient_id": 58
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 59
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 60
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 61
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 15
+    },
+    {
+        "item_id": 28,
+        "ingredient_id": 16
+    },
+    {
+        "item_id": 29,
+        "ingredient_id": 62
+    },
+    {
+        "item_id": 29,
+        "ingredient_id": 63
+    },
+    {
+        "item_id": 29,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 29,
+        "ingredient_id": 15
+    },
+    {
+        "item_id": 30,
+        "ingredient_id": 11
+    },
+    {
+        "item_id": 30,
+        "ingredient_id": 3
+    },
+    {
+        "item_id": 30,
+        "ingredient_id": 15
+    },
+    {
+        "item_id": 30,
+        "ingredient_id": 62
+    },
+    {
+        "item_id": 30,
+        "ingredient_id": 9
     }
 ]

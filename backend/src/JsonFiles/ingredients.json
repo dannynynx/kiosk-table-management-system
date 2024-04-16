@@ -130,5 +130,121 @@
     {
         "ingredient_id": 33,
         "ingredient_name": "Uni"
+    },
+    {
+        "ingredient_id": 34,
+        "ingredient_name": "Butter"
+    },
+    {
+        "ingredient_id": 35,
+        "ingredient_name": "Maple Syrup"
+    },
+    {
+        "ingredient_id": 36,
+        "ingredient_name": "Acai Puree"
+    },
+    {
+        "ingredient_id": 37,
+        "ingredient_name": "Kiwi"
+    },
+    {
+        "ingredient_id": 38,
+        "ingredient_name": "Banana"
+    },
+    {
+        "ingredient_id": 39,
+        "ingredient_name": "Strawberry"
+    },
+    {
+        "ingredient_id": 40,
+        "ingredient_name": "Tortilla"
+    },
+    {
+        "ingredient_id": 41,
+        "ingredient_name": "Chorizo"
+    },
+    {
+        "ingredient_id": 42,
+        "ingredient_name": "Prawns"
+    },
+    {
+        "ingredient_id": 43,
+        "ingredient_name": "Mussels"
+    },
+    {
+        "ingredient_id": 44,
+        "ingredient_name": "Saffron"
+    },
+    {
+        "ingredient_id": 45,
+        "ingredient_name": "Seaweed"
+    },
+    {
+        "ingredient_id": 46,
+        "ingredient_name": "Pancetta"
+    },
+    {
+        "ingredient_id": 47,
+        "ingredient_name": "Pepper"
+    },
+    {
+        "ingredient_id": 48,
+        "ingredient_name": "Pastry"
+    },
+    {
+        "ingredient_id": 49,
+        "ingredient_name": "Mushroom"
+    },
+    {
+        "ingredient_id": 50,
+        "ingredient_name": "Lamb"
+    },
+    {
+        "ingredient_id": 51,
+        "ingredient_name": "Rosemary"
+    },
+    {
+        "ingredient_id": 53,
+        "ingredient_name": "Olive Oil"
+    },
+    {
+        "ingredient_id": 54,
+        "ingredient_name": "Duck"
+    },
+    {
+        "ingredient_id": 55,
+        "ingredient_name": "Turkey"
+    },
+    {
+        "ingredient_id": 56,
+        "ingredient_name": "Stuffing"
+    },
+    {
+        "ingredient_id": 57,
+        "ingredient_name": "Lemon"
+    },
+    {
+        "ingredient_id": 58,
+        "ingredient_name": "Seasoning"
+    },
+    {
+        "ingredient_id": 59,
+        "ingredient_name": "Lady Fingers"
+    },
+    {
+        "ingredient_id": 60,
+        "ingredient_name": "Expresso"
+    },
+    {
+        "ingredient_id": 61,
+        "ingredient_name": "Mascarpone"
+    },
+    {
+        "ingredient_id": 62,
+        "ingredient_name": "Cream"
+    },
+    {
+        "ingredient_id": 63,
+        "ingredient_name": "Vanilla Bean"
     }
 ]
