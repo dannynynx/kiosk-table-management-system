@@ -349,10 +349,21 @@ def clear_order(db, table_id):
     cursor.execute(sql, (session_id,))
 
     sql = """
+    DELETE FROM NOTIFICATIONS
+    WHERE table_id IN (SELECT NOTIFICATIONS.table_id
+                    FROM NOTIFICATIONS
+                    JOIN TABLES ON TABLES.table_id = NOTIFICATIONS.table_id
+                    WHERE session_id=?)
+    """
+
+    cursor.execute(sql, (session_id,))
+
+    sql = """
     DELETE FROM ORDERS WHERE session_id=?
     """
 
     cursor.execute(sql, (session_id,))
+    
 
     sql = """
     UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?
