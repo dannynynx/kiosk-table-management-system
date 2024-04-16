@@ -27,7 +27,7 @@ def remove_existing_database():
         os.remove(DB_PATH)
 
 remove_existing_database()
-initialise_db()
+initialise_db(DB_PATH)
 
 
 @app.route('/staff/staff_authentication', methods=['POST'])

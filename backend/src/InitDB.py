@@ -3,8 +3,8 @@ import sqlite3
 # GOT INFO FROM: https://dev.mysql.com/doc/connector-python/en/connector-python-api-mysqlcursor-executemany.html
 
 # Initialise Table Views
-def initialise_db():
-    connection = sqlite3.connect("BlueZebra.db")
+def initialise_db(DB_PATH):
+    connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
 
     # CATEGORIES
