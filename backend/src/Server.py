@@ -78,6 +78,13 @@ def showTable():
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
+@app.route('/customer/table_code', methods=['GET'])
+def table_code():
+    table_id = request.args.get('table_id')
+
+    return_data = get_table_code(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
 
 @socketio.on('table_confirmation')
 def handle_table_confirmation(table_id):
