@@ -75,6 +75,7 @@ const ItemAdd = () => {
             }
           });
           console.log(response.data);
+          navigate('/manager/menu')
         } catch (error) {
           console.error('Error uploading file:', error);
         }
