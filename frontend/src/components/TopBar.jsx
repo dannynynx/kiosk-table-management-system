@@ -103,7 +103,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
                         {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
                         {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
                     </div> 
-                    <h2 className="table-number">#{tablenumber}</h2>
+                    {/* <h2 className="table-number">#{tablenumber}</h2> */}
                 </div>
             </div>  
             {isPopUpVisible && (

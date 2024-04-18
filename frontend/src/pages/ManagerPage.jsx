@@ -8,12 +8,12 @@ const ManagerPage = () => {
     const navigate = useNavigate();
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
-    const role = localStorage.getItem('tablenumber');
+    // const role = localStorage.getItem('tablenumber');
 
     useEffect(() => {
-        if (role !== "manager") { 
-            navigate('/login');
-        }
+        // if (role !== "manager") { 
+        //     navigate('/login');
+        // }
     }, [])
 
 

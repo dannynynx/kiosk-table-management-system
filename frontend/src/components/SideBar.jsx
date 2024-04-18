@@ -1,6 +1,5 @@
 import './SideBar.css';
 import requestBill from '../assets/request-bill-icon.svg';
-import PopUp from "./PopUp";
 import axios from 'axios';
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";

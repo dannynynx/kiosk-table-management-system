@@ -10,6 +10,7 @@ const LogoutPage = () => {
     const navigate = useNavigate();
     const [textColor, setTextColor] = useState('#e7eaf9');
     const [textContent, setTextContent] = useState('Please Type the logout code here:');
+    const role = localStorage.getItem('role');
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -18,7 +19,7 @@ const LogoutPage = () => {
     const handleSubmit = async () => {
         const message = await authenticateCode();
         if (message !== null) {
-            navigate('/menu');
+            navigate('/login');
         }  
     };
 

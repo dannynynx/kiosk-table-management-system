@@ -68,7 +68,6 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
                     <div className='topbar-icon-container'>
                         <img src={assistance} className={`cart`} alt='Call for Assistance Icon'/>
                     </div>   
-                    <h2 className="table-number">#{tablenumber}</h2>
                 </div>
             </div>  
             {isPopUpVisible && (

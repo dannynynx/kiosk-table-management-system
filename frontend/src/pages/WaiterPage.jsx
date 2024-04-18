@@ -10,13 +10,13 @@ const WaiterPage = () => {
     const [orders, setOrders] = useState([]);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [currBill, setCurrBill] = useState(null);
-    const role = localStorage.getItem('tablenumber');
+    // const role = localStorage.getItem('tablenumber');
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (role !== "wait") { 
-            navigate('/login');
-        }
+        // if (role !== "wait") { 
+        //     navigate('/login');
+        // }
 
         axios.get('http://127.0.0.1:5000/staff/show_orders')
             .then(response => {
