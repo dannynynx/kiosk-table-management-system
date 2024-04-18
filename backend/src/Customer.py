@@ -2,10 +2,20 @@ import base64
 import sqlite3
 import time
 from datetime import datetime
+
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
 generated_codes = set()
+
+
 def generate_unique_code():
+    """
+    Generate a unique 4-digit code based on the current timestamp.
+
+    Returns:
+        str: A unique 4-digit code.
+    """
+    # Your code here...
     while True:
         timestamp = int(time.time())
         code = str(timestamp)[-4:]  # Extract last 4 digits of the timestamp
@@ -13,7 +23,18 @@ def generate_unique_code():
             generated_codes.add(code)
             return code
 
+
 def confirm_table(db, table_id):
+    """
+    Confirm a table in the database and generate a unique code for it.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table to confirm.
+
+    Returns:
+        dict: An empty dictionary.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -23,7 +44,8 @@ def confirm_table(db, table_id):
 
     code = generate_unique_code()
     # Store the generated code and seesion_id
-    cursor.execute("UPDATE TABLES SET code=?, session_id=?, is_occupied=? WHERE table_id=?", (code, new_session_id, True, table_id))
+    cursor.execute("UPDATE TABLES SET code=?, session_id=?, is_occupied=? WHERE table_id=?",
+                   (code, new_session_id, True, table_id))
 
     connection.commit()
 
@@ -31,7 +53,18 @@ def confirm_table(db, table_id):
 
     return {}
 
+
 def get_table_code(db, table_id):
+    """
+    Retrieve the code of a specific table from the database.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table.
+
+    Returns:
+        str: The code of the table.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -45,23 +78,47 @@ def get_table_code(db, table_id):
 
     return code
 
+
 def authenticate_table(db, table_id, entered_code):
+    """
+    Authenticate a table in the database using a provided code.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table to authenticate.
+        entered_code (str): The code to authenticate the table with.
+
+    Returns:
+        bool: True if authentication is successful, False otherwise.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-        
+
     # Retrieve stored code for the table
     cursor.execute("SELECT code FROM TABLES WHERE is_occupied=1 AND table_id=?", [table_id])
-    
+
     stored_codes = cursor.fetchall()
 
     connection.close()
 
     for stored in stored_codes:
         if stored[0] == entered_code:
-            return True #successfull authentication
-    return False 
+            return True  # successfull authentication
+    return False
+
 
 def send_order_to_database(db, table_id, order_items):
+    """
+    Send an order to the database.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table placing the order.
+        order_items (list): A list of dictionaries containing the order items.
+
+    Returns:
+        dict: An empty dictionary.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -89,10 +146,23 @@ def send_order_to_database(db, table_id, order_items):
     connection.close()
     return {}
 
+
 def add_item_to_order(db, order_id, item_id, quantity):
+    """
+    Add an item to an order in the database.
+
+    Args:
+        db (str): The database path.
+        order_id (int): The id of the order.
+        item_id (int): The id of the item to add.
+        quantity (int): The quantity of the item to add.
+
+    Returns:
+        None
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-   
+
     sql = """
     INSERT OR IGNORE INTO IN_ORDER (order_id, item_id, quantity, status)
     VALUES (:o, :i, :q, :s)
@@ -102,7 +172,17 @@ def add_item_to_order(db, order_id, item_id, quantity):
     connection.commit()
     connection.close()
 
+
 def show_table(db):
+    """
+    Retrieve all the tables from the database.
+
+    Args:
+        db (str): The database path.
+
+    Returns:
+        list: A list of dictionaries containing the table data.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
     showTable = '''
@@ -115,7 +195,7 @@ def show_table(db):
 
     table_list = []
     tables = cursor.fetchall()
-    
+
     for table in tables:
         table_dict = {
             "id": table[0],
@@ -127,7 +207,17 @@ def show_table(db):
 
     return table_list
 
+
 def show_menu(db):
+    """
+    Retrieve all the menu items from the database.
+
+    Args:
+        db (str): The database path.
+
+    Returns:
+        list: A list of dictionaries containing the menu item data.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -163,7 +253,17 @@ def show_menu(db):
     connection.close()
     return items_list
 
+
 def get_all_categories(db):
+    """
+    Retrieve all the categories from the database.
+
+    Args:
+        db (str): The database path.
+
+    Returns:
+        list: A list of dictionaries containing the category data.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -186,10 +286,21 @@ def get_all_categories(db):
         category_list.append(category_dict)
 
     connection.close()
-    
+
     return category_list
 
+
 def get_customer_past_orders(db, table_id):
+    """
+    Retrieve all the past orders of a specific table from the database.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table.
+
+    Returns:
+        list: A list of dictionaries containing the past order data.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -221,7 +332,18 @@ def get_customer_past_orders(db, table_id):
 
     return past_list
 
+
 def get_table_session_id(db, table_id):
+    """
+    Retrieve the session id of a specific table from the database.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table.
+
+    Returns:
+        int: The session id of the table.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -238,10 +360,22 @@ def get_table_session_id(db, table_id):
 
     return session_id
 
+
 def add_notification(db, table_id, notification_type):
+    """
+    Add a notification to the database for a specific table.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table.
+        notification_type (str): The type of the notification.
+
+    Returns:
+        bool: True if the notification was added successfully, False otherwise.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-        
+
     cursor.execute("SELECT is_occupied FROM TABLES WHERE table_id = ?", (table_id,))
     is_occupied = cursor.fetchone()[0]
 
@@ -259,13 +393,24 @@ def add_notification(db, table_id, notification_type):
             connection.rollback()
     else:
         print("Table is not occupied. No notification sent.")
-        
+
     connection.close()
     return False
 
-# add to stats 
+
+# add to stats
 # clear order from table
 def clear_order(db, table_id):
+    """
+    Clear an order from a specific table in the database.
+
+    Args:
+        db (str): The database path.
+        table_id (int): The id of the table.
+
+    Returns:
+        None
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -279,8 +424,8 @@ def clear_order(db, table_id):
     VALUES (:se, :d, :st)
     """
 
-    cursor.execute(sql, {"se": session_id , "d": date, "st": str(orders)})
-    
+    cursor.execute(sql, {"se": session_id, "d": date, "st": str(orders)})
+
     sql = """
     DELETE FROM IN_ORDER 
     WHERE order_id IN (SELECT IN_ORDER.order_id
@@ -306,7 +451,6 @@ def clear_order(db, table_id):
     """
 
     cursor.execute(sql, (session_id,))
-    
 
     sql = """
     UPDATE TABLES SET code=?, is_occupied=? WHERE table_id=?
