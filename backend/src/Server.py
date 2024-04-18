@@ -86,6 +86,7 @@ def showTable():
 def handle_table_confirmation(table_id):
     confirm_table(DB_PATH, table_id)
     emit('table_code', get_table_code(DB_PATH, table_id))
+    print(f"hello")
     emit('updated_table_status', show_table(DB_PATH), broadcast=True)
 
 @app.route('/customer/table_authentication', methods=['POST'])

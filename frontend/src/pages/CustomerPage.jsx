@@ -5,14 +5,12 @@ import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
-import { useInitialiseTopBar } from "../context/TopBarContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
-    const initialiseTopBar = useInitialiseTopBar();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
@@ -29,13 +27,7 @@ const CustomerPage = (props) => {
         .catch(error => {
             console.error('Error fetching menu:', error);
         });
-        initialiseTopBar(
-                        {
-                            "tablenumber" :localStorage.getItem('tablenumber'), 
-                            "token": localStorage.getItem('token')
-                        }
-                        );
-    }, [initialiseMenuItem, initialiseTopBar]);
+    }, [initialiseMenuItem]);
 
     const handleCategoryFilter = (category) => {
         setSelectedCategory(category);

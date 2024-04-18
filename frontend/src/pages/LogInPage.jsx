@@ -2,8 +2,11 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LogInPage.css';
+import { useInitialiseTable } from '../context/TableContext.jsx';
+
 
 const LogInPage = () => {
+    const initialiseTable = useInitialiseTable();
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const [usernameTextColor, setUsernameTextColor] = useState('#e7eaf9');
@@ -20,6 +23,7 @@ const LogInPage = () => {
             const token = response.data.token;
             localStorage.setItem('tablenumber', role)
             localStorage.setItem('token', token)
+            initialiseTable(role)
 
             if (formData.username == "kitchen") { 
                 navigate('/kitchen');

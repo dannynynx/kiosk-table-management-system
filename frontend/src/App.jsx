@@ -9,7 +9,7 @@ import TableSelection from "./pages/TableSelectionPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
-import TopBarProvider from "./context/TopBarContext.jsx";
+import TableProvider from "./context/TableContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
 import axios from 'axios';
@@ -23,16 +23,20 @@ const App = () => {
             <Routes>
                 <Route path='/kiosk' element={<KioskPage />} />
                 <Route path='/kiosk/table-selection' element={<TableSelection/>} />
-                <Route path='/login' element={<LogInPage />} />
+                <Route path='/login' element={
+                    <TableProvider>
+                         <LogInPage />    
+                    </TableProvider>
+                } />
                 <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
                 <Route path='/menu' element={
-                    <TopBarProvider>
+                    <TableProvider>
                         <MenuProvider>
                             <CartProvider>
                                 <CustomerPage display={'menu'}/>
                             </CartProvider>
                         </MenuProvider>
-                    </TopBarProvider>
+                    </TableProvider>
                 } />
 
                 <Route path='/menu/:id' element={
