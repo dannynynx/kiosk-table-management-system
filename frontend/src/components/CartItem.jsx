@@ -27,9 +27,9 @@ const CartItem = ({ id }) => {
                 <div className='img-qty-container'>
                     {image && <img src={`data:image/png;base64,${image}`} className='cart-item-img' alt={name} />}
                     <div className='cart-item-qty-bar'>
-                        <img src={add} className='cart-item-qty-btn' alt='plus icon' onClick={increaseQuantity}/>
-                        <span className='cart-item-qty'>{qty}</span>
                         <img src={remove} className='cart-item-qty-btn' alt='minus icon' onClick={decreaseQuantity}/>
+                            <span className='cart-item-qty'>{qty}</span>
+                        <img src={add} className='cart-item-qty-btn' alt='plus icon' onClick={increaseQuantity}/>
                     </div>
                 </div>
                 <div className='name-price-container'>
