@@ -3,6 +3,8 @@ import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import { useCart, useAddCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
+import { useNavigate } from 'react-router-dom';
+import backArrow from "../assets/back-arrow-icon.svg"
 
 
 const Item = () => {
@@ -10,6 +12,7 @@ const Item = () => {
     const id = parseInt(queryParams.get('param'),10);
     const getMenu = useMenu();
     const getCart = useCart();
+    const navigate = useNavigate();
     const addToCartContext = useAddCartItem();
     const updateCartItemContext = useUpdateCartItem();
 
@@ -36,6 +39,9 @@ const Item = () => {
 
     return (
         <div className='item'>
+             <button onClick={() => navigate('/menu')} className="close-button">
+                <img src={backArrow} alt='Back Arrow Icon'></img>
+             </button>
             {image && <img src={`data:image/png;base64,${image}`} className='item-image' alt={name} />}
             <div className='item-details-container'>
                 <h1 className='item-name'>{name}</h1>
