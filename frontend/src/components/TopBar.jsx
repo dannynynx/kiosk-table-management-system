@@ -20,6 +20,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [assistId, setAssistId] = useState(null);
     const [restaurantColour, getRestaurantColour] = useState("black")
+    
     socket.on('updated_notification_status', (data) => {
         setAssistId(null);
         data.forEach(notif => {

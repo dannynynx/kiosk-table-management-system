@@ -1,6 +1,6 @@
 import zebra from "../assets/zebra.svg";
 import "./ManagerTopBar.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReorderItemsPopUp from "./ReorderItemsPopUp.jsx";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
@@ -10,12 +10,25 @@ import PropTypes from "prop-types";
 import edit from "../assets/edit.svg"
 import editRed from "../assets/edit-red.svg"
 import reorderItems from "../assets/Item-reorder.svg";
+import axios from "axios";
 
 const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
     const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [editbtn, setEditbtn] = useState(edit);
+    const [restaurantColour, getRestaurantColour] = useState("black")
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
+    }, [getRestaurantColour]);
 
     const closePopUp = () => {
         setPopUpVisible(false);
@@ -36,7 +49,7 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
 
     return (
         <>
-            <div className="topbar">
+            <div className="topbar" style={{ backgroundColor: restaurantColour }}>
                 <div className="topbar-left">
                     <Link to='/menu' className="topbar-logo-link">
                         <img src={zebra} alt='Zebra Icon' className="topbar-logo"></img>

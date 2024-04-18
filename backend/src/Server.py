@@ -13,7 +13,7 @@ from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_ord
 from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, \
     edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, \
-    reorder_menu_items, show_accounts
+    reorder_menu_items, show_accounts, edit_customisation
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 

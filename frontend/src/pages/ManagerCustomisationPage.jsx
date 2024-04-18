@@ -21,10 +21,10 @@ const ManagerCustomisationPage = () => {
         const hexRegex = /^#?([a-fA-F0-9]{3}|[a-fA-F0-9]{6})$/;
         if (hexRegex.test(formData.hex)) {
             try {
-                const newData = { id: restaurantId , logo: restaurantLogo , primary_colour: formData.hex, secondary_colour: restaurantSecondaryColour }
+                const newData = { customisation_id: restaurantId , logo_image: restaurantLogo , primary_hex_code: formData.hex, secondary_hex_code: restaurantSecondaryColour }
                 const response = await axios.put( 'http://127.0.0.1:5000/manager/edit_customisation', newData);
                 console.log(response)
-                handleClose();
+                updateCustomisation()
             } catch (error) {
                 console.log(error)
             }
@@ -32,6 +32,20 @@ const ManagerCustomisationPage = () => {
             setTextColor('#d33d3d')
             setCodeText("New Hex Colour: Invalid Hex.")
         }
+    }
+
+    const updateCustomisation = () => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+            getRestaurantId(data.id)
+            getRestaurantLogo(data.logo)
+            getRestaurantSecondaryColour(data.secondary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
     }
 
     const handleChange = (e) => {

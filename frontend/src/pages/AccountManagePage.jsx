@@ -8,10 +8,19 @@ import AccountCreationPopUp from '../components/AccountCreationPopUp';
 const AccountManagePage = () => {
     const [accounts, setAccounts] = useState([]);
     const [isCreatingAccountVisible, setCreatingAccountVisible] = useState(false);
+    const [restaurantColour, getRestaurantColour] = useState("black")
 
     useEffect(() => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
         fetchAccounts();
-    }, []);
+    }, [getRestaurantColour]);
 
     const fetchAccounts = () => {
         axios.get('http://127.0.0.1:5000/manager/show_accounts')
@@ -35,7 +44,7 @@ const AccountManagePage = () => {
     return (
         <>
             <section className='account-manage-page'>
-                <div className='account-manage-top-bar'>
+                <div className='account-manage-top-bar' style={{ backgroundColor: restaurantColour }}>
                     <Link className='account-manage-back-button-container' to="/manager">
                         <input type='button' className='account-manage-back-button' value='Go Back'></input>
                     </Link>
@@ -46,7 +55,7 @@ const AccountManagePage = () => {
                 <div className='account-manage-container'>
                     {accounts.map((account) => (
                         <AccountPreview key={account.id} accountId={account.id} accountUsername={account.username} accountPassword={account.password} accountRole={account.role} accountLogoutCode={account.logout_code}></AccountPreview>))}
-                    <button className='account-manage-new-account-button' onClick={handleCreatingAccount}>Create Account</button>
+                    <button className='account-manage-new-account-button' style={{ backgroundColor: restaurantColour }} onClick={handleCreatingAccount}>Create Account</button>
                 </div>
                 {isCreatingAccountVisible && (
                         <AccountCreationPopUp isPopUpVisible={isCreatingAccountVisible} onClose={closeCreatingAccountPopUp}/>
