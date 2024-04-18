@@ -127,16 +127,6 @@ def show_table(db):
 
     return table_list
 
-def get_items_table_length(db):
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
-
-    cursor.execute("SELECT COUNT(*) FROM ITEMS")
-    length = cursor.fetchone()[0]
-
-    connection.close()
-
-    return length
 def show_menu(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()

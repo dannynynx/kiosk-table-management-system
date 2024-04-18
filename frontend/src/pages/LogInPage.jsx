@@ -15,7 +15,10 @@ const LogInPage = () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
             const role = response.data.role;
-            localStorage.setItem('tablenumber', role)
+            if (role !== 'manager' || role !== 'wait' || role !== 'kitchen')  {
+                localStorage.setItem('tablenumber', role)
+            }
+            
             localStorage.setItem('logout_code', response.data.logout_code)
         
             if (role == "kitchen") { 

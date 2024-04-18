@@ -17,9 +17,9 @@ const CustomerPage = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (role == "wait" || role == "manager" || role == "kitchen") { 
-            navigate('/login');
-        }
+        // if (role == "wait" || role == "manager" || role == "kitchen") { 
+        //     navigate('/login');
+        // }
 
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {

@@ -36,6 +36,7 @@ const Cart = ({ toggleExpand }) => {
         };
 
         socket.emit('send_order', order);
+        console.log('Order sent:', order);
         setCart([]);
         setPopupMessage("Your order has been sent");
         setPopUpVisible(true);
