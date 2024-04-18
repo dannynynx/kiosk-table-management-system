@@ -7,7 +7,18 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DB_PATH = os.path.join(BASE_DIR, 'BlueZebra.db')
 
+
 def export_table_to_json(table_name, file_name):
+    """
+    Export a table from the database to a JSON file.
+
+    Args:
+        table_name (str): The name of the table to export.
+        file_name (str): The name of the JSON file to create.
+
+    Returns:
+        None
+    """
     connection = sqlite3.connect("BlueZebra.db")
     cursor = connection.cursor()
 
@@ -47,7 +58,6 @@ tables_to_export = {
     'CUSTOMISATION': 'customisation.json',
     'STATS': 'stats.json'
 }
-
 
 for table_name, file_name in tables_to_export.items():
     export_table_to_json(table_name, file_name)
