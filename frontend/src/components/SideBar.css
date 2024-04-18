@@ -8,6 +8,7 @@
     transition: width 0.3s ease;
     border-radius: 1em;
     font-size: 10pt;
+    position: relative;
 }
 
 .categories { 
@@ -20,6 +21,7 @@
     padding-left: 2em;
     gap: 2em;
     font-size: 10pt;
+    overflow-y: auto;
 }
 
 button { 
@@ -32,25 +34,33 @@ button {
     font-weight: 600;
 }
 
-.bill {
-    width: 8vw;
-    position: fixed;
-    bottom: 2vh;
-    left: 1vw;
-}
 
 .selected {
     color: #439CEF;
     text-decoration: underline;
 }
 
+.bill {
+    width: 8vw;
+    position: absolute;
+    bottom: 10vh; /* Adjusted value to create space for the logout button */
+    left: 2vw;
+}
+
+
 .menu-logout-btn {
     background-color: black;
     color: white;
     padding: 1em;
     position: absolute;
-    bottom: 15em;
-    left: 1em;
+    bottom: 2vh; /* Adjusted value to position below the bill */
+    left: 2vw;
     border-radius: 2em;
     font-weight: 600;
+}
+
+.sidebar-icon-container {
+    position: absolute;
+    bottom: 15vh; /* Adjusted value for the icon container */
+    left: 2vw;
 }

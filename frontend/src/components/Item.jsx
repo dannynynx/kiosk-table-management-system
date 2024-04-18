@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useMenu } from "../context/MenuContext.jsx";
 import { useCart, useAddCartItem, useUpdateCartItem } from "../context/CartContext.jsx";
 import { useNavigate } from 'react-router-dom';
-import backArrow from "../assets/back-arrow-icon.svg"
+import backArrow from "../assets/back-arrow-icon.svg";
 
 
 const Item = () => {
