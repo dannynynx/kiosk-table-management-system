@@ -25,11 +25,6 @@ const ManagerPage = () => {
         navigate('/manager/menu');
     }
 
-    const handleOpenSettings = () => { 
-        navigate('/manager/settings');
-        //can change to be popup
-    }
-
     const handleEditAccounts =() => {
         navigate('/manager/accounts')
     }
@@ -51,7 +46,6 @@ const ManagerPage = () => {
         <div className='manager-page'>
             <h1>Manager</h1>
             <div className='logout-btn' onClick={handleLogout}>Log Out</div>
-            <div className='settings' onClick={handleOpenSettings}><img src={settings} alt='settings'/></div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
