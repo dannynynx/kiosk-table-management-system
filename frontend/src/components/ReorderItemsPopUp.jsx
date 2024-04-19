@@ -49,7 +49,7 @@ const ReorderItemsPopUp = ({ onClose }) => {
 
     return (
         <div className="category-order-popup">
-            <div className='msg'>
+            <div className='category-order-msg'>
                 <button onClick={onClose} className="close-button">
                     <img src={backArrow} alt='Back Arrow Icon' />
                 </button>
