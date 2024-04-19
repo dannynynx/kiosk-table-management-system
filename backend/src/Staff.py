@@ -18,14 +18,22 @@ def staff_tablet_authentication(db, username, password):
         connection = sqlite3.connect(db)
         cursor = connection.cursor()
 
-        cursor.execute("SELECT * FROM STAFF WHERE username=? AND password=?", (username, password))
+        sql = """
+        SELECT * 
+        FROM STAFF 
+        WHERE username = :u AND password = :p
+        """
+
+        cursor.execute(sql, {"u": username, "p": password})
+        
         table_info = cursor.fetchone()
 
         if table_info is not None:
             # If the user exists, generate a token
             table_id = get_role(db, username, password)
 
-            cursor.execute("UPDATE STAFF SET in_use = ? WHERE role = ?", (1, table_id))
+            cursor.execute("UPDATE STAFF SET in_use = 1 WHERE role = :r", {"r": table_id})
+            
             connection.commit()
 
             return table_id
@@ -52,14 +60,23 @@ def staff_tablet_logout(db, logout_code, username):
     cursor = connection.cursor()
 
     # Check if the staff_id exists in the database
-    cursor.execute("SELECT * FROM STAFF WHERE username=?", (username,))
+    cursor.execute("SELECT * FROM STAFF WHERE username = :u", {"u": username})
+    
     staff_info = cursor.fetchone()
+    
     if staff_info is None:
         connection.close()
         return "Invalid staff ID"
 
     # Check if the provided logout_code matches the staff_id
-    cursor.execute("SELECT * FROM STAFF WHERE username=? AND logout_code=?", (username, logout_code))
+    sql = """
+    SELECT * 
+    FROM STAFF 
+    WHERE username = :u AND logout_code = :l
+    """
+
+    cursor.execute(sql, {"u": username, "l": logout_code})
+    
     user_info = cursor.fetchone()
 
     if user_info is None:
@@ -67,17 +84,20 @@ def staff_tablet_logout(db, logout_code, username):
         return "Invalid username or logout code"
 
     # Check if the session_id is not 0
-    cursor.execute("SELECT in_use FROM STAFF WHERE username=?", (username,))
+    cursor.execute("SELECT in_use FROM STAFF WHERE username = :u", {"u": username})
+    
     session_id = cursor.fetchone()[0]
 
     if session_id == 0:
         connection.close()
         return "Session ID is 0. Cannot logout."
 
-    cursor.execute("UPDATE STAFF SET in_use = ? WHERE username = ?", (0, username))
+    cursor.execute("UPDATE STAFF SET in_use = 0 WHERE username = :u", {"u": username})
+    
     connection.commit()
 
     connection.close()
+    
     return "Logout successful"
 
 
@@ -97,7 +117,14 @@ def get_role(db, username, password):
     cursor = connection.cursor()
 
     # Check if the username-password combination exists in the database
-    cursor.execute("SELECT role FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    sql = """
+    SELECT role 
+    FROM STAFF 
+    WHERE username = :u AND password = :p
+    """
+
+    cursor.execute(sql, {"u": username, "p": password})
+    
     result = cursor.fetchone()
 
     if result:
@@ -126,7 +153,14 @@ def get_logout_code(db, username, password):
     cursor = connection.cursor()
 
     # Check if the username-password combination exists in the database
-    cursor.execute("SELECT logout_code FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    sql = """
+    SELECT logout_code 
+    FROM STAFF 
+    WHERE username = :u AND password = :p
+    """
+
+    cursor.execute(sql, {"u": username, "p": password})
+    
     result = cursor.fetchone()
 
     if result:
@@ -157,10 +191,12 @@ def show_all_orders(db):
     FROM ORDERS AS o
     JOIN IN_ORDER AS io ON io.order_id = o.order_id
     JOIN ITEMS AS i ON i.item_id = io.item_id
-"""
+    """
 
     cursor.execute(sql)
+    
     order_items = cursor.fetchall()
+    
     order_list = []
 
     for item in order_items:
@@ -200,7 +236,9 @@ def get_status(db, order_id, item_id, quantity):
     FROM IN_ORDER
     WHERE order_id = :o AND item_id = :i AND quantity = :q
     """
+
     cursor.execute(sql, {"o": order_id, "i": item_id, "q": quantity})
+    
     status = cursor.fetchall()[0][0]
 
     connection.close()
@@ -232,7 +270,9 @@ def change_order_status(db, status, order_id, item_id, quantity):
     """
 
     cursor.execute(sql, {"s": status, "o": order_id, "i": item_id, "q": quantity})
+    
     connection.commit()
+    
     connection.close()
 
     return {}
