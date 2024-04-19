@@ -3,13 +3,16 @@ import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import socket from '../socket'
+import socket from '../socket';
 
 const WaitBillPopUp = (props) => { 
 
     const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
     const [pastorders, setPastOrders] = useState([]);
     const [paid, setPaid] = useState(false);
+    const total = pastorders.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0).toFixed(2);
 
 
     useEffect(() => {
@@ -59,6 +62,10 @@ const WaitBillPopUp = (props) => {
                             ))) : (<tr>
                                     <th>There are no orders to be paid.</th>
                                 </tr>)}
+                                <tr>
+                                    <th>Total</th>
+                                    <th>{total}</th>
+                                </tr>
                         </tbody>
                     </table>
                    <div className="btn-group">
