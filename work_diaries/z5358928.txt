@@ -59,4 +59,5 @@ Week 9
 
 Week 10
 - Added an edit customisation function and route to help Danny
+- Worked on and fixed bugs in the backend before the Wednesday demo
 - Fixed style for all backend files
