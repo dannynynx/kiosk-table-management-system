@@ -25,6 +25,8 @@ const ManagerCustomisationPage = () => {
                 const response = await axios.put( 'http://127.0.0.1:5000/manager/edit_customisation', newData);
                 console.log(response)
                 updateCustomisation()
+                setTextColor('#000000')
+                setCodeText('New Hex Colour:')
             } catch (error) {
                 console.log(error)
             }
