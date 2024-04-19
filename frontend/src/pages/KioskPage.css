@@ -20,7 +20,6 @@
 }
 .kiosk-title {
     font-size: 50pt;
-    color: #222a5c;
     font-weight: 200;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
@@ -29,7 +28,6 @@
     width: 100%;
     border: none;
     border-radius: 20px;
-    background-color: #222a5c;
     color: white;
     font-size: 30pt;
     font-weight: bold;

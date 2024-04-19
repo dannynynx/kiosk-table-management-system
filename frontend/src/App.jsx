@@ -15,6 +15,7 @@ import ManagerPage from './pages/ManagerPage.jsx';
 import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
 import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
 import AccountManagePage from './pages/AccountManagePage.jsx';
+import ManagerCustomisationPage from './pages/ManagerCustomisationPage.jsx'
 
 
 const App = () => {
@@ -64,6 +65,7 @@ const App = () => {
                 }/>
                 <Route path='/manager/stats' element={<ManagerStatsPage />} />
                 <Route path='/manager/accounts' element={<AccountManagePage/>}/>
+                <Route path='/manager/customise' element={<ManagerCustomisationPage/>}/>
             </Routes>
         </>
     );
