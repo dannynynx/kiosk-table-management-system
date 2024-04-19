@@ -570,14 +570,13 @@ def upload_file():
     """
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'})
-
     file = request.files['file']
     if file.filename == '':
         return jsonify({'error': 'No selected file'})
-
     if file:
         filename = file.filename
-        file.save(os.path.join(BASE_DIR, 'itemimages', filename))
+        print(os.path.join(BASE_DIR, 'ItemImages', filename), "NOTICEMEEEEEE")
+        file.save(os.path.join(BASE_DIR, 'ItemImages', filename))
         return jsonify({'success': 'File uploaded successfully'})
 
 

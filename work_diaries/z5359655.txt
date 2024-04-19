@@ -50,3 +50,9 @@ We will also need all members to be somewhat familiar with all areas of the code
 - past orders bug fixed
 - search function implemented
 - refactored react contexts
+
+# Week 9
+- More bug fixes (mainly UI bugfixes)
+
+# Week 10:
+- Research on containerising the application and implementing it (may not get it done by deadline)

@@ -2,6 +2,7 @@ import base64
 import sqlite3
 import time
 from datetime import datetime
+import os
 
 # Only generate and add code to set once customer confirms table
 # remove code from set once customer requests bill
@@ -232,7 +233,8 @@ def show_menu(db):
     items_list = []
 
     for item in items:
-        with open(f"ItemImages/{item[5]}", "rb") as image_file:
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        with open(f"{base_dir}/ItemImages/{item[5]}", "rb") as image_file:
             # Encode the image as base64 string
             encoded_image = base64.b64encode(image_file.read()).decode("utf-8")
         item_dict = {
