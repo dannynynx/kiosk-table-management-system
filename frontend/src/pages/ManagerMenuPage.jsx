@@ -8,22 +8,16 @@ import Item from "../components/Item.jsx"
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
 import Menu from "../components/Menu.jsx"
 import ItemAdd from '../components/ItemAdd.jsx';
-
 
 const ManagerMenuPage = (props) => {
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
-    const navigate = useNavigate();
     const [searchValue, setSearchValue] = useState('');
     const [editMode, setEditMode] = useState(localStorage.getItem('edit') === true);
 
-    useEffect(() => {
-        // if (localStorage.getItem('tablenumber') !== "manager") { 
-        //     navigate('/login');
-        // } 
+    useEffect(() => { 
         axios.get('http://127.0.0.1:5000/customer/showMenu')
         .then(response => {
             const data = response.data;

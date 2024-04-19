@@ -32,25 +32,15 @@ button {
     font-weight: 600;
 }
 
-.bill {
-    width: 8vw;
-    position: fixed;
-    bottom: 2vh;
-    left: 1vw;
-}
 
 .selected {
     color: #439CEF;
     text-decoration: underline;
 }
 
-.menu-logout-btn {
-    background-color: black;
-    color: white;
-    padding: 1em;
+.bill {
+    width: 8vw;
     position: absolute;
-    bottom: 15em;
-    left: 1em;
-    border-radius: 2em;
-    font-weight: 600;
+    bottom: 10vh; /* Adjusted value to create space for the logout button */
+    left: 2vw;
 }

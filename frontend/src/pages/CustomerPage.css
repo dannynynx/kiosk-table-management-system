@@ -45,3 +45,17 @@
     text-decoration: none;
     color: black;
 }
+
+.customer-logout-btn { 
+    bottom: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    position: fixed;
+    background-color: black;
+    color: white;
+    padding: 1em;
+    border-radius: 2em;
+    font-weight: 600;
+    margin-left: 5px;
+}

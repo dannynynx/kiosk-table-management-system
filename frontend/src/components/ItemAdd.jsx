@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {useInitialiseMenu} from "../context/MenuContext.jsx";
+import backArrow from "../assets/back-arrow-icon.svg";
 
 
 const ItemAdd = () => {
@@ -132,6 +133,9 @@ const ItemAdd = () => {
 
     return (
         <form className='item' onSubmit={event => handleAddItem(event)}>
+            <button onClick={() => navigate('/manager/menu')} className="close-button">
+                <img src={backArrow} alt='Back Arrow Icon'></img>
+             </button>
             <div className="image">
                 {currImage && <img src={currImage} className='item-image' alt="food image" />}
                 <input type='file' name="image" onChange={handleFileChange}/>

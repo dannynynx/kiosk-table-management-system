@@ -10,6 +10,9 @@ const RequestBillPopUp = (props) => {
 
     const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
     const [pastorders, setPastOrders] = useState([]);
+    const total = pastorders.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+    }, 0).toFixed(2);
 
 
     useEffect(() => {
@@ -46,6 +49,10 @@ const RequestBillPopUp = (props) => {
                             ))) : (<tr>
                                     <th>There are no orders to be paid.</th>
                                 </tr>)}
+                                <tr>
+                                    <th>Total</th>
+                                    <th>{total}</th>
+                                </tr>
                         </tbody>
                     </table>
                     Please make your way to the counter.
