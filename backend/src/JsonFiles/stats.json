@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "stats_id": 1,
+        "session_id": 1,
+        "date": "2024-04-19",
+        "stats": "[{'id': 1, 'quantity': 1, 'name': 'Avo Toast', 'price': 6.99}, {'id': 4, 'quantity': 1, 'name': 'Chocolate Cake', 'price': 10.99}, {'id': 7, 'quantity': 1, 'name': 'Steak and Salad', 'price': 50}, {'id': 14, 'quantity': 1, 'name': 'French Toast', 'price': 9.99}, {'id': 16, 'quantity': 1, 'name': 'Chicken Tacos', 'price': 13.99}]"
+    }
+]

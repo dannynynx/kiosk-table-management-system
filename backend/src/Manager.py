@@ -206,7 +206,7 @@ def get_stats(db, start_date, end_date):
             stats_list = ast.literal_eval(stat[0])
             for order in stats_list:
                 numItemsDaily += int(order["quantity"])
-                revenueDaily += int(order["quantity"]) * round(order["price"], 2)
+                revenueDaily += round(int(order["quantity"]) * order["price"], 2)
                 if order["name"] not in daily_dict:
                     daily_dict[order["name"]] = int(order["quantity"])
                 else:
