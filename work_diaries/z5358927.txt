@@ -46,4 +46,5 @@ Week 10:
 - Completed manager customisation design and code which now allows the manager to change the primary colour of the system
 - Completed account manager for the manager. The manager will now be able to create new accounts, edit new/existing accounts, and delete accounts (that are not in use)
 - Yung and Ayken helped with all the backend work, as well as a few front-end functionalities
+- Fixed some small bugs that popped up in our code, (mostly visual bugs for me in the frontend)
 - The final demo was done with the group
