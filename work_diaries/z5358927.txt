@@ -21,4 +21,29 @@ Week 4:
 
 Week 5:
 - Completed the code design for the Login page (1 page), and the kiosk page (3 pages in total with a pop up confirmation)
+- Also completed kiosk authentication page for the tablets for each table in the restaurant
 - some sections currently are hard coded, but the functionality of it still remains good
+
+Week 6:
+- Flexi-week, took a small break from coding, thought about what we needed to do from our feedback from sprint 1
+
+Week 7:
+- Yung and Ashley helped design the look of the kiosk to be more modern.
+- started working on the design code of the new kiosk
+- fixed some bugs that were seen in sprint 1
+
+Week 8:
+- did our sprint 2 demo
+- almost finished the design of the kiosk pages but was stuck on one small section where the table code was to be displayed on the screen
+- by early week 9, I wanted to complete kiosk pages as soon as possible so I can continue on the other features I was assigned
+
+Week 9:
+- Completed the final design look/code for the systems kiosk pages. Updated to be more similar to the customers menu page
+- The kiosk page design took long because of my silly mistake that couldve been fixed quicker
+- Talked with the group about what new extra features we could add for our final demo/code
+
+Week 10:
+- Completed manager customisation design and code which now allows the manager to change the primary colour of the system
+- Completed account manager for the manager. The manager will now be able to create new accounts, edit new/existing accounts, and delete accounts (that are not in use)
+- Yung and Ayken helped with all the backend work, as well as a few front-end functionalities
+- The final demo was done with the group
