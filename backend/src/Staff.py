@@ -1,8 +1,18 @@
 import sqlite3
-import jwt
-from Helper import generate_token, valid_user, decode_token, valid_user_specific
+
 
 def staff_tablet_authentication(db, username, password):
+    """
+    Authenticate a staff member's tablet.
+
+    Args:
+        db (str): The database path.
+        username (str): The username of the staff member.
+        password (str): The password of the staff member.
+
+    Returns:
+        str: The role of the staff member if authentication is successful, None otherwise.
+    """
     connection = None
     try:
         connection = sqlite3.connect(db)
@@ -13,41 +23,43 @@ def staff_tablet_authentication(db, username, password):
 
         if table_info is not None:
             # If the user exists, generate a token
-            staff_id = table_info[0] 
-            token = generate_token(staff_id)
             table_id = get_role(db, username, password)
 
             cursor.execute("UPDATE STAFF SET in_use = ? WHERE role = ?", (1, table_id))
             connection.commit()
-            
-            return token
+
+            return table_id
         else:
             return None
     except Exception as e:
         print(f"An error occurred in staff_tablet_authentication: {e}")
         return None
 
-def staff_tablet_logout(db, logout_code, token):
+
+def staff_tablet_logout(db, logout_code, username):
+    """
+    Log out a staff member's tablet.
+
+    Args:
+        db (str): The database path.
+        logout_code (str): The logout code of the staff member.
+        username (str): The username of the staff member.
+
+    Returns:
+        str: A message indicating the result of the logout operation.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    # Check valid token
-    if not valid_user(token):
-        connection.close()
-        return None
-    
-    decoded_token = decode_token(token)
-    staff_id = decoded_token.get('staff_id')
-
     # Check if the staff_id exists in the database
-    cursor.execute("SELECT * FROM STAFF WHERE staff_id=?", (staff_id,))
+    cursor.execute("SELECT * FROM STAFF WHERE username=?", (username,))
     staff_info = cursor.fetchone()
     if staff_info is None:
         connection.close()
         return "Invalid staff ID"
 
     # Check if the provided logout_code matches the staff_id
-    cursor.execute("SELECT * FROM STAFF WHERE staff_id=? AND logout_code=?", (staff_id, logout_code))
+    cursor.execute("SELECT * FROM STAFF WHERE username=? AND logout_code=?", (username, logout_code))
     user_info = cursor.fetchone()
 
     if user_info is None:
@@ -55,21 +67,32 @@ def staff_tablet_logout(db, logout_code, token):
         return "Invalid username or logout code"
 
     # Check if the session_id is not 0
-    cursor.execute("SELECT in_use FROM STAFF WHERE staff_id=?", (staff_id,))
+    cursor.execute("SELECT in_use FROM STAFF WHERE username=?", (username,))
     session_id = cursor.fetchone()[0]
-   
+
     if session_id == 0:
         connection.close()
         return "Session ID is 0. Cannot logout."
 
-    cursor.execute("UPDATE STAFF SET in_use = ? WHERE staff_id = ?", (0, staff_id))
+    cursor.execute("UPDATE STAFF SET in_use = ? WHERE username = ?", (0, username))
     connection.commit()
 
     connection.close()
     return "Logout successful"
 
-    
+
 def get_role(db, username, password):
+    """
+    Get the role of a staff member.
+
+    Args:
+        db (str): The database path.
+        username (str): The username of the staff member.
+        password (str): The password of the staff member.
+
+    Returns:
+        str: The role of the staff member if found, None otherwise.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
@@ -86,10 +109,49 @@ def get_role(db, username, password):
 
     return role
 
-def show_all_orders(db):
+
+def get_logout_code(db, username, password):
+    """
+    Get the logout code of a staff member.
+
+    Args:
+        db (str): The database path.
+        username (str): The username of the staff member.
+        password (str): The password of the staff member.
+
+    Returns:
+        str: The logout code of the staff member if found, None otherwise.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
+
+    # Check if the username-password combination exists in the database
+    cursor.execute("SELECT logout_code FROM STAFF WHERE username = ? AND password = ?", (username, password))
+    result = cursor.fetchone()
+
+    if result:
+        logout_code = result[0]
+    else:
+        logout_code = None
+
+    connection.close()
+
+    return logout_code
+
+
+def show_all_orders(db):
+    """
+    Get all orders from the database.
+
+    Args:
+        db (str): The database path.
+
+    Returns:
+        list: A list of dictionaries, each representing an order.
+    """
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
     sql = """
     SELECT o.order_id, o.table_id, io.item_id, i.name, io.quantity, io.status
     FROM ORDERS AS o
@@ -111,20 +173,28 @@ def show_all_orders(db):
             "status": item[5]
         }
         order_list.append(item_dict)
-    
+
     connection.close()
 
     return order_list
 
-def get_status(db, order_id, item_id, quantity, token):
+
+def get_status(db, order_id, item_id, quantity):
+    """
+    Get the status of an order.
+
+    Args:
+        db (str): The database path.
+        order_id (int): The ID of the order.
+        item_id (int): The ID of the item.
+        quantity (int): The quantity of the item.
+
+    Returns:
+        str: The status of the order.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-     # Check if the token is valid
-    if not valid_user_specific(db, token):
-        connection.close()
-        return None
-    
     sql = """
     SELECT status
     FROM IN_ORDER
@@ -135,12 +205,26 @@ def get_status(db, order_id, item_id, quantity, token):
 
     connection.close()
 
-    return status 
+    return status
+
 
 def change_order_status(db, status, order_id, item_id, quantity):
+    """
+    Change the status of an order.
+
+    Args:
+        db (str): The database path.
+        status (str): The new status.
+        order_id (int): The ID of the order.
+        item_id (int): The ID of the item.
+        quantity (int): The quantity of the item.
+
+    Returns:
+        dict: An empty dictionary. The function performs an update operation and does not return any value.
+    """
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
-    
+
     sql = """
     UPDATE IN_ORDER
     SET status = :s

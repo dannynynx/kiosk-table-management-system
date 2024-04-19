@@ -2,13 +2,19 @@ import './KitchenPage.css';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import socket from '../socket';
+import { useNavigate } from 'react-router';
 
 const KitchenPage = () => {
     const [orders, setOrders] = useState([]);
+    // const role = localStorage.getItem('tablenumber');
+    const navigate = useNavigate();
 
     useEffect(() => {
-        const token = { 'token': localStorage.getItem('token')};
-        axios.get('http://127.0.0.1:5000/staff/show_orders', token)
+        // if (role !== "kitchen") { 
+        //     navigate('/login');
+        // }
+
+        axios.get('http://127.0.0.1:5000/staff/show_orders')
         .then(response => {
             const data = response.data ?? [];
             setOrders(data);
@@ -17,7 +23,7 @@ const KitchenPage = () => {
             console.error('Error fetching orders:', error);
         })
 
-        socket.on('updated_order_status', (data) => {
+        socket.on('updated_order_status', (data) => {console.log(123456)
             setOrders(data);
         });
     }, []);
@@ -42,10 +48,14 @@ const KitchenPage = () => {
         socket.emit('update_order_status', data);
     }
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
 
     return (
         <div className='kitchen-page'>
-            <div className='logout-btn'>Log Out</div>
+              <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <table className='kitchen-table'>
                 <caption>Dishes to cook</caption>
                 <thead>

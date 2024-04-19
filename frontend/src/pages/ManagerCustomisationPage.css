@@ -1,0 +1,53 @@
+.manager-customisation-page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.manager-customisation-container {
+    height: 30%;
+    width: 40%;
+    border-radius: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manager-customisation-title {
+    font-size: 250%;
+    margin: 0px;
+}
+
+.manager-customisation-text-box {
+    width: 98%;
+    height: 15%;
+    background-color: #DBDCDE;
+    border: 0px;
+    font-size: 200%;
+    text-align: center;
+}
+
+.manager-customisation-button-div {
+    margin-top: 1%;
+    width: 100%;
+    height: 30%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+}
+
+.manager-customisation-button {
+    height: 80%;
+    width: 50%;
+    margin-left: 25%;
+    border: 0px;
+    border-radius: 30px;
+    background-color: #616466;
+    color: #ffffff;
+    font-size: 150%;
+    font-weight: bold;
+}

@@ -1,6 +1,6 @@
 import './ManagerPage.css';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PopUp from '../components/PopUp';
 import settings from "../assets/settings.svg";
 
@@ -8,6 +8,13 @@ const ManagerPage = () => {
     const navigate = useNavigate();
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
+    // const role = localStorage.getItem('tablenumber');
+
+    useEffect(() => {
+        // if (role !== "manager") { 
+        //     navigate('/login');
+        // }
+    }, [])
 
 
     const handleOpenStats = () => { 
@@ -23,19 +30,33 @@ const ManagerPage = () => {
         //can change to be popup
     }
 
+    const handleEditAccounts =() => {
+        navigate('/manager/accounts')
+    }
+
     const closePopUp = () => {
         setPopUpVisible(false);
     };
+
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
+    const handleManagerCustomisation = () => {
+        navigate('/manager/customise')
+    }
 
     return (
         <>
         <div className='manager-page'>
             <h1>Manager</h1>
-            <div className='logout-btn'>Log Out</div>
+            <div className='logout-btn' onClick={handleLogout}>Log Out</div>
             <div className='settings' onClick={handleOpenSettings}><img src={settings} alt='settings'/></div>
             <div className='manager-buttons'>
                 <button onClick={handleOpenStats}>Stats</button>
                 <button onClick={handleOpenManagerMenu}>Menu Customisation</button>
+                <button onClick={handleEditAccounts}>Manage Accounts</button>
+                <button onClick={handleManagerCustomisation}>Restaurant Customisation</button>
             </div>
         </div>
         {isPopUpVisible && (

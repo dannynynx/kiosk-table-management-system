@@ -1,6 +1,7 @@
 import './App.css'
 import CustomerPage from './pages/CustomerPage.jsx';
 import LogInPage from "./pages/LogInPage.jsx";
+import LogoutPage from './pages/LogoutPage.jsx';
 import KioskPage from "./pages/KioskPage.jsx";
 import KioskAuthenticationPage from "./pages/KioskAuthenticationPage.jsx";
 import KitchenPage from "./pages/KitchenPage.jsx";
@@ -12,12 +13,13 @@ import CartProvider from "./context/CartContext.jsx";
 import TableProvider from "./context/TableContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
-import axios from 'axios';
+import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
+import ManagerMenuPage from './pages/ManagerMenuPage.jsx';
+import AccountManagePage from './pages/AccountManagePage.jsx';
+import ManagerCustomisationPage from './pages/ManagerCustomisationPage.jsx'
 
 
 const App = () => {
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
-    
     return (
         <>
             <Routes>
@@ -55,6 +57,25 @@ const App = () => {
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
                 <Route path='/manager' element={<ManagerPage />} />
+                <Route path='/manager/menu' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'menu'}/>
+                    </MenuProvider>
+                } />
+                <Route path='/manager/menu/:id' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'item'}/>
+                    </MenuProvider>
+                } />
+
+                <Route path='/manager/menu/add' element={
+                    <MenuProvider>
+                        <ManagerMenuPage display={'add'}/>
+                    </MenuProvider>
+                }/>
+                <Route path='/manager/stats' element={<ManagerStatsPage />} />
+                <Route path='/manager/accounts' element={<AccountManagePage/>}/>
+                <Route path='/manager/customise' element={<ManagerCustomisationPage/>}/>
             </Routes>
         </>
     );

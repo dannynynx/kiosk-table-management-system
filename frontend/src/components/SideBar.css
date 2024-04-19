@@ -43,3 +43,14 @@ button {
     color: #439CEF;
     text-decoration: underline;
 }
+
+.menu-logout-btn {
+    background-color: black;
+    color: white;
+    padding: 1em;
+    position: absolute;
+    bottom: 15em;
+    left: 1em;
+    border-radius: 2em;
+    font-weight: 600;
+}

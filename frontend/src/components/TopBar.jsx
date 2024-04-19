@@ -1,6 +1,6 @@
 import zebra from "../assets/zebra.svg";
 import "./TopBar.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PopUp from "./PopUp";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
@@ -10,6 +10,7 @@ import PastOrders from './PastOrders';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import socket from "../socket";
+import axios from "axios";
 
 const TopBar = ({ onHandleSearchFilter }) => {
     const tablenumber = localStorage.getItem('tablenumber');
@@ -18,8 +19,8 @@ const TopBar = ({ onHandleSearchFilter }) => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [assistId, setAssistId] = useState(null);
-
-
+    const [restaurantColour, getRestaurantColour] = useState("black")
+    
     socket.on('updated_notification_status', (data) => {
         setAssistId(null);
         data.forEach(notif => {
@@ -29,12 +30,22 @@ const TopBar = ({ onHandleSearchFilter }) => {
         });
     })
 
+    useEffect(() => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
+    }, [getRestaurantColour]);
+
     const handleAskForAssistance = async () => {
         if (assistId === null) {
             try {
                 const data = {
-                    "table_id": tablenumber,
-                    "token": token,
+                    "table_id": localStorage.getItem('tablenumber'),
                     "notification_type": 'assistance',
                 }
 
@@ -48,7 +59,6 @@ const TopBar = ({ onHandleSearchFilter }) => {
             const data = { 
                 new_status: "closed",
                 notification_id: assistId,
-                token: token
             }
             setAssistId(null);
             socket.emit('update_notification_status', data);
@@ -66,7 +76,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
 
     return (
         <>
-            <div className="topbar">
+            <div className="topbar" style={{ backgroundColor: restaurantColour }}>
                 <div className="topbar-left">
                     <Link to='/menu' className="topbar-logo-link">
                         <img src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
@@ -94,7 +104,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
                         {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
                         {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
                     </div> 
-                    <h2 className="table-number">#{tablenumber}</h2>
+                    {/* <h2 className="table-number">#{tablenumber}</h2> */}
                 </div>
             </div>  
             {isPopUpVisible && (

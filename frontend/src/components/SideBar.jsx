@@ -1,17 +1,16 @@
 import './SideBar.css';
 import requestBill from '../assets/request-bill-icon.svg';
-import PopUp from "./PopUp";
 import axios from 'axios';
 import PropTypes from "prop-types";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import socket from '../socket';
+import RequestBillPopUp from './RequestBillPopUp';
 
 const SideBar = ({ onCategorySelect }) => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
-    const [popupMessage, setPopupMessage] = useState("");
     const navigate = useNavigate();
     
    
@@ -19,14 +18,12 @@ const SideBar = ({ onCategorySelect }) => {
         try {
             const data = {
                 "table_id": localStorage.getItem('tablenumber'),
-                "token": localStorage.getItem('token'),
                 "notification_type": 'bill',
             }
             socket.emit('add_notification', data);
         } catch (error) {
             console.log(error)
         }
-        setPopupMessage("Please make your way to the counter");
         setPopUpVisible(true);
     };
 
@@ -34,6 +31,11 @@ const SideBar = ({ onCategorySelect }) => {
         setPopUpVisible(false);
         navigate('../kiosk/authentication');
     };
+
+    
+    const handleLogout = () => {
+        navigate('/logout');
+    }
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
@@ -76,9 +78,10 @@ const SideBar = ({ onCategorySelect }) => {
             </div>
             <div className="sidebar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
+                <div className='menu-logout-btn' onClick={handleLogout}>Log Out</div>
             </div>
             {isPopUpVisible && (
-                <PopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
+                <RequestBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
             )}
         </>
     );

@@ -1,0 +1,59 @@
+.account-manage-page {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+.account-manage-top-bar {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.account-manage-title-container {
+    width: 83%;
+}
+.account-manage-title {
+    font-size: 35pt;
+    margin: 0px;
+    margin-right: 18%;
+    color: white;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.account-manage-back-button-container {
+    height: 70%;
+    width: 15%;
+}
+.account-manage-back-button {
+    height: 100%;
+    width: 100%;
+    margin-left: 1%;
+    margin-right: 1%;
+    border: none;
+    border-radius: 20px;
+    background-color: #e8e8e8;
+    color: black;
+    font-size: 30pt;
+    font-weight: bold;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.account-manage-container {
+    height: 88%;
+    width: 98%;
+    flex-direction: column;
+    padding: 1%;
+    overflow-y: auto;
+}
+
+.account-manage-new-account-button {
+    width: 20%;
+    height: 12%;
+    margin-bottom: 1%;
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 200%;
+}

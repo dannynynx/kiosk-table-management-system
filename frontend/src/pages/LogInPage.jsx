@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LogInPage.css';
@@ -14,8 +14,18 @@ const LogInPage = () => {
     const [passwordTextColor, setPasswordTextColor] = useState('#e7eaf9');
     const [usernameText, setUsernameText] = useState('USERNAME');
     const [passwordText, setPasswordText] = useState('PASSWORD');
+    const [restaurantColour, getRestaurantColour] = useState("black")
 
     useEffect(() => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
+
         const handleNavigation = async () => {
             try {
                 if (getTable !== null) {
@@ -23,7 +33,9 @@ const LogInPage = () => {
                         navigate('/kitchen');
                     } else if (formData.username === "wait") {
                         navigate('/waiter');
-                    } else {
+                    } else if (formData.username == 'manager') { 
+                        navigate('/manager');
+                    } else { 
                         navigate('/kiosk/authentication');
                     }
                 }
@@ -33,17 +45,18 @@ const LogInPage = () => {
         };
 
         handleNavigation(); // Call the navigation logic after the 'getTable' value has been updated
-    }, [getTable, formData.username, navigate]);
-    
+    }, [getTable, formData.username, navigate, getRestaurantColour]);
+            
+
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
-            console.log(response)
-
             const role = response.data.role;
-            const token = response.data.token;
-            localStorage.setItem('tablenumber', role)
-            localStorage.setItem('token', token)
+            if (role !== 'manager' || role !== 'wait' || role !== 'kitchen')  {
+                localStorage.setItem('tablenumber', role)
+            }
+            
+            localStorage.setItem('logout_code', response.data.logout_code)
             initialiseTable(role)
         } catch (error) {
             console.error('Error submitting data:', error);
@@ -55,20 +68,25 @@ const LogInPage = () => {
     };
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+        if (name === 'username') {
+            const username = value; 
+            localStorage.setItem('username', username);
+        }
     };
 
     return (
         <>
             <div className='login-page-container'>
-                <form className='login-page-login-form'>
+                <form className='login-page-login-form' style={{ backgroundColor: restaurantColour }}>
                     <h2 className='login-main-text'><b>Blue Zebra</b></h2>
                     <p className='login-main-text'>Staff Login</p>
                     <p className='login-page-input-label' style={{ color: usernameTextColor }}>{usernameText}</p>
-                    <input type='text' className='login-text-inputs' id='username' name='username' onChange={handleChange} />
-                    <p className='input-label' style={{ color: passwordTextColor }}>{passwordText}</p>
-                    <input type='password' className='login-text-inputs' id='password' name='password' onChange={handleChange} />
-                    <input type='button' className='login-button' value='Login' id='login-submit' onClick={handleSubmit} />
+                    <input type='text' className='login-text-inputs' id='username' name='username' onChange={handleChange} style={{ backgroundColor: restaurantColour }}/>
+                    <p className='login-page-input-label' style={{ color: passwordTextColor }}>{passwordText}</p>
+                    <input type='password' className='login-text-inputs' id='password' name='password' onChange={handleChange} style={{ backgroundColor: restaurantColour }}/>
+                    <input type='button' className='login-button' value='Login' id='login-submit' onClick={handleSubmit} style={{ backgroundColor: restaurantColour }}/>
                 </form>
             </div>
         </>
