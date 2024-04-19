@@ -13,7 +13,7 @@ from Staff import staff_tablet_authentication, staff_tablet_logout, show_all_ord
 from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, \
     edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, \
-    reorder_menu_items, show_accounts
+    reorder_menu_items, show_accounts, edit_customisation
 from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
@@ -776,6 +776,16 @@ def handle_send_order(data):
     return_data = show_all_orders(DB_PATH)
     emit('updated_order_status', return_data, broadcast=True)
 
+@app.route('/manager/edit_customisation', methods=['PUT'])
+def manager_edit_customisation():
+    data = request.get_json()
+    id = data.get('customisation_id')
+    logo = data.get('logo_image')
+    primary_colour = data.get('primary_hex_code')
+    secondary_colour = data.get('secondary_hex_code')
+
+    return_data = edit_customisation(DB_PATH, id, logo, primary_colour, secondary_colour)
+    return jsonify(return_data), 200
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, debug=True)
