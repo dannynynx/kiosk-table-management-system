@@ -161,7 +161,13 @@ def get_stats(db, start_date, end_date):
 
     cursor.execute(sql, {"start": str(start_date), "end": str(end_date)})
 
-    numDates = cursor.fetchall()[0]
+    testDates = cursor.fetchall()
+
+    if testDates == []:
+        connection.close()
+        return None
+    
+    numDates = testDates[0]
 
     totalItems = 0
     totalCustomers = 0

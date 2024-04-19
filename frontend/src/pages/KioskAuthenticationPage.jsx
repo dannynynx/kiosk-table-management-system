@@ -7,7 +7,6 @@ import './KioskAuthenticationPage.css';
 const KioskAuthenticationPage = () => {
     const [inputValue, setInputValue] = useState('');
     const navigate = useNavigate();
-    const tableNumber = localStorage.getItem('tablenumber');
     const [textColor, setTextColor] = useState('#e7eaf9');
     const [textContent, setTextContent] = useState('Please Type the four-digit code here:');
     const [restaurantColour, getRestaurantColour] = useState("black")
