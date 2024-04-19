@@ -18,18 +18,22 @@
 }
 
 .request-bill-msg {
+    margin-top: 100px;
     background-color: aliceblue;
-    padding: 3em;
+    padding-left:6em;
+    padding-right: 6em;
     text-align: center; 
+    position: relative;
 }
 
 .request-bill-msg .close-button {
     width: 50px;
-    top: 10px;
-    left: 10px;
+    top: 0;
+    left: 0;
     background: none;
     border: none;
     cursor: pointer;
+    position: absolute;
   }
 
 .popup-logo {

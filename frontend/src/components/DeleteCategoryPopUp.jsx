@@ -6,13 +6,12 @@ import axios from 'axios';
 const DeleteCategoryPopUp = (props) => { 
 
     const popupClassName = "popup" + (props.isDeleteCategoryPopUpVisible ? " visible" : "");
-
-
     const handleDeleteCategory = (category_id) => { 
 
         axios.delete('http://127.0.0.1:5000/manager/delete_category',  { data: { category_id } })
         .then(response => {
             console.log(response);
+            props.onClose();
         })
         .catch(error => {
             console.error('Error submitting data:', error);
