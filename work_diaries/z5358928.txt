@@ -50,3 +50,13 @@ Week 8
 - Worked through and discussed how the demo will be shown and done.
 - Lightly discussed how the sprint 3 functions will pan out and what is needed.
 - Discussed how request bill will go in the backend with Sree.
+- For Week 9: finish my backend implementation for the manager functions
+
+Week 9
+- Implemented the manager functions for adding, editing and deleting menu items and categories
+- Implemented the manager functions for reordering categories and menu items
+- Discussed the format of the report with the whole group
+
+Week 10
+- Added an edit customisation function and route to help Danny
+- Fixed style for all backend files
