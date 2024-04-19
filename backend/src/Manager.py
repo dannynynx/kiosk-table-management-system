@@ -1,7 +1,5 @@
-import sqlite3
-import random
-import time
 import ast
+import sqlite3
 
 
 def create_account(db, username, password, role, logout_code):
@@ -22,6 +20,7 @@ def create_account(db, username, password, role, logout_code):
     cursor = connection.cursor()
 
     cursor.execute("SELECT username from STAFF")
+
     staffs = cursor.fetchall()
 
     for staff in staffs:
@@ -29,15 +28,21 @@ def create_account(db, username, password, role, logout_code):
             connection.close()
             return None
 
-    sql = '''
+    sql = """
     INSERT INTO STAFF (username, password, role, in_use, logout_code) 
-    VALUES (:u, :p, :r, :t, :l)
-    '''
+    VALUES (:u, :p, :r, 0, :l)
+    """
 
-    cursor.execute(sql, {"u": username, "p": password, "r": role, "t": "0", "l": logout_code})
+    cursor.execute(
+        sql, {"u": username, "p": password, "r": role, "l": logout_code}
+    )
+
     data = cursor.fetchall()
+
     connection.commit()
+
     connection.close()
+
     return data
 
 
@@ -59,7 +64,8 @@ def edit_account(db, id, username, password, role, logout_code):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("SELECT username from STAFF WHERE NOT staff_id=?", (id,))
+    cursor.execute("SELECT username FROM STAFF WHERE NOT staff_id = :id", {"id": id})
+
     staffs = cursor.fetchall()
 
     for staff in staffs:
@@ -67,11 +73,21 @@ def edit_account(db, id, username, password, role, logout_code):
             connection.close()
             return None
 
-    cursor.execute("UPDATE STAFF SET username=?, password=?, role=?, logout_code=? WHERE staff_id=?",
-                   (username, password, role, logout_code, id))
+    sql2 = """
+    UPDATE STAFF SET username = :u, password = :p, role = :r, logout_code = :l
+    WHERE staff_id = :id
+    """
+
+    cursor.execute(
+        sql2, {"u": username, "p": password, "r": role, "l": logout_code, "id": id}
+    )
+
     data = cursor.fetchall()
+
     connection.commit()
+
     connection.close()
+
     return data
 
 
@@ -89,8 +105,15 @@ def delete_account(db, id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("DELETE FROM STAFF WHERE staff_id=? and in_use=?", (id, 0))
+    sql = """
+    DELETE FROM STAFF 
+    WHERE staff_id = :id AND in_use = 0
+    """
+
+    cursor.execute(sql, {"id": id})
+
     connection.commit()
+
     connection.close()
 
 
@@ -108,8 +131,10 @@ def edit_logo(db, logo):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE CUSTOMISATION SET logo_image=?", (logo,))
+    cursor.execute("UPDATE CUSTOMISATION SET logo_image = l", {"l": logo})
+
     connection.commit()
+
     connection.close()
 
 
@@ -131,14 +156,12 @@ def get_stats(db, start_date, end_date):
     sql = """
     SELECT DISTINCT date
     FROM STATS
-    WHERE date >= ?
-    AND date <= ?
+    WHERE date >= :start AND date <= :end
     """
 
-    cursor.execute(sql, (str(start_date), str(end_date)))
+    cursor.execute(sql, {"start": str(start_date), "end": str(end_date)})
 
     numDates = cursor.fetchall()[0]
-    print(numDates)
 
     totalItems = 0
     totalCustomers = 0
@@ -147,29 +170,25 @@ def get_stats(db, start_date, end_date):
     data_set = []
 
     for i in range(len(numDates)):
-        print("loop")
-        print(i)
-        print(numDates[i])
-        sql = """
+        sql1 = """
         SELECT count(session_id)
         FROM STATS 
-        WHERE date=?
+        WHERE date = :d
         """
 
-        cursor.execute(sql, (str(numDates[i]),))
+        cursor.execute(sql1, {"d": str(numDates[i])})
 
         numCustomerDaily = cursor.fetchone()[0]
-        print(numCustomerDaily)
 
         totalCustomers += numCustomerDaily
 
-        sql = """
+        sql2 = """
         SELECT stats
         FROM STATS
-        WHERE date=?
+        WHERE date = :d
         """
 
-        cursor.execute(sql, (str(numDates[i]),))
+        cursor.execute(sql2, {"d": str(numDates[i])})
 
         statsDaily = cursor.fetchall()
 
@@ -179,39 +198,36 @@ def get_stats(db, start_date, end_date):
         daily_dict = {}
         for stat in statsDaily:
             stats_list = ast.literal_eval(stat[0])
-            print(stats_list)
             for order in stats_list:
-                print(order)
-                numItemsDaily += int(order['quantity'])
-                revenueDaily += int(order['quantity']) * round(order['price'], 2)
-                if order['name'] not in daily_dict:
-                    daily_dict[order['name']] = int(order['quantity'])
+                numItemsDaily += int(order["quantity"])
+                revenueDaily += int(order["quantity"]) * round(order["price"], 2)
+                if order["name"] not in daily_dict:
+                    daily_dict[order["name"]] = int(order["quantity"])
                 else:
-                    daily_dict[order['name']] += int(order['quantity'])
-                if order['name'] not in total_dict:
-                    total_dict[order['name']] = int(order['quantity'])
+                    daily_dict[order["name"]] += int(order["quantity"])
+                if order["name"] not in total_dict:
+                    total_dict[order["name"]] = int(order["quantity"])
                 else:
-                    total_dict[order['name']] += int(order['quantity'])
+                    total_dict[order["name"]] += int(order["quantity"])
 
         totalRevenue += revenueDaily
         totalItems += numItemsDaily
-        print(daily_dict)
-        print(max(daily_dict, key=daily_dict.get))
+
         data_dict = {
             "date": str(numDates[i]),
             "number_customers": numCustomerDaily,
             "number_items": numItemsDaily,
             "gross_revenue": revenueDaily,
-            "popular_item": max(daily_dict, key=daily_dict.get)
+            "popular_item": max(daily_dict, key=daily_dict.get),
         }
-
         data_set.append(data_dict)
+
     data_dict = {
         "date": "Total",
         "number_customers": totalCustomers,
         "number_items": totalItems,
         "gross_revenue": totalRevenue,
-        "popular_item": max(total_dict, key=total_dict.get)
+        "popular_item": max(total_dict, key=total_dict.get),
     }
     data_set.append(data_dict)
 
@@ -233,18 +249,15 @@ def get_customisation(db):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    sql = """
-    SELECT * FROM CUSTOMISATION
-    """
-
-    cursor.execute(sql)
+    cursor.execute("SELECT * FROM CUSTOMISATION")
 
     customisations = cursor.fetchone()
+
     customisation_dict = {
         "id": customisations[0],
         "logo": customisations[1],
         "primary_colour": customisations[2],
-        "secondary_colour": customisations[3]
+        "secondary_colour": customisations[3],
     }
     connection.close()
 
@@ -291,8 +304,13 @@ def edit_category(db, id, name):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("UPDATE CATEGORIES SET name = :n WHERE category_id = :ci",
-                   {"n": name, "ci": id})
+    sql = """
+    UPDATE CATEGORIES 
+    SET name = :n 
+    WHERE category_id = :ci
+    """
+
+    cursor.execute(sql, {"n": name, "ci": id})
 
     connection.commit()
     connection.close()
@@ -312,10 +330,14 @@ def delete_category(db, id):
     connection = sqlite3.connect(db)
     cursor = connection.cursor()
 
-    cursor.execute("DELETE FROM CATEGORIES WHERE category_id=:ci", {"ci": id})
+    cursor.execute("DELETE FROM CATEGORIES WHERE category_id = :ci", {"ci": id})
+
     connection.commit()
 
-    cursor.execute("UPDATE ITEMS SET category_id = 0 WHERE category_id=:ci", {"ci": id})
+    cursor.execute(
+        "UPDATE ITEMS SET category_id = 0 WHERE category_id = :ci", {"ci": id}
+    )
+
     connection.commit()
 
     connection.close()
@@ -345,7 +367,10 @@ def add_menu_item(db, name, description, ingredients, category, cost, image):
     VALUES (:n, :d, :ci, :c, :i, (SELECT MAX(position) + 1 FROM ITEMS))
     """
 
-    cursor.execute(sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": image})
+    cursor.execute(
+        sql1, {"n": name, "d": description, "ci": category, "c": cost, "i": image}
+    )
+
     connection.commit()
 
     sql2 = """
@@ -355,6 +380,7 @@ def add_menu_item(db, name, description, ingredients, category, cost, image):
     """
 
     cursor.execute(sql2, {"n": name, "d": description, "ci": category, "c": cost})
+
     connection.commit()
 
     item_id = cursor.fetchone()[0]
@@ -362,6 +388,7 @@ def add_menu_item(db, name, description, ingredients, category, cost, image):
     change_item_ingredients(db, item_id, ingredients)
 
     connection.commit()
+
     connection.close()
 
 
@@ -391,8 +418,11 @@ def edit_menu_item(db, id, name, description, ingredients, category, cost, image
     WHERE item_id = :i
     """
 
-    cursor.execute(sql, {"n": name, "d": description, "ci": category, "c": cost,
-                         "im": image, "i": id})
+    cursor.execute(
+        sql,
+        {"n": name, "d": description, "ci": category, "c": cost, "im": image, "i": id},
+    )
+
     connection.commit()
 
     change_item_ingredients(db, id, ingredients)
@@ -419,52 +449,7 @@ def delete_menu_item(db, id):
     cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": id})
 
     connection.commit()
-    connection.close()
 
-
-# Helper
-def change_item_ingredients(db, item_id, ingredients):
-    """
-    Change the ingredients of a specific item in the database.
-
-    Args:
-        db (str): The database path.
-        item_id (int): The id of the item to change.
-        ingredients (list): The new list of ingredients.
-
-    Returns:
-        None
-    """
-    connection = sqlite3.connect(db)
-    cursor = connection.cursor()
-
-    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": item_id})
-
-    for ingredient in ingredients:
-        ingredient = ingredient.capitalize()
-
-        cursor.execute("INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (:in)",
-                       {"in": ingredient})
-
-        sql2 = """
-        SELECT ingredient_id
-        FROM INGREDIENTS
-        WHERE ingredient_name = :i
-        """
-
-        cursor.execute(sql2, {"i": ingredient})
-
-        ingredient_id = cursor.fetchone()[0]
-
-        sql3 = """
-        INSERT INTO ITEM_INGREDIENTS (item_id, ingredient_id)
-        VALUES (:it, :ig)
-        """
-
-        cursor.execute(sql3, {"it": item_id, "ig": ingredient_id})
-        connection.commit()
-
-    connection.commit()
     connection.close()
 
 
@@ -483,8 +468,8 @@ def reorder_categories(db, categories):
     cursor = connection.cursor()
 
     for category in categories:
-        name = category.get('name')
-        position = category.get('order')
+        name = category.get("name")
+        position = category.get("order")
 
         sql = """
         UPDATE CATEGORIES
@@ -513,8 +498,8 @@ def reorder_menu_items(db, items):
     cursor = connection.cursor()
 
     for item in items:
-        name = item.get('name')
-        position = item.get('order')
+        name = item.get("name")
+        position = item.get("order")
 
         sql = """
         UPDATE ITEMS
@@ -556,13 +541,14 @@ def show_accounts(db):
             "username": account[1],
             "password": account[2],
             "role": account[3],
-            "logout_code": account[5]
+            "logout_code": account[5],
         }
         staff_dict.append(account_dict)
 
     connection.close()
 
     return staff_dict
+
 
 def edit_customisation(db, id, logo, primary_colour, secondary_colour):
     connection = sqlite3.connect(db)
@@ -574,6 +560,58 @@ def edit_customisation(db, id, logo, primary_colour, secondary_colour):
     WHERE customisation_id = :i
     """
 
-    cursor.execute(sql, {"l": logo, "p": primary_colour, "s": secondary_colour, "i": id})
+    cursor.execute(
+        sql, {"l": logo, "p": primary_colour, "s": secondary_colour, "i": id}
+    )
     connection.commit()
+
+    connection.close()
+
+
+# Helper Functions
+def change_item_ingredients(db, item_id, ingredients):
+    """
+    Change the ingredients of a specific item in the database.
+
+    Args:
+        db (str): The database path.
+        item_id (int): The id of the item to change.
+        ingredients (list): The new list of ingredients.
+
+    Returns:
+        None
+    """
+    connection = sqlite3.connect(db)
+    cursor = connection.cursor()
+
+    cursor.execute("DELETE FROM ITEM_INGREDIENTS WHERE item_id = :i", {"i": item_id})
+
+    for ingredient in ingredients:
+        ingredient = ingredient.capitalize()
+
+        cursor.execute(
+            "INSERT OR IGNORE INTO INGREDIENTS (ingredient_name) VALUES (:in)",
+            {"in": ingredient},
+        )
+
+        sql2 = """
+        SELECT ingredient_id
+        FROM INGREDIENTS
+        WHERE ingredient_name = :i
+        """
+
+        cursor.execute(sql2, {"i": ingredient})
+
+        ingredient_id = cursor.fetchone()[0]
+
+        sql3 = """
+        INSERT INTO ITEM_INGREDIENTS (item_id, ingredient_id)
+        VALUES (:it, :ig)
+        """
+
+        cursor.execute(sql3, {"it": item_id, "ig": ingredient_id})
+        connection.commit()
+
+    connection.commit()
+
     connection.close()

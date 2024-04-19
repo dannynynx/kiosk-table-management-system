@@ -14,7 +14,6 @@ from WaitingStaff import get_notifications, update_notification
 from Manager import create_account, edit_account, delete_account, edit_logo, get_stats, get_customisation, add_category, \
     edit_category, delete_category, add_menu_item, edit_menu_item, delete_menu_item, reorder_categories, \
     reorder_menu_items, show_accounts, edit_customisation
-from flask_cors import CORS
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -120,23 +119,6 @@ def table_code():
 
     return_data = get_table_code(DB_PATH, table_id)
     return jsonify(return_data), 200
-
-
-@socketio.on('table_confirmation')
-def handle_table_confirmation(table_id):
-    """
-    Handle the confirmation of a table. This function confirms the table, emits the table code,
-    and broadcasts the updated table status.
-
-    Args:
-        table_id (int): The id of the table to confirm.
-
-    Returns:
-        None
-    """
-    confirm_table(DB_PATH, table_id)
-    emit('table_code', get_table_code(DB_PATH, table_id))
-    emit('updated_table_status', show_table(DB_PATH), broadcast=True)
 
 
 @app.route('/customer/table_authentication', methods=['POST'])
@@ -378,7 +360,7 @@ def manager_create_account():
     logout_code = data.get('logout_code')
 
     return_data = create_account(DB_PATH, username, password, role, logout_code)
-    if return_data == None:
+    if return_data is None:
         return jsonify({'error': 'Username already taken'}), 400
     else:
         return jsonify(return_data), 200
@@ -403,7 +385,7 @@ def manager_edit_account():
     logout_code = data.get('logout_code')
 
     return_data = edit_account(DB_PATH, id, username, password, role, logout_code)
-    if return_data == None:
+    if return_data is None:
         return jsonify({'error': 'Username already taken'}), 400
     else:
         return jsonify(return_data), 200
@@ -674,6 +656,7 @@ def manager_reorder_menu_items():
     menu_items = data.get('menu_items')
 
     return_data = reorder_menu_items(DB_PATH, menu_items)
+    return jsonify(return_data), 200
 
 
 @app.route("/manager/show_accounts", methods=['GET'])
@@ -691,6 +674,19 @@ def get_accounts():
     return jsonify(return_data), 200
 
 
+@app.route('/manager/edit_customisation', methods=['PUT'])
+def manager_edit_customisation():
+    data = request.get_json()
+    id = data.get('customisation_id')
+    logo = data.get('logo_image')
+    primary_colour = data.get('primary_hex_code')
+    secondary_colour = data.get('secondary_hex_code')
+
+    return_data = edit_customisation(DB_PATH, id, logo, primary_colour, secondary_colour)
+    return jsonify(return_data), 200
+
+
+# Web socket routes
 @socketio.on('connect')
 def handle_connect():
     """
@@ -703,6 +699,23 @@ def handle_connect():
         None
     """
     print('Client connected')
+
+
+@socketio.on('table_confirmation')
+def handle_table_confirmation(table_id):
+    """
+    Handle the confirmation of a table. This function confirms the table, emits the table code,
+    and broadcasts the updated table status.
+
+    Args:
+        table_id (int): The id of the table to confirm.
+
+    Returns:
+        None
+    """
+    confirm_table(DB_PATH, table_id)
+    emit('table_code', get_table_code(DB_PATH, table_id))
+    emit('updated_table_status', show_table(DB_PATH), broadcast=True)
 
 
 @socketio.on('update_order_status')
@@ -782,17 +795,6 @@ def handle_send_order(data):
     emit('sent_orders', return_data)
     return_data = show_all_orders(DB_PATH)
     emit('updated_order_status', return_data, broadcast=True)
-
-@app.route('/manager/edit_customisation', methods=['PUT'])
-def manager_edit_customisation():
-    data = request.get_json()
-    id = data.get('customisation_id')
-    logo = data.get('logo_image')
-    primary_colour = data.get('primary_hex_code')
-    secondary_colour = data.get('secondary_hex_code')
-
-    return_data = edit_customisation(DB_PATH, id, logo, primary_colour, secondary_colour)
-    return jsonify(return_data), 200
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', allow_unsafe_werkzeug=True, debug=True)
