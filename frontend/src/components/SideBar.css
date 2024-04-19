@@ -58,9 +58,3 @@ button {
     border-radius: 2em;
     font-weight: 600;
 }
-
-.sidebar-icon-container {
-    position: absolute;
-    bottom: 15vh; /* Adjusted value for the icon container */
-    left: 2vw;
-}

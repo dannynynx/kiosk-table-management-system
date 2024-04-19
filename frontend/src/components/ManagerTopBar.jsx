@@ -5,17 +5,19 @@ import ReorderItemsPopUp from "./ReorderItemsPopUp.jsx";
 import cart from '../assets/cart-icon.svg';
 import orderList from '../assets/list-icon.svg';
 import assistance from '../assets/call-assistance-icon.svg';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import edit from "../assets/edit.svg"
 import editRed from "../assets/edit-red.svg"
 import reorderItems from "../assets/Item-reorder.svg";
+import person from "../assets/person.svg";
 
 const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
     const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [editbtn, setEditbtn] = useState(edit);
+    const navigate = useNavigate();
 
     const closePopUp = () => {
         setPopUpVisible(false);
@@ -38,10 +40,12 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
         <>
             <div className="topbar">
                 <div className="topbar-left">
-                    <Link to='/menu' className="topbar-logo-link">
+                    <Link to='/manager/menu' className="topbar-logo-link">
                         <img src={zebra} alt='Zebra Icon' className="topbar-logo"></img>
                     </Link>
-
+                    <div className='topbar-icon-container' onClick={() => navigate('/manager')}>
+                        <img src={person} className='cart' alt='Manager page'/>
+                    </div>
                     <input
                         className="search-bar"
                         type='text'
