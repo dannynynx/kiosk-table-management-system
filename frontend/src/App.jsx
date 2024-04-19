@@ -25,6 +25,7 @@ const App = () => {
             <Routes>
                 <Route path='/kiosk' element={<KioskPage />} />
                 <Route path='/kiosk/table-selection' element={<TableSelection/>} />
+                <Route path='/logout' element={<LogoutPage />}/>
                 <Route path='/login' element={
                     <TableProvider>
                          <LogInPage />    

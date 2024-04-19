@@ -29,11 +29,11 @@ const LogInPage = () => {
         const handleNavigation = async () => {
             try {
                 if (getTable !== null) {
-                    if (formData.username === "kitchen") {
+                    if (getTable === "kitchen") {
                         navigate('/kitchen');
-                    } else if (formData.username === "wait") {
+                    } else if (getTable === "wait") {
                         navigate('/waiter');
-                    } else if (formData.username == 'manager') { 
+                    } else if (getTable == 'manager') { 
                         navigate('/manager');
                     } else { 
                         navigate('/kiosk/authentication');

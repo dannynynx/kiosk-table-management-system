@@ -2,7 +2,6 @@ import './ManagerPage.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import PopUp from '../components/PopUp';
-import settings from "../assets/settings.svg";
 
 const ManagerPage = () => {
     const navigate = useNavigate();

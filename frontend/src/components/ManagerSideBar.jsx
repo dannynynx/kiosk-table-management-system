@@ -20,7 +20,7 @@ const ManagerSideBar = ({ onCategorySelect, editMode }) => {
     const navigate = useNavigate();
     const [isOrderPopupVisible, setOrderPopupVisible] = useState(false);
     const [isAddPopUpVisible, setAddPopUpVisible] = useState(false);
-    const [isDeleteCategoryPopUpVisible, setDeleteCategoryPopUpVisible] = useState(0);
+    const [isDeleteCategoryPopUpVisible, setDeleteCategoryPopUpVisible] = useState(false);
 
     
     const handleRequestBill = async () => {
