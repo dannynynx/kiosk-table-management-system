@@ -3,8 +3,11 @@ import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useTable } from "../context/TableContext.jsx";
 
-const RequestBillPopUp = (props) => { 
+const RequestBillPopUp = (props) => {  
+    const getTable = useTable();
+
     const popupClassName = "popup" + (props.isPopUpVisible ? " visible" : "");
     const [pastorders, setPastOrders] = useState([]);
     const total = pastorders.reduce((total, item) => {
@@ -13,7 +16,7 @@ const RequestBillPopUp = (props) => {
 
 
     useEffect(() => {
-        const table_id = localStorage.getItem('tablenumber');
+        const table_id = getTable;
         axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
             .then(response => {
                 const data = response.data;

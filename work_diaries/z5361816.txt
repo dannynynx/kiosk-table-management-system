@@ -32,3 +32,18 @@ Week 7
 Redesigned most of the menu and item pages.
 Removed and shifted components to fit a more modernised concept.
 Fixed numerous bugs that were from sprint 1.
+
+Week 8
+Presented work in Sprint 2 Demo.
+Delegated tasks in Retrospective, initially working in backend, moving to frontend in latter half.
+Started on fixing some of the bugs from sprint 2.
+
+Week 9
+Focussed on finishing the bugs and cleaning out the implementation from sprint 2.
+Started on adding new features and components.
+Wrote the server routes for half the new features.
+
+Week 10
+Presented work in Final Demo.
+Finished all the implementations for the project.
+Worked on trying to make the code more efficient and easier to use.

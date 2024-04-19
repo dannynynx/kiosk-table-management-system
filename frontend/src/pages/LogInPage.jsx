@@ -2,15 +2,19 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LogInPage.css';
+import { useInitialiseTable, useTable } from '../context/TableContext.jsx';
+
 
 const LogInPage = () => {
+    const initialiseTable = useInitialiseTable();
+    const getTable = useTable();
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const [usernameTextColor, setUsernameTextColor] = useState('#e7eaf9');
     const [passwordTextColor, setPasswordTextColor] = useState('#e7eaf9');
     const [usernameText, setUsernameText] = useState('USERNAME');
     const [passwordText, setPasswordText] = useState('PASSWORD');
-        const [restaurantColour, getRestaurantColour] = useState("black")
+    const [restaurantColour, getRestaurantColour] = useState("black")
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/manager/get_customisations')
@@ -21,29 +25,37 @@ const LogInPage = () => {
         .catch(error => {
             console.error('Error fetching customisation:', error);
         });
-    }, [getRestaurantColour]);
+
+        const handleNavigation = async () => {
+            try {
+                if (getTable !== null) {
+                    if (formData.username === "kitchen") {
+                        navigate('/kitchen');
+                    } else if (formData.username === "wait") {
+                        navigate('/waiter');
+                    } else if (formData.username == 'manager') { 
+                        navigate('/manager');
+                    } else { 
+                        navigate('/kiosk/authentication');
+                    }
+                }
+            } catch (error) {
+                console.error('Error navigating:', error);
+            }
+        };
+
+        handleNavigation(); // Call the navigation logic after the 'getTable' value has been updated
+    }, [getTable, formData.username, navigate, getRestaurantColour]);
+            
 
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
             const role = response.data.role;
             if (role !== 'manager' || role !== 'wait' || role !== 'kitchen')  {
-                localStorage.setItem('tablenumber', role)
+                initialiseTable(role)
             }
-            
             localStorage.setItem('logout_code', response.data.logout_code)
-        
-            if (role == "kitchen") { 
-                navigate('/kitchen');
-            } else if (role == "wait") { 
-                navigate('/waiter');
-            } else if (role == 'manager') { 
-                navigate('/manager');
-            } else { 
-                navigate('/kiosk/authentication');
-            }
-
-
         } catch (error) {
             console.error('Error submitting data:', error);
             setUsernameTextColor('#d33d3d');

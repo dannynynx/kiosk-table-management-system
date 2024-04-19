@@ -63,7 +63,7 @@ const ManagerStatsPage = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {!(stats.length === 0) ? (
+                {(stats !== null) ? (
         stats.map((session, index) => {
                 return (
                     <tr key={index}>
