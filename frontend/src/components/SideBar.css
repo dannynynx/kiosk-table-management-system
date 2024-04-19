@@ -44,15 +44,3 @@ button {
     bottom: 10vh; /* Adjusted value to create space for the logout button */
     left: 2vw;
 }
-
-
-.menu-logout-btn {
-    background-color: black;
-    color: white;
-    padding: 1em;
-    position: absolute;
-    bottom: 2vh; /* Adjusted value to position below the bill */
-    left: 2vw;
-    border-radius: 2em;
-    font-weight: 600;
-}

@@ -39,6 +39,10 @@ const CustomerPage = (props) => {
         setSearchValue(searchValue);
     }
 
+    const handleLogout = () => {
+        navigate('/logout');
+    }
+
     const { display } = props;
     return (
         <>
@@ -52,6 +56,7 @@ const CustomerPage = (props) => {
                 {display === 'menu' && <Menu selectedCategory={selectedCategory} searchValue={searchValue}/>}
                 {display === 'item' && <Item />}
             </div>
+            <div className='customer-logout-btn' onClick={handleLogout}>Log Out</div>
         </>
     );
 };

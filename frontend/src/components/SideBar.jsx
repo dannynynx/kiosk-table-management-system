@@ -32,11 +32,6 @@ const SideBar = ({ onCategorySelect }) => {
         navigate('../kiosk/authentication');
     };
 
-    
-    const handleLogout = () => {
-        navigate('/logout');
-    }
-
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/get_all_categories')
             .then(response => {
@@ -79,7 +74,6 @@ const SideBar = ({ onCategorySelect }) => {
             <div className="sidebar-icon-container" onClick={handleRequestBill}>
                 <img src={requestBill} className='bill' alt='Request Bill Icon'/>
             </div>
-            <div className='menu-logout-btn' onClick={handleLogout}>Log Out</div>
             {isPopUpVisible && (
                 <RequestBillPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible}/>
             )}
