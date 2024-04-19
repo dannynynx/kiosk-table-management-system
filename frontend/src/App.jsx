@@ -28,7 +28,11 @@ const App = () => {
                          <LogInPage />    
                     </TableProvider>
                 } />
-                <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
+                <Route path='kiosk/authentication' element={
+                    <TableProvider>
+                        <KioskAuthenticationPage />
+                    </TableProvider>
+                } />
                 <Route path='/menu' element={
                     <TableProvider>
                         <MenuProvider>

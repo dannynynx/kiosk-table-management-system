@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LogInPage.css';
-import { useInitialiseTable } from '../context/TableContext.jsx';
+import { useInitialiseTable, useTable } from '../context/TableContext.jsx';
 
 
 const LogInPage = () => {
     const initialiseTable = useInitialiseTable();
+    const getTable = useTable();
     const [formData, setFormData] = useState({});
     const navigate = useNavigate();
     const [usernameTextColor, setUsernameTextColor] = useState('#e7eaf9');
@@ -14,6 +15,26 @@ const LogInPage = () => {
     const [usernameText, setUsernameText] = useState('USERNAME');
     const [passwordText, setPasswordText] = useState('PASSWORD');
 
+    useEffect(() => {
+        const handleNavigation = async () => {
+            try {
+                if (getTable !== null) {
+                    if (formData.username === "kitchen") {
+                        navigate('/kitchen');
+                    } else if (formData.username === "wait") {
+                        navigate('/waiter');
+                    } else {
+                        navigate('/kiosk/authentication');
+                    }
+                }
+            } catch (error) {
+                console.error('Error navigating:', error);
+            }
+        };
+
+        handleNavigation(); // Call the navigation logic after the 'getTable' value has been updated
+    }, [getTable, formData.username, navigate]);
+    
     const handleSubmit = async () => {
         try {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
@@ -24,16 +45,6 @@ const LogInPage = () => {
             localStorage.setItem('tablenumber', role)
             localStorage.setItem('token', token)
             initialiseTable(role)
-
-            if (formData.username == "kitchen") { 
-                navigate('/kitchen');
-            } else if (formData.username == "wait") { 
-                navigate('/waiter');
-            } else { 
-                navigate('/kiosk/authentication');
-            }
-
-
         } catch (error) {
             console.error('Error submitting data:', error);
             setUsernameTextColor('#d33d3d');

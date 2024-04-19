@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const TableContext = createContext(undefined);
@@ -14,10 +14,14 @@ const useInitialiseTable = () => {
 
 const TableProvider = ({ children }) => {
     const [Table, setTable] = useState(null);
+    useEffect(() => {
+        console.log("Updated Table value:", Table);
+    }, [Table]);
+    
     return (
         <TableContext.Provider value={Table}>
             <InitialiseTableContext.Provider value={setTable}>
-                { children }
+                {children}
             </InitialiseTableContext.Provider>
         </TableContext.Provider>
     );

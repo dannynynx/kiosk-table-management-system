@@ -5,11 +5,13 @@ import PropTypes from "prop-types";
 import Menu from "../components/Menu.jsx";
 import Item from "../components/Item.jsx";
 import { useInitialiseMenu } from "../context/MenuContext.jsx";
+import { useTable } from "../context/TableContext.jsx";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
+    const getTable = useTable();
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const navigate = useNavigate();
