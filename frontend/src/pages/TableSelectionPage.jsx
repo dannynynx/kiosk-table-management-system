@@ -18,6 +18,7 @@ const TableSelectionPage = () => {
     const [isPopUpVisible, setPopUpVisible] = useState(false);
     const [popupMessage, setPopupMessage] = useState("");
     const [isCodeVisible, setCodeVisible] = useState(false);
+    const [restaurantColour, getRestaurantColour] = useState("black")
 
     useEffect(() => {
         axios.get('http://127.0.0.1:5000/customer/show_table')
@@ -36,7 +37,20 @@ const TableSelectionPage = () => {
         socket.on('table_code', (data) => {
             setCode(data);
         });
+
+        getColourCustomisations()
     }, []);
+
+    const getColourCustomisations = () => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
+    }
 
     const getTablePicture = (size, avail) => {
         if (avail == 0) {
@@ -77,7 +91,7 @@ const TableSelectionPage = () => {
     return (
         <>
             <section className='table-selection-page'>
-                <div className='table-selection-top-bar'>
+                <div className='table-selection-top-bar' style={{ backgroundColor: restaurantColour }}>
                     <Link className='table-selection-back-button-container' to="/kiosk">
                         <input type='button' className='table-selection-back-button' value='Go Back'></input>
                     </Link>

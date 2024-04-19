@@ -8,7 +8,6 @@
 .account-manage-top-bar {
     height: 10%;
     width: 100%;
-    background-color: #222a5c;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -54,7 +53,6 @@
     height: 12%;
     margin-bottom: 1%;
     border-radius: 20px;
-    background-color: #222a5c;
     color: white;
     font-weight: bold;
     font-size: 200%;

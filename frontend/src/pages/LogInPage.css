@@ -9,7 +9,6 @@
 }
 
 .login-page-login-form {
-    background-color: #141e42;
     width: 336px;
     height: 270px;
     display: flex;
@@ -43,17 +42,17 @@ p.login-main-text {
 .login-text-inputs {
     font-size: 16px;
     height: 10%;
-    background-color: #242d64;
+    color: white;
     border: 0;
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
-    color: #e7eaf9;
     outline: none;
     margin-bottom: 15px;
+    filter: brightness(80%);
 }
 
 .login-button {
     height: 12%;
-    background-color: #8086b3;
+    filter: brightness(140%);
     border: 0;
     font-family: -apple-system, 'Open Sans', 'Helvetica Neue', sans-serif;
     color: #e7eaf9;
@@ -63,5 +62,5 @@ p.login-main-text {
 }
 
 .login-button:hover {
-    background-color: #5f6498;
+    filter: brightness(70%);
 }

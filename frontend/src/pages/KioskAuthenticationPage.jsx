@@ -10,10 +10,22 @@ const KioskAuthenticationPage = () => {
     const tableNumber = localStorage.getItem('tablenumber');
     const [textColor, setTextColor] = useState('#e7eaf9');
     const [textContent, setTextContent] = useState('Please Type the four-digit code here:');
+    const [restaurantColour, getRestaurantColour] = useState("black")
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
     } 
+
+    const grabRestaurantColours = () => {
+        axios.get('http://127.0.0.1:5000/manager/get_customisations')
+        .then(response => {
+            const data = response.data;
+            getRestaurantColour(data.primary_colour)
+        })
+        .catch(error => {
+            console.error('Error fetching customisation:', error);
+        });
+    }
 
     const handleSubmit = async () => {
         const message = await authenticateCode(tableNumber, inputValue)
@@ -24,6 +36,7 @@ const KioskAuthenticationPage = () => {
 
     useEffect(() => {
         getTableCode(tableNumber)
+        grabRestaurantColours()
     }, [])
 
     const getTableCode = async (tableNumber)=> {
@@ -55,11 +68,11 @@ const KioskAuthenticationPage = () => {
     return (
         <>
             <div className='kiosk-authentication-container'>
-                <div className='kiosk-authentication-box-container'>
+                <div className='kiosk-authentication-box-container' style={{ backgroundColor: restaurantColour }}>
                     <p className='kiosk-authentication-title'>Blue Zebra</p>
                     <p className='kiosk-authentication-text-description' style={{ color: textColor }}>{textContent}</p>
-                    <input type="text" className='kiosk-authentication-code-input' onChange={handleChange}/>
-                    <input type="button" className='kiosk-authentication-code-confirmation' value='Confirm' onClick={handleSubmit}/>
+                    <input type="text" className='kiosk-authentication-code-input' onChange={handleChange} style={{ backgroundColor: restaurantColour }}/>
+                    <input type="button" className='kiosk-authentication-code-confirmation' value='Confirm' onClick={handleSubmit} style={{ backgroundColor: restaurantColour }}/>
                 </div>
             </div>
         </>
