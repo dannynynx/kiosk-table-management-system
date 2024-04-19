@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import socket from "../socket";
 import axios from "axios";
+import { useTable } from '../context/TableContext.jsx'
 
 const TopBar = ({ onHandleSearchFilter }) => {
+    const getTable = useTable();
     const tablenumber = localStorage.getItem('tablenumber');
     const [renderContent, setRenderContent] = useState(null);
     const [expanded, setExpanded] = useState(false);  
@@ -24,7 +26,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
     socket.on('updated_notification_status', (data) => {
         setAssistId(null);
         data.forEach(notif => {
-            if (notif.notification_type === "assistance" && notif.table_id === parseInt(tablenumber) && notif.status === "new") {
+            if (notif.notification_type === "assistance" && notif.table_id === parseInt(getTable) && notif.status === "new") {
                 setAssistId(notif.notification_id);
             }
         });
@@ -45,7 +47,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
         if (assistId === null) {
             try {
                 const data = {
-                    "table_id": localStorage.getItem('tablenumber'),
+                    "table_id": getTable,
                     "notification_type": 'assistance',
                 }
 
@@ -104,7 +106,7 @@ const TopBar = ({ onHandleSearchFilter }) => {
                         {renderContent === 'cart' && expanded && <Cart toggleExpand={toggleExpand}/>}
                         {renderContent === 'pastOrders' && expanded && <PastOrders toggleExpand={toggleExpand}/>}
                     </div> 
-                    {/* <h2 className="table-number">#{tablenumber}</h2> */}
+                    <h2 className="table-number">#{getTable}</h2>
                 </div>
             </div>  
             {isPopUpVisible && (

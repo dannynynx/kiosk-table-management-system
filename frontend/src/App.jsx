@@ -10,6 +10,7 @@ import TableSelection from "./pages/TableSelectionPage.jsx";
 import { Routes, Route } from 'react-router-dom';
 import MenuProvider from "./context/MenuContext.jsx";
 import CartProvider from "./context/CartContext.jsx";
+import TableProvider from "./context/TableContext.jsx";
 import WaiterPage from "./pages/WaiterPage.jsx";
 import ManagerPage from './pages/ManagerPage.jsx';
 import ManagerStatsPage from './pages/ManagerStatsPage.jsx'
@@ -24,26 +25,37 @@ const App = () => {
             <Routes>
                 <Route path='/kiosk' element={<KioskPage />} />
                 <Route path='/kiosk/table-selection' element={<TableSelection/>} />
-                <Route path='/login' element={<LogInPage />} />
-                <Route path='/logout' element={<LogoutPage />} />
-                <Route path='kiosk/authentication' element={<KioskAuthenticationPage />} />
+                <Route path='/login' element={
+                    <TableProvider>
+                         <LogInPage />    
+                    </TableProvider>
+                } />
+                <Route path='kiosk/authentication' element={
+                    <TableProvider>
+                        <KioskAuthenticationPage />
+                    </TableProvider>
+                } />
                 <Route path='/menu' element={
-                    <MenuProvider>
-                        <CartProvider>
-                            <CustomerPage display={'menu'}/>
-                        </CartProvider>
-                    </MenuProvider>
+                    <TableProvider>
+                        <MenuProvider>
+                            <CartProvider>
+                                <CustomerPage display={'menu'}/>
+                            </CartProvider>
+                        </MenuProvider>
+                    </TableProvider>
                 } />
 
                 <Route path='/menu/:id' element={
-                    <MenuProvider>
-                        <CartProvider>
-                            <CustomerPage display={'item'}/>
-                        </CartProvider>
-                    </MenuProvider>
+                    <TableProvider>
+                        <MenuProvider>
+                            <CartProvider>
+                                <CustomerPage display={'item'}/>
+                            </CartProvider>
+                        </MenuProvider>
+                    </TableProvider>
                 } />
                 <Route path='/kitchen' element={
-                        <KitchenPage />
+                    <KitchenPage />
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
                 <Route path='/manager' element={<ManagerPage />} />

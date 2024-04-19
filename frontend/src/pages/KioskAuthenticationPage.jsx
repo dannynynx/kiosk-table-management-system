@@ -1,16 +1,16 @@
-import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useTable } from '../context/TableContext.jsx';
 import axios from "axios";
 import './KioskAuthenticationPage.css';
 
 const KioskAuthenticationPage = () => {
     const [inputValue, setInputValue] = useState('');
-    const [code, setCode] = useState(null);
     const navigate = useNavigate();
-    const tableNumber = localStorage.getItem('tablenumber');
     const [textColor, setTextColor] = useState('#e7eaf9');
     const [textContent, setTextContent] = useState('Please Type the four-digit code here:');
     const [restaurantColour, getRestaurantColour] = useState("black")
+    const getTable = useTable();
 
     const handleChange = (e) => {
         setInputValue(e.target.value);
@@ -27,30 +27,18 @@ const KioskAuthenticationPage = () => {
         });
     }
 
+    useEffect(() => {
+        grabRestaurantColours()
+    }, []);
+
     const handleSubmit = async () => {
-        const message = await authenticateCode(tableNumber, inputValue)
+        console.log(getTable)
+        const message = await authenticateCode(getTable, inputValue)
         if (message !== null) {
             navigate('/menu');
         }  
     };
-
-    useEffect(() => {
-        getTableCode(tableNumber)
-        grabRestaurantColours()
-    }, [])
-
-    const getTableCode = async (tableNumber)=> {
-        try {
-            const data = {'table_id': tableNumber}
-            const response = await axios.get( `http://127.0.0.1:5000/customer/table_code?table_id=${tableNumber}`);
-            const rawCode = response.data;
-            setCode(rawCode)
-        } catch (error) {
-            console.error('Error submitting data:', error);
-            return null;
-        }
-    }
-
+    
     const authenticateCode = async (tableNumber, code) => {
         try {
             const data = {'table_id': tableNumber, 'code': code}

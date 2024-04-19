@@ -113,6 +113,13 @@ def showTable():
     return_data = show_table(DB_PATH)
     return jsonify(return_data), 200
 
+@app.route('/customer/table_code', methods=['GET'])
+def table_code():
+    table_id = request.args.get('table_id')
+
+    return_data = get_table_code(DB_PATH, table_id)
+    return jsonify(return_data), 200
+
 
 @app.route('/customer/table_authentication', methods=['POST'])
 def table_authentication():

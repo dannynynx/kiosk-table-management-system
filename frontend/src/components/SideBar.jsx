@@ -6,8 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import socket from '../socket';
 import RequestBillPopUp from './RequestBillPopUp';
+import { useTable } from "../context/TableContext";
 
 const SideBar = ({ onCategorySelect }) => {
+    const getTable = useTable();
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -17,7 +19,7 @@ const SideBar = ({ onCategorySelect }) => {
     const handleRequestBill = async () => {
         try {
             const data = {
-                "table_id": localStorage.getItem('tablenumber'),
+                "table_id": getTable,
                 "notification_type": 'bill',
             }
             socket.emit('add_notification', data);
