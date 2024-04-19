@@ -1,5 +1,4 @@
 import "./RequestBillPopUp.css";
-import backArrow from '../assets/back-arrow-icon.svg';
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -48,7 +47,7 @@ const WaitBillPopUp = (props) => {
     return (
         <>
         <div className={popupClassName} >
-            <div className="msg">
+            <div className="request-bill-msg ">
                 <h2>Receipt</h2>
                 <h4 className="order-sent-message">
                     <table className="bill-table">
