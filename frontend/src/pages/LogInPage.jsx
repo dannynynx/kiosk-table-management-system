@@ -53,11 +53,9 @@ const LogInPage = () => {
             const response = await axios.post( 'http://127.0.0.1:5000/staff/staff_authentication', formData);
             const role = response.data.role;
             if (role !== 'manager' || role !== 'wait' || role !== 'kitchen')  {
-                localStorage.setItem('tablenumber', role)
+                initialiseTable(role)
             }
-            
             localStorage.setItem('logout_code', response.data.logout_code)
-            initialiseTable(role)
         } catch (error) {
             console.error('Error submitting data:', error);
             setUsernameTextColor('#d33d3d');

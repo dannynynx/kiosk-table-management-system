@@ -11,7 +11,6 @@ import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const CustomerPage = (props) => {
-    const getTable = useTable();
     const initialiseMenuItem = useInitialiseMenu();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [searchValue, setSearchValue] = useState('');

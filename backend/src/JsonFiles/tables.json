@@ -1,16 +1,16 @@
 [
     {
         "table_id": 1,
-        "code": "NULL",
-        "session_id": 0,
-        "is_occupied": 0,
+        "code": "2156",
+        "session_id": 1,
+        "is_occupied": 1,
         "size": 1
     },
     {
         "table_id": 2,
-        "code": "NULL",
-        "session_id": 0,
-        "is_occupied": 0,
+        "code": "2184",
+        "session_id": 2,
+        "is_occupied": 1,
         "size": 1
     },
     {

@@ -46,14 +46,16 @@ const App = () => {
                 } />
 
                 <Route path='/menu/:id' element={
-                    <MenuProvider>
-                        <CartProvider>
-                            <CustomerPage display={'item'}/>
-                        </CartProvider>
-                    </MenuProvider>
+                    <TableProvider>
+                        <MenuProvider>
+                            <CartProvider>
+                                <CustomerPage display={'item'}/>
+                            </CartProvider>
+                        </MenuProvider>
+                    </TableProvider>
                 } />
                 <Route path='/kitchen' element={
-                        <KitchenPage />
+                    <KitchenPage />
                   } />
                 <Route path='/waiter' element={<WaiterPage />} />
                 <Route path='/manager' element={<ManagerPage />} />

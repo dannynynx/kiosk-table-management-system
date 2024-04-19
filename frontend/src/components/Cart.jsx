@@ -7,9 +7,11 @@ import PopUp from "./PopUp";
 import { useEffect, useState } from 'react';
 import { useMenu } from "../context/MenuContext.jsx";
 import socket from '../socket.jsx';
+import { useTable } from "../context/TableContext.jsx";
 
 const Cart = ({ toggleExpand }) => {
     const getCart = useCart();
+    const getTable = useTable();
     const menu = useMenu();
     useEffect(() => {}, [getCart]);
 
@@ -32,7 +34,7 @@ const Cart = ({ toggleExpand }) => {
                 return {"item_id": parseInt(item.id),
                     "quantity": item.qty}
             }),
-            "table_id": localStorage.getItem('tablenumber')
+            "table_id": getTable
         };
 
         socket.emit('send_order', order);

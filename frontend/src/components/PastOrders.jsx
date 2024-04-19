@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import PastItem from "../components/PastItem.jsx";
 import { useMenu } from "../context/MenuContext.jsx";
+import { useTable } from "../context/TableContext.jsx";
 
 const PastOrders = ({ toggleExpand }) => {
+    const getTable = useTable();
     const menu = useMenu();
     const [pastOrders, setPastOrders] = useState([]);
     const noPastOrders = () => pastOrders.length === 0;
@@ -16,7 +18,8 @@ const PastOrders = ({ toggleExpand }) => {
     }, 0).toFixed(2);
 
     useEffect(() => {
-        const table_id = localStorage.getItem('tablenumber');
+        const table_id = getTable;
+        console.log(getTable)
         axios.get(`http://127.0.0.1:5000/customer/get_past_orders?table_id=${table_id}`)
             .then(response => {
                 const data = response.data;
