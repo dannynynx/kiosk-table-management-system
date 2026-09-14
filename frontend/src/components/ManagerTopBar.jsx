@@ -14,9 +14,7 @@ import person from "../assets/person.svg";
 import axios from "axios";
 
 const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => {
-    const tablenumber = localStorage.getItem('tablenumber');
     const [isPopUpVisible, setPopUpVisible] = useState(false);
-    const [popupMessage, setPopupMessage] = useState(""); // State to store the message
     const [editbtn, setEditbtn] = useState(edit);
     const navigate = useNavigate();
     const [restaurantColour, getRestaurantColour] = useState("black")
@@ -88,7 +86,7 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
                 </div>
             </div>  
             {isPopUpVisible && (
-            <ReorderItemsPopUp message={popupMessage} onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
+            <ReorderItemsPopUp onClose={closePopUp} isPopUpVisible={isPopUpVisible} />
         )}
         </>
     );
@@ -96,6 +94,8 @@ const ManagerTopBar = ({ onHandleSearchFilter, editMode, onEditModeToggle }) => 
 
 ManagerTopBar.propTypes = {
     onHandleSearchFilter: PropTypes.func.isRequired,
+    editMode: PropTypes.bool.isRequired,
+    onEditModeToggle: PropTypes.func.isRequired,
 }
 
 export default ManagerTopBar;
